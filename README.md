@@ -1,1 +1,1 @@
-<h1 align="center"> Administrator Griya- ambudipa</h1>
+<h1 align="center"> Administrator Griya- Jambudipa</h1>
