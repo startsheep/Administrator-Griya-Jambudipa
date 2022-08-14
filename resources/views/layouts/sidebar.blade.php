@@ -44,10 +44,6 @@
               <li class="nav-item">
                 <a href="#" class="nav-link"><i class="fa-solid fa-house-circle-check"></i><span>Tipe Rumah</span></a>
               </li>
-              <li class="menu-header">Cetak</li>
-              <li class="nav-item">
-                <a href="#" class="nav-link"><i class="fa-solid fa-money-bill-trend-up"></i><span>Laporan Transaksi</span></a></li>
-              <li class="nav-item">
                 <a href="#" class="nav-link"><i class="fas fa-gear"></i><span>Settings</span></a></li>
             </ul>
 
