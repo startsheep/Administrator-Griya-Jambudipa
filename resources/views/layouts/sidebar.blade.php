@@ -44,6 +44,7 @@
               <li class="nav-item">
                 <a href="#" class="nav-link"><i class="fa-solid fa-house-circle-check"></i><span>Tipe Rumah</span></a>
               </li>
+              <li>
                 <a href="#" class="nav-link"><i class="fas fa-gear"></i><span>Settings</span></a></li>
             </ul>
 
