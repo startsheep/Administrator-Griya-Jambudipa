@@ -1,7 +1,7 @@
 @extends('layouts.main-layout')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('assets/third-party/datatables/media/css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/third-party/datatables/media/css/jquery.dataTables.min.css') }}">
 @endsection
 @section('content')
     <section class="section">
@@ -127,9 +127,12 @@
 
                             <div class="col">
                                 <div class="btn-group mb-3">
-                                    <button type="button" class="btn btn-icon icon-rigth btn-primary mr-2">EXPORT PDF <i class="fa-solid fa-file-pdf"></i></button>
-                                    <button type="button" class="btn btn-icon icon-rigth btn-primary mr-2">EXPORT EXCEL <i class="fa-solid fa-file-excel"></i></button>
-                                    <button type="button" class="btn btn-icon icon-rigth btn-primary mr-2">PRINT DATA <i class="fa-solid fa-print"></i></button>
+                                    <button type="button" class="btn btn-icon icon-rigth btn-primary mr-2">EXPORT PDF <i
+                                            class="fa-solid fa-file-pdf"></i></button>
+                                    <button type="button" class="btn btn-icon icon-rigth btn-primary mr-2">EXPORT EXCEL <i
+                                            class="fa-solid fa-file-excel"></i></button>
+                                    <button type="button" class="btn btn-icon icon-rigth btn-primary mr-2">PRINT DATA <i
+                                            class="fa-solid fa-print"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -175,7 +178,16 @@
                                         <td class="align-middle">
                                             <div class="badge badge-success">Pegawai Tetap</div>
                                         </td>
-                                        <td class="align-middle"><a href="#" class="btn btn-primary">Detail</a>
+                                        <div class="show">
+
+                                            <i class="fa-solid fa-ellipsis-vertical dropdown-toggle "
+                                                data-toggle="dropdown" aria-expanded="true"></i>
+                                            <div class="dropdown-menu action">
+                                                <a class="dropdown-item action" href="#">Hapus</a>
+                                                <a class="dropdown-item action" href="#">Hapus</a>
+
+                                            </div>
+                                        </div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -187,8 +199,7 @@
         </div>
     </section>
     @push('js')
-  <script src="{{ asset('assets/third-party/datatables/media/js/jquery.dataTables.min.js')}}"></script>
-  <script src="{{ asset('assets/js/modules-datatables.js') }}"></script>
+        <script src="{{ asset('assets/third-party/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/modules-datatables.js') }}"></script>
     @endpush
 @endsection
-
