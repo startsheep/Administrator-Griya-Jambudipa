@@ -104,13 +104,7 @@
     <script src="{{ asset('assets/third-party/izitoast/dist/js/iziToast.min.js') }}"></script>
     <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
-    <script type="module">
-        import Cookies from "{{ asset('assets/js/js-cookie/dist/js.cookie.mjs') }}";
-
-        if (Cookies.get('user')) {
-            window.location.href = "{{ url('/dashboard') }}";
-        }
-
+    <script>
         $(document).ready(function() {
             // who2-hie3 pqww2o4e
             $('#hide-password').on('click', function() {
@@ -155,7 +149,8 @@
                             // $.cookie('user', data.data, {
                             //     expires: 1
                             // });
-                            Cookies.set('user', data.data);
+                            // Cookies.set('user', data.data);
+                            document.cookie = "user=" + data.data;
 
                             iziToast.success({
                                 title: 'Berhasil',
@@ -171,23 +166,27 @@
 
                         }
                     },
-                    error : function(data) {
+                    error: function(data) {
                         iziToast.error({
-                                title: "Gagal",
-                                message: 'Periksa Email dan Password',
-                                timeout: 2000,
-                                position: 'topCenter',
-                                progressBar: false,
+                            title: "Gagal",
+                            message: 'Periksa Email dan Password',
+                            timeout: 2000,
+                            position: 'topCenter',
+                            progressBar: false,
 
-                            })
+                        })
                     }
                 });
             });
         });
     </script>
     <script type="module">
+    import Cookies from "{{ asset('assets/js/js-cookie/dist/js.cookie.mjs') }}";
 
-        </script>
+    if (Cookies.get('user')) {
+        window.location.href = "{{ url('/dashboard') }}";
+    }
+    </script>
     <!-- Page Specific JS File -->
 </body>
 
