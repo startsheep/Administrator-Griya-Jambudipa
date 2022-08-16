@@ -12,6 +12,7 @@
         "vite": "^3.0.0"
     },
     "dependencies": {
-        "izitoast": "^1.4.0"
+        "izitoast": "^1.4.0",
+        "js-cookie": "^3.0.1"
     }
 }
