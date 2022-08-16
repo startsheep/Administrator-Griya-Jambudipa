@@ -178,17 +178,18 @@
                                         <td class="align-middle">
                                             <div class="badge badge-success">Pegawai Tetap</div>
                                         </td>
-                                        <div class="show">
-
+                                        <td class="align-middle text-center">
+                                            <div class="show">
                                             <i class="fa-solid fa-ellipsis-vertical dropdown-toggle "
                                                 data-toggle="dropdown" aria-expanded="true"></i>
                                             <div class="dropdown-menu action">
                                                 <a class="dropdown-item action" href="#">Hapus</a>
                                                 <a class="dropdown-item action" href="#">Hapus</a>
-
                                             </div>
                                         </div>
                                         </td>
+
+
                                     </tr>
                                 </tbody>
                             </table>
