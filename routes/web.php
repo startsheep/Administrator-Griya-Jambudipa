@@ -16,4 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 includeRouteFiles(__DIR__ . '/web');
 
+
 Route::get('/', AuthController::class)->name('web.auth.login');
+
+

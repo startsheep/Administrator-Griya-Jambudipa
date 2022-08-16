@@ -10,11 +10,11 @@
           <ul class="sidebar-menu">
               <li class="menu-header">Menu Utama</li>
 
-              <li class="nav-item">
-                <a href="data-pegawai.html" class="nav-link"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+              <li class="nav-item {{ (request()->is('dashboard')) ? 'active' : '' }}">
+                <a href="/dashboard" class="nav-link"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
               </li>
-              <li class="nav-item">
-                <a href="data-pegawai.html" class="nav-link"><i class="fa-solid fa-people-group"></i><span>Data Pegawai</span></a>
+              <li class="nav-item {{ (request()->is('pegawai')) ? 'active' : '' }}">
+                <a href="/pegawai" class="nav-link"><i class="fa-solid fa-people-group"></i><span>Data Pegawai</span></a>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link"><i class="fa-solid fa-people-roof"></i><span>Data Customer</span></a>
