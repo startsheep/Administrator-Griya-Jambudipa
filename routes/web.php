@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,15 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Semua route akan disimpan di folder url, nama sesuai route sesaui dengan nama feature
+includeRouteFiles(__DIR__ . '/web');
 
-includeRouteFiles(__DIR__ . '/url');
 
-// Semua route akan disimpan di folder url selain route utama dibawah ini
-Route::get('/', function () {
-    return view('pages.dashboard');
-});
-Route::get('/pegawai', function () {
-    return view('pages.pegawai.v-pegawai');
-});
+Route::get('/', AuthController::class)->name('web.auth.login');
+
 

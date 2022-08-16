@@ -31,7 +31,7 @@ class LoginController extends Controller
             ], 400);
         }
 
-        $role = str_replace(' ', '_', strtolower($user->role->name));
+        $role = str_replace(' ', '_', strtolower('Auth'));
 
         $token = $user->createToken('api', [$role]);
 

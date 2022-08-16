@@ -7,8 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
-    Route::get('login', [LoginController::class, 'index'])->name('url.auth.login.index');
-    Route::post('login', [LoginController::class, 'process'])->name('url.auth.login.process');
+    Route::post('login', LoginController::class)->name('api.auth.login');
 
     // Route::post('register', RegisterController::class)->name('api.auth.register');
 
