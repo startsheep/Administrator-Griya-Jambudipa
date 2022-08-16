@@ -6,6 +6,6 @@ class AuthController extends Controller
 {
     public function __invoke()
     {
-        // return view()
+        return view('pages.auth.v-login');
     }
 }

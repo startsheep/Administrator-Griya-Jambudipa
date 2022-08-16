@@ -18,5 +18,9 @@ includeRouteFiles(__DIR__ . '/web');
 
 
 Route::get('/', AuthController::class)->name('web.auth.login');
+Route::get('dashboard',function(){
+    return view('pages.dashboard');
+});
+
 
 
