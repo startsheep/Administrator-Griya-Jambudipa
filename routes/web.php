@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Semua route akan disimpan di folder url, nama sesuai route sesaui dengan nama feature
+
+includeRouteFiles(__DIR__ . '/url');
+
+// Semua route akan disimpan di folder url selain route utama dibawah ini
 Route::get('/', function () {
     return view('pages.dashboard');
 });
