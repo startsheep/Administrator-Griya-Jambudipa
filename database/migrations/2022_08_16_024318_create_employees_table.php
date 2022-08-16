@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Role;
+use App\Models\Position;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,15 +14,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->foreignIdFor(Position::class)->nullable();
+            $table->string('name', 100)->nullable();
+            $table->string('email', 100)->nullable();
+            $table->string('phone', 15)->nullable();
+            $table->enum('gender', ['L', 'P'])->nullable();
+            $table->text('address')->nullable();
+            $table->dateTime('entry_date')->nullable();
             $table->string('image')->nullable();
             $table->smallInteger('is_active')->nullable();
-            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -34,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('employees');
     }
 };
