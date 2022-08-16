@@ -39,7 +39,18 @@ class LoginRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator)
+    public function messages()
+    {
+        return [
+            'email.required' => ":attribute harap diisi!",
+            'email.email' => "Harap masukan :attribute yang benar!",
+            'password.required' => ":attribute harap diisi!",
+            'password.min' => ":attribute minimal :min!",
+            'password.max' => ":attribute maksimal :max!"
+        ];
+    }
+
+    public function failedValidation(Validator $validator)
     {
         $response = new JsonResponse([
             'meta' => [

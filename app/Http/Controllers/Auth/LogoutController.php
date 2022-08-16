@@ -14,8 +14,6 @@ class LogoutController extends Controller
 
         $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
 
-        return response([
-            'message' => 'logout success'
-        ]);
+        // return redirect('');
     }
 }
