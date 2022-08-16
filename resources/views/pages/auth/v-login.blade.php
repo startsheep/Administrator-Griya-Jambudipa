@@ -104,74 +104,90 @@
     <script src="{{ asset('assets/third-party/izitoast/dist/js/iziToast.min.js') }}"></script>
     <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
-    <script >
+    <script type="module">
+        import Cookies from "{{ asset('assets/js/js-cookie/dist/js.cookie.mjs') }}";
 
-    $(document).ready(function(){
-        // who2-hie3 pqww2o4e
-        $('#hide-password').on('click', function(){
-            var password = $('#password');
-            var icon = $(this).find('i');
-            if(password.attr('type') == 'password'){
-                password.attr('type', 'text');
-                icon.removeClass('fa-eye');
-                icon.addClass('fa-eye-slash');
-            }else{
-                password.attr('type', 'password');
-                icon.removeClass('fa-eye-slash');
-                icon.addClass('fa-eye');
-            }
-        });
-        //setup ajax to create login
-        $('#btn-login').on('click', function(e){
-            // get value from input
-            let email = $('#email').val();
-            let password = $('#password').val();
-            let url = "{{ url('api/auth/login') }}";
-            // crete ajax.setup with csrftoken
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        if (Cookies.get('user')) {
+            window.location.href = "{{ url('/dashboard') }}";
+        }
+
+        $(document).ready(function() {
+            // who2-hie3 pqww2o4e
+            $('#hide-password').on('click', function() {
+                var password = $('#password');
+                var icon = $(this).find('i');
+                if (password.attr('type') == 'password') {
+                    password.attr('type', 'text');
+                    icon.removeClass('fa-eye');
+                    icon.addClass('fa-eye-slash');
+                } else {
+                    password.attr('type', 'password');
+                    icon.removeClass('fa-eye-slash');
+                    icon.addClass('fa-eye');
                 }
             });
-            // setup ajax
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: {
-                    email: email,
-                    password: password
-                },
-                success: function(data){
-                    console.log(data);
-                    if(data.data){
-                        iziToast.success({
-    title: 'Berhasil',
-    message: 'Berhasil Masuk',
-    timeout: 1000,
-    position: 'topCenter',
-    progressBar:false,
-     onOpened: function () {
-        window.location.href = "{{ url('/dashboard') }}";
-     }
-});
-
-                    }else{
-                        iziToast.error({    title: "Gagal",
-    message: 'Periksa Email dan Password',
-    timeout: 2000,
-    position: 'topCenter',
-    progressBar:false,
-
-                        })
+            //setup ajax to create login
+            $('#btn-login').on('click', function(e) {
+                // get value from input
+                let email = $('#email').val();
+                let password = $('#password').val();
+                let url = "{{ url('api/auth/login') }}";
+                // crete ajax.setup with csrftoken
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     }
-                }
+                });
+                // setup ajax
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        email: email,
+                        password: password
+                    },
+                    success: function(data) {
+
+                        console.log(data);
+                        if (data.data) {
+                            // set cookie
+
+                            // $.cookie('user', data.data, {
+                            //     expires: 1
+                            // });
+                            Cookies.set('user', data.data);
+
+                            iziToast.success({
+                                title: 'Berhasil',
+                                message: 'Berhasil Masuk',
+                                timeout: 1000,
+                                position: 'topCenter',
+                                progressBar: false,
+                                onOpened: function() {
+                                    window.location.href =
+                                        "{{ url('/dashboard') }}";
+                                }
+                            });
+
+                        }
+                    },
+                    error : function(data) {
+                        iziToast.error({
+                                title: "Gagal",
+                                message: 'Periksa Email dan Password',
+                                timeout: 2000,
+                                position: 'topCenter',
+                                progressBar: false,
+
+                            })
+                    }
+                });
             });
         });
-        });
+    </script>
+    <script type="module">
 
-
-
-</script>
+        </script>
     <!-- Page Specific JS File -->
 </body>
 
