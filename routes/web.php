@@ -21,3 +21,7 @@ includeRouteFiles(__DIR__ . '/url');
 Route::get('/', function () {
     return view('pages.dashboard');
 });
+Route::get('/pegawai', function () {
+    return view('pages.pegawai.v-pegawai');
+});
+
