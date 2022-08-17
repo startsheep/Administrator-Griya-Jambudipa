@@ -10,6 +10,7 @@ class Employee extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'position_id',
         'name',
         'email',
@@ -21,4 +22,9 @@ class Employee extends Model
         'status',
         'is_active',
     ];
+
+    public function position()
+    {
+        return $this->hasOne(Position::class, 'id', 'position_id');
+    }
 }

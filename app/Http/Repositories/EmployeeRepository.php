@@ -4,6 +4,7 @@ namespace App\Http\Repositories;
 
 use App\Http\Repositories\Contracts\EmployeeContract;
 use App\Http\Repositories\BaseRepository;
+use App\Http\Services\Searches\EmployeeSearch;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
@@ -20,10 +21,8 @@ class EmployeeRepository implements EmployeeContract
 
     public function all($request)
     {
-        $result = $this->employee->all();
-        $employees = DataTables::of($result)
-            ->addIndexColumn()
-            ->make(true);
+        $factory = app()->make(EmployeeSearch::class);
+        $employees = $factory->apply()->paginate($request->per_page);
 
         return $employees;
     }
@@ -54,6 +53,19 @@ class EmployeeRepository implements EmployeeContract
         }
 
         $result->update($attributes);
+
+        return collect([
+            'message' => "success",
+            'type' => 'success',
+            'data' => $result,
+            'status' => 200
+        ]);
+    }
+
+    public function updateActive(array $attributes, $result)
+    {
+        $result->is_active = $attributes['active'] ? 1 : 2;
+        $result->save();
 
         return collect([
             'message' => "success",
