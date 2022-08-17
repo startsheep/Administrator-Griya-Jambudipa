@@ -14,5 +14,7 @@ interface EmployeeContract
 
     public function update(array $attributes, $result);
 
+    public function updateActive(array $attributes, $result);
+
     public function delete($result);
 }

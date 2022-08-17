@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Repositories\Contracts\EmployeeContract;
 use App\Http\Requests\Employee\CreateEmployeeRequest;
 use App\Http\Requests\Employee\UpdateEmployeeRequest;
+use App\Http\Resources\Employee\EmployeeCollection;
 use App\Http\Resources\Employee\EmployeeDetail;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class EmployeeController extends Controller
     {
         $result = $this->employeeRepository->all($request);
 
-        return $result;
+        return new EmployeeCollection($result);
     }
 
     public function store(CreateEmployeeRequest $request)
@@ -44,6 +45,22 @@ class EmployeeController extends Controller
         $result = $this->employeeRepository->find($id);
 
         $data = $this->employeeRepository->update($request->all(), $result);
+        $output = $data;
+        return response()->json(
+            [
+                'message' => $output['message'],
+                'type' => $output['type'],
+                'result' => $output['data']
+            ],
+            $output['status']
+        );
+    }
+
+    public function updateActive(Request $request, $id)
+    {
+        $result = $this->employeeRepository->find($id);
+
+        $data = $this->employeeRepository->updateActive($request->all(), $result);
         $output = $data;
         return response()->json(
             [
