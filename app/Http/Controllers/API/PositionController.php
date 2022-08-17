@@ -28,7 +28,9 @@ class PositionController extends Controller
 
     public function store(CreatePositionRequest $request)
     {
-        return $this->positionRepository->store($request->all());
+        $result = $this->positionRepository->store($request->all());
+
+        return $result;
     }
 
     public function show($id)
@@ -38,7 +40,7 @@ class PositionController extends Controller
         return new PositionDetail($result);
     }
 
-    public function update(Request $request, $id)
+    public function update(CreatePositionRequest $request, $id)
     {
         $result = $this->positionRepository->find($id);
 

@@ -32,6 +32,14 @@ class CreatePositionRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'position.required' => ":attribute harap diisi!",
+            'salary.required' => ":attribute harap diisi!",
+        ];
+    }
+
     protected function failedValidation(Validator $validator)
     {
         $response = new JsonResponse([

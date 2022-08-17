@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Http\Repositories;
+
+use App\Http\Repositories\Contracts\EmployeeContract;
+use App\Http\Repositories\BaseRepository;
+use App\Models\Employee;
+use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\DataTables;
+
+class EmployeeRepository implements EmployeeContract
+{
+    /** @var Employee */
+    protected $employee;
+
+    public function __construct(Employee $employee)
+    {
+        $this->employee = $employee;
+    }
+
+    public function all($request)
+    {
+        $result = $this->employee->all();
+        $employees = DataTables::of($result)
+            ->addIndexColumn()
+            ->make(true);
+
+        return $employees;
+    }
+
+    public function store(array $attributes): Employee
+    {
+        if (isset($attributes['image'])) {
+            if (isset($attributes['image']) && $attributes['image']) {
+                $attributes['image'] = $attributes['image']->store('employee');
+            }
+        }
+
+        return $this->employee->create($attributes);
+    }
+
+    public function find($id): Employee
+    {
+        return $this->employee->find($id);
+    }
+
+    public function update(array $attributes, $result)
+    {
+        if (isset($attributes['image'])) {
+            if (isset($attributes['image']) && $attributes['image']) {
+                Storage::delete($result->image);
+                $attributes['image'] = $attributes['image']->store('employee');
+            }
+        }
+
+        $result->update($attributes);
+
+        return collect([
+            'message' => "success",
+            'type' => 'success',
+            'data' => $result,
+            'status' => 200
+        ]);
+    }
+
+    public function delete($result)
+    {
+        Storage::delete($result->image);
+
+        return $result->delete();
+    }
+}
