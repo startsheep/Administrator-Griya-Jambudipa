@@ -35,7 +35,7 @@ class EmployeeRepository implements EmployeeContract
                 $attributes['image'] = $attributes['image']->store('employee');
             }
         }
-
+        $attributes['is_active'] = 1;
         return $this->employee->create($attributes);
     }
 

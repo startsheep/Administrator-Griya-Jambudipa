@@ -18,6 +18,7 @@ class Employee extends Model
         'address',
         'entry_date',
         'image',
+        'status',
         'is_active',
     ];
 }
