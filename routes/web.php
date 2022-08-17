@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,12 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-includeRouteFiles(__DIR__ . '/web');
 
-
-Route::get('/', AuthController::class)->name('web.auth.login')->middleware('guest');
-
-   Route::get('dashboard',function(){
-    return view('pages.dashboard');
-});
-
+Route::get('/{any}', [PageController::class, 'index'])->where('any', '^(?!auth).*$');
+Route::get('/auth/{any}', [PageController::class, 'auth']);
