@@ -39,15 +39,10 @@
                       v-model="user.email"
                       type="email"
                       class="form-control"
-                      tabindex="1"
-                      required
+                      placeholder="Email address"
                       autofocus
                     />
-                    <div class="invalid-feedback">
-                      Please fill in your email
-                    </div>
                   </div>
-
                   <div class="form-group">
                     <div class="d-block">
                       <label for="password" class="control-label"
@@ -64,22 +59,15 @@
                         v-model="user.password"
                         :type="showPassword ? 'text' : 'password'"
                         class="form-control"
-                        tabindex="2"
                         required
+                        placeholder="Enter your password"
                       />
                       <div class="input-group-append">
                         <span @click="hidePassword" class="btn btn-primary ">
-
                           <i :class="showPassword  ? 'fa-solid fa-eye-low-vision fa-md': 'fa-solid fa-eye fa-md'"></i>
                         </span>
                       </div>
                     </div>
-                    <div class="invalid-feedback">
-                      please fill in your password
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="custom-control custom-checkbox"></div>
                   </div>
                   <div class="form-group">
                     <button
@@ -96,7 +84,7 @@
             </div>
 
             <div class="simple-footer">
-              <!-- {{-- Copyright &copy; Stisla 2018 --}} -->
+            Copyright &copy; freel 2022
             </div>
           </div>
         </div>
@@ -114,7 +102,7 @@ export default {
         email: "",
         password: "",
       },
-      showPassword: true,
+      showPassword: false,
       error: [],
       // showPassword: false,
     };
