@@ -14,7 +14,7 @@ class AuthenticatedController extends Controller
 
         return response()->json([
             'user' => $user,
-            'role' => $user->role ? $user->role : null
+            'role' => "Auth"
         ]);
     }
 }
