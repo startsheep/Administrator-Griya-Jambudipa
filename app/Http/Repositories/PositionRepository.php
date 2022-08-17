@@ -21,12 +21,8 @@ class PositionRepository implements PositionContract
 
     public function all($request)
     {
-        // $factory = app()->make(PositionSearch::class);
-        // $positions = $factory->apply()->paginate($request->per_page);
-        $result = $this->position->all();
-        $positions = DataTables::of($result)
-            ->addIndexColumn()
-            ->make(true);
+        $factory = app()->make(PositionSearch::class);
+        $positions = $factory->apply()->paginate($request->per_page);
 
         return $positions;
     }
