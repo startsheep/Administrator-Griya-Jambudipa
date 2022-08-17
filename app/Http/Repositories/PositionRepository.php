@@ -7,7 +7,7 @@ use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\PositionSearch;
 use App\Models\Position;
 use Illuminate\Support\Collection;
-use DataTables;
+use Yajra\DataTables\DataTables;
 
 class PositionRepository implements PositionContract
 {
