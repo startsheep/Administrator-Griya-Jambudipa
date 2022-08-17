@@ -10,5 +10,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/{id}', [EmployeeController::class, 'show'])->name('api.employee.show');
         Route::put('/{id}', [EmployeeController::class, 'update'])->name('api.employee.update');
         Route::delete('/{id}', [EmployeeController::class, 'delete'])->name('api.employee.delete');
+        Route::put('/active/{id}', [EmployeeController::class, 'updateActive'])->name('api.employee.update.active');
     });
 });
