@@ -62,14 +62,15 @@
                     <div class="input-group">
                       <input
                         v-model="user.password"
-                        type="password"
+                        :type="showPassword ? 'text' : 'password'"
                         class="form-control"
                         tabindex="2"
                         required
                       />
                       <div class="input-group-append">
-                        <span class="btn btn-primary">
-                          <i class="fa-solid fa-eye"></i>
+                        <span @click="hidePassword" class="btn btn-primary ">
+
+                          <i :class="showPassword  ? 'fa-solid fa-eye-low-vision fa-md': 'fa-solid fa-eye fa-md'"></i>
                         </span>
                       </div>
                     </div>
@@ -113,19 +114,17 @@ export default {
         email: "",
         password: "",
       },
+      showPassword: true,
       error: [],
       // showPassword: false,
     };
   },
   computed: {
-    showPassword() {
-      //    return this.showPassword;
-    },
   },
   methods: {
-    // hidePassword(){
-
-    // },
+    hidePassword(){
+        this.showPassword = !this.showPassword;
+    },
     login() {
       this.$store
         .dispatch("postData", ["auth/login", this.user])
