@@ -1,4 +1,6 @@
 @extends('template')
 @section('content')
-    <div id="app"></div>
+    <div id="auth" >
+        {{-- <auth></auth> --}}
+    </div>
 @endsection
