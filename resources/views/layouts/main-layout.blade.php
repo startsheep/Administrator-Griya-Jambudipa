@@ -34,7 +34,7 @@
                 <!-- Main Content -->
                 <div class="main-content">
                     @yield('content')
-                    </section>
+
                 </div>
                 <footer class="main-footer">
                     <div class="footer-left">
