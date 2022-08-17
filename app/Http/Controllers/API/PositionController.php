@@ -23,14 +23,17 @@ class PositionController extends Controller
     {
         $result = $this->positionRepository->all($request);
 
-        return $result;
+        return new PositionCollection($result);
     }
 
     public function store(CreatePositionRequest $request)
     {
         $result = $this->positionRepository->store($request->all());
 
-        return $result;
+        return response()->json([
+            'message' => 'success',
+            'data' => $result
+        ]);
     }
 
     public function show($id)
