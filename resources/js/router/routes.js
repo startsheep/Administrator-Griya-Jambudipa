@@ -1,17 +1,26 @@
 import auth from "./services/auth";
-import Home from "../pages/Home.vue";
+import Dashboard from "../pages/Dashboard.vue";
+import Employees from "../pages/employees/Employees.vue";
 
 const routes = [
     ...auth,
     {
-        path: "/",
-        name: "Home",
-        component: Home,
+        path: "/dashboard",
+        name: "Dashboard",
+        component: Dashboard,
         meta: {
-            title: "Home",
+            title: "Dashboard",
             middleware: "auth",
         },
     },
+     {
+        path: "/employees",
+        name: "Employees",
+        component: Employees,
+        meta: {
+            title: "Employees",
+        }
+     }
 ];
 
 export default routes;
