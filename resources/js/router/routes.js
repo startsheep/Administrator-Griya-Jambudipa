@@ -5,7 +5,7 @@ import Employees from "../pages/employees/Employees.vue";
 const routes = [
     ...auth,
     {
-        path: "/dashboard",
+        path: "/",
         name: "Dashboard",
         component: Dashboard,
         meta: {

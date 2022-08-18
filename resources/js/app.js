@@ -7,7 +7,7 @@ import router from "./router";
 import store from "./store";
 
 import izitoast from "izitoast";
-
+import VueSweetalert2 from 'vue-sweetalert2';
 
 
 // import css
@@ -23,7 +23,7 @@ if(!Cookie.get("user") && !Cookie.get('token')){
 } else {
 }
 createApp(Auth).use(router).use(store).use(izitoast).mount("#auth");
-createApp(App).use(router).use(store).mount("#app");
+createApp(App).use(router).use(store).use(VueSweetalert2).mount("#app");
 
 
 
