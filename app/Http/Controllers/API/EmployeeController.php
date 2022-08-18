@@ -30,7 +30,10 @@ class EmployeeController extends Controller
     {
         $result = $this->employeeRepository->store($request->all());
 
-        return $result;
+        return response()->json([
+            'message' => 'success',
+            'data' => $result
+        ]);
     }
 
     public function show($id)
