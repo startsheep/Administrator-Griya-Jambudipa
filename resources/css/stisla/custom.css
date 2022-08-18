@@ -110,4 +110,19 @@ width:100px;
   border: 1px solid rgba(0, 0, 0, .15);
   border-radius: .25rem
 }
+
+.sortable{
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+.sortable:hover{
+    /* cursor: po; */
+    font-size: 18px;
+    color: #0a0325;
+    transition: all .2s ease-in-out;
+}
+.cursor{
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
 /*#     sourceMappingURL=custom.css.map */

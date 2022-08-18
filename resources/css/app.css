@@ -2,4 +2,5 @@
 @import './stisla/custom.css';
 @import './stisla/style.css';
 @import './stisla/components.css';
-@import '../../node_modules/izitoast/dist/css/iziToast.min.css'
+@import '../../node_modules/izitoast/dist/css/iziToast.min.css';
+@import '../../node_modules/sweetalert2/dist/sweetalert2.min.css'
