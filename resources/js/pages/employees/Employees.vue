@@ -186,7 +186,7 @@
                       <div class="media">
                         <img
                           class="avatar mr-3 rounded-circle"
-                          src="{{ asset('assets/images/avatar/avatar-1.png') }}"
+                          src=""
                           alt=""
                         />
                         <div class="media-body">
