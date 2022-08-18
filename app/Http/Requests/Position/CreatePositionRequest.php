@@ -28,7 +28,7 @@ class CreatePositionRequest extends FormRequest
     {
         return [
             'position' => 'required',
-            'salary' => 'required'
+            'salary' => 'required|numeric'
         ];
     }
 
@@ -37,6 +37,7 @@ class CreatePositionRequest extends FormRequest
         return [
             'position.required' => ":attribute harap diisi!",
             'salary.required' => ":attribute harap diisi!",
+            'salary.numeric' => ":attribute harap diisi dengan angka!",
         ];
     }
 
