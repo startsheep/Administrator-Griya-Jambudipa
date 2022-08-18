@@ -22,7 +22,7 @@ class EmployeeRepository implements EmployeeContract
     public function all($request)
     {
         $factory = app()->make(EmployeeSearch::class);
-        $employees = $factory->apply()->paginate($request->per_page);
+        $employees = $factory->apply()->with('position')->paginate($request->per_page);
 
         return $employees;
     }
@@ -40,7 +40,7 @@ class EmployeeRepository implements EmployeeContract
 
     public function find($id): Employee
     {
-        return $this->employee->find($id);
+        return $this->employee->with('position')->find($id);
     }
 
     public function update(array $attributes, $result)
