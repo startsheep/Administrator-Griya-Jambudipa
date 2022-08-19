@@ -8,10 +8,14 @@ use App\Http\Repositories\Contracts\BaseRepositoryContract;
 use App\Http\Repositories\Contracts\CompanyProfileContract;
 use App\Http\Repositories\Contracts\CustomerContract;
 use App\Http\Repositories\Contracts\EmployeeContract;
+use App\Http\Repositories\Contracts\HouseTypeContract;
+use App\Http\Repositories\Contracts\KavlingContract;
 use App\Http\Repositories\Contracts\PositionContract;
 use App\Http\Repositories\Contracts\UserContract;
 use App\Http\Repositories\CustomerRepository;
 use App\Http\Repositories\EmployeeRepository;
+use App\Http\Repositories\HouseTypeRepository;
+use App\Http\Repositories\KavlingRepository;
 use App\Http\Repositories\PositionRepository;
 use App\Http\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -41,5 +45,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(EmployeeContract::class, EmployeeRepository::class);
         $this->app->bind(CompanyProfileContract::class, CompanyProfileRepository::class);
         $this->app->bind(CustomerContract::class, CustomerRepository::class);
+        $this->app->bind(HouseTypeContract::class, HouseTypeRepository::class);
+        $this->app->bind(KavlingContract::class, KavlingRepository::class);
     }
 }
