@@ -1,9 +1,11 @@
 import auth from "./services/auth";
+import employee from "./modules/employees";
 import Dashboard from "../pages/Dashboard.vue";
 import Employees from "../pages/employees/Employees.vue";
 
 const routes = [
     ...auth,
+...employee,
     {
         path: "/",
         name: "Dashboard",
