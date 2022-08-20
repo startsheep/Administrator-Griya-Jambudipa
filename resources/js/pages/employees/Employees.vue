@@ -66,7 +66,7 @@
                         <img
                         style="object-fit: contain; width: 50px; height: 50px;"
                           class="img-thumbnail rounded-circle mr-2 "
-                          :src="'http://127.0.0.1:8000/storage/'+employee.image"
+                          :src="'/storage/'+employee.image"
                           alt=""
                         />
                         <div class="media-body">
