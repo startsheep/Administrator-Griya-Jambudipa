@@ -52,10 +52,7 @@ class UpdateEmployeeRequest extends FormRequest
             'entry_date' => [
                 'required',
             ],
-            'image' => [
-                'image',
-                'mimes:png,jpg,jpeg'
-            ],
+
         ];
     }
 
@@ -70,8 +67,8 @@ class UpdateEmployeeRequest extends FormRequest
             'gender.required' => "jenis kelamin harap diisi!",
             'address.required' => "alamat harap diisi!",
             'entry_date.required' => "tanggal masuk harap diisi!",
-            'image.image' => "harap masukan tipe data gambar!",
-            'image.mimes' => "harap masukan tipe data png, jpg, jpeg!",
+
+
             'email.required' => ":attribute harap diisi!",
             'email.email' => "harap masukan :attribute yang benar!",
         ];

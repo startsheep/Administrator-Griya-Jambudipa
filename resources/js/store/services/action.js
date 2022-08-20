@@ -1,7 +1,7 @@
 import { reject } from "lodash";
 import Api from "./api";
 
-const proccess = {
+const process = {
     actions: {
         getData(context, param) {
             return new Promise((resolve, reject) => {
@@ -42,7 +42,7 @@ const proccess = {
                 );
             });
         },
-        postDataUpload(context, param, url = "auth/register") {
+        postDataUpload(context, param, url) {
             return new Promise((resolve, reject) => {
                 Api.init();
                 Api.postFormData(url, param).then(
@@ -97,4 +97,4 @@ const proccess = {
     },
 };
 
-export default proccess;
+export default process;
