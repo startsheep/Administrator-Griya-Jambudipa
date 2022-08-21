@@ -21,9 +21,9 @@ class Customer extends Model
         'address',
     ];
 
-    public function documentCustomer()
+    public function document()
     {
-        return $this->hasMany(DocumentCustomer::class, 'customer_id', 'id');
+        return $this->morphMany(Document::class, 'documentable');
     }
 
     public function kavling()

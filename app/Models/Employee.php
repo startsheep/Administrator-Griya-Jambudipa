@@ -27,4 +27,9 @@ class Employee extends Model
     {
         return $this->hasOne(Position::class, 'id', 'position_id');
     }
+
+    public function document()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
 }

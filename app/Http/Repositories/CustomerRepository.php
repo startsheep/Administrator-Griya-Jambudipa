@@ -21,7 +21,7 @@ class CustomerRepository implements CustomerContract
     public function all($request)
     {
         $factory = app()->make(CustomerSearch::class);
-        $employees = $factory->apply()->with(['documentCustomer', 'kavling'])->paginate($request->per_page);
+        $employees = $factory->apply()->with(['document', 'kavling'])->paginate($request->per_page);
 
         return $employees;
     }
@@ -38,7 +38,7 @@ class CustomerRepository implements CustomerContract
 
         if (isset($attributes['documents'])) {
             if (isset($attributes['documents']) && $attributes['documents']) {
-                $attributes['documents'] = $this->multipleUpload($attributes['documents'], $result);
+                $this->multipleUpload($attributes['documents'], $result);
             }
         }
 
@@ -47,7 +47,7 @@ class CustomerRepository implements CustomerContract
 
     public function find($id): Customer
     {
-        return $this->customer->with('documentCustomer')->find($id);
+        return $this->customer->with(['document', 'kavling'])->find($id);
     }
 
     public function update(array $attributes, $result)
@@ -63,11 +63,11 @@ class CustomerRepository implements CustomerContract
 
         if (isset($attributes['documents'])) {
             if (isset($attributes['documents']) && $attributes['documents']) {
-                foreach ($result->documentCustomer as $document) {
-                    Storage::delete($document->document);
-                    $result->documentCustomer()->delete();
+                foreach ($result->document as $document) {
+                    Storage::delete($document->document_path);
+                    $result->document()->delete();
                 }
-                $attributes['documents'] = $this->multipleUpload($attributes['documents'], $result);
+                $this->multipleUpload($attributes['documents'], $result);
             }
         }
 
@@ -81,15 +81,17 @@ class CustomerRepository implements CustomerContract
 
     public function delete($result)
     {
-        if (count($result->documentCustomer) > 0) {
-            foreach ($result->documentCustomer as $document) {
-                Storage::delete($document->document);
+        if (count($result->document) > 0) {
+            foreach ($result->document as $document) {
+                Storage::delete($document->document_path);
             }
 
-            $result->documentCustomer()->delete();
+            $result->document()->delete();
         }
 
-        Storage::delete($result->image);
+        if ($result->image != null) {
+            Storage::delete($result->image);
+        }
 
         $result->delete();
 
@@ -106,9 +108,9 @@ class CustomerRepository implements CustomerContract
     {
         foreach ($files as $file) {
             $document = $this->storageFile($file, 'document_customer');
-            $request['document'] = $document;
-            $request['customer_id'] = $model->id;
-            $model->documentCustomer()->create($request);
+            $request['document_path'] = $document;
+            $request['document_name'] = $file->getClientOriginalName();
+            $model->document()->create($request);
         }
     }
 }

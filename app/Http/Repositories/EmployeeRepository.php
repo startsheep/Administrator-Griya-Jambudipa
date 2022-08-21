@@ -22,7 +22,7 @@ class EmployeeRepository implements EmployeeContract
     public function all($request)
     {
         $factory = app()->make(EmployeeSearch::class);
-        $employees = $factory->apply()->with('position')->paginate($request->per_page);
+        $employees = $factory->apply()->with(['position', 'document'])->paginate($request->per_page);
 
         return $employees;
     }
@@ -34,13 +34,22 @@ class EmployeeRepository implements EmployeeContract
                 $attributes['image'] = $attributes['image']->store('employee');
             }
         }
+
         $attributes['is_active'] = 1;
-        return $this->employee->create($attributes);
+        $result = $this->employee->create($attributes);
+
+        if (isset($attributes['documents'])) {
+            if (isset($attributes['documents']) && $attributes['documents']) {
+                $this->multipleUpload($attributes['documents'], $result);
+            }
+        }
+
+        return $result;
     }
 
     public function find($id): Employee
     {
-        return $this->employee->with('position')->find($id);
+        return $this->employee->with(['position', 'document'])->find($id);
     }
 
     public function update(array $attributes, $result)
@@ -53,6 +62,16 @@ class EmployeeRepository implements EmployeeContract
         }
 
         $result->update($attributes);
+
+        if (isset($attributes['documents'])) {
+            if (isset($attributes['documents']) && $attributes['documents']) {
+                foreach ($result->document as $document) {
+                    Storage::delete($document->document_path);
+                    $result->document()->delete();
+                }
+                $this->multipleUpload($attributes['documents'], $result);
+            }
+        }
 
         return collect([
             'message' => "success",
@@ -77,8 +96,34 @@ class EmployeeRepository implements EmployeeContract
 
     public function delete($result)
     {
-        Storage::delete($result->image);
+        if (count($result->document) > 0) {
+            foreach ($result->document as $document) {
+                Storage::delete($document->document_path);
+            }
+
+            $result->document()->delete();
+        }
+
+        if ($result->image != null) {
+            Storage::delete($result->image);
+        }
 
         return $result->delete();
+    }
+
+    protected function storageFile($file, $folder)
+    {
+        $path = $file->store($folder);
+        return $path;
+    }
+
+    protected function multipleUpload($files, $model)
+    {
+        foreach ($files as $file) {
+            $document = $this->storageFile($file, 'document_employee');
+            $request['document_path'] = $document;
+            $request['document_name'] = $file->getClientOriginalName();
+            $model->document()->create($request);
+        }
     }
 }
