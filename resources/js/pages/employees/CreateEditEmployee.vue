@@ -163,7 +163,7 @@ export default {
     return {
       idEmp: "",
       employee: {
-        // name: "",
+        name: "",
         email: "",
         position_id: "",
         type_emp: "",
@@ -201,12 +201,15 @@ export default {
       fieldData.append("phone", this.employee.phone);
       fieldData.append("address", this.employee.address);
       fieldData.append("gender", this.employee.gender);
-      fieldData.append("documents", this.employee.document);
+    //   fieldData.append("documents", this.employee.document);
+    this.employee.document.forEach((document, index) => fieldData.append('documents[' + index + ']', document));
+
       if (this.employee.image) {
         fieldData.append("image", this.employee.image);
       }
       return fieldData;
     },
+
   },
   methods: {
     back() {
