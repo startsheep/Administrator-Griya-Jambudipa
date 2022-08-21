@@ -1,11 +1,12 @@
 import auth from "./services/auth";
 import employee from "./modules/employees";
 import Dashboard from "../pages/Dashboard.vue";
-import Employees from "../pages/employees/Employees.vue";
+import customer from './modules/customer'
 
 const routes = [
     ...auth,
 ...employee,
+...customer,
     {
         path: "/",
         name: "Dashboard",
@@ -16,13 +17,14 @@ const routes = [
         },
     },
      {
-        path: "/employees",
-        name: "Employees",
-        component: Employees,
-        meta: {
-            title: "Employees",
-        }
-     }
+         path: "/customers",
+         name: "customers",
+         component: () => import("../pages/customers/Customers.vue"),
+         meta: {
+             title: "Customers",
+         }
+     },
+
 ];
 
 export default routes;
