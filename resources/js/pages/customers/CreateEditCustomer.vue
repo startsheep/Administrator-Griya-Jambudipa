@@ -242,10 +242,8 @@ export default {
           });
         }
       }
-      console.log(this.customer.document);
     },
     selectImage(e) {
-      console.log(e.target.files);
       const file = e.target.files[0];
       if (this.checkExtension(file)) {
         this.customer.image = file;
@@ -267,8 +265,6 @@ export default {
       const self = this;
       self.$store.dispatch("getData", ["kavling"]).then((response) => {
           self.kavlings = response.data;
-          console.log(this.kavlings);
-
       });
     },
     createCustomer() {
@@ -276,7 +272,6 @@ export default {
       this.isSubmit = true;
       let type = "postDataUploadCustomer";
       let fieldData = this.formData;
-      console.log(this.customer.document);
       self.$store
         .dispatch(type, fieldData, "customer")
         .then((res) => {

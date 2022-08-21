@@ -52,20 +52,6 @@
               <table class="table table-striped">
                 <thead>
                   <tr>
-                    <td>
-                      <div class="custom-checkbox custom-control">
-                        <input
-                          type="checkbox"
-                          data-checkboxes="mygroup"
-                          data-checkbox-role="dad"
-                          class="custom-control-input"
-                          id="checkbox-all"
-                        />
-                        <label for="checkbox-all" class="custom-control-label"
-                          >&nbsp;</label
-                        >
-                      </div>
-                    </td>
                     <th>Nama</th>
                     <th>Email</th>
                     <th>Nomor Telepon</th>
@@ -75,19 +61,6 @@
                 </thead>
                 <tbody>
                   <tr v-for="customer in customers" :key="customer.id">
-                    <td>
-                      <div class="custom-checkbox custom-control">
-                        <input
-                          type="checkbox"
-                          data-checkboxes="mygroup"
-                          class="custom-control-input"
-                          id="checkbox-1"
-                        />
-                        <label for="checkbox-1" class="custom-control-label"
-                          >&nbsp;</label
-                        >
-                      </div>
-                    </td>
                     <td width="30%" class="align-middle">
                       <div class="media">
                         <img
