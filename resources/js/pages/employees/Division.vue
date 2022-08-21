@@ -39,15 +39,12 @@
                     <td>{{ formatRupiah(division.salary) }}</td>
                     <td class="text-center">
                       <div class="show">
-                        <i
-                          class="
-                            fa-solid fa-ellipsis-vertical
-                            dropdown-toggle
-                            sortable
-                          "
-                          data-toggle="dropdown"
+                         <button data-toggle="dropdown" class="btn btn-transparent">
+                            <i
+                          class="fa-solid fa-ellipsis-vertical dropdown-toggle"
                           aria-expanded="true"
                         ></i>
+                        </button>
                         <div class="dropdown-menu action">
                           <a
                             @click="editDivision(division.id)"

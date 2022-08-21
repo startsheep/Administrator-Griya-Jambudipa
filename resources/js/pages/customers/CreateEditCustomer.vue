@@ -13,42 +13,27 @@
                 <div class="form-group col-lg-6">
                   <label for="name">Nama Lengkap</label>
                   <input
-                    v-model="employee.name"
+                    v-model="customer.name"
                     type="text"
                     class="form-control"
                     placeholder="Nama Lengkap"
                   />
                 </div>
 
+
                 <div class="form-group col-lg-6">
-                  <label>Jenis Pegawai</label>
-                  <select
-                    v-model="employee.type_emp"
-                    class="form-control form-control"
-                  >
-                    <option value="1">Pegawai Tetap</option>
-                    <option value="0">Pegawai Tidak Tetap</option>
-                  </select>
-                </div>
-                <div class="form-group col-lg-6">
-                  <label>Jabatan</label>
-                  <select
-                    v-model="employee.position_id"
-                    class="form-control form-control"
-                  >
-                    <option
-                      v-for="position in positions"
-                      :key="position.id"
-                      :value="position.id"
-                    >
-                      {{ position.name }}
-                    </option>
-                  </select>
+                  <label>Pekerjaan</label>
+                   <input
+                    v-model="customer.profession"
+                    type="text"
+                    class="form-control"
+                    placeholder="Pekerjaan"
+                  />
                 </div>
                 <div class="form-group col-lg-6">
                   <label>Email</label>
                   <input
-                    v-model="employee.email"
+                    v-model="customer.email"
                     type="text"
                     class="form-control"
                     placeholder="Email"
@@ -57,7 +42,7 @@
                 <div class="form-group col-lg-6">
                   <label>Nomor Telepon</label>
                   <input
-                    v-model="employee.phone"
+                    v-model="customer.phone"
                     type="number"
                     class="form-control"
                     placeholder="Nomor Telepon"
@@ -67,7 +52,7 @@
                 <div class="form-group col-lg-6">
                   <label>Jenis Kelamin</label>
                   <select
-                    v-model="employee.gender"
+                    v-model="customer.gender"
                     class="form-control form-control"
                   >
                     <option value="L">Laki-Laki</option>
@@ -77,23 +62,16 @@
                 </div>
 
                 <div class="form-group col-lg-6">
-                  <label>Alamat</label>
-                  <textarea
-                    v-model="employee.address"
-                    class="form-control"
-                    rows="1"
-                  ></textarea>
-                </div>
+                 <label>Blok Kavling</label>
+                  <select
+                    v-model="customer.kavling_id"
+                    class="form-control form-control"
+                  >
+                    <option v-for="kavling in kavlings" :key="kavling.id" :value="kavling.id">{{ kavling.block }} - {{ kavling.numberKavling }}</option>
 
-                <div class="form-group col-lg-6">
-                  <label>Tanggal Masuk</label>
-                  <input
-                    v-model="employee.entry_date"
-                    type="date"
-                    class="form-control"
-                  />
-                </div>
 
+                  </select>
+                </div>
                 <div class="custom-file form-group col-lg-6">
                   <input
                     @change="selectImage"
@@ -114,19 +92,29 @@
                   <label class="custom-file-label" for="customFile"
                     >Pilih Dokumen</label
                   >
-                  <div v-if="employee.document" class="form-group col-lg-6">
+                  <div v-if="customer.document" class="form-group col-lg-6">
                     <!-- -->
                   </div>
                 </div>
+
+<div class="form-group col-lg-12">
+                  <label>Alamat</label>
+                  <textarea
+                    v-model="customer.address"
+                    class="form-control"
+                    rows="1"
+                  ></textarea>
+                </div>
+
               </form>
               <div class="row">
                 <div class="col-lg-6">
-                  <div v-if="employee.image" class="badge badge-primary mt-2">
-                    {{ employee.image.name }}
+                  <div v-if="customer.image" class="badge badge-primary mt-2">
+                    {{ customer.image.name }}
                   </div>
                 </div>
                 <div class="col-lg-6">
-                  <div v-for="document in employee.document" :key="document" class="badge badge-primary m-1 p-2">
+                  <div v-for="document in customer.document" :key="document" class="badge badge-primary m-1 p-2">
                     {{ document.name }} <i class="fas fa-times sortable" @click="removeDocument(document)"></i>
                   </div>
                 </div>
@@ -139,7 +127,7 @@
                 </button>
                 <button
                   :class="{ 'disabled btn-progress': isSubmit }"
-                  @click="id ? updateEmployee() : createEmployee()"
+                  @click="id ? updateCustomer() : createCustomer()"
                   class="btn btn-primary ml-2"
                   type="button"
                 >
@@ -161,29 +149,26 @@ export default {
   props: ["id"],
   data() {
     return {
-      idEmp: "",
-      employee: {
+      customer: {
         name: "",
         email: "",
-        position_id: "",
-        type_emp: "",
-        entry_date: "",
-        phone: "",
+        profession: "",
+        kavling_id: "",
+        phone : "",
         address: "",
         gender: "",
         image: "",
         document: [],
       },
-      defaultImage: "../../../../public/assets/images/avatar/avatar-1.png",
       previewImage: "",
-      positions: [],
+      kavlings: [],
       isSubmit: false,
     };
   },
   mounted: function () {
-    this.getPositions();
+    this.getKavlings();
     if (this.id) {
-      this.showEmployee();
+      this.showCustomer();
     }
   },
   computed: {
@@ -193,30 +178,29 @@ export default {
         fieldData.append("id", this.id);
         fieldData.append("_method", "PUT");
       }
-      fieldData.append("name", this.employee.name);
-      fieldData.append("email", this.employee.email);
-      fieldData.append("position_id", this.employee.position_id);
-      fieldData.append("type_emp", this.employee.type_emp);
-      fieldData.append("entry_date", this.employee.entry_date);
-      fieldData.append("phone", this.employee.phone);
-      fieldData.append("address", this.employee.address);
-      fieldData.append("gender", this.employee.gender);
-    //   fieldData.append("documents", this.employee.document);
-    this.employee.document.forEach((document, index) => fieldData.append('documents[' + index + ']', document));
-
-      if (this.employee.image) {
-        fieldData.append("image", this.employee.image);
+      fieldData.append("name", this.customer.name);
+      fieldData.append("email", this.customer.email);
+      fieldData.append("kavling_id", this.customer.kavling_id);
+      fieldData.append("profession", this.customer.profession);
+      fieldData.append("phone", this.customer.phone);
+      fieldData.append("address", this.customer.address);
+      fieldData.append("gender", this.customer.gender);
+      this.customer.document.forEach((document , index) => {
+        fieldData.append("documents["+index+"]", document);
+      });
+    //   fieldData.append("documents[]", this.customer.document);
+      if (this.customer.image) {
+        fieldData.append("image", this.customer.image);
       }
       return fieldData;
     },
-
   },
   methods: {
     back() {
       this.$router.back();
     },
     removeDocument(document) {
-      this.employee.document.splice(this.employee.document.indexOf(document), 1);
+      this.customer.document.splice(this.customer.document.indexOf(document), 1);
     },
     checkExtension(file) {
       const allowedExtensions = ["image/jpg", "image/png", "image/jpeg"];
@@ -249,7 +233,7 @@ export default {
 
       for (let i = 0; i < files.length; i++) {
         if (this.checkIsDocument(files[i])) {
-          this.employee.document.push(files[i]);
+          this.customer.document.push(files[i]);
         } else {
           iziToast.warning({
             title: "Peringatan",
@@ -258,13 +242,11 @@ export default {
           });
         }
       }
-
     },
     selectImage(e) {
-
       const file = e.target.files[0];
       if (this.checkExtension(file)) {
-        this.employee.image = file;
+        this.customer.image = file;
         const reader = new FileReader();
         reader.onload = (e) => {
           this.previewImage = e.target.result;
@@ -279,19 +261,19 @@ export default {
       }
     },
 
-    getPositions() {
+    getKavlings() {
       const self = this;
-      self.$store.dispatch("getData", ["position"]).then((response) => {
-        self.positions = response.data;
+      self.$store.dispatch("getData", ["kavling"]).then((response) => {
+          self.kavlings = response.data;
       });
     },
-    createEmployee() {
+    createCustomer() {
       const self = this;
       this.isSubmit = true;
-      let type = "postDataUploadEmployee";
+      let type = "postDataUploadCustomer";
       let fieldData = this.formData;
       self.$store
-        .dispatch(type, fieldData, "employee")
+        .dispatch(type, fieldData, "customer")
         .then((res) => {
           this.isSubmit = false;
           this.$router.back();
@@ -314,29 +296,30 @@ export default {
           });
         });
     },
-    showEmployee() {
+    showCustomer() {
       const self = this;
       self.$store
-        .dispatch("getData", ["/employee/" + self.id])
+        .dispatch("getData", ["/customer/" + self.id])
         .then((response) => {
-          this.previewImage = response.data.image;
-          self.employee.name = response.data.name;
-          self.employee.email = response.data.email;
-          self.employee.position_id = response.data.positionId;
-          self.employee.type_emp = response.data.status;
-          self.employee.entry_date = response.data.entryDate;
-          self.employee.phone = response.data.phone;
-          self.employee.address = response.data.address;
-          self.employee.gender = response.data.gender;
+            this.previewImage = response.data.image;
+          self.customer.name = response.data.name;
+          self.customer.email = response.data.email;
+          self.customer.profession = response.data.profession;
+          self.customer.kavling_id = response.data.kavlingId;
+          self.customer.entry_date = response.data.entryDate;
+          self.customer.phone = response.data.phone;
+          self.customer.address = response.data.address;
+          self.customer.gender = response.data.gender;
         });
     },
-    updateEmployee() {
+    updateCustomer() {
       const self = this;
       this.isSubmit = true;
-      let type = "updateDataUploadEmployee";
+      let type = "updateDataUploadCustomer";
+
       const fieldData = this.formData;
       self.$store
-        .dispatch(type, fieldData, ["employee/" + self.id])
+        .dispatch(type, fieldData, ["customer/" + self.id])
         .then((res) => {
           this.isSubmit = false;
           this.$router.back();
@@ -349,14 +332,14 @@ export default {
         .catch((err) => {
           this.isSubmit = false;
             let meta = err.response.data.meta;
-            let messages = err.response.data.meta.message;
-            Object.entries(messages).forEach(([key, value]) => {
-              iziToast.warning({
-                title: "Warning",
-                message: value,
-                position: "topRight",
-              });
+          let messages = err.response.data.meta.message;
+          Object.entries(messages).forEach(([key, value]) => {
+            iziToast.warning({
+              title: "Warning",
+              message: value,
+              position: "topRight",
             });
+          });
         });
     },
   },

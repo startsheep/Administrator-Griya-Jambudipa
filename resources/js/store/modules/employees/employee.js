@@ -1,5 +1,5 @@
 import {reject} from 'lodash'
-import ServiceApi from '../services/api'
+import ServiceApi from '../../services/api'
 const process = {
     actions : {
         postDataUploadEmployee(context , credentials , url='employee'){
