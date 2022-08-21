@@ -10,14 +10,14 @@
           <ul class="sidebar-menu">
               <li class="menu-header">Menu Utama</li>
 
-              <li class="nav-item {{ (request()->is('dashboard')) ? 'active' : '' }}">
+              <li class="nav-item ">
                 <router-link to="/" class="nav-link"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></router-link>
               </li>
-              <li class="nav-item {{ (request()->is('pegawai')) ? 'active' : '' }}">
+              <li class="nav-item ">
                 <router-link to="/employees" class="nav-link"><i class="fa-solid fa-people-group"></i><span>Data Pegawai</span></router-link>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link"><i class="fa-solid fa-people-roof"></i><span>Data Customer</span></a>
+                <router-link to="/customers"  class="nav-link"><i class="fa-solid fa-people-roof"></i><span>Data Customer</span></router-link>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link"><i class="fa-solid fa-cash-register"></i><span>Transaksi</span></a>
