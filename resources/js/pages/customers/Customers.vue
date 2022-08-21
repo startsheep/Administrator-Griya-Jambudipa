@@ -232,7 +232,6 @@ export default {
         self.pagination.currentPage = response.meta.currentPage;
         self.pagination.lastPage = response.meta.lastPage;
         self.isLoading = false;
-        console.log(response);
       });
     },
     deleteCustomer(id) {

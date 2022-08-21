@@ -258,10 +258,10 @@ export default {
           });
         }
       }
-      console.log(this.employee.document);
+
     },
     selectImage(e) {
-      console.log(e.target.files);
+
       const file = e.target.files[0];
       if (this.checkExtension(file)) {
         this.employee.image = file;
@@ -281,7 +281,6 @@ export default {
 
     getPositions() {
       const self = this;
-      console.log(this.id);
       self.$store.dispatch("getData", ["position"]).then((response) => {
         self.positions = response.data;
       });
@@ -291,7 +290,6 @@ export default {
       this.isSubmit = true;
       let type = "postDataUploadEmployee";
       let fieldData = this.formData;
-      console.log(fieldData);
       self.$store
         .dispatch(type, fieldData, "employee")
         .then((res) => {
@@ -307,8 +305,6 @@ export default {
           this.isSubmit = false;
           let meta = err.response.data.meta;
           let messages = err.response.data.meta.message;
-
-          console.log(messages);
           Object.entries(messages).forEach(([key, value]) => {
             iziToast.warning({
               title: "Warning",
@@ -323,7 +319,6 @@ export default {
       self.$store
         .dispatch("getData", ["/employee/" + self.id])
         .then((response) => {
-          console.log(response.data);
           this.previewImage = response.data.image;
           self.employee.name = response.data.name;
           self.employee.email = response.data.email;
@@ -339,7 +334,6 @@ export default {
       const self = this;
       this.isSubmit = true;
       let type = "updateDataUploadEmployee";
-      console.log(this.employee.image);
       const fieldData = this.formData;
       self.$store
         .dispatch(type, fieldData, ["employee/" + self.id])
@@ -354,7 +348,15 @@ export default {
         })
         .catch((err) => {
           this.isSubmit = false;
-          console.log(err);
+            let meta = err.response.data.meta;
+            let messages = err.response.data.meta.message;
+            Object.entries(messages).forEach(([key, value]) => {
+              iziToast.warning({
+                title: "Warning",
+                message: value,
+                position: "topRight",
+              });
+            });
         });
     },
   },

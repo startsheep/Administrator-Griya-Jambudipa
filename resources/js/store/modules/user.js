@@ -140,7 +140,7 @@ export default {
           this.edit.name = response.data.name;
         })
         .catch((error) => {
-          console.log(error);
+
         });
     },
   },
