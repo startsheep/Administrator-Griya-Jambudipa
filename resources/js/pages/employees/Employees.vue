@@ -3,14 +3,16 @@
     <div class="section-header">
       <h1>Data Pegawai</h1>
     </div>
-  <Division />
+    <Division />
     <div class="row">
       <div class="col-12 col-lg-12">
         <div class="card">
           <div class="card-header">
             <!-- <button class="btn btn-primary trigger--fire-modal-2" id="modal-2">Tambah Data</button> -->
             <!-- <button tag="router-link" to="/e    mployee/create" class="btn btn-primary">Tambah Data</button> -->
-            <router-link to="employee/create" class="btn btn-primary">Tambah</router-link>
+            <router-link to="employee/create" class="btn btn-primary"
+              >Tambah</router-link
+            >
 
             <div class="card-header-action"></div>
           </div>
@@ -39,16 +41,16 @@
                 </div>
               </div>
               <div class="col-lg-6">
-                 <input
-                v-on:keyup="search"
-                v-model="name"
-                class="form-control"
-                placeholder="Search"
-              />
+                <input
+                  v-on:keyup="search"
+                  v-model="name"
+                  class="form-control"
+                  placeholder="Search"
+                />
               </div>
             </div>
             <div class="table-responsive">
-              <table class="table table-striped" >
+              <table class="table table-striped">
                 <thead>
                   <tr>
                     <th>Nama</th>
@@ -64,9 +66,9 @@
                     <td width="30%" class="align-middle">
                       <div class="media">
                         <img
-                        style="object-fit: contain; width: 50px; height: 50px;"
-                          class="img-thumbnail rounded-circle mr-2 "
-                          :src="'/storage/'+employee.image"
+                          style="object-fit: contain; width: 50px; height: 50px"
+                          class="img-thumbnail rounded-circle mr-2"
+                          :src="'/storage/' + employee.image"
                           alt=""
                         />
                         <div class="media-body">
@@ -85,32 +87,55 @@
                       <span>{{ formatRupiah(employee.position.salary) }}</span>
                     </td>
                     <td width="20%" class="align-middle">
-
-                       <div v-if="employee.isActive == 1" class="badge badge-success">Aktif</div>
-                       <div v-else class="badge badge-danger">Aktif</div>
+                      <div
+                        v-if="employee.isActive == 1"
+                        class="badge badge-success"
+                      >
+                        Aktif
+                      </div>
+                      <div v-else class="badge badge-danger">Aktif</div>
                     </td>
 
                     <td width="20%" class="align-middle">
-                      <div v-if="employee.status == 1" class="badge badge-success">Pegawai Tetap</div>
-                      <div v-else class="badge badge-secondary text-dark">Pegawai Tidak Tetap</div>
+                      <div
+                        v-if="employee.status == 1"
+                        class="badge badge-success"
+                      >
+                        Pegawai Tetap
+                      </div>
+                      <div v-else class="badge badge-secondary text-dark">
+                        Pegawai Tidak Tetap
+                      </div>
                     </td>
                     <td width="10%" class="align-middle text-center">
                       <div class="show">
-                        <i
+                         <button data-toggle="dropdown" class="btn btn-transparent">
+                            <i
                           class="fa-solid fa-ellipsis-vertical dropdown-toggle"
-                          data-toggle="dropdown"
                           aria-expanded="true"
                         ></i>
-                        <div class="dropdown-menu action ">
-                          <router-link class="dropdown-item action sortable" :to="'/employee/'+employee.id+'/edit'" >Edit </router-link>
-                          <span class="dropdown-item action sortable" @click="deleteEmployees(employee.id)" >Hapus</span>
-                          <span class="dropdown-item action sortable" >Detail</span>
+                        </button>
+                        <div class="dropdown-menu action">
+                          <router-link
+                            class="dropdown-item action sortable"
+                            :to="'/employee/' + employee.id + '/edit'"
+                            >Edit
+                          </router-link>
+                          <span
+                            class="dropdown-item action sortable"
+                            @click="deleteEmployees(employee.id)"
+                            >Hapus</span
+                          >
+                          <span class="dropdown-item action sortable"
+                            >Detail</span
+                          >
                         </div>
                       </div>
                     </td>
                   </tr>
                 </tbody>
               </table>
+               <CircleLoader v-if="isLoading" />
             </div>
           </div>
           <div class="card-footer">
@@ -133,7 +158,7 @@ import Pagination from "../../components/Pagination.vue";
 import Utils from "../../store/services/utils";
 import CircleLoader from "../../components/CircleLoader.vue";
 import Division from "./Division.vue";
-import CreateEditEmployee from "./CreateEditEmployee.vue"
+import CreateEditEmployee from "./CreateEditEmployee.vue";
 export default {
   data() {
     return {
@@ -156,11 +181,10 @@ export default {
   mounted() {
     this.getEmployees();
   },
-  computed: {
-  },
+  computed: {},
   methods: {
-showLogUpdate(date){
-        return moment(date).fromNow();
+    showLogUpdate(date) {
+      return moment(date).fromNow();
     },
     formatRupiah(number) {
       // console.log(Utils.parseRupiah(Utils.formatRupiah(number,"Rp. ")))
@@ -216,14 +240,11 @@ showLogUpdate(date){
         });
     },
 
-
     onPageChange(page) {
-    //   this.isLoading = true;
+      //   this.isLoading = true;
       this.pagination.page = page;
       this.getEmployees();
     },
-
-
   },
   components: { Pagination, CircleLoader, Division },
 };
