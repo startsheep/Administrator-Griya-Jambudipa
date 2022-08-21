@@ -25,7 +25,6 @@ class EmployeeFactory extends Factory
             'gender' => 'L',
             'entry_date' => now(),
             'address' => fake()->address(),
-            'image' => fake()->imageUrl(),
             'is_active' => 1,
             'status' => 1,
         ];
