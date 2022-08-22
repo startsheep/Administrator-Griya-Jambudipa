@@ -3,12 +3,14 @@ import employee from "./modules/employees";
 import Dashboard from "../pages/Dashboard.vue";
 import customer from "./modules/customer";
 import companyProfile from "./modules/company_profile";
+import house from "./modules/type-house";
 
 const routes = [
     ...auth,
     ...employee,
     ...customer,
     ...companyProfile,
+    ...house,
     {
         path: "/",
         name: "Dashboard",

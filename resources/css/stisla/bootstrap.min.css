@@ -6302,6 +6302,7 @@ a.close.disabled {
     position: relative;
     display: -ms-flexbox;
     display: flex;
+    /* z-index: 999; */
     -ms-flex-direction: column;
     flex-direction: column;
     width: 100%;
@@ -6314,13 +6315,13 @@ a.close.disabled {
 }
 
 .modal-backdrop {
-    position: fixed;
+    /* position: fixed;
     top: 0;
     left: 0;
-    z-index: 1040;
+    z-index: 999;
     width: 100vw;
     height: 100vh;
-    background-color: #000
+    background-color: #000 */
 }
 
 .modal-backdrop.fade {
