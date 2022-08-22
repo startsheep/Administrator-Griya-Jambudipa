@@ -3,12 +3,13 @@
 namespace App\Http\Repositories\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 interface CustomerContract
 {
     public function all($request);
 
-    public function store(array $attributes): ?Model;
+    public function store(array $attributes): ?Collection;
 
     public function find($id): Model;
 

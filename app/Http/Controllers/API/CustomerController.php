@@ -29,10 +29,14 @@ class CustomerController extends Controller
     public function store(CreateCustomerRequest $request)
     {
         $result = $this->customerRepository->store($request->all());
-        return response()->json([
-            'message' => 'success',
-            'data' => $result
-        ]);
+        $output = $result;
+        return response()->json(
+            [
+                'message' => $output['message'],
+                'type' => $output['type'],
+            ],
+            $output['status']
+        );
     }
 
     public function show($id)

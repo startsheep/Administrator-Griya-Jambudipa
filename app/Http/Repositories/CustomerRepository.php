@@ -6,6 +6,8 @@ use App\Http\Repositories\Contracts\CustomerContract;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\CustomerSearch;
 use App\Models\Customer;
+use App\Models\Kavling;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class CustomerRepository implements CustomerContract
@@ -26,8 +28,20 @@ class CustomerRepository implements CustomerContract
         return $employees;
     }
 
-    public function store(array $attributes): Customer
+    public function store(array $attributes): Collection
     {
+        foreach ($attributes['kavlings'] as $kavling_id) {
+            $cekKavling = Kavling::find($kavling_id);
+
+            if (!$cekKavling) {
+                return collect([
+                    'message' => 'data kavling tidak ditemukan!',
+                    'type' => 'error',
+                    'status' => 400
+                ]);
+            }
+        }
+
         if (isset($attributes['image'])) {
             if (isset($attributes['image']) && $attributes['image']) {
                 $attributes['image'] = $this->storageFile($attributes['image'], 'customer');
@@ -36,13 +50,23 @@ class CustomerRepository implements CustomerContract
 
         $result = $this->customer->create($attributes);
 
+        foreach ($attributes['kavlings'] as $kavling_id) {
+            $attributes['kavling_id'] = $kavling_id;
+
+            $result->kavling()->create($attributes);
+        }
+
         if (isset($attributes['documents'])) {
             if (isset($attributes['documents']) && $attributes['documents']) {
                 $this->multipleUpload($attributes['documents'], $result);
             }
         }
 
-        return $result;
+        return collect([
+            'message' => 'success',
+            'type' => 'success',
+            'status' => 200
+        ]);
     }
 
     public function find($id): Customer
@@ -52,6 +76,18 @@ class CustomerRepository implements CustomerContract
 
     public function update(array $attributes, $result)
     {
+        foreach ($attributes['kavlings'] as $kavling_id) {
+            $cekKavling = Kavling::find($kavling_id);
+
+            if (!$cekKavling) {
+                return collect([
+                    'message' => 'data kavling tidak ditemukan!',
+                    'type' => 'error',
+                    'status' => 400
+                ]);
+            }
+        }
+
         if (isset($attributes['image'])) {
             if (isset($attributes['image']) && $attributes['image']) {
                 Storage::delete($result->image);
@@ -60,6 +96,14 @@ class CustomerRepository implements CustomerContract
         }
 
         $result->update($attributes);
+        $result->kavling()->delete();
+
+        foreach ($attributes['kavlings'] as $kavling_id) {
+
+            $attributes['kavling_id'] = $kavling_id;
+
+            $result->kavling()->create($attributes);
+        }
 
         if (isset($attributes['documents'])) {
             if (isset($attributes['documents']) && $attributes['documents']) {
