@@ -3,6 +3,8 @@
     :editor="editor"
     v-model="editorData"
     :config="editorConfig"
+    @input="onChange"
+    @reset="onReset"
   ></ckeditor>
 </template>
 <script>
@@ -19,14 +21,19 @@ export default {
       editorConfig: {
         // The configuration of the editor.
         // height: '500px',
+        // width: '100%',
       },
     };
   },
   methods: {
     onChange(event) {
-      const value = this.editor.getData();
-      this.$emit("update:modelValue", value);
+      const value = event;
+      this.$emit("update-editor", value);
     },
+  },
+  onReset() {
+    this.editorData = "";
+    this.$emit("reset", this.editorData);
   },
 };
 </script>
