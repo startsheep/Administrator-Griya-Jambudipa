@@ -9,5 +9,14 @@ class HouseType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['house_type'];
+    protected $fillable = [
+        'house_type',
+        'description',
+        'price'
+    ];
+
+    public function document()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
 }

@@ -26,15 +26,26 @@ class HouseTypeRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'house_type' => 'required'
+        $request = [
+            'house_type' => 'required',
+            'description' => 'required',
+            'price' => 'required'
         ];
+
+        if (request()->images) {
+            $request['images'] = 'required';
+        }
+
+        return $request;
     }
 
     public function messages()
     {
         return [
             'house_type.required' => "tipe rumah harap diisi!",
+            'description.required' => "keterangan harap diisi!",
+            'price.required' => "harga harap diisi!",
+            'images' => "image harap diisi!"
         ];
     }
 
