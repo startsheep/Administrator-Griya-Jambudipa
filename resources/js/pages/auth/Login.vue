@@ -117,7 +117,6 @@ export default {
       this.$store
         .dispatch("postData", ["auth/login", this.user])
         .then((response) => {
-          console.log(response);
           Cookie.set("token", response.data.token);
           Cookie.set("user", JSON.stringify(response.data.user));
           iziToast.success({

@@ -42,7 +42,7 @@
                 <a href="#" class="nav-link"><i class="fa-solid fa-maximize"></i><span>Luas Tanah</span></a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link"><i class="fa-solid fa-house-circle-check"></i><span>Tipe Rumah</span></a>
+                <router-link to="/type-house" class="nav-link"><i class="fa-solid fa-house-circle-check"></i><span>Tipe Rumah</span></router-link>
               </li>
               <li>
                 <a href="#" class="nav-link"><i class="fas fa-gear"></i><span>Settings</span></a></li>

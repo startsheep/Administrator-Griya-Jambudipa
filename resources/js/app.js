@@ -8,12 +8,14 @@ import store from "./store";
 
 import izitoast from "izitoast";
 import VueSweetalert2 from 'vue-sweetalert2';
+import  CKEditor from "@ckeditor/ckeditor5-vue";
+// import 'izitoast/dist/css/iziToast.min.css';
+
+// import Summernote from 'summernote';
 
 
-// import css
 import "../css/app.css";
-// import "../../public/assets/js/script.js";
-// import "../../public/assets/js/stisla";
+
 
 import { bindAll } from "lodash";
 
@@ -23,7 +25,7 @@ if(!Cookie.get("user") && !Cookie.get('token')){
 } else {
 }
 createApp(Auth).use(router).use(store).use(izitoast).mount("#auth");
-createApp(App).use(router).use(store).use(VueSweetalert2).mount("#app");
+createApp(App).use(router).use(store).use(VueSweetalert2).use(CKEditor).mount("#app");
 
 
 
