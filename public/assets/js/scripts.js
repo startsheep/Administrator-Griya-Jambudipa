@@ -371,13 +371,14 @@ $(function() {
        dialogsInBody: true,
       minHeight: 250,
     });
+    // console.log('tes')
     $(".summernote-simple").summernote({
        dialogsInBody: true,
       minHeight: 150,
       toolbar: [
         ['style', ['bold', 'italic', 'underline', 'clear']],
         ['font', ['strikethrough']],
-        ['para', ['paragraph']]
+        ['para', ['paragraph' , 'ul' ,'ol'] ]
       ]
     });
   }
