@@ -16,6 +16,10 @@ const Utils = {
     },
     parseRupiah(rupiah) {
         return parseInt(rupiah.replace(/[^0-9]/g, ''));
+    },
+    checkExtensionImage(file){
+        const allowedExtensions =['image/jpg', 'image/png', 'image/jpeg']
+        return allowedExtensions.includes(file);
     }
 
 }
