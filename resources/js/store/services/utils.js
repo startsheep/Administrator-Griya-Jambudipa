@@ -20,7 +20,11 @@ const Utils = {
     checkExtensionImage(file){
         const allowedExtensions =['image/jpg', 'image/png', 'image/jpeg']
         return allowedExtensions.includes(file);
-    }
+    },
+    parseHtmlFromEditor(html){
+        return html.replace(/<[^>]*>/g, '');
+    },
+
 
 }
 export default Utils
