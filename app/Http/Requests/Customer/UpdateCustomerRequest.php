@@ -27,7 +27,7 @@ class UpdateCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'kavling_id' => 'required',
+            'kavlings' => 'required',
             'name' => 'required',
             'email' => 'required|email',
             'phone' => 'required|numeric',
@@ -41,7 +41,7 @@ class UpdateCustomerRequest extends FormRequest
     public function messages()
     {
         return [
-            'kavling_id.required' => "kavling harap diisi!",
+            'kavlings.required' => "kavling harap diisi!",
             'name.required' => "nama harap diisi!",
             'phone.required' => "telepon harap diisi!",
             'phone.numeric' => "telepon harap diisi dengan angka!",

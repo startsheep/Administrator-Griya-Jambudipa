@@ -28,6 +28,6 @@ class Customer extends Model
 
     public function kavling()
     {
-        return $this->hasOne(Kavling::class, 'id', 'kavling_id');
+        return $this->morphMany(CustomerKavling::class, 'customerable');
     }
 }
