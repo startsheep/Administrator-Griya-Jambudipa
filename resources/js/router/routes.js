@@ -1,12 +1,14 @@
 import auth from "./services/auth";
 import employee from "./modules/employees";
 import Dashboard from "../pages/Dashboard.vue";
-import customer from './modules/customer'
+import customer from "./modules/customer";
+import companyProfile from "./modules/company_profile";
 
 const routes = [
     ...auth,
-...employee,
-...customer,
+    ...employee,
+    ...customer,
+    ...companyProfile,
     {
         path: "/",
         name: "Dashboard",
@@ -16,15 +18,14 @@ const routes = [
             middleware: "auth",
         },
     },
-     {
-         path: "/customers",
-         name: "customers",
-         component: () => import("../pages/customers/Customers.vue"),
-         meta: {
-             title: "Customers",
-         }
-     },
-
+    {
+        path: "/customers",
+        name: "customers",
+        component: () => import("../pages/customers/Customers.vue"),
+        meta: {
+            title: "Customers",
+        },
+    },
 ];
 
 export default routes;
