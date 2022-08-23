@@ -21,6 +21,7 @@
                                     : '/assets/images/logo.png'
                             "
                             alt=""
+                            style="width: 100%"
                             height="284"
                         />
                     </div>
@@ -32,22 +33,21 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="row justify-content-between font-weight-bold">
-                        <div class="col-lg-4">Email</div>
-                        <div class="col-lg-3">:</div>
-                        <div class="col-lg-5">{{ profile.email }}</div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="row justify-content-between font-weight-bold">
-                        <div class="col-lg-4">No Telp</div>
-                        <div class="col-lg-3">:</div>
-                        <div class="col-lg-5">{{ profile.phone }}</div>
-                    </div>
-                </div>
-            </div>
+            <table
+                class="table d-flex justify-content-around flex-column flex-sm-row"
+                style="width: 100%"
+            >
+                <tr>
+                    <th>Email</th>
+                    <th>:</th>
+                    <th>{{ profile.email }}</th>
+                </tr>
+                <tr>
+                    <th>No Telp</th>
+                    <th>:</th>
+                    <th>{{ profile.phone }}</th>
+                </tr>
+            </table>
             <div class="text-center mt-5">
                 {{ profile.address }}
             </div>
@@ -204,6 +204,12 @@ export default {
                 .dispatch("getData", ["company-profile"])
                 .then((response) => {
                     self.profile = response.data;
+                    self.form.name = response.data.name;
+                    self.form.email = response.data.email;
+                    self.form.phone = response.data.phone;
+                    self.form.url = response.data.url;
+                    self.form.address = response.data.address;
+                    self.previewLogo = "/storage/" + response.data.logo;
                     self.isLoading = false;
                 });
         },
@@ -223,7 +229,13 @@ export default {
                 ])
                 .then((result) => {
                     this.isSubmit = false;
-                    this.$router.back();
+
+                    $("#editCompanyModal").hide("modal");
+                    $(".modal-backdrop").remove();
+                    $(".sidebar-gone").removeClass("modal-open");
+                    $(".sidebar-gone").removeAttr("style");
+
+                    self.getProfile();
                     iziToast.success({
                         title: "Success",
                         message: "Data berhasil diubah",
@@ -250,4 +262,22 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.modal-backdrop {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    background-color: black;
+}
+
+.modal-backdrop.fade {
+    opacity: 0;
+}
+
+.modal-backdrop.show {
+    opacity: 0.5;
+}
+</style>
