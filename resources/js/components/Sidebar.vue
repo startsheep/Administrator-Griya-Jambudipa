@@ -52,7 +52,7 @@
                 </li>
                 <li class="menu-header">Data Master</li>
                 <li class="nav-item">
-                    <router-link href="/company_profile" class="nav-link"
+                    <router-link to ="/company_profile" class="nav-link"
                         ><i class="fa-solid fa-building"></i
                         ><span>Profile Perusahaan</span></router-link
                     >
