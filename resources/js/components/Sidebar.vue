@@ -76,9 +76,9 @@
                     >
                 </li>
                 <li class="nav-item">
-                    <a href="/type-house" class="nav-link"
+                    <router-link to="/type-house" class="nav-link"
                         ><i class="fa-solid fa-house-circle-check"></i
-                        ><span>Tipe Rumah</span></a
+                        ><span>Tipe Rumah</span></router-link
                     >
                 </li>
                 <li>
