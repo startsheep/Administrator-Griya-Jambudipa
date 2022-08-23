@@ -52,9 +52,9 @@
                 </li>
                 <li class="menu-header">Data Master</li>
                 <li class="nav-item">
-                    <a href="/company_profile" class="nav-link"
+                    <router-link href="/company_profile" class="nav-link"
                         ><i class="fa-solid fa-building"></i
-                        ><span>Profile Perusahaan</span></a
+                        ><span>Profile Perusahaan</span></router-link
                     >
                 </li>
                 <li class="nav-item">
@@ -76,9 +76,9 @@
                     >
                 </li>
                 <li class="nav-item">
-                    <a href="/type-house" class="nav-link"
+                    <router-link to="/type-house" class="nav-link"
                         ><i class="fa-solid fa-house-circle-check"></i
-                        ><span>Tipe Rumah</span></a
+                        ><span>Tipe Rumah</span></router-link
                     >
                 </li>
                 <li>
