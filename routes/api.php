@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 includeRouteFiles(__DIR__ . '/api');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
