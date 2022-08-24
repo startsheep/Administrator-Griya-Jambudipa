@@ -9,11 +9,7 @@ import store from "./store";
 import izitoast from "izitoast";
 import VueSweetalert2 from 'vue-sweetalert2';
 import  CKEditor from "@ckeditor/ckeditor5-vue";
-// import 'izitoast/dist/css/iziToast.min.css';
-
-// import Summernote from 'summernote';
-
-
+import Multiselect from "vue-multiselect";
 import "../css/app.css";
 
 
