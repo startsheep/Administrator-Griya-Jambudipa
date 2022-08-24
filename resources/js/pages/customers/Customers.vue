@@ -87,14 +87,14 @@
 
                     <td width="20%" class="align-middle">
                       <div
-                        v-if="customer.kavling.length > 0"
+                        v-if="customer.customerKavling.length > 0"
                         class="badge badge-success"
                       >
-                        <span v-for="kavling in customer.kavling" >
-                           {{ kavling.block }}  | {{ kavling.numberKavling }} ,
+                        <span v-for="kavlings in customer.customerKavling" >
+                           {{ kavlings.kavling.block }}  | {{ kavlings.kavling.numberKavling }} ,
                         </span>
                       </div>
-                      <div v-else-if="customer.kavling.length <1" class="badge badge-danger">
+                      <div v-else-if="customer.customerKavling.length <1" class="badge badge-danger">
                         Belum Transaksi
                       </div>
                     </td>
@@ -205,6 +205,7 @@ export default {
         self.pagination.currentPage = response.meta.currentPage;
         self.pagination.lastPage = response.meta.lastPage;
         self.isLoading = false;
+        // console.log(self.customers)
       });
     },
     deleteCustomer(id) {
