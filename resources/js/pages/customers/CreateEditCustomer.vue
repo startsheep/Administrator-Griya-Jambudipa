@@ -1,3 +1,4 @@
+
 <template>
   <Transition name="fade">
     <section class="section">
@@ -20,10 +21,9 @@
                   />
                 </div>
 
-
                 <div class="form-group col-lg-6">
                   <label>Pekerjaan</label>
-                   <input
+                  <input
                     v-model="customer.profession"
                     type="text"
                     class="form-control"
@@ -62,15 +62,30 @@
                 </div>
 
                 <div class="form-group col-lg-6">
-                 <label>Blok Kavling</label>
-                  <select
-                    v-model="customer.kavling_id"
-                    class="form-control form-control"
+                  <label class="typo__label">Blok Kavling</label>
+                  <multiselect
+                    v-model="customer.kavlings"
+                    :options="kavlings"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :preserve-search="true"
+                    placeholder="Pick some"
+                    label="block"
+                    track-by="block"
+                    :preselect-first="true"
                   >
-                    <option v-for="kavling in kavlings" :key="kavling.id" :value="kavling.id">{{ kavling.block }} - {{ kavling.numberKavling }}</option>
-
-
-                  </select>
+                    <template
+                      slot="selection"
+                      slot-scope="{ values, search, isOpen }"
+                      ><span
+                        class="multiselect__single"
+                        v-if="values.length &amp;&amp; !isOpen"
+                        >{{ values.length }} options selected</span
+                      ></template
+                    >
+                  </multiselect>
+                  <!-- <pre class="language-json"><code>{{ value  }}</code></pre> -->
                 </div>
                 <div class="custom-file form-group col-lg-6">
                   <input
@@ -97,7 +112,7 @@
                   </div>
                 </div>
 
-<div class="form-group col-lg-12">
+                <div class="form-group col-lg-12">
                   <label>Alamat</label>
                   <textarea
                     v-model="customer.address"
@@ -105,7 +120,6 @@
                     rows="1"
                   ></textarea>
                 </div>
-
               </form>
               <div class="row">
                 <div class="col-lg-6">
@@ -114,8 +128,16 @@
                   </div>
                 </div>
                 <div class="col-lg-6">
-                  <div v-for="document in customer.document" :key="document" class="badge badge-primary m-1 p-2">
-                    {{ document.name }} <i class="fas fa-times sortable" @click="removeDocument(document)"></i>
+                  <div
+                    v-for="document in customer.document"
+                    :key="document"
+                    class="badge badge-primary m-1 p-2"
+                  >
+                    {{ document.name }}
+                    <i
+                      class="fas fa-times sortable"
+                      @click="removeDocument(document)"
+                    ></i>
                   </div>
                 </div>
               </div>
@@ -142,19 +164,22 @@
   </Transition>
 </template>
 <script>
+import Multiselect from "vue-multiselect";
 import iziToast from "izitoast";
 import moment from "moment";
 
 export default {
   props: ["id"],
+  components: { Multiselect },
   data() {
     return {
+    //   value: [],
       customer: {
         name: "",
         email: "",
         profession: "",
-        kavling_id: "",
-        phone : "",
+        kavlings: [],
+        phone: "",
         address: "",
         gender: "",
         image: "",
@@ -174,21 +199,26 @@ export default {
   computed: {
     formData() {
       const fieldData = new FormData();
+      let kavlings_id =[];
+    //   this.customer.kavlings.forEach((kav , index)=>kavlings_id.push(kav.id))
       if (this.id) {
         fieldData.append("id", this.id);
         fieldData.append("_method", "PUT");
       }
+      this.customer.kavlings.forEach((kav , index)=>{
+        fieldData.append("kavlings[" + index + "]", kav.id);
+      })
       fieldData.append("name", this.customer.name);
       fieldData.append("email", this.customer.email);
-      fieldData.append("kavling_id", this.customer.kavling_id);
+    //   fieldData.append("kavlings", kavlings_id);
       fieldData.append("profession", this.customer.profession);
       fieldData.append("phone", this.customer.phone);
       fieldData.append("address", this.customer.address);
       fieldData.append("gender", this.customer.gender);
-      this.customer.document.forEach((document , index) => {
-        fieldData.append("documents["+index+"]", document);
+      this.customer.document.forEach((document, index) => {
+        fieldData.append("documents[" + index + "]", document);
       });
-    //   fieldData.append("documents[]", this.customer.document);
+      //   fieldData.append("documents[]", this.customer.document);
       if (this.customer.image) {
         fieldData.append("image", this.customer.image);
       }
@@ -200,7 +230,10 @@ export default {
       this.$router.back();
     },
     removeDocument(document) {
-      this.customer.document.splice(this.customer.document.indexOf(document), 1);
+      this.customer.document.splice(
+        this.customer.document.indexOf(document),
+        1
+      );
     },
     checkExtension(file) {
       const allowedExtensions = ["image/jpg", "image/png", "image/jpeg"];
@@ -264,10 +297,12 @@ export default {
     getKavlings() {
       const self = this;
       self.$store.dispatch("getData", ["kavling"]).then((response) => {
-          self.kavlings = response.data;
+        self.kavlings = response.data;
+        console.log(this.kavlings);
       });
     },
     createCustomer() {
+        console.log(this.customer.kavling_id)
       const self = this;
       this.isSubmit = true;
       let type = "postDataUploadCustomer";
@@ -298,14 +333,16 @@ export default {
     },
     showCustomer() {
       const self = this;
+
       self.$store
         .dispatch("getData", ["/customer/" + self.id])
         .then((response) => {
-            this.previewImage = response.data.image;
+            console.log(response);
+          this.previewImage = response.data.image;
           self.customer.name = response.data.name;
           self.customer.email = response.data.email;
           self.customer.profession = response.data.profession;
-          self.customer.kavling_id = response.data.kavlingId;
+          self.customer.kavlings =response.data.kavling;
           self.customer.entry_date = response.data.entryDate;
           self.customer.phone = response.data.phone;
           self.customer.address = response.data.address;
@@ -331,7 +368,7 @@ export default {
         })
         .catch((err) => {
           this.isSubmit = false;
-            let meta = err.response.data.meta;
+          let meta = err.response.data.meta;
           let messages = err.response.data.meta.message;
           Object.entries(messages).forEach(([key, value]) => {
             iziToast.warning({
