@@ -70,9 +70,9 @@
                     >
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link"
+                    <router-link to="/kavlings" class="nav-link"
                         ><i class="fa-solid fa-maximize"></i
-                        ><span>Luas Tanah</span></a
+                        ><span>Kavling</span></router-link
                     >
                 </li>
                 <li class="nav-item">
