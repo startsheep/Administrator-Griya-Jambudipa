@@ -2430,17 +2430,7 @@ ul.nav-tabs li.nav-item a.nav-link.active i {
 
 /* 4. Theme Style */
 /* 4.1 Misc */
-:root {
-  /* Colors */
-  --primary: #6777ef;
-  --secondary: #34395e;
-  --success: #47c363;
-  --info: #3abaf4;
-  --warning: #ffa426;
-  --danger: #fc544b;
-  --light: #e3eaef;
-  --dark: #191d21;
-}
+
 
 body, html {
   min-height: 100%;
