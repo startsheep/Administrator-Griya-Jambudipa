@@ -271,7 +271,6 @@ export default {
         this.isFormEdit = false;
         },
     getEditorValue(event){
-        console.log(event)
         this.house.description = event
     },
     showDetail(img) {
@@ -311,7 +310,7 @@ export default {
     },
 
     selectImages(e) {
-      console.log(e);
+
       const files = e.target.files;
       for (let i = 0; i < files.length; i++) {
         if (this.checkExtension(files[i])) {
@@ -347,8 +346,6 @@ export default {
                 self.house.id = house.id
                 self.house.images = house.document
                 self.updatePreviewImage(house.document)
-
-                console.log(self.previewImages)
                 // this.house = house;
             }
         })
@@ -365,7 +362,6 @@ export default {
         `per_page=${this.pagination.perPage}`,
       ].join('&');
       self.$store.dispatch("getData", ["house-type", params]).then((res) => {
-          console.log(res.data)
         self.houses = res.data;
         self.pagination.total = res.meta.total;
         self.pagination.currentPage = res.meta.currentPage;
