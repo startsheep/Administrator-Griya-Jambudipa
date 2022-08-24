@@ -1,8 +1,9 @@
 @import './stisla/bootstrap.min.css';
 @import '../../node_modules/chocolat/dist/css/chocolat.css';
 @import './stisla/custom.css';
-@import './stisla/style.css';
 @import './stisla/components.css';
+@import './stisla/style.css';
 @import '../../node_modules/izitoast/dist/css/iziToast.min.css';
 @import '../../node_modules/sweetalert2/dist/sweetalert2.min.css';
+@import '../../node_modules/vue-multiselect/dist/vue-multiselect.css';
 /* @import '../../node_modules/summernote/dist/summernote-bs4.css'; */
