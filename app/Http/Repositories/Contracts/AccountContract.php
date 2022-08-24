@@ -16,4 +16,8 @@ interface AccountContract
     public function update(array $attributes, $result);
 
     public function delete($result);
+
+    public function changePassword(array $attributes, $result);
+
+    public function changeStatus(array $attributes, $result);
 }
