@@ -91,7 +91,7 @@
                         class="badge badge-success"
                       >
                         <span v-for="kavling in customer.kavling" >
-                            {{ kavling.id  }} | {{ kavling.id }}
+                           {{ kavling.block }}  | {{ kavling.numberKavling }} ,
                         </span>
                       </div>
                       <div v-else-if="customer.kavling.length <1" class="badge badge-danger">
