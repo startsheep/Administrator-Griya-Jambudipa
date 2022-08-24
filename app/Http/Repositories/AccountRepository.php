@@ -94,4 +94,29 @@ class AccountRepository implements AccountContract
         }
         return $result;
     }
+
+    public function changePassword(array $attributes, $result)
+    {
+        $result->update($attributes);
+
+        return collect([
+            'message' => 'success',
+            'type' => 'success',
+            'data' => $result,
+            'status' => 200
+        ]);
+    }
+
+    public function changeStatus(array $attributes, $result)
+    {
+        $result->is_active = $attributes['active'] ? 1 : 2;
+        $result->save();
+
+        return collect([
+            'message' => "success",
+            'type' => 'success',
+            'data' => $result,
+            'status' => 200
+        ]);
+    }
 }
