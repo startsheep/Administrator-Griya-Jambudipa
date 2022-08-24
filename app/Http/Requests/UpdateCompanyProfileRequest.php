@@ -32,7 +32,7 @@ class UpdateCompanyProfileRequest extends FormRequest
             'phone' => 'required|numeric',
             'url' => 'required',
             'address' => 'required',
-            'logo' => 'required|image|mimes:png,jpg,jpeg',
+            'logo' => 'image|mimes:png,jpg,jpeg',
         ];
     }
 
@@ -46,7 +46,6 @@ class UpdateCompanyProfileRequest extends FormRequest
             'phone.numeric' => "telepon harap diisi dengan angka!",
             'url.required' => ":attribute harap diisi!",
             'address.required' => "alamat harap diisi!",
-            'logo.required' => ":attribute harap diisi!",
             'logo.image' => "harap masukan tipe data gambar!",
             'logo.mimes' => "harap masukan tipe data png, jpg, jpeg!",
         ];
