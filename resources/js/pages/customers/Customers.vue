@@ -87,14 +87,14 @@
 
                     <td width="20%" class="align-middle">
                       <div
-                        v-if="customer.kavling.block"
+                        v-if="customer.kavling.length > 0"
                         class="badge badge-success"
                       >
-                        {{ customer.kavling.block }}-{{
-                          customer.kavling.numberKavling
-                        }}
+                        <span v-for="kavling in customer.kavling" >
+                            {{ kavling.id  }} | {{ kavling.id }}
+                        </span>
                       </div>
-                      <div v-else class="badge badge-danger">
+                      <div v-else-if="customer.kavling.length <1" class="badge badge-danger">
                         Belum Transaksi
                       </div>
                     </td>

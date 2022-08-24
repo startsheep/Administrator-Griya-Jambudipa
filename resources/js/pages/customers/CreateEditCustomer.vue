@@ -298,11 +298,9 @@ export default {
       const self = this;
       self.$store.dispatch("getData", ["kavling"]).then((response) => {
         self.kavlings = response.data;
-        console.log(this.kavlings);
       });
     },
     createCustomer() {
-        console.log(this.customer.kavling_id)
       const self = this;
       this.isSubmit = true;
       let type = "postDataUploadCustomer";
