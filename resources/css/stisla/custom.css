@@ -127,4 +127,11 @@ width:100px;
 
     transition: all .2s ease-in-out;
 }
+.form-control{
+background-color: var(--light) !important;
+border-color: var(--light) !important;
+}
+.form-control:focus{
+    border-color: var(--primary)!important;
+}
 /*#     sourceMappingURL=custom.css.map */
