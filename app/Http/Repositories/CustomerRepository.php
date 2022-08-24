@@ -23,7 +23,7 @@ class CustomerRepository implements CustomerContract
     public function all($request)
     {
         $factory = app()->make(CustomerSearch::class);
-        $employees = $factory->apply()->with(['document', 'kavling'])->paginate($request->per_page);
+        $employees = $factory->apply()->with(['document', 'customerKavling.kavling'])->paginate($request->per_page);
 
         return $employees;
     }
@@ -51,9 +51,9 @@ class CustomerRepository implements CustomerContract
         $result = $this->customer->create($attributes);
 
         foreach ($attributes['kavlings'] as $kavling_id) {
-            $attributes['kavling_id'] = $kavling_id;
-
-            $result->kavling()->create($attributes);
+            $result->customerKavling()->create([
+                'kavling_id' => $kavling_id
+            ]);
         }
 
         if (isset($attributes['documents'])) {
@@ -71,7 +71,7 @@ class CustomerRepository implements CustomerContract
 
     public function find($id): Customer
     {
-        return $this->customer->with(['document', 'kavling'])->find($id);
+        return $this->customer->with(['document', 'customerKavling.kavling'])->find($id);
     }
 
     public function update(array $attributes, $result)
@@ -96,13 +96,12 @@ class CustomerRepository implements CustomerContract
         }
 
         $result->update($attributes);
-        $result->kavling()->delete();
+        $result->customerKavling()->delete();
 
         foreach ($attributes['kavlings'] as $kavling_id) {
-
-            $attributes['kavling_id'] = $kavling_id;
-
-            $result->kavling()->create($attributes);
+            $result->customerKavling()->create([
+                'kavling_id' => $kavling_id
+            ]);
         }
 
         if (isset($attributes['documents'])) {
@@ -137,7 +136,7 @@ class CustomerRepository implements CustomerContract
             Storage::delete($result->image);
         }
 
-        $result->delete();
+        $result->customerKavling()->delete();
 
         return $result->delete();
     }

@@ -18,4 +18,9 @@ class Kavling extends Model
         'area_kavling',
         'area_building'
     ];
+
+    public function customerKavling()
+    {
+        return $this->morphMany(CustomerKavling::class, 'kavlingable');
+    }
 }

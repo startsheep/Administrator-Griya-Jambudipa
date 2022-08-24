@@ -9,10 +9,10 @@ class CustomerKavling extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['kavling_id', 'customerable_id', 'customerable_type'];
+    protected $fillable = ['customer_id', 'kavling_id'];
 
-    public function customerable()
+    public function kavling()
     {
-        return $this->morphTo();
+        return $this->hasOne(Kavling::class, 'id', 'kavling_id');
     }
 }

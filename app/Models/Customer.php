@@ -26,8 +26,8 @@ class Customer extends Model
         return $this->morphMany(Document::class, 'documentable');
     }
 
-    public function kavling()
+    public function customerKavling()
     {
-        return $this->morphMany(CustomerKavling::class, 'customerable');
+        return $this->hasMany(CustomerKavling::class, 'customer_id');
     }
 }
