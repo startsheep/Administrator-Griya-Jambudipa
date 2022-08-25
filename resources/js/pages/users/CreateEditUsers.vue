@@ -18,6 +18,7 @@
                         class="close"
                         data-dismiss="modal"
                         aria-label="Close"
+                        @click="emptyForm()"
                     >
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -51,17 +52,19 @@
                                 id="phone"
                             />
                         </div>
-                        <div class="form-group" v-if="previewLogo">
-                            <img :src="previewLogo" style="width: 100%" />
+                        <div class="form-group" v-if="previewImage">
+                            <img :src="previewImage" style="width: 100%" />
                         </div>
-                        <div class="form-group">
-                            <label for="image">Image</label>
+                        <div class="custom-file form-group">
                             <input
                                 type="file"
-                                class="form-control"
+                                class="custom-file-input"
                                 id="image"
                                 @change="uploadImage"
                             />
+                            <label class="custom-file-label" for="customFile"
+                                >Pilih gambar</label
+                            >
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -69,6 +72,7 @@
                             type="button"
                             class="btn btn-secondary"
                             data-dismiss="modal"
+                            @click="emptyForm()"
                         >
                             Kembali
                         </button>
@@ -86,7 +90,16 @@
 import iziToast from "izitoast";
 
 export default {
-    props: ["id"],
+    props: {
+        id: {
+            type: String,
+            default: "",
+        },
+        user: {
+            type: Object,
+            default: null,
+        },
+    },
     data() {
         return {
             form: {
@@ -95,9 +108,19 @@ export default {
                 email: "",
                 phone: "",
             },
-            previewLogo: null,
+            previewImage: null,
             isLoading: false,
         };
+    },
+    watch: {
+        user(user) {
+            user.document.forEach((item) => {
+                this.previewImage = "/storage/" + item.documentPath;
+            });
+            this.form.name = user.name;
+            this.form.email = user.email;
+            this.form.phone = user.phone;
+        },
     },
     computed: {
         formData() {
@@ -110,50 +133,96 @@ export default {
                 fieldData.append("image", this.form.image);
             }
 
+            if (this.user) {
+                fieldData.append("_method", "PUT");
+                fieldData.append("id", this.id);
+            }
+
             return fieldData;
         },
     },
     methods: {
         uploadImage(e) {
             let files = e.target.files[0];
-            this.previewLogo = URL.createObjectURL(files);
+            this.previewImage = URL.createObjectURL(files);
             this.form.image = files;
+
+            $(".custom-file-label").addClass("selected").html(files.name);
         },
         handleSubmit() {
             let fieldData = this.formData;
-            let type = "postDataUploadUser";
             this.isLoading = true;
 
-            this.$store
-                .dispatch(type, fieldData, "user")
-                .then((result) => {
-                    this.isLoading = false;
+            if (this.user) {
+                this.$store
+                    .dispatch("updateDataUploadUser", fieldData, [
+                        "user/" + this.id,
+                    ])
+                    .then((result) => {
+                        this.isLoading = false;
 
-                    this.deleteModal();
-
-                    iziToast.success({
-                        title: "Success",
-                        message: "Data berhasil ditambah",
-                        position: "topRight",
-                    });
-
-                    this.$emit("close", this);
-                })
-                .catch((err) => {
-                    this.isSubmit = false;
-                    let meta = err.response.data.meta;
-                    let messages = err.response.data.meta.message;
-                    Object.entries(messages).forEach(([key, value]) => {
-                        iziToast.warning({
-                            title: "Warning",
-                            message: value,
+                        this.deleteModal();
+                        this.emptyForm();
+                        this.$emit("onSuccess", result);
+                        iziToast.success({
+                            title: "Success",
+                            message: "Data berhasil diubah",
                             position: "topRight",
                         });
+                    })
+                    .catch((err) => {
+                        this.isSubmit = false;
+                        let meta = err.response.data.meta;
+                        let messages = err.response.data.meta.message;
+                        Object.entries(messages).forEach(([key, value]) => {
+                            iziToast.warning({
+                                title: "Warning",
+                                message: value,
+                                position: "topRight",
+                            });
+                        });
                     });
-                });
+            } else {
+                this.$store
+                    .dispatch("postDataUploadUser", fieldData, "user")
+                    .then((result) => {
+                        this.isLoading = false;
+
+                        this.deleteModal();
+                        this.emptyForm();
+
+                        iziToast.success({
+                            title: "Success",
+                            message: "Data berhasil ditambah",
+                            position: "topRight",
+                        });
+
+                        this.$emit("close", this);
+                    })
+                    .catch((err) => {
+                        this.isSubmit = false;
+                        let meta = err.response.data.meta;
+                        let messages = err.response.data.meta.message;
+                        Object.entries(messages).forEach(([key, value]) => {
+                            iziToast.warning({
+                                title: "Warning",
+                                message: value,
+                                position: "topRight",
+                            });
+                        });
+                    });
+            }
         },
         deleteModal() {
             $("#formUserModal").modal("hide");
+        },
+        emptyForm() {
+            this.form.name = "";
+            this.form.email = "";
+            this.form.phone = "";
+            this.form.image = null;
+            this.previewImage = null;
+            $(".custom-file-label").addClass("selected").html("Pilih gambar");
         },
     },
 };

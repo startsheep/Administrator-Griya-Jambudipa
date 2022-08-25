@@ -9,13 +9,15 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6">
-                                <button
+                                <Button
                                     class="btn btn-success"
                                     data-toggle="modal"
                                     data-target="#formUserModal"
+                                    data-backdrop="static"
+                                    data-keyboard="false"
                                 >
                                     Tambah Data
-                                </button>
+                                </Button>
                             </div>
                             <div class="col-lg-6 mb-3">
                                 <input
@@ -54,8 +56,55 @@
                                                 />
                                                 <span
                                                     class="custom-switch-indicator"
+                                                    @click="
+                                                        updateStatus(
+                                                            user.id,
+                                                            user.isActive
+                                                        )
+                                                    "
                                                 ></span>
                                             </label>
+                                        </td>
+                                        <td>
+                                            <div class="show">
+                                                <button
+                                                    data-toggle="dropdown"
+                                                    class="btn btn-transparent"
+                                                >
+                                                    <i
+                                                        class="fa-solid fa-ellipsis-vertical dropdown-toggle"
+                                                        aria-expanded="true"
+                                                    ></i>
+                                                </button>
+                                                <div
+                                                    class="dropdown-menu action"
+                                                >
+                                                    <button
+                                                        class="dropdown-item action sortable"
+                                                        data-toggle="modal"
+                                                        data-target="#formUserModal"
+                                                        data-backdrop="static"
+                                                        data-keyboard="false"
+                                                        @click="showModal(user)"
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                    <button
+                                                        class="dropdown-item action sortable"
+                                                        @click="
+                                                            deleteUser(user.id)
+                                                        "
+                                                        v-if="user.id != 1"
+                                                    >
+                                                        Hapus
+                                                    </button>
+                                                    <button
+                                                        class="dropdown-item action sortable"
+                                                    >
+                                                        Detail
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -75,7 +124,7 @@
             </div>
         </div>
     </section>
-    <ModalForm />
+    <ModalForm :user="user" :id="user.id" @onSuccess="onSuccess()" />
 </template>
 <script>
 import iziToast from "izitoast";
@@ -88,7 +137,9 @@ import ModalForm from "./CreateEditUsers.vue";
 export default {
     data() {
         return {
+            user: {},
             users: [],
+            status: 0,
             // edit
             isLoading: false,
             // filter
@@ -97,7 +148,7 @@ export default {
             //Pagination
             pagination: {
                 total: 0,
-                perPage: 5,
+                perPage: 10,
                 currentPage: 1,
                 lastPage: 0,
                 page: 0,
@@ -133,6 +184,66 @@ export default {
                     this.isLoading = false;
                     this.users = response.data;
                 });
+        },
+        updateStatus(id, status) {
+            let desc = "";
+            if (status == 1) {
+                status = 0;
+                desc = "non-aktif";
+            } else {
+                status = 1;
+                desc = "aktif";
+            }
+
+            var type = "updateData";
+            var url = [
+                "user/active",
+                id,
+                {
+                    active: status,
+                },
+            ];
+            this.$store.dispatch(type, url).then((response) => {
+                if (response.type == "success") {
+                    iziToast.success({
+                        title: "Success",
+                        message: "Status " + desc,
+                        position: "topRight",
+                    });
+                    this.getUsers();
+                }
+            });
+        },
+        deleteUser(id) {
+            this.$swal
+                .fire({
+                    title: "Yakin ?",
+                    text: "Data akan dihapus",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Hapus!",
+                    cancelButtonText: "Batal",
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        this.$store
+                            .dispatch("deleteData", ["user", id])
+                            .then((response) => {
+                                iziToast.success({
+                                    title: "Success",
+                                    message: "Data berhasil dihapus",
+                                    position: "topRight",
+                                });
+                                this.getUsers();
+                            });
+                    }
+                });
+        },
+        showModal(user) {
+            this.user = user;
+        },
+        onSuccess() {
+            this.getUsers();
         },
         onPageChange(page) {
             this.pagination.page = page;

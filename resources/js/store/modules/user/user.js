@@ -15,6 +15,20 @@ const process = {
                 );
             });
         },
+        updateDataUploadUser(context, credentials) {
+            var id = credentials.get("id");
+            return new Promise((resolve, reject) => {
+                ServiceApi.init();
+                ServiceApi.postFormData("user/" + id, credentials).then(
+                    (response) => {
+                        resolve(response.data);
+                    },
+                    (error) => {
+                        reject(error);
+                    }
+                );
+            });
+        },
     },
 };
 
