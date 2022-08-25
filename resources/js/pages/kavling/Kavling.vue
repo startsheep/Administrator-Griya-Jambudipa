@@ -11,6 +11,7 @@
               data-toggle="modal"
               data-target="#ModalKavling"
               class="btn btn-primary"
+              @click="isCreate()"
             >
               Tambah Kavling
             </Button>
@@ -139,7 +140,7 @@ export default {
   data() {
     return {
       //data
-      kavling:{},
+      kavling:null,
       kavlings: [],
       isLoading: false,
 
@@ -159,12 +160,22 @@ export default {
   },
   computed:{
     reset(){
-
     }
+  },
+  watch:{
+        kavling(newVal){
+        this.kavling = newVal;
+        },
+
   },
   methods: {
     sendEdit(kavling){
+        console.log(kavling)
         this.kavling = kavling;
+    },
+    isCreate(){
+        this.kavling = null;
+        console.log(this.kavling);
     },
     getKavlings() {
       const self = this;

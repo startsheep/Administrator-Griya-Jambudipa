@@ -107,7 +107,7 @@
             </div>
             <div class="form-group col-lg-6">
               <label>Tipe Rumah</label>
-              <select class="form-control" v-model="kavling.houseType">
+              <select class="form-control" v-model="kavling.houseTypeId">
                 <option selected disabled value="">Pilih Tipe Rumah</option>
 
                 <option :value="house.id" :key="house" v-for="house in houses">
@@ -162,15 +162,10 @@ export default {
     };
   },
   watch: {
-    kav(newVal) {
-      this.kavling.id = newVal.id;
-      this.kavling.block = newVal.block;
-      this.kavling.houseType = newVal.houseTypeId;
-      this.kavling.numberKavling = newVal.numberKavling;
-      this.kavling.widthKavling = newVal.widthKavling;
-      this.kavling.lengthKavling = newVal.lengthKavling;
-      this.kavling.areaKavling = newVal.areaKavling;
-      this.kavling.areaBuilding = newVal.areaBuilding;
+    kav(newVal , oldVal) {
+        if (newVal != null) {
+            this.kavling = newVal;
+        }
     },
   },
   computed: {
@@ -189,11 +184,22 @@ export default {
   },
 
   methods: {
+
     hideModal() {
       $("#ModalKavling").hide("modal");
     },
     reset() {
-      this.$refs.formkavling.value = "";
+      this.kavling = {
+            id: "",
+            block: "",
+            houseTypeId: "",
+            numberKavling: "",
+            widthKavling: "",
+            lengthKavling: "",
+            areaKavling: "",
+            areaBuilding: "",
+        };
+
     },
     showKav() {
       console.log(this.kav);
@@ -213,7 +219,7 @@ export default {
         this.kavling.id,
         {
           block: this.kavling.block,
-          house_type_id: this.kavling.houseType,
+          house_type_id: this.kavling.houseTypeId,
           number_kavling: this.kavling.numberKavling,
           width_kavling: this.kavling.widthKavling,
           length_kavling: this.kavling.lengthKavling,
@@ -250,7 +256,7 @@ export default {
         "kavling",
         {
           block: this.kavling.block,
-          house_type_id: this.kavling.houseType,
+          house_type_id: this.kavling.houseTypeId,
           number_kavling: this.kavling.numberKavling,
           width_kavling: this.kavling.widthKavling,
           length_kavling: this.kavling.lengthKavling,
@@ -262,13 +268,13 @@ export default {
         .dispatch("postData", url)
         .then((res) => {
           this.isSubmit = false;
+          this.reset()
           this.$emit("onSuccess", res);
           this.hideModal();
           this.successMessage;
         })
         .catch((err) => {
           this.isSubmit = false;
-          this.reset();
           let messages = err.response.data.meta.message;
           Object.entries(messages).forEach(([key, value]) => {
             iziToast.warning({
