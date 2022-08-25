@@ -5,6 +5,7 @@ import customer from "./modules/customer";
 import companyProfile from "./modules/company_profile";
 import house from "./modules/type-house";
 import user from "./modules/users";
+import kavling from "./modules/kavling";
 
 const routes = [
     ...auth,
@@ -12,6 +13,7 @@ const routes = [
     ...customer,
     ...companyProfile,
     ...house,
+    ...kavling,
     ...user,
     {
         path: "/",

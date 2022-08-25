@@ -340,11 +340,12 @@ export default {
           self.customer.name = response.data.name;
           self.customer.email = response.data.email;
           self.customer.profession = response.data.profession;
-          self.customer.kavlings =response.data.kavling;
+        //   self.customer.kavlings =response.data.customerKavling.kavling;
           self.customer.entry_date = response.data.entryDate;
           self.customer.phone = response.data.phone;
           self.customer.address = response.data.address;
           self.customer.gender = response.data.gender;
+          response.data.customerKavling.forEach((kav)=>this.customer.kavlings.push(kav.kavling))
         });
     },
     updateCustomer() {
