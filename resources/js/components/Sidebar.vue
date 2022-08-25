@@ -33,6 +33,12 @@
                     >
                 </li>
                 <li class="nav-item">
+                    <router-link to="/users" class="nav-link"
+                        ><i class="fa-solid fa-users"></i
+                        ><span>Data Pengguna</span></router-link
+                    >
+                </li>
+                <li class="nav-item">
                     <a href="#" class="nav-link"
                         ><i class="fa-solid fa-cash-register"></i
                         ><span>Transaksi</span></a
@@ -52,7 +58,7 @@
                 </li>
                 <li class="menu-header">Data Master</li>
                 <li class="nav-item">
-                    <router-link to ="/company_profile" class="nav-link"
+                    <router-link to="/company_profile" class="nav-link"
                         ><i class="fa-solid fa-building"></i
                         ><span>Profile Perusahaan</span></router-link
                     >

@@ -1,8 +1,7 @@
 <template>
-<div class="bg-dark " style="height:100vh">
-
-    <router-view/>
-</div>
+    <div class="bg-dark" style="height: 100%">
+        <router-view />
+    </div>
 </template>
 
 <script>

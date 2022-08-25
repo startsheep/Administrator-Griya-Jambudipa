@@ -5,6 +5,7 @@ import employee from "./modules/employees/employee";
 import customer from "./modules/customer/customer";
 import companyProfile from "./modules/company_profile/company_profile";
 import house from "./modules/type-house/typeHoues";
+import user from "./modules/user/user";
 
 const store = createStore({
     modules: {
@@ -14,6 +15,7 @@ const store = createStore({
         customer,
         companyProfile,
         house,
+        user,
     },
 });
 
