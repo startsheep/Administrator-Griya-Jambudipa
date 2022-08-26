@@ -23,4 +23,9 @@ class Kavling extends Model
     {
         return $this->morphMany(CustomerKavling::class, 'kavlingable');
     }
+
+    public function houseType()
+    {
+        return $this->belongsTo(HouseType::class, 'id');
+    }
 }

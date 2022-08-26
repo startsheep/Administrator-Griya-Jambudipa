@@ -20,7 +20,7 @@ class KavlingRepository implements KavlingContract
     public function all($request)
     {
         $factory = app()->make(KavlingSearch::class);
-        $kavlings = $factory->apply()->paginate($request->per_page);
+        $kavlings = $factory->apply()->with('houseType')->paginate($request->per_page);
 
         return $kavlings;
     }
