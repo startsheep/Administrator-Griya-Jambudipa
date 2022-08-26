@@ -122,9 +122,19 @@
                 </div>
               </form>
               <div class="row">
-                <div class="col-lg-6">
-                  <div v-if="customer.image" class="badge badge-primary mt-2">
-                    {{ customer.image.name }}
+                 <div class="col-lg-6">
+                  <h6>Foto :</h6>
+                  <div
+                   v-show="previewImage"
+                    class="card bg-primary"
+                    style="width: 200px; height: 200px"
+                  >
+                    <img
+                      :src="previewImage"
+                      alt="Gambar"
+                      class="img-responsive"
+                      style=""
+                    />
                   </div>
                 </div>
                 <div class="col-lg-6">
@@ -142,8 +152,8 @@
                 </div>
               </div>
             </div>
-            <div class="card-footer">
-              <div class="d-flex justify-content-center">
+            <div class="card-footer text-right">
+
                 <button @click="back" class="btn btn-danger mr-2" type="button">
                   Batal
                 </button>
@@ -155,7 +165,7 @@
                 >
                   {{ id ? "Update" : "Tambah" }}
                 </button>
-              </div>
+
             </div>
           </div>
         </div>
@@ -280,11 +290,7 @@ export default {
       const file = e.target.files[0];
       if (this.checkExtension(file)) {
         this.customer.image = file;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.previewImage = e.target.result;
-        };
-        reader.readAsDataURL(file);
+       this.previewImage = URL.createObjectURL(file);
       } else {
         iziToast.warning({
           title: "Warning",
