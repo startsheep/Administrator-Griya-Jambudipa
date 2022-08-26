@@ -114,38 +114,56 @@
                   <label class="custom-file-label" for="customFile"
                     >Pilih Dokumen</label
                   >
-                  <div v-if="employee.document" class="form-group col-lg-6">
-                    <!-- -->
-                  </div>
                 </div>
               </form>
               <div class="row">
                 <div class="col-lg-6">
-                  <div v-if="employee.image" class="badge badge-primary mt-2">
-                    {{ employee.image.name }}
+                  <h6>Foto :</h6>
+                  <div
+                    v-show="previewImage"
+                    class="card"
+                    style="width: 200px; height: 200px"
+                  >
+                    <img
+                      :src="previewImage"
+                      alt="Gambar"
+                      class="img-responsive"
+                      style=""
+                    />
                   </div>
                 </div>
                 <div class="col-lg-6">
-                  <div v-for="document in employee.document" :key="document" class="badge badge-primary m-1 p-2">
-                    {{ document.name }} <i class="fas fa-times sortable" @click="removeDocument(document)"></i>
+                  <div
+                    v-for="document in employee.document"
+                    :key="document"
+                    class="badge badge-primary m-1 p-2"
+                  >
+                    {{ document.name }}
+                    <i
+                      class="fas fa-times sortable"
+                      @click="removeDocument(document)"
+                    ></i>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="card-footer">
-              <div class="d-flex justify-content-center">
-                <button @click="back" class="btn btn-danger mr-2" type="button">
-                  Batal
-                </button>
-                <button
-                  :class="{ 'disabled btn-progress': isSubmit }"
-                  @click="id ? updateEmployee() : createEmployee()"
-                  class="btn btn-primary ml-2"
-                  type="button"
-                >
-                  {{ id ? "Update" : "Tambah" }}
-                </button>
-              </div>
+            <div class="card-footer text-right">
+              <button
+
+                @click="back"
+                class="btn btn-danger mr-2"
+                type="button"
+              >
+                Batal
+              </button>
+              <button
+                :class="{ 'disabled btn-progress': isSubmit }"
+                @click="id ? updateEmployee() : createEmployee()"
+                class="btn btn-primary"
+                type="button"
+              >
+                {{ id ? "Update" : "Tambah" }}
+              </button>
             </div>
           </div>
         </div>
@@ -201,22 +219,26 @@ export default {
       fieldData.append("phone", this.employee.phone);
       fieldData.append("address", this.employee.address);
       fieldData.append("gender", this.employee.gender);
-    //   fieldData.append("documents", this.employee.document);
-    this.employee.document.forEach((document, index) => fieldData.append('documents[' + index + ']', document));
+      //   fieldData.append("documents", this.employee.document);
+      this.employee.document.forEach((document, index) =>
+        fieldData.append("documents[" + index + "]", document)
+      );
 
       if (this.employee.image) {
         fieldData.append("image", this.employee.image);
       }
       return fieldData;
     },
-
   },
   methods: {
     back() {
       this.$router.back();
     },
     removeDocument(document) {
-      this.employee.document.splice(this.employee.document.indexOf(document), 1);
+      this.employee.document.splice(
+        this.employee.document.indexOf(document),
+        1
+      );
     },
     checkExtension(file) {
       const allowedExtensions = ["image/jpg", "image/png", "image/jpeg"];
@@ -258,18 +280,12 @@ export default {
           });
         }
       }
-
     },
     selectImage(e) {
-
       const file = e.target.files[0];
       if (this.checkExtension(file)) {
         this.employee.image = file;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.previewImage = e.target.result;
-        };
-        reader.readAsDataURL(file);
+        this.previewImage = URL.createObjectURL(file);
       } else {
         iziToast.warning({
           title: "Warning",
@@ -319,7 +335,7 @@ export default {
       self.$store
         .dispatch("getData", ["/employee/" + self.id])
         .then((response) => {
-          this.previewImage = response.data.image;
+          this.previewImage = "storage/" + response.data.image;
           self.employee.name = response.data.name;
           self.employee.email = response.data.email;
           self.employee.position_id = response.data.positionId;
@@ -348,15 +364,15 @@ export default {
         })
         .catch((err) => {
           this.isSubmit = false;
-            let meta = err.response.data.meta;
-            let messages = err.response.data.meta.message;
-            Object.entries(messages).forEach(([key, value]) => {
-              iziToast.warning({
-                title: "Warning",
-                message: value,
-                position: "topRight",
-              });
+          let meta = err.response.data.meta;
+          let messages = err.response.data.meta.message;
+          Object.entries(messages).forEach(([key, value]) => {
+            iziToast.warning({
+              title: "Warning",
+              message: value,
+              position: "topRight",
             });
+          });
         });
     },
   },
