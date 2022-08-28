@@ -44,7 +44,6 @@ export default {
             this.getUsers();
         },
         getUsers() {
-            console.log(this.session);
             this.isLoading = true;
             const params = [
                 `name=${this.name}`,

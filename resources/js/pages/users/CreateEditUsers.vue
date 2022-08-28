@@ -133,7 +133,7 @@ export default {
                 fieldData.append("image", this.form.image);
             }
 
-            if (this.user) {
+            if (this.user && this.id) {
                 fieldData.append("_method", "PUT");
                 fieldData.append("id", this.id);
             }
@@ -152,8 +152,8 @@ export default {
         handleSubmit() {
             let fieldData = this.formData;
             this.isLoading = true;
-
-            if (this.user) {
+            if (this.user && this.id) {
+                console.log("Ada Data");
                 this.$store
                     .dispatch("updateDataUploadUser", fieldData, [
                         "user/" + this.id,
@@ -183,6 +183,7 @@ export default {
                         });
                     });
             } else {
+                console.log("Nggk Ada Data");
                 this.$store
                     .dispatch("postDataUploadUser", fieldData, "user")
                     .then((result) => {
@@ -197,7 +198,7 @@ export default {
                             position: "topRight",
                         });
 
-                        this.$emit("close", this);
+                        this.$emit("onSuccess", this);
                     })
                     .catch((err) => {
                         this.isSubmit = false;
