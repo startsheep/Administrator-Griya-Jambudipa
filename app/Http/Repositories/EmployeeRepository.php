@@ -56,7 +56,10 @@ class EmployeeRepository implements EmployeeContract
     {
         if (isset($attributes['image'])  && $attributes['image']) {
             if (isset($attributes['image']) && $attributes['image']) {
-                Storage::delete($result->image);
+                if($result->image !=null){
+
+                    Storage::delete($result->image);
+                }
                 $attributes['image'] = $attributes['image']->store('employee');
             }
         }
