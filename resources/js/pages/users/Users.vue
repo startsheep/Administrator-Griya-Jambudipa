@@ -8,7 +8,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 mb-3">
                                 <Button
                                     class="btn btn-success"
                                     data-toggle="modal"
@@ -19,13 +19,25 @@
                                     Tambah Data
                                 </Button>
                             </div>
-                            <div class="col-lg-6 mb-3">
-                                <input
-                                    v-on:keyup="search"
-                                    v-model="name"
-                                    class="form-control"
-                                    placeholder="Search"
-                                />
+                            <div class="col-lg-6 mb-3 row">
+                                <div class="col-lg-4 col-sm-4">
+                                    <select
+                                        class="form-control"
+                                        @change="onSort"
+                                        v-model="order_direction"
+                                    >
+                                        <option value="asc">Teratas</option>
+                                        <option value="desc">Terbawah</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-8 col-sm-8">
+                                    <input
+                                        @keyup="onSearch"
+                                        v-model="name"
+                                        class="form-control"
+                                        placeholder="Search"
+                                    />
+                                </div>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -45,7 +57,7 @@
                                         <td>{{ user.email }}</td>
                                         <td>{{ user.phone ?? "-" }}</td>
                                         <td>
-                                            <label class="">
+                                            <label class="" v-if="user.id != 1">
                                                 <input
                                                     type="checkbox"
                                                     name="custom-switch-checkbox"
@@ -91,6 +103,16 @@
                                                     </button>
                                                     <button
                                                         class="dropdown-item action sortable"
+                                                        data-toggle="modal"
+                                                        data-target="#formPassword"
+                                                        data-backdrop="static"
+                                                        data-keyboard="false"
+                                                        @click="showModal(user)"
+                                                    >
+                                                        Edit Password
+                                                    </button>
+                                                    <button
+                                                        class="dropdown-item action sortable"
                                                         @click="
                                                             deleteUser(user.id)
                                                         "
@@ -124,134 +146,19 @@
             </div>
         </div>
     </section>
+
     <ModalForm :user="user" :id="user.id" @onSuccess="onSuccess()" />
+    <ChangePasswordModal
+        :id="user.id"
+        :name="user.name"
+        @onSuccess="onSuccess()"
+    />
 </template>
+
 <script>
-import iziToast from "izitoast";
-import moment from "moment";
-import Pagination from "../../components/Pagination.vue";
-import Utils from "../../store/services/utils";
-import CircleLoader from "../../components/CircleLoader.vue";
-import ModalForm from "./CreateEditUsers.vue";
+import process from "../../store/modules/user/logic";
 
-export default {
-    data() {
-        return {
-            user: {},
-            users: [],
-            status: 0,
-            // edit
-            isLoading: false,
-            // filter
-            name: "",
-            order_direction: "asc",
-            //Pagination
-            pagination: {
-                total: 0,
-                perPage: 10,
-                currentPage: 1,
-                lastPage: 0,
-                page: 0,
-            },
-        };
-    },
-    mounted() {
-        this.getUsers();
-    },
-    computed: {},
-    methods: {
-        showLogUpdate(date) {
-            return moment(date).fromNow();
-        },
-        formatRupiah(number) {
-            return Utils.formatRupiah(number, "Rp. ");
-        },
-        search() {
-            this.getUsers();
-        },
-        getUsers() {
-            this.isLoading = true;
-            const params = [
-                // `name=${this.name}`,
-                // `order_by=positions.id`,
-                // `order_direction=${this.order_direction}`,
-                `page=${this.pagination.page}`,
-                `per_page=${this.pagination.perPage}`,
-            ].join("&");
-            this.$store
-                .dispatch("getData", ["user", params])
-                .then((response) => {
-                    this.isLoading = false;
-                    this.users = response.data;
-                });
-        },
-        updateStatus(id, status) {
-            let desc = "";
-            if (status == 1) {
-                status = 0;
-                desc = "non-aktif";
-            } else {
-                status = 1;
-                desc = "aktif";
-            }
-
-            var type = "updateData";
-            var url = [
-                "user/active",
-                id,
-                {
-                    active: status,
-                },
-            ];
-            this.$store.dispatch(type, url).then((response) => {
-                if (response.type == "success") {
-                    iziToast.success({
-                        title: "Success",
-                        message: "Status " + desc,
-                        position: "topRight",
-                    });
-                    this.getUsers();
-                }
-            });
-        },
-        deleteUser(id) {
-            this.$swal
-                .fire({
-                    title: "Yakin ?",
-                    text: "Data akan dihapus",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Hapus!",
-                    cancelButtonText: "Batal",
-                })
-                .then((result) => {
-                    if (result.isConfirmed) {
-                        this.$store
-                            .dispatch("deleteData", ["user", id])
-                            .then((response) => {
-                                iziToast.success({
-                                    title: "Success",
-                                    message: "Data berhasil dihapus",
-                                    position: "topRight",
-                                });
-                                this.getUsers();
-                            });
-                    }
-                });
-        },
-        showModal(user) {
-            this.user = user;
-        },
-        onSuccess() {
-            this.getUsers();
-        },
-        onPageChange(page) {
-            this.pagination.page = page;
-            this.getUsers();
-        },
-    },
-    components: { Pagination, CircleLoader, ModalForm },
-};
+export default process;
 </script>
 
 <style>
