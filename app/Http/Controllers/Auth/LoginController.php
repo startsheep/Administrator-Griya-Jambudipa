@@ -22,13 +22,19 @@ class LoginController extends Controller
 
         if (!$user) {
             return response()->json([
-                'message' => 'wrong email or password!'
+                'message' => 'email atau password salah!'
+            ], 400);
+        }
+
+        if ($user->is_active != 1) {
+            return response()->json([
+                'message' => 'akun anda dinonaktifkan, hubungi admin!'
             ], 400);
         }
 
         if (!Hash::check($request->password, $user->password)) {
             return response()->json([
-                'message' => 'wrong email or password!'
+                'message' => 'email atau password salah!'
             ], 400);
         }
 
