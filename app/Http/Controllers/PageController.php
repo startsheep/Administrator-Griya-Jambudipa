@@ -15,4 +15,10 @@ class PageController extends Controller
     {
         return view('auth');
     }
+    
+    
+    public function auth2()
+    {
+        return view('auth');
+    }
 }
