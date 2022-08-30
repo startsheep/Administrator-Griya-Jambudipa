@@ -1,4 +1,6 @@
-import { reject } from "lodash";
+import {
+    reject
+} from "lodash";
 import Api from "./api";
 
 const process = {
@@ -93,6 +95,18 @@ const process = {
                     }
                 );
             });
+        },
+        async getFile(context, param) {
+            Api.init();
+            // Api.getFile(param[0]+'?'+param[1]).then(
+            const response = await Api.getFile(param[0] + '?' + param[1]);
+            let blob = new Blob([response.data], {
+                type: "application/vnd.ms-excel"
+            });
+            let link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'example.xlsx';
+            link.click();
         },
     },
 };
