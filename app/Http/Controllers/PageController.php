@@ -15,4 +15,10 @@ class PageController extends Controller
     {
         return view('auth');
     }
+    
+    // ini dipake
+    public function auth2()
+    {
+        return view('auth');
+    }
 }
