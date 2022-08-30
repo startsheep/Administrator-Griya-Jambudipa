@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Http\Repositories\AccountRepository;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Repositories\CompanyProfileRepository;
+use App\Http\Repositories\ContractorRepository;
 use App\Http\Repositories\Contracts\AccountContract;
 use App\Http\Repositories\Contracts\BaseRepositoryContract;
 use App\Http\Repositories\Contracts\CompanyProfileContract;
+use App\Http\Repositories\Contracts\ContractorContract;
 use App\Http\Repositories\Contracts\CustomerContract;
 use App\Http\Repositories\Contracts\EmployeeContract;
 use App\Http\Repositories\Contracts\HouseTypeContract;
@@ -50,5 +52,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(HouseTypeContract::class, HouseTypeRepository::class);
         $this->app->bind(KavlingContract::class, KavlingRepository::class);
         $this->app->bind(AccountContract::class, AccountRepository::class);
+        $this->app->bind(ContractorContract::class, ContractorRepository::class);
     }
 }
