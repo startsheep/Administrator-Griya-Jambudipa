@@ -15,9 +15,15 @@ class PageController extends Controller
     {
         return view('auth');
     }
-    
+
     // ini dipake
     public function auth2()
+    {
+        return view('auth');
+    }
+
+    // ini juga dipake
+    public function auth5()
     {
         return view('auth');
     }
