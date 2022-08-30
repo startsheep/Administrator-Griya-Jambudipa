@@ -6325,11 +6325,11 @@ a.close.disabled {
 }
 
 .modal-backdrop.fade {
-    opacity: 0
+    /* opacity: 0 */
 }
 
 .modal-backdrop.show {
-    opacity: .5
+    /* opacity: .5 */
 }
 
 .modal-header {
