@@ -6,6 +6,7 @@ import companyProfile from "./modules/company_profile";
 import house from "./modules/type-house";
 import user from "./modules/users";
 import kavling from "./modules/kavling";
+import contractor from "./modules/contractor";
 import payment from "./modules/payment";
 
 const routes = [
@@ -16,6 +17,7 @@ const routes = [
     ...house,
     ...kavling,
     ...user,
+    ...contractor,
     ...payment,
     {
         path: "/",
@@ -26,7 +28,6 @@ const routes = [
             middleware: "auth",
         },
     },
-
 ];
 
 export default routes;

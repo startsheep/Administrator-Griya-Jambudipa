@@ -33,6 +33,11 @@
                     >
                 </li>
                 <li class="nav-item">
+                    <router-link to="/contractor" class="nav-link"
+                        ><i class="fa-solid fa-people-roof"></i
+                        ><span>Data Pemborong</span></router-link>
+                </li>
+                <li class="nav-item">
                     <router-link to="/users" class="nav-link"
                         ><i class="fa-solid fa-users"></i
                         ><span>Data Pengguna</span></router-link
