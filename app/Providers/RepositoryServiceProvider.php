@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Http\Repositories\AccountRepository;
 use App\Http\Repositories\BaseRepository;
+use App\Http\Repositories\BuildingPriceRepository;
 use App\Http\Repositories\CompanyProfileRepository;
 use App\Http\Repositories\ContractorRepository;
 use App\Http\Repositories\Contracts\AccountContract;
 use App\Http\Repositories\Contracts\BaseRepositoryContract;
+use App\Http\Repositories\Contracts\BuildingPriceContract;
 use App\Http\Repositories\Contracts\CompanyProfileContract;
 use App\Http\Repositories\Contracts\ContractorContract;
 use App\Http\Repositories\Contracts\CustomerContract;
@@ -56,5 +58,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(AccountContract::class, AccountRepository::class);
         $this->app->bind(ContractorContract::class, ContractorRepository::class);
         $this->app->bind(PaymentContract::class, PaymentRepository::class);
+        $this->app->bind(BuildingPriceContract::class, BuildingPriceRepository::class);
     }
 }
