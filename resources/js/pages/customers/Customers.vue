@@ -90,7 +90,7 @@
                         v-if="customer.customerKavling.length > 0"
                         class="badge badge-success"
                       >
-                        <span v-for="kavlings in customer.customerKavling" >
+                        <span v-for="kavlings in customer.customerKavling" :key="kavlings">
                            {{ kavlings.kavling.block }}  | {{ kavlings.kavling.numberKavling }} ,
                         </span>
                       </div>
@@ -114,16 +114,20 @@
                         </button>
                         <div class="dropdown-menu action">
                           <router-link
-                            class="dropdown-item action sortable btn"
+                            class="dropdown-item action sortable"
                             :to="'/customer/' + customer.id + '/edit'"
                             >Edit</router-link
                           >
                           <router
-                            class="dropdown-item action sortable btn"
+                            class="dropdown-item action sortable "
                             @click="deleteCustomer(customer.id)"
                             >Hapus</router
                           >
-                          <span class="dropdown-item action sortable"
+                        <span
+                          data-toggle="modal"
+                          data-target="#detailCustomer"
+                          class="dropdown-item action sortable"
+                          @click="sendId(customer.id)"
                             >Detail</span
                           >
                         </div>
@@ -146,6 +150,7 @@
         </div>
       </div>
     </div>
+    <DetailCustomer :id="csId"/>
   </section>
 </template>
 <script>
@@ -154,6 +159,7 @@ import moment from "moment";
 import Pagination from "../../components/Pagination.vue";
 import Utils from "../../store/services/utils";
 import CircleLoader from "../../components/CircleLoader.vue";
+import DetailCustomer from "./DetailCustomer.vue";
 
 export default {
   data() {
@@ -164,6 +170,7 @@ export default {
       // filter
       name: "",
       order_direction: "asc",
+      csId : "",
       //Pagination
       pagination: {
         total: 0,
@@ -177,6 +184,11 @@ export default {
   mounted() {
     this.getCustomers();
   },
+  watch:{
+    csId(csId){
+        this.csId = csId;
+    }
+  },
   computed: {},
   methods: {
     showLogUpdate(date) {
@@ -187,6 +199,9 @@ export default {
     },
     search() {
       this.getCustomers();
+    },
+    sendId(id){
+        this.csId = id;
     },
     getCustomers() {
       const self = this;
@@ -240,6 +255,6 @@ export default {
       this.getCustomers();
     },
   },
-  components: { Pagination, CircleLoader },
+  components: { Pagination, CircleLoader, DetailCustomer },
 };
 </script>

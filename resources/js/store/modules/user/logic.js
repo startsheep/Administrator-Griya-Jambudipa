@@ -4,13 +4,16 @@ import Pagination from "../../../components/Pagination.vue";
 import CircleLoader from "../../../components/CircleLoader.vue";
 import ModalForm from "../../../pages/users/CreateEditUsers.vue";
 import ChangePasswordModal from "../../../pages/users/ChangePassword.vue";
+import DetailUser from './../../../pages/users/DetailUser.vue'
 import Cookies from "js-cookie";
+
 
 export default {
     data() {
         return {
             session: Cookies.get("user"),
             user: {},
+            userId : '',
             users: [],
             status: 0,
             // edit
@@ -34,6 +37,9 @@ export default {
     },
     computed: {},
     methods: {
+        sendId(id){
+            this.userId = id;
+        },
         showLogUpdate(date) {
             return moment(date).fromNow();
         },
@@ -131,5 +137,5 @@ export default {
             this.getUsers();
         },
     },
-    components: { Pagination, CircleLoader, ModalForm, ChangePasswordModal },
+    components: { Pagination, CircleLoader, ModalForm, ChangePasswordModal , DetailUser},
 };
