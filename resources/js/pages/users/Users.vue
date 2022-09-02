@@ -121,7 +121,10 @@
                                                         Hapus
                                                     </button>
                                                     <button
+                                                    data-toggle="modal"
+                                                    data-target="#detailUser"
                                                         class="dropdown-item action sortable"
+                                                        @click="sendId(user.id)"
                                                     >
                                                         Detail
                                                     </button>
@@ -146,7 +149,7 @@
             </div>
         </div>
     </section>
-
+    <detailUser :id="userId"/>
     <ModalForm :user="user" :id="user.id" @onSuccess="onSuccess()" />
     <ChangePasswordModal
         :id="user.id"
