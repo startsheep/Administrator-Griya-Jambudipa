@@ -7,6 +7,7 @@ export default [
             title: "Contractor",
         }
     },
+    
     {
         path: '/contractor/create',
         component: () => import('../../pages/contractors/CreateEditContractor.vue'),

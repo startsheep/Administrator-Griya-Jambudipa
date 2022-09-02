@@ -78,8 +78,7 @@
                       multiple
                     />
                     <label class="custom-file-label" for="customFile"
-                      >Pilih Dokumen</label
-                    >
+                      >Pilih Dokumen</label>
                   </div>
                 </form>
                 <div class="row">

@@ -28,7 +28,6 @@ const routes = [
             middleware: "auth",
         },
     },
-
 ];
 
 export default routes;

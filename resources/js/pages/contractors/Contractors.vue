@@ -119,8 +119,7 @@
                               class="dropdown-item action sortable "
                               @click="deleteContractor(contractor.id)"
                               >Hapus</button>
-                          <span
-                            class="dropdown-item action sortable"
+                          <span class="dropdown-item action sortable"
                               >Detail</span>
                           </div>
                         </div>
