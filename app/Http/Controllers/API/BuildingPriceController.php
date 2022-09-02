@@ -54,6 +54,5 @@ class BuildingPriceController extends Controller
         $this->buildingPrice->delete($result);
 
         return new BuildingPriceDetail($result);
-        // hello
     }
 }
