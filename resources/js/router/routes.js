@@ -7,6 +7,7 @@ import house from "./modules/type-house";
 import user from "./modules/users";
 import kavling from "./modules/kavling";
 import contractor from "./modules/contractor";
+import payment from "./modules/payment";
 
 const routes = [
     ...auth,
@@ -17,6 +18,7 @@ const routes = [
     ...kavling,
     ...user,
     ...contractor,
+    ...payment,
     {
         path: "/",
         name: "Dashboard",
@@ -26,14 +28,7 @@ const routes = [
             middleware: "auth",
         },
     },
-    {
-        path: "/customers",
-        name: "customers",
-        component: () => import("../pages/customers/Customers.vue"),
-        meta: {
-            title: "Customers",
-        },
-    },
+
 ];
 
 export default routes;
