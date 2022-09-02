@@ -14,33 +14,33 @@ class PaymentCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        // $result = [];
+        $result = [];
 
-        // foreach ($this as $item) {
-        //     $priceHouseType = $this->priceHouseType($item->customer->customerKavling);
+        foreach ($this as $item) {
+            // $price = (string) $this->priceHouseType($item->customer->customerKavling);
 
-        //     $result[] = [
-        //         "id" => $item->id,
-        //         "customer_id" => $item->customer_id,
-        //         "price" => $item->price,
-        //         "created_at" => $item->created_at,
-        //         "updated_at" => $item->updated_at,
-        //         "price_house" => $priceHouseType
-        //     ];
-        // }
+            $result[] = [
+                "id" => $item->id,
+                "customer_id" => $item->customer_id,
+                "price" => $item->price,
+                "created_at" => $item->created_at,
+                "updated_at" => $item->updated_at,
+                // "reminder_payment" => (string) ($price - $item->price),
+                // "price_house" => $price
+            ];
+        }
 
-        return parent::toArray($request);
+        return $result;
     }
 
     protected function priceHouseType($result)
     {
-        // $price = "";
+        $price = 0;
 
-        // foreach ($result as $item) {
+        foreach ($result as $item) {
+            $price += $item->kavling->houseType->price;
+        }
 
-        //     $price = $item->kavling->houseType->price;
-        // }
-
-        return $result;
+        return $price;
     }
 }

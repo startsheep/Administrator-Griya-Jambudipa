@@ -14,6 +14,26 @@ class PaymentDetail extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $result = [
+            "id" => $this->id,
+            "customer_id" => $this->customer_id,
+            "price" => $this->price,
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at,
+            "price_house" => (string) $this->priceHouseType($this->customer->customerKavling)
+        ];
+
+        return $result;
+    }
+
+    protected function priceHouseType($result)
+    {
+        $price = 0;
+
+        foreach ($result as $item) {
+            $price += $item->kavling->houseType->price;
+        }
+
+        return $price;
     }
 }

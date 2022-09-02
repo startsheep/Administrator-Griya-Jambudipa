@@ -18,7 +18,7 @@ class PaymentSearch extends HttpSearch
     protected function filters(): array
     {
         return [
-            PriceHouse::class
+            // PriceHouse::class
         ];
     }
 

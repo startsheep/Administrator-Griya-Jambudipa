@@ -7,6 +7,7 @@ use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\PaymentSearch;
 use App\Models\Payment;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class PaymentRepository implements PaymentContract
 {

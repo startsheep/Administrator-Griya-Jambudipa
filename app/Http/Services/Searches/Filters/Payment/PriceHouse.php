@@ -5,6 +5,7 @@ namespace App\Http\Services\Searches\Filters\Payment;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Services\Searches\Contracts\FilterContract;
+use Illuminate\Support\Facades\DB;
 
 class PriceHouse implements FilterContract
 {
@@ -25,13 +26,7 @@ class PriceHouse implements FilterContract
      */
     public function handle(Builder $query, Closure $next)
     {
-        if (!$this->keyword()) {
-            return $next($query);
-        }
-
-        $query->when('price_house', 'LIKE', '%' . $this->priceHouse . '%');
-
-        return $next($query);
+        // DB::table('users')
     }
 
     /**
