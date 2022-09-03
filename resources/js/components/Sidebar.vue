@@ -33,6 +33,11 @@
                     >
                 </li>
                 <li class="nav-item">
+                    <router-link to="/contractor" class="nav-link"
+                        ><i class="fa-solid fa-people-roof"></i
+                        ><span>Data Pemborong</span></router-link>
+                </li>
+                <li class="nav-item">
                     <router-link to="/users" class="nav-link"
                         ><i class="fa-solid fa-users"></i
                         ><span>Data Pengguna</span></router-link
@@ -45,9 +50,9 @@
                     >
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link"
+                    <router-link to="/payment" class="nav-link"
                         ><i class="fa-solid fa-wallet"></i
-                        ><span>Pembayaran</span></a
+                        ><span>Pembayaran</span></router-link
                     >
                 </li>
                 <li class="nav-item">
@@ -87,11 +92,11 @@
                         ><span>Tipe Rumah</span></router-link
                     >
                 </li>
-                <li>
+                <!-- <li>
                     <a href="#" class="nav-link"
                         ><i class="fas fa-gear"></i><span>Settings</span></a
                     >
-                </li>
+                </li> -->
             </ul>
         </aside>
     </div>
