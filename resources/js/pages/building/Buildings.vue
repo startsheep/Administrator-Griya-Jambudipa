@@ -53,10 +53,10 @@
                         class="p-2 box "
                         >
                         <button v-if="category.buildingPrice.length > 0" data-toggle="collapse"
-                        :data-target="'#childRow' + category.id" class="btn btn-icon btn-sm btn-success rounded-pill " ><i class="fa-solid fa-angle-right fa-md"></i></button>
+                        :data-target="'#childRow' + category.id" class="btn btn-icon btn-sm btn-transparent rounded-pill " ><i class="fa-solid fa-angle-right fa-lg"></i></button>
                         <span class="ml-2 " style="font-weight:700; font-size: 16px; ">{{ category.category }} </span>
                         <button  @click="reset()" data-toggle="collapse"
-                        :data-target="'#formChild' + category.id" class="btn btn-icon  btn-transparent rounded-pill flex-r" ><i class=" fa-solid fa-square-plus fa-xl"></i></button>
+                        :data-target="'#formChild' + category.id" class="btn btn-icon  btn-transparent rounded-pill " ><i class=" fa-solid fa-square-plus fa-xl"></i></button>
                     </div>
                      <div :id="'formChild'+category.id" class="collapse p-2">
                         <div class="row p-2">
@@ -64,11 +64,11 @@
                                 <input type="text" v-model="buildingPrice.description" placeholder="Masukin Uraian" class="form-control form-control-sm mr-1">
                                 <input type="number" v-model="buildingPrice.volume" placeholder="Masukin Volume" class="form-control form-control-sm mr-1">
                                 <input type="text" v-model="buildingPrice.unit" placeholder="Masukin Satuan" class="form-control form-control-sm mr-1">
-                                <input type="number" v-model="buildingPrice.price" placeholder="Masukin Harga" class="form-control form-control-sm mr-1">
+                                <input type="number" v-model="buildingPrice.price" @keyup="sumTotal()" placeholder="Masukin Harga" class="form-control form-control-sm mr-1">
                                 <input type="number" v-model="buildingPrice.amount" @keyup="sumTotal()" placeholder="Masukin Jumlah" class="form-control form-control-sm mr-1">
-                                <input type="text" disabled v-model="buildingPrice.total" placeholder="Total" class="form-control form-control-sm mr-1">
+                                <input type="text" disabled v-model="buildingPrice.total" placeholder="Total" class="form-control form-control-sm ">
                             </div>
-                             <button @click="createBuildingPrice(category.id)" class="btn btn-primary btn-sm "><i class="fas fa-plus-square"></i></button>
+                             <button @click="isEditBuilding ? updateBuilding() : createBuildingPrice(category.id)" class="btn btn-primary btn-sm "><i class="fas fa-plus-square"></i></button>
                                 <button data-toggle="collapse"
                                 :data-target="'#formChild' + category.id" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button>
                         </div>
@@ -77,14 +77,15 @@
                         class="collapse collapse-child"
                         :id="'childRow' + category.id"
                       >
-                      <div class="section bg-child" v-for="building , index in category.buildingPrice" :key="building.id">
+                      <div class="section bg-child py-1" v-for="building , index in category.buildingPrice" :key="building.id">
                           <div  class="row my-2">
-                            <div class="col-3"> <span  class="ml-4">{{ index + 1 }}.</span> <span class="ml-2" style="font-weight: 600;" >{{ building.description }}</span></div>
+                            <div class="col-3"> <span  class="ml-4">{{ index + 1 }}.</span> <span class="ml-2" style="font-weight: 600;" >{{ building.description }}</span>  <button  @click="reset()" data-toggle="collapse"
+                        :data-target="'#formChildren' + building.id" class="btn btn-icon  btn-transparent rounded-pill  " ><i class=" fa-solid fa-square-plus fa-xl"></i></button> </div>
                             <div class="col"><span class="ml-5" >{{ building.volume }}</span></div>
                             <div class="col"><span class="ml-5" > {{ building.unit }}</span></div>
                             <div class="col"><span class="ml-5 ">{{ building.price }} </span></div>
                             <div class="col"><span class="ml-5">{{ building.amount }}</span></div>
-                            <div class="col"><span class="ml-4">{{ building.total }}</span><span class="ml-4"><i class="fas fa-pencil  sortable "></i> <i  @click="deleteBuilding(building.id)" class="fas fa-trash  sortable text-danger"></i></span> </div>
+                            <div class="col"><span class="ml-4">{{ building.total }}</span><span class="ml-4"><i :data-target="'#formChild'+category.id" data-toggle="collapse" @click="sendEditBuilding(building)" class="fas fa-pencil  sortable "></i> <i  @click="deleteBuilding(building.id)" class="fas fa-trash  sortable text-danger"></i></span> </div>
 
                         </div>
                           <div v-for="child in building.child" :key="child.id" class="row mt-2">
@@ -93,8 +94,23 @@
                             <div class="col"><span class="ml-5" >{{ child.unit }}</span></div>
                             <div class="col"><span class="ml-5 ">{{ child.price }} </span></div>
                             <div class="col"><span class="ml-5">{{ child.amount }}</span></div>
-                            <div class="col"><span class="ml-4">{{ child.total }}</span><span class="ml-4"><i class="fas fa-pencil  sortable "></i> <i  @click="deleteBuilding(building.id)" class="fas fa-trash  sortable text-danger"></i></span> </div>
+                            <div class="col"><span class="ml-4">{{ child.total }}</span><span class="ml-4"><i  :data-target="'#formChildren'+building.id" data-toggle="collapse" @click="sendEditBuilding(child)" class="fas fa-pencil  sortable "></i> <i  @click="deleteBuilding(building.id)" class="fas fa-trash  sortable text-danger"></i></span> </div>
                         </div>
+                         <div :id="'formChildren'+building.id" class="collapse p-2">
+                            <div class="row p-2">
+                                <div class="form-inline">
+                                        <input type="text" v-model="buildingPrice.description" placeholder="Masukin Uraian" class="form-control form-control-sm mr-1">
+                                        <input type="number" v-model="buildingPrice.volume" placeholder="Masukin Volume" class="form-control form-control-sm mr-1">
+                                        <input type="text" v-model="buildingPrice.unit" placeholder="Masukin Satuan" class="form-control form-control-sm mr-1">
+                                        <input type="number" v-model="buildingPrice.price" @keyup="sumTotal()" placeholder="Masukin Harga" class="form-control form-control-sm mr-1">
+                                        <input type="number" v-model="buildingPrice.amount" @keyup="sumTotal()" placeholder="Masukin Jumlah" class="form-control form-control-sm mr-1">
+                                        <input type="text" disabled v-model="buildingPrice.total" placeholder="Total" class="form-control form-control-sm ">
+                                    </div>
+                             <button @click="isEditBuilding ? updateBuilding() : createChildBuildingPrice(building.id)" class="btn btn-primary btn-sm "><i class="fas fa-plus-square"></i></button>
+                                <button data-toggle="collapse"
+                                :data-target="'#formChild' + category.id" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button>
+                        </div>
+                     </div>
                     </div>
                       </div>
                     </td>
@@ -155,7 +171,7 @@
 }
 .flex-r{
     position: absolute;
-    left: 10;
+    /* left: 10; */
 }
 </style>
 <script>
@@ -187,6 +203,8 @@ export default {
             isSubmit: false,
             isCreateCategories: false,
             isEditCategories: false,
+            isEditBuilding : false,
+            isCreateChild: false,
         };
     },
     mounted() {
@@ -304,12 +322,82 @@ export default {
                 this.isLoading = false;
             });
         },
+        updateBuilding(){
+            const self = this;
+            const url = [
+                "building-price",
+                 self.buildingPrice.id,
+                {
+                    description: self.buildingPrice.description,
+                    volume: self.buildingPrice.volume,
+                    unit: self.buildingPrice.unit,
+                    price: self.buildingPrice.price,
+                    amount: self.buildingPrice.amount,
+                    total: self.buildingPrice.total,
+                }
+            ];
+            self.$store.dispatch("updateData", url).then((res) => {
+                iziToast.success({
+                    title: "Success",
+                    message: "Data Berhasil Disimpan",
+                    position: "topRight"
+                });
+                self.getBuildingCategory();
+                self.reset()
+                self.isEditBuilding = false;
+                this.isLoading = false;
+            });
+        },
         sendEditCategory(category){
             this.categoryBuilding.id = category.id;
             this.categoryBuilding.category = category.category;
         },
-
+        sendEditBuilding(building){
+            this.buildingPrice.id = building.id;
+            // this.buildingPrice.categoryId = building.categoryId;
+            this.buildingPrice.description = building.description;
+            this.buildingPrice.volume = building.volume;
+            this.buildingPrice.unit = building.unit;
+            this.buildingPrice.price = building.price;
+            this.buildingPrice.amount = building.amount;
+            this.buildingPrice.total = building.total;
+            this.isEditBuilding = true;
+        },
         //  showCategory()
+        createChildBuildingPrice(parent){
+            const self = this;
+            this.isLoading = true;
+            const url = [
+                "building-price",
+                {
+                    parent_id: parent,
+                    // parent_id: parent ,
+                    description: self.buildingPrice.description,
+                    volume: self.buildingPrice.volume,
+                    unit: self.buildingPrice.unit,
+                    price: self.buildingPrice.price,
+                    amount: self.buildingPrice.amount,
+                    total: self.buildingPrice.total,
+                }
+            ];
+            self.$store.dispatch("postData", url).then((res) => {
+                iziToast.success({
+                    title: "Success",
+                    message: "Data Berhasil Disimpan",
+                    position: "topRight"
+                });
+                self.getBuildingCategory();
+                this.isLoading = false;
+                this.reset()
+            }).catch((err) => {
+                iziToast.error({
+                    title: "Error",
+                    message: "Data Gagal Disimpan",
+                    position: "topRight"
+                });
+                this.isLoading = false;
+            });
+        },
         createBuildingPrice(parent){
             const self = this;
             this.isLoading = true;
