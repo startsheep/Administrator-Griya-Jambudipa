@@ -55,12 +55,12 @@
                         ><span>Pembayaran</span></router-link
                     >
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="#" class="nav-link"
                         ><i class="fa-solid fa-id-card-clip"></i
                         ><span>Dokumen Customer</span></a
                     >
-                </li>
+                </li> -->
                 <li class="menu-header">Data Master</li>
                 <li class="nav-item">
                     <router-link to="/company_profile" class="nav-link"
@@ -69,9 +69,9 @@
                     >
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link"
+                    <router-link to="/building" class="nav-link"
                         ><i class="fa-solid fa-building-columns"></i
-                        ><span>Harga Dasar Bangunan</span></a
+                        ><span>Harga Dasar Bangunan</span></router-link
                     >
                 </li>
                 <li class="nav-item">
