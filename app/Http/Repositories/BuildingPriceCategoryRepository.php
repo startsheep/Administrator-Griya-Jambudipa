@@ -20,7 +20,7 @@ class BuildingPriceCategoryRepository implements BuildingPriceCategoryContract
     public function all($request)
     {
         $factory = app()->make(BuildingPriceCategorySearch::class);
-        $categories = $factory->apply()->paginate($request->per_page);
+        $categories = $factory->apply()->with(['buildingPrice.child'])->paginate($request->per_page);
 
         return $categories;
     }
