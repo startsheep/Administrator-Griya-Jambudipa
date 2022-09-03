@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call([
             PositionSeeder::class,
+            CustomerSeeder::class,
+            EmployeeSeeder::class,
             CompanyProfileSeeder::class,
             buildingPriceCategorySeeder::class
         ]);
@@ -28,7 +30,5 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
             'is_active' => 1,
         ]);
-
-        Employee::factory(10)->create();
     }
 }

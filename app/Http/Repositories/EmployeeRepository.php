@@ -6,6 +6,7 @@ use App\Http\Repositories\Contracts\EmployeeContract;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\EmployeeSearch;
 use App\Models\Employee;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 
@@ -35,6 +36,7 @@ class EmployeeRepository implements EmployeeContract
             }
         }
 
+        $attributes['referal_code'] = Str::random(6);
         $attributes['is_active'] = 1;
         $result = $this->employee->create($attributes);
 
@@ -56,7 +58,7 @@ class EmployeeRepository implements EmployeeContract
     {
         if (isset($attributes['image'])  && $attributes['image']) {
             if (isset($attributes['image']) && $attributes['image']) {
-                if($result->image !=null){
+                if ($result->image != null) {
 
                     Storage::delete($result->image);
                 }
@@ -68,9 +70,11 @@ class EmployeeRepository implements EmployeeContract
 
         if (isset($attributes['documents'])) {
             if (isset($attributes['documents']) && $attributes['documents']) {
-                foreach ($result->document as $document) {
-                    Storage::delete($document->document_path);
-                    $result->document()->delete();
+                if ($result->document) {
+                    foreach ($result->document as $document) {
+                        Storage::delete($document->document_path);
+                        $result->document()->delete();
+                    }
                 }
                 $this->multipleUpload($attributes['documents'], $result);
             }

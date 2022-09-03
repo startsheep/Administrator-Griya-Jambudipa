@@ -3,12 +3,11 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Employee>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Customer>
  */
-class EmployeeFactory extends Factory
+class CustomerFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,14 +19,11 @@ class EmployeeFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->safeEmail(),
-            'position_id' => 1,
-            'referal_code' => Str::random(6),
             'phone' => mt_rand(00000000, 999999),
+            'profession' => "PNS",
             'gender' => 'L',
-            'entry_date' => now(),
             'address' => fake()->address(),
             'is_active' => 1,
-            'status' => 1,
         ];
     }
 }

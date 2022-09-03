@@ -17,20 +17,30 @@ class PaymentCollection extends ResourceCollection
         $result = [];
 
         foreach ($this as $item) {
-            // $price = (string) $this->priceHouseType($item->customer->customerKavling);
+            $price = (string) $this->priceHouseType($item->customer->customerKavling);
+            $reminderPrice = (string) $this->reminderPrice($price, $item->paymentPrice);
+            $cekData = $item->customer()
+                ->whereMonth('created_at', date('m'))
+                ->whereYear('created_at', date('Y'))
+                ->first();
 
-            $result[] = [
-                "id" => $item->id,
-                "customer_id" => $item->customer_id,
-                "price" => $item->price,
-                "created_at" => $item->created_at,
-                "updated_at" => $item->updated_at,
-                // "reminder_payment" => (string) ($price - $item->price),
-                // "price_house" => $price
-            ];
+            if ($cekData) {
+                if ($reminderPrice != 0) {
+                    $result[] = [
+                        "id" => $item->id,
+                        "reminder_payment" => $reminderPrice,
+                        "price_house" => $price,
+                        "type" => $item->type,
+                        "customer" => $item->customer,
+                        "created_at" => $item->created_at,
+                        "updated_at" => $item->updated_at,
+                    ];
+                }
+            }
         }
 
         return $result;
+        // return parent::toArray($request);
     }
 
     protected function priceHouseType($result)
@@ -40,6 +50,18 @@ class PaymentCollection extends ResourceCollection
         foreach ($result as $item) {
             $price += $item->kavling->houseType->price;
         }
+        return $price;
+    }
+
+    protected function reminderPrice($price, $result)
+    {
+        $total = 0;
+
+        foreach ($result as $item) {
+            $total += $item->price;
+        }
+
+        $price -= $total;
 
         return $price;
     }
