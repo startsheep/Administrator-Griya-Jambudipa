@@ -11,6 +11,7 @@ class BuildingPrice extends Model
 
     protected $fillable = [
         'id',
+        'building_price_category_id',
         'parent_id',
         'unit',
         'volume',
@@ -20,13 +21,18 @@ class BuildingPrice extends Model
         'description',
     ];
 
+    public function buildingPriceCategory()
+    {
+        return $this->hasOne(BuildingPriceCategory::class, 'id', 'building_price_category_id');
+    }
+
     public function parent()
     {
-        return $this->hasOne(Tickets::class, 'id', 'parent_id');
+        return $this->hasOne(BuildingPrice::class, 'id', 'parent_id');
     }
 
     public function child()
     {
-        return $this->hasMany(Tickets::class, 'parent_id');
+        return $this->hasMany(BuildingPrice::class, 'parent_id');
     }
 }

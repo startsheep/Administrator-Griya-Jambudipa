@@ -35,7 +35,7 @@ class BuildingPriceRepository implements BuildingPriceContract
 
     public function find($id): BuildingPrice
     {
-        return $this->buildingPrice->find($id);
+        return $this->buildingPrice->with(['parent', 'child', 'buildingPriceCategory'])->find($id);
     }
 
     public function update(array $attributes, $result)

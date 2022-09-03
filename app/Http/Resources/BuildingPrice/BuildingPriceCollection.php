@@ -14,6 +14,27 @@ class BuildingPriceCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $data = [];
+
+        foreach ($this as $item) {
+            $data[] = [
+                "id" => $item->id,
+                "building_price_category_id" => $item->building_price_category_id,
+                "parent_id" => $item->parent_id,
+                "unit" => $item->unit,
+                "amount" => $item->amount,
+                "volume" => $item->volume,
+                "price" => $item->price,
+                "total" => $item->total,
+                "description" => $item->description,
+                "created_at" => $item->created_at,
+                "updated_at" => $item->updated_at,
+                "parent" => $item->parent,
+                "child" => $item->child,
+                "building_price_category" => $item->buildingPriceCategory
+            ];
+        }
+
+        return $data;
     }
 }
