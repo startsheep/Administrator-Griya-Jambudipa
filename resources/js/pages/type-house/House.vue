@@ -172,7 +172,7 @@
                           >
                           <button
 
-                          class="dropdown-item action sortable"
+                          class="dropdown-item action sortable" data-target="#detailTypeHouse" data-toggle="modal" @click="detailTypeHouse(houses[index])"
                             >Detail</button
                           >
                         </div>
@@ -196,6 +196,7 @@
         </div>
       </div>
     </div>
+    <DetailTypeHouse :detailHouse="detailHouse"/>
   </section>
 </template>
 <script>
@@ -206,10 +207,12 @@ import ModalCreate from "./ModalCreate.vue";
 import SummerNote from "../../components/SummerNote.vue";
 import DetailImage from "../../components/DetailImage.vue";
 import Utils from "../../store/services/utils"
+import DetailTypeHouse from "./DetailTypeHouse.vue";
 
 export default {
   data() {
     return {
+      detailHouse:{},
       houses: [],
       house: {
         type: "",
@@ -259,6 +262,9 @@ export default {
     },
   },
   methods: {
+    detailTypeHouse(data){
+        this.detailHouse=data;
+    },
     reset(){
         this.house = {
             type: "",
@@ -470,6 +476,7 @@ export default {
     ModalCreate,
     SummerNote,
     DetailImage,
+    DetailTypeHouse,
   },
 };
 </script>
