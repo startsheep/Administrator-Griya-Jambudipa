@@ -90,7 +90,9 @@ class CustomerRepository implements CustomerContract
 
         if (isset($attributes['image'])) {
             if (isset($attributes['image']) && $attributes['image']) {
-                Storage::delete($result->image);
+                if ($result->image != null) {
+                    Storage::delete($result->image);
+                }
                 $attributes['image'] = $this->storageFile($attributes['image'], 'customer');
             }
         }
@@ -106,9 +108,11 @@ class CustomerRepository implements CustomerContract
 
         if (isset($attributes['documents'])) {
             if (isset($attributes['documents']) && $attributes['documents']) {
-                foreach ($result->document as $document) {
-                    Storage::delete($document->document_path);
-                    $result->document()->delete();
+                if ($result->document) {
+                    foreach ($result->document as $document) {
+                        Storage::delete($document->document_path);
+                        $result->document()->delete();
+                    }
                 }
                 $this->multipleUpload($attributes['documents'], $result);
             }

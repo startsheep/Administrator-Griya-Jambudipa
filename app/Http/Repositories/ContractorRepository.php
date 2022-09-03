@@ -71,9 +71,11 @@ class ContractorRepository implements ContractorContract
 
         if (isset($attributes['documents'])) {
             if (isset($attributes['documents']) && $attributes['documents']) {
-                foreach ($result->document as $document) {
-                    Storage::delete($document->document_path);
-                    $result->document()->delete();
+                if ($result->document) {
+                    foreach ($result->document as $document) {
+                        Storage::delete($document->document_path);
+                        $result->document()->delete();
+                    }
                 }
                 $this->multipleUpload($attributes['documents'], $result);
             }
