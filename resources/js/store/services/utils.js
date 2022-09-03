@@ -37,6 +37,11 @@ const Utils = {
             roman_num = (key[+digits.pop() + (i * 10)] || "") + roman_num;
         return Array(+digits.join("") + 1).join("M") + roman_num;
 
+    },
+    formatKuadrat(word){
+        let split = word.split('');
+        split[split.length - 1] = '²';
+        return split.join('');
     }
 
 
