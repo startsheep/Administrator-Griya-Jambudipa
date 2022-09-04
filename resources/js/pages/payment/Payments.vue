@@ -104,7 +104,7 @@
                 </button>
                 <button
                   data-toggle="collapse"
-                  data-target="#formCreate"
+                  data-target="#formEdit"
                   class="btn btn-danger btn-block"
                 >
                   Batal
@@ -414,9 +414,8 @@ export default {
           "payment",
           {
 
-         customer_id: this.payment.customerId,
+          customer_id: this.payment.customerId,
           employee_id: this.idEmployee,
-          type: this.payment.type,
           price: this.payment.price,
           },
         ];
