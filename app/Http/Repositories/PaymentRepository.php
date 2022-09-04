@@ -29,7 +29,25 @@ class PaymentRepository implements PaymentContract
 
     public function store(array $attributes)
     {
-        return $this->payment->create($attributes);
+        $cekData = $this->payment->where('customer_id', $attributes['customer_id'])
+            ->whereMonth('created_at', date('m'))
+            ->whereYear('created_at', date('Y'))
+            ->first();
+
+        if ($cekData) {
+            $cekData->update($attributes);
+            $result = $cekData;
+            $cekData->paymentPrice()->create([
+                'price' => $attributes['price']
+            ]);
+        } else {
+            $result = $this->payment->create($attributes);
+            $result->paymentPrice()->create([
+                'price' => $attributes['price']
+            ]);
+        }
+
+        return $result;
     }
 
     public function find($id): Payment
