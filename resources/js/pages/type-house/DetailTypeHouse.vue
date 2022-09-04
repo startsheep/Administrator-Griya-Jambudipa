@@ -36,7 +36,7 @@
                                         <div class="">Dokumen</div>
                                         <div class="row">
                                             <div
-                                                class="col-4"
+                                                class="col-4 mb-4"
                                                 v-for="doc in detailHouse.document"
                                                 :key="doc.id"
                                             >
@@ -137,5 +137,14 @@ export default {
     padding: 5px;
     margin-top: 2px;
     color: #000;
+}
+.user-item img {
+    border-radius: 20%;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+.img-fluid {
+    max-width: 95%;
+    height: 95%;
 }
 </style>
