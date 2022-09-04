@@ -8,6 +8,7 @@ import user from "./modules/users";
 import kavling from "./modules/kavling";
 import contractor from "./modules/contractor";
 import payment from "./modules/payment";
+import building from "./modules/building";
 
 const routes = [
     ...auth,
@@ -19,6 +20,7 @@ const routes = [
     ...user,
     ...contractor,
     ...payment,
+    ...building,
     {
         path: "/",
         name: "Dashboard",

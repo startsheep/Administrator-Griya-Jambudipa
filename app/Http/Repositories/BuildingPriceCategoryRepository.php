@@ -47,7 +47,7 @@ class BuildingPriceCategoryRepository implements BuildingPriceCategoryContract
     public function delete($result)
     {
         if ($result->id != 1) {
-            $result->buildingPrice()?->update(['category_id' => 1]);
+            $result->buildingPrice()?->update(['building_price_category_id' => 1]);
 
             return $result->delete();
         }

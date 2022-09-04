@@ -26,6 +26,6 @@ class Kavling extends Model
 
     public function houseType()
     {
-        return $this->belongsTo(HouseType::class, 'id');
+        return $this->belongsTo(HouseType::class, 'house_type_id', 'id');
     }
 }
