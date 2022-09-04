@@ -20,15 +20,106 @@
       </div>
       <div class="row">
         <div class="col">
+          <div class="collapse" id="formCreate">
+            <div class="card">
+              <div class="card-header">
+                <h4>Tambah Pembayaran</h4>
+              </div>
+              <div class="card-body">
+                <div class="form-col">
+                  <div class="form-group">
+                    <label>Nama</label>
+                    <select class="form-control" v-model="payment.customerId">
+                      <option
+                        :key="customer.id"
+                        v-for="customer in customers"
+                        :value="customer.id"
+                      >
+                        {{ customer.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Jenis Pembayaram</label>
+                    <select class="form-control" v-model="payment.type">
+                      <option value="Cash Keras">Cash Keras</option>
+                      <option value="Cash Bertahap">Cash Bertahap</option>
+                      <option value="KPR">KPR</option>
+                    </select>
+                  </div>
+                  <!-- <div class="form-group">
+                                <label for="name">Blok</label>
+                                <select  class="form-control"></select>
+                            </div> -->
+                  <div class="form-group">
+                    <label>Cicilan</label>
+                    <input
+                      v-model="payment.price"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <button
+                  class="btn btn-primary btn-block"
+                  @click="createPayment"
+                >
+                  Simpan
+                </button>
+                <button
+                  data-toggle="collapse"
+                  data-target="#formCreate"
+                  class="btn btn-danger btn-block"
+                >
+                  Batal
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="collapse" id="formEdit">
+            <div class="card">
+              <div class="card-header">
+                <h4>Form Cicilan </h4>
+              </div>
+              <div class="card-body">
+                <div class="form-col">
+                  <div class="form-group">
+                    <label>Cicilan</label>
+                    <input
+                      v-model="payment.price"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <button
+                  class="btn btn-primary btn-block"
+                  @click="editPayment"
+                >
+                  Simpan
+                </button>
+                <button
+                  data-toggle="collapse"
+                  data-target="#formCreate"
+                  class="btn btn-danger btn-block"
+                >
+                  Batal
+                </button>
+              </div>
+            </div>
+          </div>
           <div class="card">
             <div class="card-header">
               <Button
-                data-toggle="modal"
-                data-target="#Modalpayment"
+                data-toggle="collapse"
+                data-target="#formCreate"
                 class="btn btn-primary"
-                @click="isCreate()"
               >
-                Tambah payment
+                Tambah Pembayaran
               </Button>
             </div>
             <div class="card-body">
@@ -63,10 +154,11 @@
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th width="10%">Nama</th>
+                      <th width="15%">Nama</th>
                       <th width="10%">Blok</th>
                       <th width="10%">Nomor telepon</th>
-                      <th width="15%">Sisa Pembayaran</th>
+                      <th width="10%">Angsuran</th>
+                      <th width="15%">Sisa Angsuran</th>
                       <th width="10%">Tipe Pembayaran</th>
                       <th class="text-center" width="5%">Aksi</th>
                     </tr>
@@ -80,12 +172,17 @@
                               src="../../../../public/assets/images/avatar/avatar-1.png"
                               alt="..."
                             />
-                            <i v-if="payment.remainingPayment > 0" class="avatar-presence busy"></i>
+                            <i
+                              v-if="payment.reminderPayment > 0"
+                              class="avatar-presence busy"
+                            ></i>
                             <i v-else class="avatar-presence online"></i>
                           </figure>
 
                           <div class="media-body">
-                            <div class="media-title">{{ payment.name }}</div>
+                            <div class="media-title">
+                              {{ payment.customer.name }}
+                            </div>
                             <div class="text-job text-muted">
                               <span>{{
                                 showLogUpdate(payment.updatedAt)
@@ -94,17 +191,17 @@
                           </div>
                         </div>
                       </td>
-                      <td>{{ payment.block }}</td>
-                      <td>{{ payment.phone }}</td>
-                      <td>{{formatRupiah( payment.remainingPayment)}}</td>
+                      <td>{{ getBlocks(payment.customer.customerKavling) }}</td>
+                      <td>{{ payment.customer.phone }}</td>
+                      <td>{{ formatRupiah(payment.priceHouse) }}</td>
+                      <td>{{ formatRupiah(payment.reminderPayment) }}</td>
                       <td>
                         <span
                           :class="
-                            'badge badge-' +
-                            showTypePayment(payment.typePayment)
+                            'badge badge-' + showTypePayment(payment.type)
                           "
                         >
-                          {{ payment.typePayment }}
+                          {{ payment.type }}
                         </span>
                       </td>
                       <td class="align-middle text-center">
@@ -124,17 +221,11 @@
                           <div class="dropdown-menu action">
                             <button
                               class="dropdown-item action sortable"
-                              data-toggle="modal"
-                              data-target="#Modalpayment"
+                              data-toggle="collapse"
+                              data-target="#formEdit"
                               @click="sendEdit(payment)"
                             >
-                              Edit
-                            </button>
-                            <button
-                              class="dropdown-item action sortable"
-                              @click="deletepayment(payment.id)"
-                            >
-                              Hapus
+                              Nyicil
                             </button>
                             <button class="dropdown-item action sortable">
                               Detail
@@ -145,7 +236,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <CircleLoader v-show="isLoading" />
+                <CircleLoader v-if="isLoading" />
               </div>
             </div>
             <div class="card-footer">
@@ -164,6 +255,7 @@
 </template>
 <script>
 import moment from "moment";
+import Cookie from "js-cookie";
 import iziToast from "izitoast";
 import Pagination from "../../components/Pagination.vue";
 import CircleLoader from "../../components/CircleLoader.vue";
@@ -176,43 +268,20 @@ export default {
   data() {
     return {
       //data
-      payment: null,
+      payment: {
+        id: "",
+        customerId: "",
+        employeeId: "",
+        type: "",
+        price: "",
+      },
 
       payments: [
-        {
-          id: "1",
-          image: "../../../../public/assets/images/avatar/avatar-1.png",
-
-          block: "A",
-          name: "Ahmad",
-          remainingPayment: "100.000",
-          typePayment: "Cash Keras",
-          updatedAt: "2020-01-01",
-          phone: "123121",
-        },
-        {
-          id: "1",
-          image: "../../../../public/assets/images/avatar/avatar-1.png",
-          block: "A",
-          name: "Ahmadudin",
-          remainingPayment: "100.000",
-          typePayment: "KPR",
-          phone: "1231211",
-          updatedAt: "2020-01-01",
-        },
-        {
-          id: "1",
-          image: "../../../../public/assets/images/avatar/avatar-1.png",
-          block: "A",
-          name: "Ahmad",
-          remainingPayment: "0",
-          phone: "123121121",
-          typePayment: "Cash Bertahap",
-          updatedAt: "2020-01-01",
-        },
         //  make same data with deferent value
       ],
+      customers: [],
       isLoading: false,
+      selectedCustomer: null,
       typePayment: [
         {
           type: "Cash Keras",
@@ -239,18 +308,32 @@ export default {
   },
   mounted() {
     this.getPayments();
+    this.getCustomers();
   },
-  computed: {},
+  computed: {
+    idEmployee() {
+      return Cookie.get("id");
+    },
+  },
   watch: {},
   methods: {
-     formatRupiah(number) {
+    getBlocks(array) {
+      //    getblock name between comma
+      let blocks = [];
+      array.forEach((element) => {
+
+        blocks.push(element.kavling.block);
+      });
+      return blocks.join(", ");
+    },
+    formatRupiah(number) {
       return Utils.formatRupiah(number, "Rp. ");
     },
     showLogUpdate(date) {
       return moment(date).fromNow();
     },
     showTypePayment(type) {
-      return this.typePayment.find((item) => item.type === type).color;
+        if(type)return this.typePayment.find((item) => item.type === type).color;
     },
     getPayments() {
       const self = this;
@@ -258,10 +341,9 @@ export default {
       const params = [
         //   `name=${this.name}`,
         // `position=${this.name}`,
-        `order_by=positions.id`,
-        `order_direction=${this.order_direction}`,
-        `page=${this.pagination.page}`,
-        `per_page=${this.pagination.perPage}`,
+        // `order_direction=${this.order_direction}`,
+        // `page=${this.pagination.page}`,
+        // `per_page=${this.pagination.perPage}`,
       ].join("&");
       self.$store.dispatch("getData", ["payment", params]).then((res) => {
         self.payments = res.data;
@@ -273,10 +355,78 @@ export default {
     },
     onPageChange(page) {
       this.pagination.page = page;
-      this.getpayments();
+      this.getPayments();
     },
     onSuccess() {
-      this.getpayments();
+      this.getPayments();
+    },
+    getCustomers() {
+      const self = this;
+      self.$store.dispatch("getData", ["customer"]).then((res) => {
+        self.customers = res.data;
+      });
+    },
+    createPayment() {
+      const self = this;
+      const url = [
+        "payment",
+        {
+          customer_id: this.payment.customerId,
+          employee_id: this.idEmployee,
+          type: this.payment.type,
+          price: this.payment.price,
+        },
+      ];
+      self.$store
+        .dispatch("postData", url)
+        .then((res) => {
+          iziToast.success({
+            title: "Success",
+            message: "Data berhasil ditambahkan",
+            position: "topRight",
+          });
+          $("#formCreate").collapse('hide');
+          self.onSuccess();
+        })
+        .catch((err) => {
+          let messages = err.response.data.meta.message;
+          Object.entries(messages).forEach(([key, value]) => {
+            iziToast.warning({
+              title: "Warning",
+              message: value,
+              position: "topRight",
+            });
+          });
+        });
+    },
+    editPayment(){
+        const self = this;
+        const url = [
+          "payment",
+          {
+
+         customer_id: this.payment.customerId,
+          employee_id: this.idEmployee,
+          type: this.payment.type,
+          price: this.payment.price,
+          },
+        ];
+        self.$store.dispatch('postData' ,url).then(
+              res=>{
+                iziToast.success({
+                  title: "Success",
+                  message: "Data berhasil diubah",
+                  position: "topRight",
+                });
+                $("#formEdit").collapse('hide');
+                self.onSuccess();
+                self.reset()
+              }
+        )
+    },
+    sendEdit(payment){
+        this.payment.id = payment.id
+        this.payment.customerId= payment.customer.id
     },
     delete(id) {
       const self = this;
@@ -299,16 +449,25 @@ export default {
                   message: "Data berhasil dihapus",
                   position: "topRight",
                 });
-                self.getpayments();
+                self.getPayments();
               });
           }
         });
     },
+    reset(){
+        this.payment = {
+            id: "",
+            customerId: "",
+            employeeId: "",
+            type: "",
+            price: "",
+        }
+    }
   },
 };
 </script>
 <style>
-    .avatar .avatar-presence{
-        top:0 !important;
-    }
+.avatar .avatar-presence {
+  top: 0 !important;
+}
 </style>
