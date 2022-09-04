@@ -81,7 +81,7 @@
           <div class="collapse" id="formEdit">
             <div class="card">
               <div class="card-header">
-                <h4>Form Cicilan </h4>
+                <h4>Form Angsuran {{ showNameCustomer(payment.customerId)}}</h4>
               </div>
               <div class="card-body">
                 <div class="form-col">
@@ -317,6 +317,15 @@ export default {
   },
   watch: {},
   methods: {
+    showNameCustomer(id){
+            let name =''
+            this.customers.forEach((customer) => {
+                if (customer.id == id) {
+                    name = customer.name;
+                }
+            });
+            return name
+        },
     getBlocks(array) {
       //    getblock name between comma
       let blocks = [];
