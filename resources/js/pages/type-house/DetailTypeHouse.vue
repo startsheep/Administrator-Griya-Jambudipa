@@ -93,8 +93,7 @@
                             style="width: 100%"
                             type="button"
                             class="btn btn-danger"
-                            data-dismiss="modal"
-                        >
+                            data-dismiss="modal">
                             Tutup
                         </button>
                     </div>
