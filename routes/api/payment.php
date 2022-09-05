@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\PaymentController;
+use App\Http\Controllers\API\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -9,4 +10,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [PaymentController::class, 'store'])->name('api.payment.store');
         Route::get('/{id}', [PaymentController::class, 'show'])->name('api.payment.show');
     });
+
+    Route::get('transaction', TransactionController::class)->name('api.transaction.index');
 });
