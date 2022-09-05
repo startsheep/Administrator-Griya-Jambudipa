@@ -9,6 +9,7 @@ import kavling from "./modules/kavling";
 import contractor from "./modules/contractor";
 import payment from "./modules/payment";
 import building from "./modules/building";
+import transaction from "./modules/transaction";
 
 const routes = [
     ...auth,
@@ -21,6 +22,7 @@ const routes = [
     ...contractor,
     ...payment,
     ...building,
+    ...transaction,
     {
         path: "/",
         name: "Dashboard",
