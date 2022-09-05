@@ -468,7 +468,7 @@
 </style>
 <script>
 import Utils from "../../store/services/utils";
-import iziToast from "iziToast";
+import iziToast from "izitoast";
 import CircleLoader from "../../components/CircleLoader.vue";
 import Pagination from "../../components/Pagination.vue";
 
