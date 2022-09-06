@@ -1,11 +1,11 @@
 <template>
   <section class="section">
-    <div class="section-header">
+    <div class="section-header" >
       <h1>Tipe Rumah</h1>
     </div>
-    <div class="row">
-         <div class="col-12 col-lg-5" style="position:sticky;">
-        <div class="card " >
+    <div class="row ">
+         <div class="col-12 col-lg-5" >
+        <div class="card ">
           <div class="card-header">
             <h4>{{ isFormEdit ? 'Edit' : 'Tambah' }} Tipe Rumah</h4>
           </div>
@@ -77,7 +77,7 @@
         </div>
       </div>
       <div class="col-12 col-lg-7">
-        <div class="card">
+        <div class="card" >
           <div class="card-header">
             <h4>
                 Data Rumah
