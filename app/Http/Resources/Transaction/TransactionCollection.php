@@ -17,8 +17,7 @@ class TransactionCollection extends ResourceCollection
         $result = [];
 
         foreach ($this as $item) {
-            $price = (string) $this->priceHouseType($item->customer->customerKavling);
-            $reminderPrice = (string) $this->reminderPrice($price, $item->paymentPrice);
+            $reminderPrice = (string) $this->reminderPrice($item->houseType->price, $item->paymentPrice);
             $cekData = $item->customer()
                 ->whereMonth('created_at', date('m'))
                 ->whereYear('created_at', date('Y'))
@@ -29,7 +28,7 @@ class TransactionCollection extends ResourceCollection
                     $result[] = [
                         "id" => $item->id,
                         "reminder_payment" => $reminderPrice,
-                        "price_house" => $price,
+                        "house_type" => $item->houseType,
                         "type" => $item->type,
                         "customer" => $item->customer,
                         "created_at" => $item->created_at,
@@ -40,22 +39,12 @@ class TransactionCollection extends ResourceCollection
         }
 
         return $result;
-    }
-
-    protected function priceHouseType($result)
-    {
-        $price = 0;
-
-        foreach ($result as $item) {
-            $price += $item->kavling->houseType->price;
-        }
-        return $price;
+        // return parent::toArray($request);
     }
 
     protected function reminderPrice($price, $result)
     {
         $total = 0;
-
         foreach ($result as $item) {
             $total += $item->price;
         }
