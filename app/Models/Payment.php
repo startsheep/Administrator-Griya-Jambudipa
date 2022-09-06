@@ -16,6 +16,11 @@ class Payment extends Model
         return $this->hasOne(Customer::class, 'id', 'customer_id');
     }
 
+    public function employee()
+    {
+        return $this->hasOne(Employee::class, 'id', 'employee_id');
+    }
+
     public function paymentPrice()
     {
         return $this->hasMany(PaymentPrice::class, 'payment_id');

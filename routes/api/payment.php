@@ -11,5 +11,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/{id}', [PaymentController::class, 'show'])->name('api.payment.show');
     });
 
-    Route::get('transaction', TransactionController::class)->name('api.transaction.index');
+    Route::prefix('transaction')->group(function () {
+        Route::get('/', [TransactionController::class, 'index'])->name('api.transaction.index');
+        Route::get('/{id}', [TransactionController::class, 'show'])->name('api.transaction.show');
+    });
 });
