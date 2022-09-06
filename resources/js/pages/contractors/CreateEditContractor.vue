@@ -19,7 +19,7 @@
                       placeholder="Nama Perusahaan"
                     />
                   </div>
-  
+
                   <div class="form-group col-lg-6">
                     <label for="name">Nama Pic</label>
                     <input
@@ -39,7 +39,7 @@
                       placeholder="Nomor Telepon"
                     />
                   </div>
-  
+
                   <div class="form-group col-lg-6">
                     <label>Email</label>
                     <input
@@ -50,7 +50,7 @@
                     />
                   </div>
 
-                  <div class="form-group col-lg-6">
+                  <div class="form-group col-lg-12">
                     <label>Alamat</label>
                     <input
                       v-model="contractor.address"
@@ -59,7 +59,7 @@
                       placeholder="Alamat"
                     />
                   </div>
-  
+
                   <div class="custom-file form-group col-lg-6">
                     <input
                       @change="selectImage"
@@ -114,7 +114,7 @@
               </div>
               <div class="card-footer text-right">
                 <button
-  
+
                   @click="back"
                   class="btn btn-danger mr-2"
                   type="button"
@@ -139,7 +139,7 @@
   <script>
   import iziToast from "izitoast";
   import moment from "moment";
-  
+
   export default {
     props: ["id"],
     data() {
@@ -178,7 +178,7 @@
         this.contractor.document.forEach((document, index) =>
           fieldData.append("documents[" + index + "]", document)
         );
-  
+
         if (this.contractor.image) {
           fieldData.append("image", this.contractor.image);
         }
@@ -220,10 +220,10 @@
           return false;
         }
       },
-  
+
       selectDocuments(e) {
         const files = e.target.files;
-  
+
         for (let i = 0; i < files.length; i++) {
           if (this.checkIsDocument(files[i])) {
             this.contractor.document.push(files[i]);
@@ -249,7 +249,7 @@
           });
         }
       },
-  
+
       createContractor() {
         const self = this;
         this.isSubmit = true;

@@ -54,9 +54,10 @@
                   <div class="form-group">
                     <label>Cicilan</label>
                     <input
-                      v-model="payment.price"
-                      type="text"
-                      class="form-control"
+                    v-model="payment.price"
+                    type="text"
+                    class="form-control"
+                    @change="formatRupiah(payment.price)"
                     />
                   </div>
                 </div>
@@ -78,7 +79,7 @@
               </div>
             </div>
           </div>
-          <div class="collapse" id="formEdit">
+          <!-- <div class="collapse" id="formEdit">
             <div class="card">
               <div class="card-header">
                 <h4>Form Angsuran {{ showNameCustomer(payment.customerId)}}</h4>
@@ -111,7 +112,7 @@
                 </button>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="card">
             <div class="card-header">
               <Button
@@ -154,8 +155,8 @@
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th width="15%">Nama</th>
-                      <th width="10%">Blok</th>
+                      <th width="20%">Nama</th>
+                      <th width="5%">Blok</th>
                       <th width="10%">Nomor telepon</th>
                       <th width="10%">Angsuran</th>
                       <th width="15%">Sisa Angsuran</th>
@@ -219,14 +220,14 @@
                             ></i>
                           </button>
                           <div class="dropdown-menu action">
-                            <button
+                            <!-- <button
                               class="dropdown-item action sortable"
                               data-toggle="collapse"
                               data-target="#formEdit"
                               @click="sendEdit(payment)"
                             >
                               Nyicil
-                            </button>
+                            </button> -->
                             <button class="dropdown-item action sortable">
                               Detail
                             </button>
@@ -368,6 +369,7 @@ export default {
     },
     onSuccess() {
       this.getPayments();
+      this.reset();
     },
     getCustomers() {
       const self = this;
@@ -413,7 +415,6 @@ export default {
         const url = [
           "payment",
           {
-
           customer_id: this.payment.customerId,
           employee_id: this.idEmployee,
           price: this.payment.price,
