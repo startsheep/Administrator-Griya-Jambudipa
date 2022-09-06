@@ -89,7 +89,7 @@ class PaymentRepository implements PaymentContract
 
         $total += $price;
 
-        if ((string) $total >= $result->houseType->price) {
+        if ((string) $total >= $result->houseType->price + 1) {
             return false;
         }
 
