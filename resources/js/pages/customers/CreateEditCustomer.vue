@@ -1,13 +1,12 @@
 
 <template>
-  <Transition name="fade">
     <section class="section">
-      <div class="section-header">
+      <div class="section-header " style="position: sticky; top:0; ">">
         <h1>{{ id ? "Edit" : "Tambah" }} Data Pegawai</h1>
       </div>
       <div class="row">
-        <div class="col">
-          <div class="card">
+        <div class="col d-flex justify-content-center">
+          <div class="card" style="width:80%">
             <div class="card-header"></div>
             <div class="card-body">
               <form class="form-row">
@@ -73,17 +72,25 @@
                     placeholder="Pick some"
                     label="block"
                     track-by="block"
-                    :preselect-first="true"
                   >
-                    <template
-                      slot="selection"
-                      slot-scope="{ values, search, isOpen }"
-                      ><span
-                        class="multiselect__single"
-                        v-if="values.length &amp;&amp; !isOpen"
-                        >{{ values.length }} options selected</span
+                    <template slot="singleLabel" slot-scope="props"
+                      ><span class="option__desc"
+                        ><span class="option__title">{{
+                          props.option.block
+                        }}</span></span
                       ></template
                     >
+                    <template slot="option" slot-scope="props"
+                      >
+                      <div class="option__desc">
+                        <span class="option__title">{{
+                          props.option.block
+                        }}</span
+                        ><span class="option__small">{{
+                          props.option.numberKavling
+                        }}</span>
+                      </div>
+                    </template>
                   </multiselect>
                   <!-- <pre class="language-json"><code>{{ value  }}</code></pre> -->
                 </div>
@@ -122,11 +129,11 @@
                 </div>
               </form>
               <div class="row">
-                 <div class="col-lg-6">
+                <div class="col-lg-6">
                   <h6>Foto :</h6>
                   <div
-                   v-show="previewImage"
-                    class="card bg-primary"
+                    v-show="previewImage"
+                    class="card "
                     style="width: 200px; height: 200px"
                   >
                     <img
@@ -152,26 +159,23 @@
                 </div>
               </div>
             </div>
-            <div class="card-footer text-right">
-
-                <button @click="back" class="btn btn-danger mr-2" type="button">
-                  Batal
-                </button>
+            <div class="card-footer">
                 <button
                   :class="{ 'disabled btn-progress': isSubmit }"
                   @click="id ? updateCustomer() : createCustomer()"
-                  class="btn btn-primary ml-2"
+                  class="btn btn-primary btn-block"
                   type="button"
                 >
                   {{ id ? "Update" : "Tambah" }}
                 </button>
-
+              <button @click="back" class="btn btn-danger  btn-block" type="button">
+                Batal
+              </button>
             </div>
           </div>
         </div>
       </div>
     </section>
-  </Transition>
 </template>
 <script>
 import Multiselect from "vue-multiselect";
@@ -183,7 +187,7 @@ export default {
   components: { Multiselect },
   data() {
     return {
-    //   value: [],
+      //   value: [],
       customer: {
         name: "",
         email: "",
@@ -200,33 +204,38 @@ export default {
       isSubmit: false,
     };
   },
-  mounted: function () {
+  mounted(){
     this.getKavlings();
+    this.changeKavlings()
     if (this.id) {
       this.showCustomer();
     }
   },
   computed: {
+    customLabel({ block, numberKavling }) {
+      return `${block} – ${block}`;
+    },
+
     formData() {
       const fieldData = new FormData();
-      let kavlings_id =[];
-    //   this.customer.kavlings.forEach((kav , index)=>kavlings_id.push(kav.id))
+      let kavlings_id = [];
+      //   this.customer.kavlings.forEach((kav , index)=>kavlings_id.push(kav.id))
       if (this.id) {
         fieldData.append("id", this.id);
         fieldData.append("_method", "PUT");
       }
-      this.customer.kavlings.forEach((kav , index)=>{
+      this.customer.kavlings.forEach((kav, index) => {
         fieldData.append("kavlings[" + index + "]", kav.id);
-      })
+      });
       fieldData.append("name", this.customer.name);
       fieldData.append("email", this.customer.email);
-    //   fieldData.append("kavlings", kavlings_id);
+      //   fieldData.append("kavlings", kavlings_id);
       fieldData.append("profession", this.customer.profession);
       fieldData.append("phone", this.customer.phone);
       fieldData.append("address", this.customer.address);
       fieldData.append("gender", this.customer.gender);
       this.customer.document.forEach((document, index) => {
-        fieldData.append("documents[" + index + "]", document);
+          fieldData.append("documents[" + index + "]", document);
       });
       //   fieldData.append("documents[]", this.customer.document);
       if (this.customer.image) {
@@ -236,6 +245,8 @@ export default {
     },
   },
   methods: {
+      changeKavlings(){
+      },
     back() {
       this.$router.back();
     },
@@ -290,7 +301,7 @@ export default {
       const file = e.target.files[0];
       if (this.checkExtension(file)) {
         this.customer.image = file;
-       this.previewImage = URL.createObjectURL(file);
+        this.previewImage = URL.createObjectURL(file);
       } else {
         iziToast.warning({
           title: "Warning",
@@ -303,7 +314,14 @@ export default {
     getKavlings() {
       const self = this;
       self.$store.dispatch("getData", ["kavling"]).then((response) => {
-        self.kavlings = response.data;
+        response.data.forEach(elm=>{
+            // console.log(elm)
+            this.kavlings.push({
+                id:elm.id ,
+                block : elm.block + '-' +elm.numberKavling ,
+            })
+        })
+        console.log(this.kavlings)
       });
     },
     createCustomer() {
@@ -341,17 +359,22 @@ export default {
       self.$store
         .dispatch("getData", ["/customer/" + self.id])
         .then((response) => {
-            console.log(response);
+        //   console.log(response);
           this.previewImage = response.data.image;
           self.customer.name = response.data.name;
           self.customer.email = response.data.email;
           self.customer.profession = response.data.profession;
-        //   self.customer.kavlings =response.data.customerKavling.kavling;
+          //   self.customer.kavlings =response.data.customerKavling.kavling;
           self.customer.entry_date = response.data.entryDate;
           self.customer.phone = response.data.phone;
           self.customer.address = response.data.address;
           self.customer.gender = response.data.gender;
-          response.data.customerKavling.forEach((kav)=>this.customer.kavlings.push(kav.kavling))
+          response.data.customerKavling.forEach((kav) =>{
+              kav.kavling.block = kav.kavling.block+ '-'+kav.kavling.numberKavling
+            //   console.log(kav.kavling)
+              this.customer.kavlings.push(kav.kavling)
+            }
+          );
         });
     },
     updateCustomer() {

@@ -1,12 +1,12 @@
 <template>
-  <Transition name="fade">
+
     <section class="section">
       <div class="section-header">
         <h1>{{ id ? "Edit" : "Tambah" }} Data Pegawai</h1>
       </div>
       <div class="row">
-        <div class="col">
-          <div class="card">
+        <div class="col d-flex justify-content-center">
+          <div class="card" style="width:80%">
             <div class="card-header"></div>
             <div class="card-body">
               <form class="form-row">
@@ -148,28 +148,28 @@
               </div>
             </div>
             <div class="card-footer text-right">
-              <button
-
-                @click="back"
-                class="btn btn-danger mr-2"
-                type="button"
-              >
-                Batal
-              </button>
-              <button
+                <button
                 :class="{ 'disabled btn-progress': isSubmit }"
                 @click="id ? updateEmployee() : createEmployee()"
-                class="btn btn-primary"
+                class="btn btn-primary btn-block"
                 type="button"
-              >
+                >
                 {{ id ? "Update" : "Tambah" }}
-              </button>
+            </button>
+            <button
+
+              @click="back"
+              class="btn btn-danger btn-block"
+              type="button"
+            >
+              Batal
+            </button>
             </div>
           </div>
         </div>
       </div>
     </section>
-  </Transition>
+
 </template>
 <script>
 import iziToast from "izitoast";
