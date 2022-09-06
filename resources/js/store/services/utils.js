@@ -1,3 +1,4 @@
+import moment from "moment";
 const Utils = {
     formatRupiah(angka, prefix) {
         let number_string = angka.toString(),
@@ -42,7 +43,12 @@ const Utils = {
         let split = word.split('');
         split[split.length - 1] = '²';
         return split.join('');
+    },
+    showLogUpdate(date){
+    //    local indonesia
+      return moment(date).fromNow();
     }
+
 
 
 }
