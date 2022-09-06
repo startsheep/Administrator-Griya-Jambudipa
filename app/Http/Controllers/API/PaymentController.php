@@ -29,7 +29,15 @@ class PaymentController extends Controller
     {
         $result = $this->paymentRepository->store($request->all());
 
-        return $result;
+        $output = $result;
+        return response()->json(
+            [
+                'message' => $output['message'],
+                'type' => $output['type'],
+                'result' => $output['data']
+            ],
+            $output['status']
+        );
     }
 
     public function show($id)

@@ -30,28 +30,69 @@ class PaymentRepository implements PaymentContract
     public function store(array $attributes)
     {
         $cekData = $this->payment->where('customer_id', $attributes['customer_id'])
+            ->where('house_type_id', $attributes['house_type_id'])
             ->whereMonth('created_at', date('m'))
             ->whereYear('created_at', date('Y'))
             ->first();
+
+        $cekTotalPrice = $this->cekTotalPrice($cekData, $attributes['price']);
+        if (!$cekTotalPrice) {
+            return collect([
+                'message' => 'nominal biaya masuk terlalu tinggi!',
+                'type' => 'error',
+                'data' => [],
+                'status' => 400
+            ]);
+        }
 
         if ($cekData) {
             $cekData->update($attributes);
             $result = $cekData;
             $cekData->paymentPrice()->create([
-                'price' => $attributes['price']
+                'price' => $attributes['price'],
             ]);
         } else {
             $result = $this->payment->create($attributes);
             $result->paymentPrice()->create([
-                'price' => $attributes['price']
+                'price' => $attributes['price'],
             ]);
         }
 
-        return $result;
+        return collect([
+            'message' => "success",
+            'type' => 'success',
+            'data' => $result,
+            'status' => 200
+        ]);
     }
 
     public function find($id): Payment
     {
         return $this->payment->find($id);
+    }
+
+    protected function cekHouseType($result, $id)
+    {
+        if ($result == $id) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function cekTotalPrice($result, $price)
+    {
+        $total = 0;
+        foreach ($result->paymentPrice as $item) {
+            $total += $item->price;
+        }
+
+        $total += $price;
+
+        if ((string) $total >= $result->houseType->price) {
+            return false;
+        }
+
+        return true;
     }
 }

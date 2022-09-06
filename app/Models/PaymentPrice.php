@@ -10,4 +10,5 @@ class PaymentPrice extends Model
     use HasFactory;
 
     protected $fillable = ['payment_id', 'price'];
+
 }
