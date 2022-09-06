@@ -17,4 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/{any}', [PageController::class, 'index'])->where('any', '^(?!auth).*$');
-Route::get('/auth/{any}', [PageController::class, 'auth']);
+Route::prefix('/auth')->group(function () {
+    Route::get('/', [PageController::class, 'auth'])->name('web.login');
+    Route::get('/{any}', [PageController::class, 'auth']);
+});
