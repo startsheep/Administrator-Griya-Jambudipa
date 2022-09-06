@@ -319,7 +319,7 @@
                                   class="fas fa-pencil sortable mr-1"
                                 ></i>
                                 <i
-                                  @click="deleteBuilding(building.id)"
+                                  @click="deleteBuilding(child.id)"
                                   class="fas fa-trash sortable text-danger"
                                 ></i>
                               </div>

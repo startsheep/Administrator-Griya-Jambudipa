@@ -9,7 +9,7 @@
                 />
             </div>
             <div class="sidebar-brand sidebar-brand-sm">
-                <a href="index.html">AGJ</a>
+                <router-link to="/">AGJ</router-link>
             </div>
             <ul class="sidebar-menu">
                 <li class="menu-header">Menu Utama</li>

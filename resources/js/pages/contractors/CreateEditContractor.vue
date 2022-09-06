@@ -1,12 +1,12 @@
 <template>
-    <Transition name="fade">
+
       <section class="section">
         <div class="section-header">
           <h1>{{ id ? "Edit" : "Tambah" }} Data Pemborong</h1>
         </div>
         <div class="row">
-          <div class="col">
-            <div class="card">
+          <div class="col d-flex justify-content-center">
+            <div class="card" style="width: 80%;">
               <div class="card-header"></div>
               <div class="card-body">
                 <form class="form-row">
@@ -19,7 +19,7 @@
                       placeholder="Nama Perusahaan"
                     />
                   </div>
-  
+
                   <div class="form-group col-lg-6">
                     <label for="name">Nama Pic</label>
                     <input
@@ -39,7 +39,7 @@
                       placeholder="Nomor Telepon"
                     />
                   </div>
-  
+
                   <div class="form-group col-lg-6">
                     <label>Email</label>
                     <input
@@ -50,7 +50,7 @@
                     />
                   </div>
 
-                  <div class="form-group col-lg-6">
+                  <div class="form-group col-lg-12">
                     <label>Alamat</label>
                     <input
                       v-model="contractor.address"
@@ -59,7 +59,7 @@
                       placeholder="Alamat"
                     />
                   </div>
-  
+
                   <div class="custom-file form-group col-lg-6">
                     <input
                       @change="selectImage"
@@ -113,33 +113,33 @@
                 </div>
               </div>
               <div class="card-footer text-right">
+                  <button
+                    :class="{ 'disabled btn-progress': isSubmit }"
+                    @click="id ? updateContractor() : createContractor()"
+                    class="btn btn-primary btn-block"
+                    type="button"
+                  >
+                    {{ id ? "Update" : "Tambah" }}
+                  </button>
                 <button
-  
+
                   @click="back"
-                  class="btn btn-danger mr-2"
+                  class="btn btn-danger btn-block"
                   type="button"
                 >
                   Batal
-                </button>
-                <button
-                  :class="{ 'disabled btn-progress': isSubmit }"
-                  @click="id ? updateContractor() : createContractor()"
-                  class="btn btn-primary"
-                  type="button"
-                >
-                  {{ id ? "Update" : "Tambah" }}
                 </button>
               </div>
             </div>
           </div>
         </div>
       </section>
-    </Transition>
+
   </template>
   <script>
   import iziToast from "izitoast";
   import moment from "moment";
-  
+
   export default {
     props: ["id"],
     data() {
@@ -178,7 +178,7 @@
         this.contractor.document.forEach((document, index) =>
           fieldData.append("documents[" + index + "]", document)
         );
-  
+
         if (this.contractor.image) {
           fieldData.append("image", this.contractor.image);
         }
@@ -220,10 +220,10 @@
           return false;
         }
       },
-  
+
       selectDocuments(e) {
         const files = e.target.files;
-  
+
         for (let i = 0; i < files.length; i++) {
           if (this.checkIsDocument(files[i])) {
             this.contractor.document.push(files[i]);
@@ -249,7 +249,7 @@
           });
         }
       },
-  
+
       createContractor() {
         const self = this;
         this.isSubmit = true;

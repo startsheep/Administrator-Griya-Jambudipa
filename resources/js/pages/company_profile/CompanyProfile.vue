@@ -185,9 +185,11 @@ export default Logic;
 
 .modal-backdrop.fade {
     opacity: 0;
+    display: none;
 }
 
 .modal-backdrop.show {
     opacity: 0.5;
+    display: none;
 }
 </style>

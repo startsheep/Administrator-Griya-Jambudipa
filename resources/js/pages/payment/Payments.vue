@@ -20,16 +20,25 @@
       </div>
       <div class="row">
         <div class="col">
-          <div class="collapse" id="formCreate">
-            <div class="card">
+          <div class="collapse " id="formCreate">
+            <div class="col d-flex justify-content-center">
+                  <div class="card" style="width:80%">
               <div class="card-header">
-                <h4>Tambah Pembayaran</h4>
+                <h4>Formulir Pembayaran / Cicilan </h4>
               </div>
               <div class="card-body">
+                <div class="alert alert-primary alert-dismissible show fade mb-4">
+                      <div class="alert-body">
+                        <button class="close" data-dismiss="alert">
+                          <span>×</span>
+                        </button>
+                        <b>Info!</b> Jika anda ingin melakukan pembayaran, silahkan isi form dibawah ini.
+                      </div>
+                    </div>
                 <div class="form-col">
                   <div class="form-group">
                     <label>Nama</label>
-                    <select class="form-control" v-model="payment.customerId">
+                    <select @change="selectCustomer(this)" ref="fieldCustomer" class="form-control" v-model="payment.customerId">
                       <option
                         :key="customer.id"
                         v-for="customer in customers"
@@ -38,6 +47,30 @@
                         {{ customer.name }}
                       </option>
                     </select>
+                  </div>
+                  <div v-if="selectedCustomer" class="form-group">
+                    <label>Blok / Kavling </label>
+                    <select class="form-control"  @change="getHouse" v-model="selectedKavling">
+                      <option v-for="kavling in selectedCustomer.customerKavling"  :value="kavling.kavling.houseTypeId" :key="kavling">{{ kavling.kavling.block }} - {{ kavling.kavling.numberKavling }}</option>
+                    </select>
+                  </div>
+                  <div class="row mb-3" v-if="house">
+                    <div clas   s="col">
+                        <span>
+                            Tipe Rumah :
+                        </span>
+                        <Span>
+                            {{ house.houseType }}
+                        </Span>
+                    </div>
+                    <div class="col">
+                        <span>
+                            Harga :
+                        </span>
+                        <Span>
+                            {{ formatRupiah(house.price) }}
+                        </Span>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label>Jenis Pembayaram</label>
@@ -54,9 +87,10 @@
                   <div class="form-group">
                     <label>Cicilan</label>
                     <input
-                      v-model="payment.price"
-                      type="text"
-                      class="form-control"
+                    v-model="payment.price"
+                    type="text"
+                    class="form-control"
+                    @change="formatRupiah(payment.price)"
                     />
                   </div>
                 </div>
@@ -77,8 +111,10 @@
                 </button>
               </div>
             </div>
+            </div>
+
           </div>
-          <div class="collapse" id="formEdit">
+          <!-- <div class="collapse" id="formEdit">
             <div class="card">
               <div class="card-header">
                 <h4>Form Angsuran {{ showNameCustomer(payment.customerId)}}</h4>
@@ -111,7 +147,7 @@
                 </button>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="card">
             <div class="card-header">
               <Button
@@ -154,8 +190,8 @@
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th width="15%">Nama</th>
-                      <th width="10%">Blok</th>
+                      <th width="20%">Nama</th>
+                      <th width="5%">Blok</th>
                       <th width="10%">Nomor telepon</th>
                       <th width="10%">Angsuran</th>
                       <th width="15%">Sisa Angsuran</th>
@@ -219,14 +255,14 @@
                             ></i>
                           </button>
                           <div class="dropdown-menu action">
-                            <button
+                            <!-- <button
                               class="dropdown-item action sortable"
                               data-toggle="collapse"
                               data-target="#formEdit"
                               @click="sendEdit(payment)"
                             >
                               Nyicil
-                            </button>
+                            </button> -->
                             <button class="dropdown-item action sortable">
                               Detail
                             </button>
@@ -276,10 +312,13 @@ export default {
         price: "",
       },
 
+      house: null,
       payments: [
         //  make same data with deferent value
       ],
       customers: [],
+      selectedCustomer: null,
+      selectedKavling: null,
       isLoading: false,
       selectedCustomer: null,
       typePayment: [
@@ -309,6 +348,9 @@ export default {
   mounted() {
     this.getPayments();
     this.getCustomers();
+    // if(this.selectedKavling != null){
+    //     this.getHouse()
+    // }
   },
   computed: {
     idEmployee() {
@@ -317,6 +359,23 @@ export default {
   },
   watch: {},
   methods: {
+
+    getHouse(){
+    const self = this;
+      this.$store.dispatch("getData", ["house-type/"+ this.selectedKavling]).then((res) => {
+            this.house = res.data
+      });
+    },
+
+    selectCustomer(){
+        this.customers.filter((cs)=>{
+            if(cs.id == this.$refs['fieldCustomer'].value){
+                this.selectedCustomer = cs
+            }
+        })
+    },
+
+
     showNameCustomer(id){
             let name =''
             this.customers.forEach((customer) => {
@@ -368,6 +427,7 @@ export default {
     },
     onSuccess() {
       this.getPayments();
+      this.reset();
     },
     getCustomers() {
       const self = this;
@@ -382,6 +442,7 @@ export default {
         {
           customer_id: this.payment.customerId,
           employee_id: this.idEmployee,
+          houseTypeId: this.selectedKavling,
           type: this.payment.type,
           price: this.payment.price,
         },
@@ -413,7 +474,6 @@ export default {
         const url = [
           "payment",
           {
-
           customer_id: this.payment.customerId,
           employee_id: this.idEmployee,
           price: this.payment.price,
