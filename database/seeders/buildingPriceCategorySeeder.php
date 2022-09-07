@@ -25,7 +25,8 @@ class buildingPriceCategorySeeder extends Seeder
         $this->truncate('basic_price_categories');
 
         BasicPriceCategory::create([
-            'category' => "Tidak diketahui!"
+            'category' => "Tidak diketahui!",
+            "section" => "Tanah, Bangunan"
         ]);
         $this->enableForeignKeys();
     }
