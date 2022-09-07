@@ -47,6 +47,9 @@ const Utils = {
     showLogUpdate(date){
     //    local indonesia
       return moment(date).fromNow();
+    },
+    calcReferral(percent , number){
+        return (percent / 100) * number;
     }
 
 
