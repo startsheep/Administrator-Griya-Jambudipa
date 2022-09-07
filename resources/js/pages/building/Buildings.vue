@@ -9,28 +9,7 @@
           <div class="card-header">
             <h4>Perincian Harga Dasar Bangunan</h4>
             <div class="card-header-action">
-                 <div class="btn-group-sm mb-3">
-                  <button
-                    data-toggle="modal"
-                    data-target="#modal-create"
-                    type="button"
-                    class="btn btn-icon icon-rigth btn-primary mr-2"
-                  >
-                    EXPORT PDF <i class="fa-solid fa-file-pdf"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-icon icon-rigth btn-primary mr-2"
-                  >
-                    EXPORT EXCEL <i class="fa-solid fa-file-excel"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-icon icon-rigth btn-primary mr-2"
-                  >
-                    PRINT DATA <i class="fa-solid fa-print"></i>
-                  </button>
-                </div>
+                 <ButtonsExport />
             </div>
           </div>
           <div class="card-body">
@@ -471,6 +450,7 @@ import Utils from "../../store/services/utils";
 import iziToast from "izitoast";
 import CircleLoader from "../../components/CircleLoader.vue";
 import Pagination from "../../components/Pagination.vue";
+import ButtonsExport from "../../components/ButtonsExport.vue";
 
 export default {
   data() {
@@ -810,7 +790,7 @@ export default {
       };
     },
   },
-  components: { CircleLoader, Pagination },
+  components: { CircleLoader, Pagination, ButtonsExport },
 };
 </script>
 <style lang="">

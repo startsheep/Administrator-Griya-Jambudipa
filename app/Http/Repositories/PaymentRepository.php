@@ -35,17 +35,19 @@ class PaymentRepository implements PaymentContract
             ->whereYear('created_at', date('Y'))
             ->first();
 
-        $cekTotalPrice = $this->cekTotalPrice($cekData, $attributes['price']);
-        if (!$cekTotalPrice) {
-            return collect([
-                'message' => 'nominal biaya masuk terlalu tinggi!',
-                'type' => 'error',
-                'data' => [],
-                'status' => 400
-            ]);
-        }
 
-        if ($cekData) {
+
+            if ($cekData) {
+            $cekTotalPrice = $this->cekTotalPrice($cekData, $attributes['price']);
+            if (!$cekTotalPrice) {
+                return collect([
+                    'message' => 'nominal biaya masuk terlalu tinggi!',
+                    'type' => 'error',
+                    'data' => [],
+                    'status' => 400
+                ]);
+            }
+
             $cekData->update($attributes);
             $result = $cekData;
             $cekData->paymentPrice()->create([

@@ -1,11 +1,9 @@
 
 <template>
-  <section class="section">
-    <div class="section-body">
       <div class="col d-flex justify-content-center">
         <div class="card" style="width: 80%">
           <div class="card-header">
-            <h4>{{ id ? "Edit" : "Tambah" }} Data Pegawai</h4>
+            <h4>Formulir {{ id ? "Edit" : "Tambah" }} Data Customer</h4>
           </div>
           <div class="card-body">
             <form class="form-row">
@@ -174,8 +172,7 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
+
 </template>
 <script>
 import Multiselect from "vue-multiselect";
