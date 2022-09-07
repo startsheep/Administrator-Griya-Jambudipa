@@ -17,6 +17,7 @@ class TransactionCollection extends ResourceCollection
         $result = [];
 
         foreach ($this as $item) {
+            $block = $this->cekBlock($item->customer->customerKavling, $item->houseType->id);
             $reminderPrice = (string) $this->reminderPrice($item->houseType->price, $item->paymentPrice);
             $cekData = $item->customer()
                 ->whereMonth('created_at', date('m'))
@@ -31,6 +32,7 @@ class TransactionCollection extends ResourceCollection
                         "house_type" => $item->houseType,
                         "type" => $item->type,
                         "customer" => $item->customer,
+                        "block" => $block,
                         "created_at" => $item->created_at,
                         "updated_at" => $item->updated_at,
                     ];
@@ -40,6 +42,15 @@ class TransactionCollection extends ResourceCollection
 
         return $result;
         // return parent::toArray($request);
+    }
+
+    protected function cekBlock($result, $id)
+    {
+        foreach ($result as $item) {
+            if ($item->kavling->house_type_id == $id) {
+                return $item->kavling;
+            }
+        }
     }
 
     protected function reminderPrice($price, $result)
