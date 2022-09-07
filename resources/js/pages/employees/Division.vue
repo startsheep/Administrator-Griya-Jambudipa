@@ -62,9 +62,13 @@
                       </div>
                     </td>
                   </tr>
+                     <td colspan="3"     >
+                        <EmptyData v-if="!isLoading && divisions.length < 1" message="Datanya Ngga Ada"/>
+                        <CircleLoader v-if="isLoading" />
+                    </td>
                 </tbody>
               </table>
-            <CircleLoader v-if="isLoading" />
+
             </div>
           </div>
           <div class="card-footer">
@@ -135,6 +139,7 @@ import Pagination from "../../components/Pagination.vue";
 import Utils from "../../store/services/utils";
 import CircleLoader from "../../components/CircleLoader.vue";
 import moment from "moment";
+import EmptyData from "../../components/EmptyData.vue";
 export default {
   data() {
     return {
@@ -301,6 +306,6 @@ export default {
 
 
   },
-  components: { Pagination, CircleLoader },
+  components: { Pagination, CircleLoader, EmptyData },
 };
 </script>

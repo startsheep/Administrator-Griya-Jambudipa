@@ -106,9 +106,13 @@
                         </div>
                       </td>
                     </tr>
+                      <td colspan="5">
+                        <EmptyData v-if="!isLoading && contractors.length < 1" message="Datan Pemborong Ngga Ada"/>
+                        <CircleLoader v-if="isLoading" />
+                    </td>
                   </tbody>
                 </table>
-                <CircleLoader v-if="isLoading" />
+
               </div>
             </div>
             <div class="card-footer">
@@ -132,6 +136,7 @@
   import CircleLoader from "../../components/CircleLoader.vue";
   import CreateEditContractor from "./CreateEditContractor.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
+import EmptyData from "../../components/EmptyData.vue";
 
   export default {
     data() {
@@ -178,7 +183,7 @@ import ButtonsExport from "../../components/ButtonsExport.vue";
           `per_page=${this.pagination.perPage}`,
         ].join("&");
         self.$store.dispatch("getData", ["contractor", params]).then((response) => {
-          self.contractors = response.data;
+        //   self.contractors = response.data;
           self.pagination.total = response.meta.total;
           self.pagination.currentPage = response.meta.currentPage;
           self.pagination.lastPage = response.meta.lastPage;
@@ -218,6 +223,6 @@ import ButtonsExport from "../../components/ButtonsExport.vue";
         this.getContractors();
       },
     },
-    components: { Pagination, CircleLoader, ButtonsExport },
+    components: { Pagination, CircleLoader, ButtonsExport, EmptyData, EmptyData },
   };
   </script>
