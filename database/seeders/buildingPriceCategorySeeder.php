@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\BasicPriceCategory;
 use App\Models\BuildingPriceCategory;
 use Database\Seeders\Traits\DisableForeignKey;
 use Database\Seeders\Traits\TruncateTable;
@@ -21,9 +22,9 @@ class buildingPriceCategorySeeder extends Seeder
     public function run()
     {
         $this->disableForeignKeys();
-        $this->truncate('building_price_categories');
+        $this->truncate('basic_price_categories');
 
-        BuildingPriceCategory::create([
+        BasicPriceCategory::create([
             'category' => "Tidak diketahui!"
         ]);
         $this->enableForeignKeys();

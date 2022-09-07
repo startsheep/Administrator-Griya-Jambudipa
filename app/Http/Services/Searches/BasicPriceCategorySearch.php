@@ -3,15 +3,15 @@
 namespace App\Http\Services\Searches;
 
 use App\Http\Services\Searches\HttpSearch;
-use App\Models\BuildingPriceCategory;
+use App\Models\BasicPriceCategory;
 use Illuminate\Database\Eloquent\Model;
 
-class BuildingPriceCategorySearch extends HttpSearch
+class BasicPriceCategorySearch extends HttpSearch
 {
 
     protected function passable()
     {
-        return BuildingPriceCategory::query();
+        return BasicPriceCategory::query();
     }
 
     protected function filters(): array
@@ -19,8 +19,8 @@ class BuildingPriceCategorySearch extends HttpSearch
         return [];
     }
 
-    protected function thenReturn($buildingPriceCategorySearch)
+    protected function thenReturn($basicPriceCategorySearch)
     {
-        return $buildingPriceCategorySearch;
+        return $basicPriceCategorySearch;
     }
 }

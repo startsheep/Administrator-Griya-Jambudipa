@@ -68,7 +68,7 @@ class PaymentRepository implements PaymentContract
 
     public function find($id): Payment
     {
-        return $this->payment->find($id);
+        return $this->payment->findOrFail($id);
     }
 
     protected function cekHouseType($result, $id)

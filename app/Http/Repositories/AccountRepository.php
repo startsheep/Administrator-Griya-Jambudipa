@@ -49,7 +49,7 @@ class AccountRepository implements AccountContract
 
     public function find($id): Account
     {
-        return $this->account->with('document')->find($id);
+        return $this->account->with('document')->findOrFail($id);
     }
 
     public function update(array $attributes, $result)

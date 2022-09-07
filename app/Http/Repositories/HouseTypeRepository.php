@@ -41,7 +41,7 @@ class HouseTypeRepository implements HouseTypeContract
 
     public function find($id): HouseType
     {
-        return $this->houseType->with(['document'])->find($id);
+        return $this->houseType->with(['document'])->findOrFail($id);
     }
 
     public function update(array $attributes, $result)

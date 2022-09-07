@@ -32,7 +32,7 @@ class KavlingRepository implements KavlingContract
 
     public function find($id): Kavling
     {
-        return $this->kavling->with('houseType')->find($id);
+        return $this->kavling->with('houseType')->findOrFail($id);
     }
 
     public function update(array $attributes, $result)

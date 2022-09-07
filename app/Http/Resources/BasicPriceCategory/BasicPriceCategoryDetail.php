@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\BuildingPrice;
+namespace App\Http\Resources\BasicPriceCategory;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BuildingPriceDetail extends JsonResource
+class BasicPriceCategoryDetail extends JsonResource
 {
     /**
      * Transform the resource into an array.
