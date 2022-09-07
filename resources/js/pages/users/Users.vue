@@ -165,21 +165,5 @@ export default process;
 </script>
 
 <style>
-.modal-backdrop {
-    position: fixed;
-    height: 100vh;
-    width: 100vw;
-    top: 0;
-    left: 0;
-    z-index: 999;
-    background-color: black;
-}
 
-.modal-backdrop.fade {
-    opacity: 0;
-}
-
-.modal-backdrop.show {
-    opacity: 0.5;
-}
 </style>
