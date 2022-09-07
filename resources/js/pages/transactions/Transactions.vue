@@ -8,89 +8,129 @@
         <div class="col">
           <div class="card">
             <div class="card-body">
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th width="20%">Nama</th>
-                      <th width="5%">Blok</th>
-                      <th width="10%">Nomor telepon</th>
-                      <th width="10%">Angsuran</th>
-                      <th width="15%">Sisa Angsuran</th>
-                      <th width="10%">Tipe Pembayaran</th>
-                      <th class="text-center" width="5%">Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="transaction in transactions" :key="transaction">
-                      <td>
-                        <div class="media">
-                          <figure class="avatar mr-2 avatar-md">
-                            <img
-                              src="../../../../public/assets/images/avatar/avatar-1.png"
-                              alt="..."
-                            />
-                            <i
-                              v-if="transaction.reminderPayment > 0"
-                              class="avatar-presence busy"
-                            ></i>
-                            <i v-else class="avatar-presence online"></i>
-                          </figure>
+              <div class="row mb-3 d-flex justify-content-between">
+                <div class="col-lg-6">
+                  <ButtonsExport :printData="false" />
+                </div>
+                <div class="col-lg-4">
+                    <div class="input-group" s>
+                     <!-- <span>Dari</span>  q -->
+                    <input v-model="filter.from" type="month" class="form-control mr-2" >
+                    <span class="m-auto "> <i class="fas fa-arrow-right"></i> </span>
+                    <input v-model="filter.to" type="month" class="form-control ml-2">
+                    <button @click="getTransactions" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                 </div>
+                </div>
+              </div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Nama</th>
+                    <th>Nomor telepon</th>
+                    <th>Blok / Kavling</th>
+                    <th>Tipe Rumah</th>
+                    <th>Angsuran</th>
+                    <!-- <th >Sisa Angsuran</th> -->
+                    <th>Tipe Pembayaran</th>
+                    <th>Status</th>
+                    <th class="text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="transaction in transactions" :key="transaction">
+                    <td>
+                      <div class="media">
+                        <figure class="avatar mr-2 avatar-md">
+                          <img
+                            :src="'storage/' + transaction.customer.image"
+                            alt="..."
+                          />
+                        </figure>
 
-                          <div class="media-body">
-                            <div class="media-title">
-                              {{ transaction.customer.name }}
-                            </div>
-                            <div class="text-job text-muted">
-                              <span>{{
-                                showLogUpdate(transaction.updatedAt)
-                              }}</span>
-                            </div>
+                        <div class="media-body">
+                          <div class="media-title">
+                            {{ transaction.customer.name }}
+                          </div>
+                          <div class="text-job text-muted">
+                            <span>{{
+                              showLogUpdate(transaction.updatedAt)
+                            }}</span>
                           </div>
                         </div>
-                      </td>
-                      <td>{{ getBlocks(transaction.customer.customerKavling) }}</td>
-                      <td>{{ transaction.customer.phone }}</td>
-                      <td>{{ formatRupiah(transaction.priceHouse) }}</td>
-                      <td>{{ formatRupiah(transaction.reminderPayment) }}</td>
-                      <td>
-                        <span
-
+                      </div>
+                    </td>
+                    <td>{{ transaction.customer.phone }}</td>
+                    <td>
+                      {{ transaction.block.block }} -
+                      {{ transaction.block.numberKavling }}
+                    </td>
+                    <td>{{ transaction.houseType.houseType }}</td>
+                    <td>{{ formatRupiah(transaction.houseType.price) }}</td>
+                    <!-- <td>{{ formatRupiah(transaction.reminderPayment) }}</td> -->
+                    <td>
+                      <span
+                        v-if="transaction.type == 'Cash Keras'"
+                        class="badge badge-success"
+                      >
+                        {{ transaction.type }}
+                      </span>
+                      <span
+                        v-if="transaction.type == 'Cash Bertahap'"
+                        class="badge badge-warning"
+                      >
+                        {{ transaction.type }}
+                      </span>
+                      <span v-else class="badge badge-info">
+                        {{ transaction.type }}
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        v-if="transaction.reminderPayment < 1"
+                        class="badge badge-success"
+                      >
+                        Lunas
+                      </span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <div class="show">
+                        <button
+                          data-toggle="dropdown"
+                          class="btn btn-transparent"
                         >
-                          {{ transaction.type }}
-                        </span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <div class="show">
-                          <button
-                            data-toggle="dropdown"
-                            class="btn btn-transparent"
-                          >
-                            <i
-                              class="
-                                fa-solid fa-ellipsis-vertical
-                                dropdown-toggle
-                              "
-                              aria-expanded="true"
-                            ></i>
+                          <i
+                            class="
+                              fa-solid fa-ellipsis-vertical
+                              dropdown-toggle
+                            "
+                            aria-expanded="true"
+                          ></i>
+                        </button>
+                        <div class="dropdown-menu action">
+                          <button class="dropdown-item action sortable">
+                            Detail
                           </button>
-                          <div class="dropdown-menu action">
-                            <!-- <button
-                              class="dropdown-item action sortable"
-                              data-toggle="collapse"
-                              data-target="#formEdit"
-                              @click="sendEdit(transaction)"
-                            >
-                              Nyicil
-                            </button> -->
-                            <button class="dropdown-item action sortable">
-                              Detail
-                            </button>
-                          </div>
                         </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="9">
+                         <EmptyData message="Data Kosong " v-if="transactions.length <1 && !isLoading"/>
+                               <CircleLoader v-if="isLoading" />
+                        </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer">
+              <Pagination
+                :currentPage="pagination.currentPage"
+                :rowsTotal="pagination.total"
+                :lastPage="pagination.lastPage"
+                @onPageChange="onPageChange($event)"
+              />
             </div>
           </div>
         </div>
@@ -99,16 +139,20 @@
   </section>
 </template>
 <script>
+    import moment from 'moment'
 import Utils from "../../store/services/utils";
+import ButtonsExport from "../../components/ButtonsExport.vue";
+import Pagination from "../../components/Pagination.vue";
+import CircleLoader from "../../components/CircleLoader.vue";
+import EmptyData from "../../components/EmptyData.vue";
 export default {
   data() {
     return {
       transactions: [],
-      isLoading : false,
-
-      filter:{
-        from : null,
-        to : null,
+      isLoading: false,
+      filter: {
+        from: moment().format("YYYY-MM"),
+        to: moment().format("YYYY-MM"),
       },
       pagination: {
         total: 0,
@@ -123,39 +167,47 @@ export default {
     this.getTransactions();
   },
   methods: {
-    showLogUpdate(date){
-        return Utils.showLogUpdate(date)
+    showLogUpdate(date) {
+      return Utils.showLogUpdate(date);
     },
     formatRupiah(value) {
-      return Utils.formatRupiah(value);},
-     getBlocks(array) {
+      return Utils.formatRupiah(value);
+    },
+    getBlocks(array) {
       //    getblock name between comma
       let blocks = [];
       array.forEach((element) => {
-
         blocks.push(element.kavling.block);
       });
       return blocks.join(", ");
     },
     getTransactions() {
-        this.isLoading = true;
-        const self = this;
-        const params =[
-            // `from=${this.filter.from}`,
-            // `to=${this.filter.to}`,
-        ].join('&')
-        self.$store.dispatch('getData' , ['transaction', params ]).then(
-            res =>{
-                console.log(res)
-                self.transactions = res.data;
-                self.pagination.total = res.data.total;
-                self.pagination.lastPage = res.data.last_page;
-                self.pagination.currentPage = res.data.current_page;
-                self.isLoading = false;
-            }
-        )
+        console.log('te')
+      this.isLoading = true;
+      const self = this;
+      const params = [
+        `from=${this.filter.from}`,
+        `to=${this.filter.to}`,
+      ].join("&");
+      self.$store.dispatch("getData", ["transaction", params]).then((res) => {
+
+        self.transactions = res.data;
+        self.pagination.total = res.meta.total;
+        self.pagination.currentPage = res.meta.currentPage;
+        self.pagination.lastPage = res.meta.lastPage;
+        self.isLoading = false;
+      });
     },
+    onPageChange(page){
+        this.pagination.currentPage = page;
+        this.getTransactions();
+    },
+    filter(){
+        this.getTransactions();
+    },
+
   },
+  components: { ButtonsExport, Pagination, CircleLoader, EmptyData },
 };
 </script>
 <style lang="">
