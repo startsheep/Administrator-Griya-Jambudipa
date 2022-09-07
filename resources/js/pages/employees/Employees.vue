@@ -17,30 +17,11 @@
             <div class="card-header-action"></div>
           </div>
           <div class="card-body">
-            <div class="row">
+            <div class="row mb-3">
               <div class="col-lg-6">
-                <div class="btn-group mb-3">
-                  <button
-                    type="button"
-                    class="btn btn-icon icon-rigth btn-primary mr-2"
-                  >
-                    EXPORT PDF <i class="fa-solid fa-file-pdf"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-icon icon-rigth btn-primary mr-2"
-                  >
-                    EXPORT EXCEL <i class="fa-solid fa-file-excel"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-icon icon-rigth btn-primary mr-2"
-                  >
-                    PRINT DATA <i class="fa-solid fa-print"></i>
-                  </button>
-                </div>
+                <ButtonsExport />
               </div>
-              <div class="col-lg-6">
+              <div class="col-lg-6 ">
                 <input
                   v-on:keyup="search"
                   v-model="name"
@@ -159,6 +140,7 @@ import Utils from "../../store/services/utils";
 import CircleLoader from "../../components/CircleLoader.vue";
 import Division from "./Division.vue";
 import CreateEditEmployee from "./CreateEditEmployee.vue";
+import ButtonsExport from "../../components/ButtonsExport.vue";
 export default {
   data() {
     return {
@@ -246,6 +228,6 @@ export default {
       this.getEmployees();
     },
   },
-  components: { Pagination, CircleLoader, Division },
+  components: { Pagination, CircleLoader, Division, ButtonsExport },
 };
 </script>

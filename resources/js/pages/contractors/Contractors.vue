@@ -12,32 +12,13 @@
               <router-link to="contractor/create" class="btn btn-primary"
                 >Tambah Data</router-link
               >
-  
+
               <div class="card-header-action"></div>
             </div>
             <div class="card-body">
-              <div class="row">
+              <div class="row mb-3">
                 <div class="col-lg-6">
-                  <div class="btn-group mb-3">
-                    <button
-                      type="button"
-                      class="btn btn-icon icon-rigth btn-primary mr-2"
-                    >
-                      EXPORT PDF <i class="fa-solid fa-file-pdf"></i>
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-icon icon-rigth btn-primary mr-2"
-                    >
-                      EXPORT EXCEL <i class="fa-solid fa-file-excel"></i>
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-icon icon-rigth btn-primary mr-2"
-                    >
-                      PRINT DATA <i class="fa-solid fa-print"></i>
-                    </button>
-                  </div>
+                  <ButtonsExport />
                 </div>
                 <div class="col-lg-6">
                   <input
@@ -80,7 +61,7 @@
                       <td width="20%" class="align-middle">
                         <span>{{ contractor.email }}</span>
                       </td>
-  
+
                       <td width="20%" class="align-middle">
                         <span>{{ contractor.phone }}</span>
                       </td>
@@ -150,7 +131,8 @@
   import Utils from "../../store/services/utils";
   import CircleLoader from "../../components/CircleLoader.vue";
   import CreateEditContractor from "./CreateEditContractor.vue";
-  
+import ButtonsExport from "../../components/ButtonsExport.vue";
+
   export default {
     data() {
       return {
@@ -230,13 +212,12 @@
             }
           });
       },
-  
+
       onPageChange(page) {
         this.pagination.page = page;
         this.getContractors();
       },
     },
-    components: { Pagination, CircleLoader},
+    components: { Pagination, CircleLoader, ButtonsExport },
   };
   </script>
-  

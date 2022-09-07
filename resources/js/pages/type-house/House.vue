@@ -86,28 +86,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-lg-8">
-                <div class="btn-group-sm mb-3">
-                  <button
-                    data-toggle="modal"
-                    data-target="#modal-create"
-                    type="button"
-                    class="btn btn-icon icon-rigth btn-primary mr-2"
-                  >
-                    EXPORT PDF <i class="fa-solid fa-file-pdf"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-icon icon-rigth btn-primary mr-2"
-                  >
-                    EXPORT EXCEL <i class="fa-solid fa-file-excel"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-icon icon-rigth btn-primary mr-2"
-                  >
-                    PRINT DATA <i class="fa-solid fa-print"></i>
-                  </button>
-                </div>
+               <ButtonsExport :printData="false"/>
               </div>
               <div class="col-lg-4">
                 <input
@@ -208,6 +187,7 @@ import SummerNote from "../../components/SummerNote.vue";
 import DetailImage from "../../components/DetailImage.vue";
 import Utils from "../../store/services/utils"
 import DetailTypeHouse from "./DetailTypeHouse.vue";
+import ButtonsExport from "../../components/ButtonsExport.vue";
 
 export default {
   data() {
@@ -477,6 +457,7 @@ export default {
     SummerNote,
     DetailImage,
     DetailTypeHouse,
-  },
+    ButtonsExport
+},
 };
 </script>
