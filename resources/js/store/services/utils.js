@@ -50,6 +50,12 @@ const Utils = {
     },
     calcReferral(percent , number){
         return (percent / 100) * number;
+    } ,
+    formateDateLocale(date){
+        return moment(date).format('LL');
+    },
+    formateDateTimeLocale(date){
+        return moment(date).format('LLL');
     }
 
 

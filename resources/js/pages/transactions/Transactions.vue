@@ -12,8 +12,9 @@
                 <div class="col-lg-6">
                   <ButtonsExport :printData="false" />
                 </div>
-                <div class="col-lg-4">
-                    <div class="input-group" s>
+                <div class="col-lg-5 ">
+                    <div class="input-group" >
+                        <button @click="reset()" class="btn btn-success "><i class="fas fa-arrows-rotate"></i></button>
                      <!-- <span>Dari</span>  q -->
                     <input v-model="filter.from" type="month" class="form-control mr-2" >
                     <span class="m-auto "> <i class="fas fa-arrow-right"></i> </span>
@@ -22,7 +23,7 @@
                  </div>
                 </div>
               </div>
-              <table class="table table-striped">
+              <table class="table table-bordered">
                 <thead>
                   <tr>
                     <th>Nama</th>
@@ -106,8 +107,8 @@
                             aria-expanded="true"
                           ></i>
                         </button>
-                        <div class="dropdown-menu action">
-                          <button class="dropdown-item action sortable">
+                        <div data-toggle="modal" data-target="#detailTransaction" class="dropdown-menu action">
+                          <button  @click="sendDetail(transaction.id)" class="dropdown-item action sortable">
                             Detail
                           </button>
                         </div>
@@ -116,11 +117,10 @@
                   </tr>
                   <tr>
                     <td colspan="9">
-                         <EmptyData message="Data Kosong " v-if="transactions.length <1 && !isLoading"/>
+                         <EmptyData message="Data Transaksi Kosong " v-if="transactions.length <1 && !isLoading"/>
                                <CircleLoader v-if="isLoading" />
                         </td>
                   </tr>
-
                 </tbody>
               </table>
             </div>
@@ -137,6 +137,7 @@
       </div>
     </div>
   </section>
+  <DetailTransaction  :id="idTransaction"/>
 </template>
 <script>
     import moment from 'moment'
@@ -145,14 +146,16 @@ import ButtonsExport from "../../components/ButtonsExport.vue";
 import Pagination from "../../components/Pagination.vue";
 import CircleLoader from "../../components/CircleLoader.vue";
 import EmptyData from "../../components/EmptyData.vue";
+import DetailTransaction from './DetailTransaction.vue';
 export default {
   data() {
     return {
       transactions: [],
       isLoading: false,
+      idTransaction: null,
       filter: {
         from: moment().format("YYYY-MM"),
-        to: moment().format("YYYY-MM"),
+        to: null,
       },
       pagination: {
         total: 0,
@@ -173,6 +176,9 @@ export default {
     formatRupiah(value) {
       return Utils.formatRupiah(value);
     },
+    sendDetail(id){
+        this.idTransaction = id
+    },
     getBlocks(array) {
       //    getblock name between comma
       let blocks = [];
@@ -185,12 +191,13 @@ export default {
         console.log('te')
       this.isLoading = true;
       const self = this;
-      const params = [
-        `from=${this.filter.from}`,
-        `to=${this.filter.to}`,
-      ].join("&");
-      self.$store.dispatch("getData", ["transaction", params]).then((res) => {
+      const params = [];
+      if(this.filter.from && this.filter.to){
+        params.push(`from=${this.filter.from}`)
+        params.push(`to=${this.filter.to}`)
+      }
 
+      self.$store.dispatch("getData", ["transaction", params.join('&')]).then((res) => {
         self.transactions = res.data;
         self.pagination.total = res.meta.total;
         self.pagination.currentPage = res.meta.currentPage;
@@ -205,9 +212,14 @@ export default {
     filter(){
         this.getTransactions();
     },
+    reset(){
+        this.filter.from = moment().format("YYYY-MM");
+        this.filter.to = null;
+        this.getTransactions();
+    }
 
   },
-  components: { ButtonsExport, Pagination, CircleLoader, EmptyData },
+  components: { ButtonsExport, Pagination, CircleLoader, EmptyData, DetailTransaction },
 };
 </script>
 <style lang="">

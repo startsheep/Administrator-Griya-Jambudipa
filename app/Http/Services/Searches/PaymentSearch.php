@@ -19,7 +19,7 @@ class PaymentSearch extends HttpSearch
     protected function filters(): array
     {
         return [
-            // Recapitulation::class
+            Recapitulation::class
         ];
     }
 
