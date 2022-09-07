@@ -19,4 +19,9 @@ class HouseType extends Model
     {
         return $this->morphMany(Document::class, 'documentable');
     }
+
+    public function kavling()
+    {
+        return $this->belongsTo(Kavling::class, 'house_type_id');
+    }
 }
