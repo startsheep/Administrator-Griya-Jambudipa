@@ -53,7 +53,7 @@ class ContractorRepository implements ContractorContract
 
     public function find($id): Contractor
     {
-        return $this->contractor->with(['document'])->find($id);
+        return $this->contractor->with(['document'])->findOrFail($id);
     }
 
     public function update(array $attributes, $result)

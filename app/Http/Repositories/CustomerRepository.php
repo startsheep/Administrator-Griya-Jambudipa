@@ -71,7 +71,7 @@ class CustomerRepository implements CustomerContract
 
     public function find($id): Customer
     {
-        return $this->customer->with(['document', 'customerKavling.kavling'])->find($id);
+        return $this->customer->with(['document', 'customerKavling.kavling'])->findOrFail($id);
     }
 
     public function update(array $attributes, $result)

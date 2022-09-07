@@ -3,8 +3,9 @@
 namespace App\Http\Repositories\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
-interface BuildingPriceCategoryContract
+interface BasicPriceContract
 {
     public function all($request);
 

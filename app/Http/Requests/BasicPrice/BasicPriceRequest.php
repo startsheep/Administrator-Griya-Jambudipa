@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\BuildingPrice;
+namespace App\Http\Requests\BasicPrice;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
-class BuildingPriceRequest extends FormRequest
+class BasicPriceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,7 @@ class BuildingPriceRequest extends FormRequest
     public function rules()
     {
         if (isset(request()->parent_id) && request()->parent_id == "") {
-            $data['parent_id'] = 'required|exists:building_prices,id';
+            $data['parent_id'] = 'required|exists:basic_prices,id';
         }
 
         if (isset(request()->unit) && request()->unit == "") {

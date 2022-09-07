@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\BuildingPriceCategory;
+namespace App\Http\Requests\BasicPriceCategory;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
-class BuildingPriceCategoryRequest extends FormRequest
+class BasicPriceCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

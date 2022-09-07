@@ -35,7 +35,7 @@ class PositionRepository implements PositionContract
 
     public function find($id): Position
     {
-        return $this->position->find($id);
+        return $this->position->findOrFail($id);
     }
 
     public function update(array $attributes, $result)

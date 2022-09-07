@@ -51,7 +51,7 @@ class EmployeeRepository implements EmployeeContract
 
     public function find($id): Employee
     {
-        return $this->employee->with(['position', 'document'])->find($id);
+        return $this->employee->with(['position', 'document'])->findOrFail($id);
     }
 
     public function update(array $attributes, $result)

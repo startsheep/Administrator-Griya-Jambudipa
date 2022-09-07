@@ -9,22 +9,24 @@ use Illuminate\Support\Facades\Storage;
 
 class CompanyProfileRepository implements CompanyProfileContract
 {
-	/** @var CompanyProfile */
-	protected $companyProfile;
+    /** @var CompanyProfile */
+    protected $companyProfile;
 
-	public function __construct(CompanyProfile $companyProfile)
-	{
-		$this->companyProfile = $companyProfile;
-	}
+    public function __construct(CompanyProfile $companyProfile)
+    {
+        $this->companyProfile = $companyProfile;
+    }
 
-	public function all() {
+    public function all()
+    {
         $result = $this->companyProfile->first();
 
         return $result;
     }
 
-	public function update(array $attributes, $id) {
-        $result = $this->companyProfile->find($id);
+    public function update(array $attributes, $id)
+    {
+        $result = $this->companyProfile->findOrFail($id);
 
         if (isset($attributes['logo'])) {
             if (isset($attributes['logo']) && $attributes['logo']) {

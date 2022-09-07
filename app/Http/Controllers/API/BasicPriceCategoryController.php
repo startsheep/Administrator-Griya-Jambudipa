@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\Contracts\BuildingPriceCategoryContract;
-use App\Http\Requests\BuildingPriceCategory\BuildingPriceCategoryRequest;
-use App\Http\Resources\BuildingPriceCategory\BuildingPriceCategoryCollection;
-use App\Http\Resources\BuildingPriceCategory\BuildingPriceCategoryDetail;
-use App\Models\BuildingPriceCategory;
+use App\Http\Repositories\Contracts\BasicPriceCategoryContract;
+use App\Http\Requests\BasicPriceCategory\BasicPriceCategoryRequest;
+use App\Http\Resources\BasicPriceCategory\BasicPriceCategoryCollection;
+use App\Http\Resources\BasicPriceCategory\BasicPriceCategoryDetail;
 use Illuminate\Http\Request;
 
-class BuildingPriceCategoryController extends Controller
+class BasicPriceCategoryController extends Controller
 {
     protected $buildingPrice;
 
-    public function __construct(BuildingPriceCategoryContract $buildingPrice)
+    public function __construct(BasicPriceCategoryContract $buildingPrice)
     {
         $this->buildingPrice = $buildingPrice;
     }
@@ -23,10 +22,10 @@ class BuildingPriceCategoryController extends Controller
     {
         $result = $this->buildingPrice->all($request);
 
-        return new BuildingPriceCategoryCollection($result);
+        return new BasicPriceCategoryCollection($result);
     }
 
-    public function store(BuildingPriceCategoryRequest $request)
+    public function store(BasicPriceCategoryRequest $request)
     {
         $result = $this->buildingPrice->store($request->all());
 
@@ -37,10 +36,10 @@ class BuildingPriceCategoryController extends Controller
     {
         $result = $this->buildingPrice->find($id);
 
-        return new BuildingPriceCategoryDetail($result);
+        return new BasicPriceCategoryDetail($result);
     }
 
-    public function update(BuildingPriceCategoryRequest $request, $id)
+    public function update(BasicPriceCategoryRequest $request, $id)
     {
         $result = $this->buildingPrice->find($id);
         $data = $this->buildingPrice->update($request->all(), $result);
@@ -53,6 +52,6 @@ class BuildingPriceCategoryController extends Controller
         $result = $this->buildingPrice->find($id);
         $this->buildingPrice->delete($result);
 
-        return new BuildingPriceCategoryDetail($result);
+        return new BasicPriceCategoryDetail($result);
     }
 }

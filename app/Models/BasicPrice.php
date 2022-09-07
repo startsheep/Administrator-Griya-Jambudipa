@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BuildingPrice extends Model
+class BasicPrice extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'id',
-        'building_price_category_id',
+        'basic_price_category_id',
         'parent_id',
         'unit',
         'volume',
@@ -21,18 +21,18 @@ class BuildingPrice extends Model
         'description',
     ];
 
-    public function buildingPriceCategory()
+    public function basicPriceCategory()
     {
-        return $this->hasOne(BuildingPriceCategory::class, 'id', 'building_price_category_id');
+        return $this->hasOne(BasicPriceCategory::class, 'id', 'basic_price_category_id');
     }
 
     public function parent()
     {
-        return $this->hasOne(BuildingPrice::class, 'id', 'parent_id');
+        return $this->hasOne(BasicPrice::class, 'id', 'parent_id');
     }
 
     public function child()
     {
-        return $this->hasMany(BuildingPrice::class, 'parent_id');
+        return $this->hasMany(BasicPrice::class, 'parent_id');
     }
 }
