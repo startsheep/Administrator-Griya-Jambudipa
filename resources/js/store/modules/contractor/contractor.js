@@ -16,19 +16,19 @@ const process = {
                 );
             })
         },
-        // updateDataUploadCustomer(context, credentials) {
-        //     var id = credentials.get('id');
-        //     return new Promise((resolve, reject) => {
-        //         ServiceApi.init()
-        //         ServiceApi.postFormData('customer/' + id, credentials).then(
-        //             response => {
-        //                 resolve(response.data)
-        //             }, error => {
-        //                 reject(error)
-        //             }
-        //         );
-        //     });
-        // },
+        updateDataUploadContractor(context, credentials) {
+            var id = credentials.get('id');
+            return new Promise((resolve, reject) => {
+                ServiceApi.init()
+                ServiceApi.postFormData('contractor/' + id, credentials).then(
+                    response => {
+                        resolve(response.data)
+                    }, error => {
+                        reject(error)
+                    }
+                );
+            });
+        },
     }
 }
 
