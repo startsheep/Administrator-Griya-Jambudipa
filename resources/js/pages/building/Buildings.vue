@@ -122,32 +122,28 @@
                       <!-- <tr></tr> -->
                     </td>
                     <td colspan="6" class="p-1">
-                      <div class="p-2 box">
-                        <button
-                          v-if="category.buildingPrice.length > 0"
-                          data-toggle="collapse"
-                          :data-target="'#childRow' + category.id"
-                          class="
-                            btn btn-icon btn-sm btn-transparent
-                            rounded-pill
-                          "
-                        >
-                          <i class="fa-solid fa-angle-right fa-lg"></i>
-                        </button>
+                        <div class="p-2 col-4 d-flex align-items-center">
+                                <button
+                                v-if="category.buildingPrice.length > 0"
+                                data-toggle="collapse"
+                                :data-target="'#childRow' + category.id"
+                                class="
+                                  btn btn-sm btn-transparent"
+                              >
+                            <i class="fa-solid fa-angle-right fa-lg"></i>
+                              </button>
+                               <button
+                                  @click="reset()"
+                                  data-toggle="collapse"
+                                  :data-target="'#formChild' + category.id"
+                                  class="btn  btn-transparent "
+                                >
+                                  <i class="fa-solid fa-square-plus "></i>
+                                </button>
                         <span
                           class="ml-2"
                           style="font-weight: 700; font-size: 16px"
                           >{{ category.category }}
-                        </span>
-                        <span class="text-right">
-                          <button
-                            @click="reset()"
-                            data-toggle="collapse"
-                            :data-target="'#formChild' + category.id"
-                            class="btn btn-icon btn-transparent rounded-pill"
-                          >
-                            <i class="fa-solid fa-square-plus fa-xl"></i>
-                          </button>
                         </span>
                       </div>
                       <div :id="'formChild' + category.id" class="collapse p-2">
@@ -217,27 +213,28 @@
                         :id="'childRow' + category.id"
                       >
                         <div
-                          class="section bg-child py-1"
+                          class="section bg-child "
                           v-for="(building, index) in category.buildingPrice"
                           :key="building.id"
                         >
                           <div class="row my-2">
                             <div class="col-3 mr-2">
-                              <span class="ml-4">{{ index + 1 }}.</span>
-                              <span class="ml-2" style="font-weight: 600">{{
-                                building.description
-                              }}</span>
-                              <button
+                              <div class="d-flex ml-30 align-items-center">
+                                    <button
                                 @click="reset()"
                                 data-toggle="collapse"
                                 :data-target="'#formChildren' + building.id"
                                 class="
-                                  btn btn-icon btn-transparent
-                                  rounded-pill
+                                  btn btn-transparent btn-sm
                                 "
                               >
-                                <i class="fa-solid fa-square-plus fa-xl"></i>
+                                <i class="fa-solid fa-square-plus"></i>
                               </button>
+                              <span class="ml-2" style="font-weight: 600">{{ index + 1 }}. {{
+                                building.description
+                              }}</span>
+
+                              </div>
                             </div>
                             <div class="col">
                               <span class="ml-5">{{ building.volume }}</span>
@@ -406,9 +403,12 @@
                       </div>
                     </td>
                   </tr>
+                    <td colspan="6" >
+                        <EmptyData v-if="!isLoading && buildingCategories.length < 1" message="Data Customer Ngga Ada"/>
+                        <CircleLoader v-if="isLoading" />
+                    </td>
                 </tbody>
               </table>
-              <CircleLoader v-show="isLoading" />
             </div>
           </div>
           <div class="card-footer">
@@ -436,7 +436,7 @@
   /* background-color: #E9E9E9 !important; */
   color: rgb(58, 58, 58);
 }
-.box {
+.box-parent {
   width: 29%;
   /* background-color: aqua; */
 }
@@ -451,6 +451,7 @@ import iziToast from "izitoast";
 import CircleLoader from "../../components/CircleLoader.vue";
 import Pagination from "../../components/Pagination.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
+import EmptyData from "../../components/EmptyData.vue";
 
 export default {
   data() {
@@ -790,7 +791,7 @@ export default {
       };
     },
   },
-  components: { CircleLoader, Pagination, ButtonsExport },
+  components: { CircleLoader, Pagination, ButtonsExport, EmptyData },
 };
 </script>
 <style lang="">
