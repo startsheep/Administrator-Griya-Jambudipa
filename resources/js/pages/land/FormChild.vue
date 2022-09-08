@@ -51,8 +51,9 @@
         </button>
         <button
           data-toggle="collapse"
-          :data-target="'#formChild' + categories"
+          :data-target="'#formChild' +idForm    "
           class="btn btn-danger btn-md"
+          @click="resetForm()"
         >
           <i class="fas fa-times"></i>
         </button>
@@ -91,7 +92,24 @@ export default {
     methods:{
         submit(){
             this.$emit('onSubmit' , this.landPrice)
-        }
+        },
+        sumTotal() {
+      this.landPrice.total =
+        this.landPrice.amount * this.landPrice.price;
+    },
+        resetForm(){
+            this.landPrice = {
+                categories: '',
+                id: '',
+                description: '',
+                volume: '',
+                unit: '',
+                price: '',
+                amount: '',
+                total: '',
+            },
+            this.$emit('onResetForm')
+        },
     }
 };
 </script>
