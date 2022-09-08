@@ -10,7 +10,7 @@ class BasicPrice extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',
+        // 'id',
         'basic_price_category_id',
         'parent_id',
         'unit',
