@@ -28,6 +28,9 @@ class BasicPriceRepository implements BasicPriceContract
 
     public function store(array $attributes)
     {
+        // print_r($attributes);
+        // die();
+
         $result = $this->basicPrice->create($attributes);
 
         return $result;
