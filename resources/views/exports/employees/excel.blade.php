@@ -41,6 +41,20 @@
     </tbody>
 </table>
 
+<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
+    integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    let token = $.cookie('token')
+
+    if (!token) {
+        $("table").html('');
+        location.href = "/auth/login";
+    }
+</script>
+
 @if (Request::segment(3) == 'print')
     <script>
         window.print()
