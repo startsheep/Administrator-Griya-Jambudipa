@@ -92,10 +92,13 @@
                             ></i>
                           </button>
                           <div class="dropdown-menu action">
-                            <button
+                            <router-link :to="'/contractor/'+contractor.id+'/edit'"
+                            class="dropdown-item action sortable
+                            ">Edit</router-link>
+                            <!-- <button
                               class="dropdown-item action sortable"
-                              :to="'/contractor/' + contractor.id + '/edit'"
-                              >Edit</button>
+                              @click="getContractor(contractor.id)"
+                              >Edit</button> -->
                             <button
                               class="dropdown-item action sortable "
                               @click="deleteContractor(contractor.id)"
@@ -183,7 +186,7 @@ import EmptyData from "../../components/EmptyData.vue";
           `per_page=${this.pagination.perPage}`,
         ].join("&");
         self.$store.dispatch("getData", ["contractor", params]).then((response) => {
-        //   self.contractors = response.data;
+          self.contractors = response.data;
           self.pagination.total = response.meta.total;
           self.pagination.currentPage = response.meta.currentPage;
           self.pagination.lastPage = response.meta.lastPage;
