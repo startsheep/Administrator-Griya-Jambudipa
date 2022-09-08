@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+includeRouteFiles(__DIR__ . '/web');
 
-Route::get('/{any}', [PageController::class, 'index'])->where('any', '^(?!auth).*$');
+Route::get('/{any}', [PageController::class, 'index'])->where('any', '^(?!auth|export).*$');
 Route::prefix('/auth')->group(function () {
     Route::get('/', [PageController::class, 'auth'])->name('web.login');
     Route::get('/{any}', [PageController::class, 'auth']);
