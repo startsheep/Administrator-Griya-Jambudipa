@@ -16,7 +16,7 @@
                 <li class="menu-header">Menu Utama</li>
 
                 <li class="nav-item">
-                    <router-link to="/" class="nav-link"
+                    <router-link to="/dashboard" class="nav-link"
                         ><i class="fa-solid fa-chart-line"></i
                         ><span>Dashboard</span></router-link
                     >
