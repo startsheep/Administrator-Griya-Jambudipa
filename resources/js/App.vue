@@ -1,22 +1,19 @@
 <template>
   <div class="main-wrapper">
-    <Navbar/>
-    <Sidebar/>
-   <div class="main-content">
-        <router-view></router-view>
-
+    <Navbar />
+    <Sidebar />
+    <div class="main-content">
+      <router-view></router-view>
     </div>
     <footer class="main-footer">
-                    <div class="footer-left">
-                        Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="https://nauval.in/">Muhamad
-                            Nauval Azhar</a>
-                    </div>
-                    <div class="footer-right">
-                        2.3.0
-                    </div>
-                </footer>
+      <div class="footer-left">
+        Copyright &copy; 2018
+        <div class="bullet"></div>
+        Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+      </div>
+      <div class="footer-right">2.3.0</div>
+    </footer>
   </div>
-
 </template>
 
 <script>
@@ -38,9 +35,9 @@ export default {
             Cookie.remove("user");
           });
 
-          if (!Cookie.get('token')) {
-            window.location.replace('/auth/login');
-          }
+        if (!Cookie.get("token")) {
+          window.location.replace("/auth/login");
+        }
       },
       deep: true,
       immediate: true,
