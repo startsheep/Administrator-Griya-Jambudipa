@@ -23,7 +23,8 @@ class CustomerController extends Controller
     public function print()
     {
         $data = [
-            'customers' => Customer::all()
+            'customers' => Customer::all(),
+            'title' => "CUSTOMER"
         ];
 
         return view('exports.customers.excel', $data);
