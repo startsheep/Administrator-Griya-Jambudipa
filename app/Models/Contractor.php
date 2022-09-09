@@ -17,6 +17,7 @@ class Contractor extends Model
         'pic_name',
         'address',
         'image',
+        'status',
     ];
 
     public function document()
