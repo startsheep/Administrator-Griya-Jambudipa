@@ -21,12 +21,22 @@ class EmployeeExport implements FromCollection, WithHeadings, WithMapping, WithS
 
     public function map($employee): array
     {
+        if ($employee->position->name == "Marketing") {
+            $total = 0;
+            foreach ($employee->payment as $salary) {
+                $total += $salary->commission;
+            }
+        } else {
+            $total = $employee->position->salary;
+        }
+
         return [
             $employee->name,
             $employee->position->name,
-            $employee->position->salary,
+            'Rp. ' . number_format($total, 0, ',', '.'),
             $employee->is_active == 1 ? "Aktif" : "Non-Aktif",
             $employee->status == 1 ? "Pegawai Tetap" : "Pegawai Tidak Tetap",
+            url('storage/' . $employee->image)
         ];
     }
 
@@ -38,6 +48,7 @@ class EmployeeExport implements FromCollection, WithHeadings, WithMapping, WithS
             'Gaji',
             'Status Keaktifan',
             'Status Kepegawaian',
+            'Foto',
         ];
     }
 

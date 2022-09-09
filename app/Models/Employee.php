@@ -33,4 +33,9 @@ class Employee extends Model
     {
         return $this->morphMany(Document::class, 'documentable');
     }
+
+    public function payment()
+    {
+        return $this->hasMany(Payment::class, 'employee_id', 'id');
+    }
 }
