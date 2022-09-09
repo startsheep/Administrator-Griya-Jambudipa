@@ -1,7 +1,7 @@
 <template >
 
 
- <div class="navbar-bg-primary" style="position:sticky; top: 0; z-index:999;">
+ <div class="navbar bg-white" style="position:sticky; top: 0; z-index:999;">
       <nav class="navbar  navbar-expand-lg main-navbar" >
         <form class="form-inline mr-auto">
           <ul class="navbar-nav mr-3">

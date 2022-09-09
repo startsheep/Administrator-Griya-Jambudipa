@@ -7,9 +7,14 @@ export default [
             title: "Contractor",
         }
     },
-    
+
     {
         path: '/contractor/create',
         component: () => import('../../pages/contractors/CreateEditContractor.vue'),
     },
+    {
+        path: '/contractor/:id/edit/',
+        component: () => import('../../pages/contractors/CreateEditContractor.vue'),
+        props : true
+    }
 ]

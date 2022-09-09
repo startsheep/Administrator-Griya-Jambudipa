@@ -114,9 +114,14 @@
                       </div>
                     </td>
                   </tr>
+                  <tr>
+                    <td colspan="6"     >
+                        <EmptyData v-if="!isLoading && employees.length < 1" message="Data Pegawainya Ngga Ada"/>
+                        <CircleLoader v-if="isLoading" />
+                    </td>
+                  </tr>
                 </tbody>
               </table>
-               <CircleLoader v-if="isLoading" />
             </div>
           </div>
           <div class="card-footer">
@@ -141,6 +146,7 @@ import CircleLoader from "../../components/CircleLoader.vue";
 import Division from "./Division.vue";
 import CreateEditEmployee from "./CreateEditEmployee.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
+import EmptyData from "../../components/EmptyData.vue";
 export default {
   data() {
     return {
@@ -228,6 +234,6 @@ export default {
       this.getEmployees();
     },
   },
-  components: { Pagination, CircleLoader, Division, ButtonsExport },
+  components: { Pagination, CircleLoader, Division, ButtonsExport, EmptyData },
 };
 </script>

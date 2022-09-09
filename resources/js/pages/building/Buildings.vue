@@ -122,122 +122,57 @@
                       <!-- <tr></tr> -->
                     </td>
                     <td colspan="6" class="p-1">
-                      <div class="p-2 box">
-                        <button
-                          v-if="category.buildingPrice.length > 0"
-                          data-toggle="collapse"
-                          :data-target="'#childRow' + category.id"
-                          class="
-                            btn btn-icon btn-sm btn-transparent
-                            rounded-pill
-                          "
-                        >
-                          <i class="fa-solid fa-angle-right fa-lg"></i>
-                        </button>
+                        <div class="p-2 col-4 d-flex align-items-center">
+                                <button
+                                v-if="category.basicPrice.length > 0"
+                                data-toggle="collapse"
+                                :data-target="'#childRow' + category.id"
+                                class="
+                                  btn btn-sm btn-transparent"
+                              >
+                            <i class="fa-solid fa-angle-right fa-lg"></i>
+                              </button>
+                               <button
+                                  @click="reset()"
+                                  data-toggle="collapse"
+                                  :data-target="'#formChild' + category.id"
+                                  class="btn  btn-transparent "
+                                >
+                                  <i class="fa-solid fa-square-plus "></i>
+                                </button>
                         <span
                           class="ml-2"
                           style="font-weight: 700; font-size: 16px"
                           >{{ category.category }}
                         </span>
-                        <span class="text-right">
-                          <button
-                            @click="reset()"
-                            data-toggle="collapse"
-                            :data-target="'#formChild' + category.id"
-                            class="btn btn-icon btn-transparent rounded-pill"
-                          >
-                            <i class="fa-solid fa-square-plus fa-xl"></i>
-                          </button>
-                        </span>
                       </div>
-                      <div :id="'formChild' + category.id" class="collapse p-2">
-                        <div class="row p-2">
-                          <div class="form-inline">
-                            <input
-                              type="text"
-                              v-model="buildingPrice.description"
-                              placeholder="Masukin Uraian"
-                              class="form-control form-control-md m-2"
-                            />
-                            <input
-                              type="number"
-                              v-model="buildingPrice.volume"
-                              placeholder="Masukin Volume"
-                              class="form-control form-control-md m-2"
-                            />
-                            <input
-                              type="text"
-                              v-model="buildingPrice.unit"
-                              placeholder="Masukin Satuan"
-                              class="form-control form-control-md m-2"
-                            />
-                            <input
-                              type="number"
-                              v-model="buildingPrice.price"
-                              @keyup="sumTotal()"
-                              placeholder="Masukin Harga"
-                              class="form-control form-control-md m-2"
-                            />
-                            <input
-                              type="number"
-                              v-model="buildingPrice.amount"
-                              @keyup="sumTotal()"
-                              placeholder="Masukin Jumlah"
-                              class="form-control form-control-md m-2"
-                            />
-                            <input
-                              type="text"
-                              disabled
-                              v-model="buildingPrice.total"
-                              placeholder="Total"
-                              class="form-control form-control-md m-2"
-                            />
-                            <button
-                              @click="
-                                isEditBuilding
-                                  ? updateBuilding()
-                                  : createBuildingPrice(category.id)
-                              "
-                              class="btn btn-primary btn-md mr-1"
-                            >
-                              <i class="fas fa-plus-square"></i>
-                            </button>
-                            <button
-                              data-toggle="collapse"
-                              :data-target="'#formChild' + category.id"
-                              class="btn btn-danger btn-md"
-                            >
-                              <i class="fas fa-times"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div
+                       <div
                         class="collapse collapse-child"
-                        :id="'childRow' + category.id"
+                        :id="'childRow'+category.id"
                       >
                         <div
-                          class="section bg-child py-1"
-                          v-for="(building, index) in category.buildingPrice"
+                          class="section bg-child "
+                          v-for="(building, index) in category.basicPrice"
                           :key="building.id"
                         >
                           <div class="row my-2">
                             <div class="col-3 mr-2">
-                              <span class="ml-4">{{ index + 1 }}.</span>
-                              <span class="ml-2" style="font-weight: 600">{{
-                                building.description
-                              }}</span>
-                              <button
+                              <div class="d-flex ml-30 align-items-center">
+                                    <button
                                 @click="reset()"
                                 data-toggle="collapse"
                                 :data-target="'#formChildren' + building.id"
                                 class="
-                                  btn btn-icon btn-transparent
-                                  rounded-pill
+                                  btn btn-transparent btn-sm
                                 "
                               >
-                                <i class="fa-solid fa-square-plus fa-xl"></i>
+                                <i class="fa-solid fa-square-plus"></i>
                               </button>
+                              <span class="ml-2" style="font-weight: 600">{{ index + 1 }}. {{
+                                building.description
+                              }}</span>
+
+                              </div>
                             </div>
                             <div class="col">
                               <span class="ml-5">{{ building.volume }}</span>
@@ -371,6 +306,69 @@
                           </div>
                         </div>
                       </div>
+                      <div :id="'formChild' + category.id" class="collapse p-2">
+                        <div class="row p-2">
+                          <div class="form-inline">
+                            <input
+                              type="text"
+                              v-model="buildingPrice.description"
+                              placeholder="Masukin Uraian"
+                              class="form-control form-control-md m-2"
+                            />
+                            <input
+                              type="number"
+                              v-model="buildingPrice.volume"
+                              placeholder="Masukin Volume"
+                              class="form-control form-control-md m-2"
+                            />
+                            <input
+                              type="text"
+                              v-model="buildingPrice.unit"
+                              placeholder="Masukin Satuan"
+                              class="form-control form-control-md m-2"
+                            />
+                            <input
+                              type="number"
+                              v-model="buildingPrice.price"
+                              @keyup="sumTotal()"
+                              placeholder="Masukin Harga"
+                              class="form-control form-control-md m-2"
+                            />
+                            <input
+                              type="number"
+                              v-model="buildingPrice.amount"
+                              @keyup="sumTotal()"
+                              placeholder="Masukin Jumlah"
+                              class="form-control form-control-md m-2"
+                            />
+                            <input
+                              type="text"
+                              disabled
+                              v-model="buildingPrice.total"
+                              placeholder="Total"
+                              class="form-control form-control-md m-2"
+                            />
+                            <button
+                              @click="
+                                isEditBuilding
+                                  ? updateBuilding()
+                                  : createBuildingPrice(category.id)
+                              "
+                              class="btn btn-primary btn-md mr-1"
+                            >
+                              <i class="fas fa-plus-square"></i>
+                            </button>
+                            <button
+                              data-toggle="collapse"
+                              :data-target="'#formChild' + category.id"
+                              class="btn btn-danger btn-md"
+                            >
+                              <i class="fas fa-times"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
                     </td>
                     <td class="align-middle text-center">
                       <div class="show">
@@ -406,9 +404,12 @@
                       </div>
                     </td>
                   </tr>
+                    <td colspan="8" >
+                        <EmptyData v-if="!isLoading && buildingCategories.length < 1" message="Data Ngga Ada"/>
+                        <CircleLoader v-if="isLoading" />
+                    </td>
                 </tbody>
               </table>
-              <CircleLoader v-show="isLoading" />
             </div>
           </div>
           <div class="card-footer">
@@ -436,7 +437,7 @@
   /* background-color: #E9E9E9 !important; */
   color: rgb(58, 58, 58);
 }
-.box {
+.box-parent {
   width: 29%;
   /* background-color: aqua; */
 }
@@ -451,6 +452,7 @@ import iziToast from "izitoast";
 import CircleLoader from "../../components/CircleLoader.vue";
 import Pagination from "../../components/Pagination.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
+import EmptyData from "../../components/EmptyData.vue";
 
 export default {
   data() {
@@ -501,7 +503,7 @@ export default {
       );
     },
     sumTotal() {
-      console.log("sumTotal");
+
       this.buildingPrice.total =
         this.buildingPrice.amount * this.buildingPrice.price;
     },
@@ -515,7 +517,7 @@ export default {
     },
     getBuildingPrice() {
       const self = this;
-      self.$store.dispatch("getData", ["building-price"]).then((res) => {
+      self.$store.dispatch("getData", ["basic-price"]).then((res) => {
         self.buildings = res.data;
       });
     },
@@ -526,10 +528,12 @@ export default {
         `per_page=${self.pagination.perPage}`,
         `page=${self.pagination.currentPage}`,
          `order_direction=${this.orderDirection}`,
+         `section=bangunan`
       ].join("&");
       self.$store
-        .dispatch("getData", ["building-category", params])
+        .dispatch("getData", ["basic-price-category", params])
         .then((res) => {
+         console.log(res)
           self.buildingCategories = res.data;
           self.pagination.total = res.meta.total;
           self.pagination.currentPage = res.meta.currentPage;
@@ -541,8 +545,9 @@ export default {
       const self = this;
       this.isLoading = true;
       const url = [
-        "building-category",
+        "basic-price-category",
         {
+          section: 'bangunan',
           category: self.categoryBuilding.category,
         },
       ];
@@ -553,6 +558,7 @@ export default {
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
+
         self.getBuildingCategory();
         this.reset();
         self.isCreateCategories = false;
@@ -562,12 +568,7 @@ export default {
 
     deleteCategoryBuilding(id) {
       const self = this;
-      const url = [
-        "building-category",
-        {
-          id: id,
-        },
-      ];
+
       this.$swal
         .fire({
           title: "Yakin ?",
@@ -581,7 +582,7 @@ export default {
           if (result.isConfirmed) {
             this.isLoading = true;
             self.$store
-              .dispatch("deleteData", ["building-category", id])
+              .dispatch("deleteData", ["basic-price-category", id])
               .then((response) => {
                 iziToast.success({
                   title: "Success",
@@ -597,7 +598,7 @@ export default {
     updateCategories() {
       const self = this;
       const url = [
-        "building-category",
+        "basic-price-category",
         self.categoryBuilding.id,
         {
           category: self.categoryBuilding.category,
@@ -618,7 +619,7 @@ export default {
     updateBuilding() {
       const self = this;
       const url = [
-        "building-price",
+        "basic-price",
         self.buildingPrice.id,
         {
           description: self.buildingPrice.description,
@@ -661,7 +662,7 @@ export default {
       const self = this;
       this.isLoading = true;
       const url = [
-        "building-price",
+        "basic-price",
         {
           parent_id: parent,
           // parent_id: parent ,
@@ -695,12 +696,13 @@ export default {
         });
     },
     createBuildingPrice(parent) {
+        console.log(parent)
       const self = this;
       this.isLoading = true;
       const url = [
-        "building-price",
+        "basic-price",
         {
-          building_price_category_id: parent,
+          basic_price_category_id: parent,
           // parent_id: parent ,
           description: self.buildingPrice.description,
           volume: self.buildingPrice.volume,
@@ -734,7 +736,7 @@ export default {
     deleteBuilding(id) {
       const self = this;
       const url = [
-        "building-price",
+        "basic-price",
         {
           id: id,
         },
@@ -752,7 +754,7 @@ export default {
           if (result.isConfirmed) {
             this.isLoading = true;
             self.$store
-              .dispatch("deleteData", ["building-price", id])
+              .dispatch("deleteData", ["basic-price", id])
               .then((response) => {
                 iziToast.success({
                   title: "Success",
@@ -790,7 +792,7 @@ export default {
       };
     },
   },
-  components: { CircleLoader, Pagination, ButtonsExport },
+  components: { CircleLoader, Pagination, ButtonsExport, EmptyData },
 };
 </script>
 <style lang="">

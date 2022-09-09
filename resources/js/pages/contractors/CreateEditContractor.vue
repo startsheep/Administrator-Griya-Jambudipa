@@ -285,41 +285,41 @@
           .dispatch("getData", ["/contractor/" + self.id])
           .then((response) => {
             this.previewImage = "storage/" + response.data.image;
-            self.contractor.company_name = response.data.companyName;
-            self.contractor.pic_name = response.data.picName;
+            self.contractor.companyName = response.data.companyName;
+            self.contractor.picName = response.data.picName;
             self.contractor.phone = response.data.phone;
             self.contractor.email = response.data.email;
             self.contractor.address = response.data.address;
           });
       },
-      updatecontractor() {
-        // const self = this;
-        // this.isSubmit = true;
-        // let type = "updateDataUploadcontractor";
-        // const fieldData = this.formData;
-        // self.$store
-        //   .dispatch(type, fieldData, ["contractor/" + self.id])
-        //   .then((res) => {
-        //     this.isSubmit = false;
-        //     this.$router.back();
-        //     iziToast.success({
-        //       title: "Success",
-        //       message: "Data berhasil diubah",
-        //       position: "topRight",
-        //     });
-        //   })
-        //   .catch((err) => {
-        //     this.isSubmit = false;
-        //     let meta = err.response.data.meta;
-        //     let messages = err.response.data.meta.message;
-        //     Object.entries(messages).forEach(([key, value]) => {
-        //       iziToast.warning({
-        //         title: "Warning",
-        //         message: value,
-        //         position: "topRight",
-        //       });
-        //     });
-        //   });
+      updateContractor() {
+        const self = this;
+        this.isSubmit = true;
+        let type = "updateDataUploadContractor";
+        const fieldData = this.formData;
+        self.$store
+          .dispatch(type, fieldData, ["contractor/" + self.id])
+          .then((res) => {
+            this.isSubmit = false;
+            this.$router.back();
+            iziToast.success({
+              title: "Success",
+              message: "Data berhasil diubah",
+              position: "topRight",
+            });
+          })
+          .catch((err) => {
+            this.isSubmit = false;
+            let meta = err.response.data.meta;
+            let messages = err.response.data.meta.message;
+            Object.entries(messages).forEach(([key, value]) => {
+              iziToast.warning({
+                title: "Warning",
+                message: value,
+                position: "topRight",
+              });
+            });
+          });
       },
     },
   };

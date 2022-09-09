@@ -1,11 +1,12 @@
 <template>
-    <div class="main-sidebar sidebar-style-2">
+    <div class="main-sidebar sidebar-style-2" style="z-index:999">
         <aside id="sidebar-wrapper">
             <div class="sidebar-brand">
                 <img
                     src="../../../public/assets/images/logo.png"
-                    class="avatar img-responsive"
+                    class="img-fluid"
                     alt=""
+                    style="width: 30%"
                 />
             </div>
             <div class="sidebar-brand sidebar-brand-sm">
@@ -34,7 +35,7 @@
                 </li>
                 <li class="nav-item">
                     <router-link to="/contractor" class="nav-link"
-                        ><i class="fa-solid fa-people-roof"></i
+                        ><i  class="fa-solid fa-people-roof"></i
                         ><span>Data Pemborong</span></router-link>
                 </li>
                 <li class="nav-item">
@@ -75,9 +76,9 @@
                     >
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link"
+                    <router-link to="/land" class="nav-link"
                         ><i class="fa-solid fa-signs-post"></i
-                        ><span>Harga Dasar Tanah</span></a
+                        ><span>Harga Dasar Tanah</span></router-link
                     >
                 </li>
                 <li class="nav-item">

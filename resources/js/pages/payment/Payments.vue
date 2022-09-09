@@ -249,9 +249,14 @@
                         </div>
                       </td>
                     </tr>
+                      <td colspan="8"     >
+                        <EmptyData v-if="!isLoading && payments.length < 1" message="Data Pembayaran Ngga Ada"/>
+                        <CircleLoader v-if="isLoading" />
+                    </td>
                   </tbody>
+
                 </table>
-                <CircleLoader v-if="isLoading" />
+
               </div>
             </div>
             <div class="card-footer">
@@ -276,11 +281,13 @@ import Pagination from "../../components/Pagination.vue";
 import CircleLoader from "../../components/CircleLoader.vue";
 import Utils from "../../store/services/utils";
 import ButtonsExport from "../../components/ButtonsExport.vue";
+import EmptyData from "../../components/EmptyData.vue";
 export default {
   components: {
     Pagination,
     CircleLoader,
-    ButtonsExport
+    ButtonsExport,
+    EmptyData
 },
   data() {
     return {

@@ -10,6 +10,7 @@ import contractor from "./modules/contractor";
 import payment from "./modules/payment";
 import building from "./modules/building";
 import transaction from "./modules/transaction";
+import land from "./modules/land";
 
 const routes = [
     ...auth,
@@ -23,6 +24,7 @@ const routes = [
     ...payment,
     ...building,
     ...transaction,
+    ...land,
     {
         path: "/",
         name: "Dashboard",

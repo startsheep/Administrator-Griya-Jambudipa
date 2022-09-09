@@ -92,10 +92,13 @@
                             ></i>
                           </button>
                           <div class="dropdown-menu action">
-                            <button
+                            <router-link :to="'/contractor/'+contractor.id+'/edit'"
+                            class="dropdown-item action sortable
+                            ">Edit</router-link>
+                            <!-- <button
                               class="dropdown-item action sortable"
-                              :to="'/contractor/' + contractor.id + '/edit'"
-                              >Edit</button>
+                              @click="getContractor(contractor.id)"
+                              >Edit</button> -->
                             <button
                               class="dropdown-item action sortable "
                               @click="deleteContractor(contractor.id)"
@@ -106,9 +109,13 @@
                         </div>
                       </td>
                     </tr>
+                      <td colspan="5">
+                        <EmptyData v-if="!isLoading && contractors.length < 1" message="Datan Pemborong Ngga Ada"/>
+                        <CircleLoader v-if="isLoading" />
+                    </td>
                   </tbody>
                 </table>
-                <CircleLoader v-if="isLoading" />
+
               </div>
             </div>
             <div class="card-footer">
@@ -132,6 +139,7 @@
   import CircleLoader from "../../components/CircleLoader.vue";
   import CreateEditContractor from "./CreateEditContractor.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
+import EmptyData from "../../components/EmptyData.vue";
 
   export default {
     data() {
@@ -218,6 +226,6 @@ import ButtonsExport from "../../components/ButtonsExport.vue";
         this.getContractors();
       },
     },
-    components: { Pagination, CircleLoader, ButtonsExport },
+    components: { Pagination, CircleLoader, ButtonsExport, EmptyData, EmptyData },
   };
   </script>
