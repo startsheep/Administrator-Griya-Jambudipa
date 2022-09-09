@@ -27,12 +27,9 @@
           <div v-else class="card bg-primary">
             <div class="card-body">
               <div class="user-item">
-                <img
-                  alt="image"
-                  :src="'storage/' + customer.image"
-                  class="img-fluid"
-                  style="width: 150px"
-                />
+                    <div class="avatar avatar-lg" :style="{'background-image':`url(storage/${customer.image})`}" style="background-size: cover; width: 120px; height: 120px">
+                    </div>
+
                 <div class="user-details">
                   <div class="user-name text-white">{{ customer.name }}</div>
                   <div class="text-job text-muted">{{ }}</div>
@@ -178,4 +175,19 @@ export default {
           color: #000;
 
     }
+    .custom-avatar{
+           width: 60px;
+    height: 60px;
+    -webkit-border-radius: 60px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 60px;
+    -moz-background-clip: padding;
+    border-radius: 60px;
+    background-clip: padding-box;
+    margin: 7px 0 0 5px;
+    float: left;
+    background-size: cover;
+    background-position: center center;
+    }
+
 </style>
