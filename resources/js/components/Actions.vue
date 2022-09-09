@@ -35,10 +35,6 @@
 <script>
 export default {
     props:{
-        toggleEdit: {
-            type:String ,
-            default : ''
-        },
 
         labelDelete:{
             type : String ,
