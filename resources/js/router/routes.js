@@ -29,7 +29,6 @@ const routes = [
     ...dashboard,
     {
       path: '/',
-          name: 'Transaksi',
           component: () => import('../pages/dashboard/Dashboard.vue'),
     }
 
