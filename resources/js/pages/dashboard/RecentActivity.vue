@@ -5,7 +5,7 @@
     </div>
     <div class="card-body">
       <ul class="list-unstyled list-unstyled-border">
-</ul>        <li class="media" v-for="activity in recentActivity" :key="activity">
+      <li class="media" v-for="activity in recentActivity" :key="activity">
           <img
             class="mr-3 rounded-circle"
             width="50"

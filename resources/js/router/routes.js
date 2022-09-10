@@ -27,6 +27,11 @@ const routes = [
     ...transaction,
     ...land,
     ...dashboard,
+    {
+      path: '/',
+          name: 'Transaksi',
+          component: () => import('../pages/dashboard/Dashboard.vue'),
+    }
 
 ];
 
