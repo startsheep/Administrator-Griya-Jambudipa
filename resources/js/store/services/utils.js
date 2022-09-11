@@ -56,6 +56,9 @@ const Utils = {
     },
     formateDateTimeLocale(date){
         return moment(date).format('LLL');
+    },
+    currencyToNumber(currency){
+        return parseInt(currency.replace(/[^0-9]/g, ''));
     }
 
 
