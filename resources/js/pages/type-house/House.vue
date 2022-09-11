@@ -24,7 +24,7 @@
 
               <div class="form-group">
                 <label >Harga</label>
-                <input ref="formHouse" v-model="house.price" type="text" class="form-control" placeholder="Harga" />
+                <InputCurrency :value="house.price" v-model="house.price" />
               </div>
               <div class="form-group">
                 <SummerNote ref="formHouse" v-model="house.description" />
@@ -188,6 +188,7 @@ import DetailImage from "../../components/DetailImage.vue";
 import Utils from "../../store/services/utils"
 import DetailTypeHouse from "./DetailTypeHouse.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
+import InputCurrency from "../../components/InputCurrency.vue";
 
 export default {
   data() {
@@ -225,7 +226,7 @@ export default {
     formData() {
       const fieldData = new FormData();
       fieldData.append("house_type", this.house.type);
-      fieldData.append('price' , this.house.price)
+      fieldData.append('price' , Utils.currencyToNumber(this.house.price))
         fieldData.append("description", this.house.description);
         if(this.house.images.length > 0){
           this.house.images.forEach((image , index) => {
@@ -388,6 +389,7 @@ export default {
      );
     },
     editHouse(id){
+        console.log(id)
         this.isFormEdit = true;
         const self = this ;
         let type = "updateDataUploadHouse";
@@ -457,7 +459,8 @@ export default {
     SummerNote,
     DetailImage,
     DetailTypeHouse,
-    ButtonsExport
+    ButtonsExport,
+    InputCurrency
 },
 };
 </script>
