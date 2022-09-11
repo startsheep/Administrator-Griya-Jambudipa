@@ -109,12 +109,13 @@
                       <div class="col-6">
                           <div class="form-group">
                             <label>Setoran</label>
-                            <input
+                            <!-- <input
                             v-model="payment.price"
                             type="text"
                             class="form-control"
                             @change="formatRupiah(payment.price)"
-                            />
+                            /> -->
+                            <InputCurrency   :value="payment.price" v-model="payment.price"/>
                           </div>
                       </div>
                   </div>
@@ -286,13 +287,18 @@ import CircleLoader from "../../components/CircleLoader.vue";
 import Utils from "../../store/services/utils";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import EmptyData from "../../components/EmptyData.vue";
+<<<<<<< HEAD
 import PaymentDetail from "./PaymentDetail.vue";
+=======
+import InputCurrency from "../../components/InputCurrency.vue";
+>>>>>>> 9e2c463b59c39c104c7efb5eead9da3204bb72f9
 export default {
   components: {
     Pagination,
     CircleLoader,
     ButtonsExport,
-    EmptyData
+    EmptyData,
+    InputCurrency
 },
   data() {
     return {
@@ -447,7 +453,7 @@ export default {
           employee_id: this.idEmployee,
           houseTypeId: this.selectedKavling.houseTypeId,
           type: this.payment.type,
-          price: this.payment.price,
+          price: Utils.currencyToNumber(this.payment.price),
         },
       ];
       self.$store

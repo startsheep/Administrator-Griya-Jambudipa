@@ -103,12 +103,7 @@
                 >Gaji</label
               >
               <div class="col-sm-9 mt-4">
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="division.salary"
-                  placeholder="Gaji"
-                />
+                <InputCurrency  :value="division.salary" v-model="division.salary"/>
               </div>
             </form>
           </div>
@@ -140,6 +135,7 @@ import Utils from "../../store/services/utils";
 import CircleLoader from "../../components/CircleLoader.vue";
 import moment from "moment";
 import EmptyData from "../../components/EmptyData.vue";
+import InputCurrency from "../../components/InputCurrency.vue";
 export default {
   data() {
     return {
@@ -166,9 +162,15 @@ export default {
   mounted() {
     this.getDivisions();
   },
+  watch:{
+    division:(val)=>{
+      console.log(val)
+    }
+  },
   computed: {
   },
   methods: {
+
     showLogUpdate(date){
         return moment(date).fromNow();
     },
@@ -185,7 +187,7 @@ export default {
         "position",
         {
           position: self.division.name,
-          salary: self.division.salary,
+          salary: Utils.currencyToNumber(self.division.salary),
         },
       ];
       self.$store
@@ -272,7 +274,7 @@ export default {
         self.idDivision,
         {
           position: self.division.name,
-          salary: self.division.salary,
+          salary: Utils.currencyToNumber(self.division.salary),
         },
       ];
       // self.isEditForm = true
@@ -306,6 +308,6 @@ export default {
 
 
   },
-  components: { Pagination, CircleLoader, EmptyData },
+  components: { Pagination, CircleLoader, EmptyData, InputCurrency },
 };
 </script>
