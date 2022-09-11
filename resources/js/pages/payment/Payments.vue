@@ -242,7 +242,10 @@
                             >
                               Setor
                             </button>
-                            <button class="dropdown-item action sortable">
+                            <button
+                            class="dropdown-item action sortable"
+                            data-target="#detailPayment"
+                            data-toggle="modal" @click="paymentDetail(payment.id)">
                               Detail
                             </button>
                           </div>
@@ -271,6 +274,7 @@
         </div>
       </div>
     </div>
+    <PaymentDetail :detailPayment="detailPayment"/>
   </section>
 </template>
 <script>
@@ -282,6 +286,7 @@ import CircleLoader from "../../components/CircleLoader.vue";
 import Utils from "../../store/services/utils";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import EmptyData from "../../components/EmptyData.vue";
+import PaymentDetail from "./PaymentDetail.vue";
 export default {
   components: {
     Pagination,
@@ -292,6 +297,7 @@ export default {
   data() {
     return {
       //data
+      detailPayment: {},
       payment: {
         id: "",
         customerId: "",
@@ -333,12 +339,12 @@ export default {
       },
     };
   },
-  watch: {
-    selectedCustomer(newVal){
-        this.selectedCustomer = newVal
+//   watch: {
+//     selectedCustomer(newVal){
+//         this.selectedCustomer = newVal
 
-    }
-  },
+//     }
+//   },
   mounted() {
     this.getPayments();
     this.getCustomers();
@@ -353,7 +359,9 @@ export default {
   },
   watch: {},
   methods: {
-
+    paymentDetail(data){
+        this.detailPayment = data;
+    },
     getHouse(){
     const self = this;
       this.$store.dispatch("getData", ["house-type/"+ this.selectedKavling.houseTypeId]).then((res) => {
@@ -530,6 +538,9 @@ export default {
         this.selectedKavling = null
         this.house = null
 
+    },
+    components: {
+        PaymentDetail
     }
   },
 };
