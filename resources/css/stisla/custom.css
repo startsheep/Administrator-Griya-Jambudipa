@@ -136,3 +136,28 @@ border-color: var(--light) !important;
 }
 /*#     sourceMappingURL=custom.css.map */
 
+.main-content {
+    padding-left: 280px;
+    padding-right: 30px;
+    padding-top: 0 !important;
+    width: 100%;
+    position: relative;
+   min-height: fit-content !important;
+    /* min-height: fit-content !important; */
+    /* max-height: min-content !important; */
+}
+.section .section-header{
+    position: sticky !important;
+    top: 70px !important;
+    /* background-color: #05c1ff !important; */
+    z-index: 999;
+    /* box-shadow: ; */
+    /* make shadow */
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+footer  {
+    /* position: sticky !important;
+    bottom: 0 !important; */
+    /* background-color: #05c1ff !important; */
+}
