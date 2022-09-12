@@ -125,37 +125,13 @@
                       <span> {{ formatRupiah(house.price) }}</span>
                     </td>
                     <td class="align-middle text-center">
-                      <div class="show">
-                        <button
-                          data-toggle="dropdown"
-                          class="btn btn-transparent"
-                        >
-                          <i
-                            class="
-                              fa-solid fa-ellipsis-vertical
-                              dropdown-toggle
-                            "
-                            aria-expanded="true"
-                          ></i>
-                        </button>
-                        <div class="dropdown-menu action">
-                          <button
-                            class="dropdown-item action sortable "
-                              @click="getHouse(house.id)"
-                            >Edit</button
-                          >
-                          <button
-                            class="dropdown-item action sortable btn"
-                            @click="deleteHouse(house.id)"
-                            >Hapus</button
-                          >
-                          <button
-
-                          class="dropdown-item action sortable" data-target="#detailTypeHouse" data-toggle="modal" @click="detailTypeHouse(houses[index])"
-                            >Detail</button
-                          >
-                        </div>
-                      </div>
+                        <Actions
+                            @update="getHouse(house.id)"
+                            @delete="deleteHouse(house.id)"
+                            toggleDetail="modal"
+                            targetDetail="#detailTypeHouse"
+                            @detail="detailTypeHouse(houses[index])"
+                        />
                     </td>
                   </tr>
                 </tbody>
@@ -189,6 +165,7 @@ import Utils from "../../store/services/utils"
 import DetailTypeHouse from "./DetailTypeHouse.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import InputCurrency from "../../components/InputCurrency.vue";
+import Actions from "../../components/Actions.vue";
 
 export default {
   data() {
@@ -460,7 +437,8 @@ export default {
     DetailImage,
     DetailTypeHouse,
     ButtonsExport,
-    InputCurrency
+    InputCurrency,
+    Actions
 },
 };
 </script>
