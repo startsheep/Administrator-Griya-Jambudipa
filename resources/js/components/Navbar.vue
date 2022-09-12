@@ -44,11 +44,13 @@ export default {
     },
     computed:{
         username(){
-            return this.user
+
+            return  JSON.parse(this.userCookie).name
         },
         userCookie(){
             return Cookie.get('user');
-        }
+        },
+
     },
     methods:{
 
