@@ -1,5 +1,5 @@
 <template>
-    <div class="main-sidebar sidebar-style-1" style="z-index:999">
+    <div class="main-sidebar  sidebar-style-2" style="z-index:999">
         <aside id="sidebar-wrapper">
             <div class="sidebar-brand">
                 <img
@@ -52,7 +52,7 @@
                         ><span>Tipe Rumah</span></router-link
                     >
                 </li>
-                
+
                 <!-- <li class="nav-item">
                     <a href="#" class="nav-link"
                         ><i class="fa-solid fa-id-card-clip"></i
@@ -60,7 +60,7 @@
                     >
                 </li> -->
                 <li class="menu-header">Informasi Umum</li>
-                
+
                 <li class="nav-item">
                     <router-link to="/employees" class="nav-link"
                         ><i class="fa-solid fa-people-group"></i
@@ -84,7 +84,7 @@
                         ><span>Data Pengguna</span></router-link
                     >
                 </li>
-                
+
                 <li class="menu-header">Menu Utama</li>
                 <li class="nav-item">
                     <router-link to="/transaction" class="nav-link"
@@ -99,19 +99,19 @@
                     >
                 </li>
                 <li class="nav-item">
-                    <router-link to="/payment" class="nav-link"
+                    <router-link to="/jobs" class="nav-link"
                         ><i class="fa-solid fa-wallet"></i
                         ><span>Borongan Pekerjaan</span></router-link
                     >
                 </li>
                 <li class="nav-item">
-                    <router-link to="/payment" class="nav-link"
+                    <router-link to="/payment-jobs" class="nav-link"
                         ><i class="fa-solid fa-wallet"></i
                         ><span>Pembayaran Borongan</span></router-link
                     >
                 </li>
-                
-               
+
+
                 <!-- <li>
                     <a href="#" class="nav-link"
                         ><i class="fas fa-gear"></i><span>Settings</span></a
@@ -119,7 +119,7 @@
                 </li> -->
             </ul>
             <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
- 
+
             </div>
         </aside>
     </div>
