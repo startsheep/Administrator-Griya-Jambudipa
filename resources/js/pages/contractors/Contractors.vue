@@ -78,35 +78,11 @@
                       </div>
                     </td>
                       <td width="10%" class="align-middle text-center">
-                        <div class="show">
-                          <button
-                            data-toggle="dropdown"
-                            class="btn btn-transparent"
-                          >
-                            <i
-                              class="
-                                fa-solid fa-ellipsis-vertical
-                                dropdown-toggle
-                              "
-                              aria-expanded="true"
-                            ></i>
-                          </button>
-                          <div class="dropdown-menu action">
-                            <router-link :to="'/contractor/'+contractor.id+'/edit'"
-                            class="dropdown-item action sortable
-                            ">Edit</router-link>
-                            <!-- <button
-                              class="dropdown-item action sortable"
-                              @click="getContractor(contractor.id)"
-                              >Edit</button> -->
-                            <button
-                              class="dropdown-item action sortable "
-                              @click="deleteContractor(contractor.id)"
-                              >Hapus</button>
-                          <span class="dropdown-item action sortable"
-                              >Detail</span>
-                          </div>
-                        </div>
+                           <Actions
+                        @delete="deleteContractor(contractor.id)"
+                        :editIsRouter="true"
+                        :linkEdit="'/contractor/'+contractor.id+'/edit'"
+                      />
                       </td>
                     </tr>
                       <td colspan="5">
@@ -140,6 +116,7 @@
   import CreateEditContractor from "./CreateEditContractor.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import EmptyData from "../../components/EmptyData.vue";
+import Actions from "../../components/Actions.vue";
 
   export default {
     data() {
@@ -226,6 +203,6 @@ import EmptyData from "../../components/EmptyData.vue";
         this.getContractors();
       },
     },
-    components: { Pagination, CircleLoader, ButtonsExport, EmptyData, EmptyData },
+    components: { Pagination, CircleLoader, ButtonsExport, EmptyData, EmptyData, Actions },
   };
   </script>
