@@ -101,33 +101,14 @@
                         </span>
                       </td>
                       <td class="align-middle text-center">
-                        <div class="show">
-                          <button
-                            data-toggle="dropdown"
-                            class="btn btn-transparent"
-                          >
-                            <i
-                              class="
-                                fa-solid fa-ellipsis-vertical
-                                dropdown-toggle
-                              "
-                              aria-expanded="true"
-                            ></i>
-                          </button>
-                          <div class="dropdown-menu action">
-                            <button
-                              class="dropdown-item action sortable"
-                              data-toggle="collapse"
-                              data-target="#formCreate"
-                              @click="sendEdit(payment)"
-                            >
-                              Setor
-                            </button>
-                            <button class="dropdown-item action sortable">
-                              Detail
-                            </button>
-                          </div>
-                        </div>
+                        <Actions
+                            @update="sendEdit(payment)"
+                              toggleEdit="collapse"
+                              targetEdit="#formUpdate"
+                              :showDelete="false"
+
+                        />
+
                       </td>
                     </tr>
                       <td colspan="8"     >
@@ -165,6 +146,7 @@ import ButtonsExport from "../../components/ButtonsExport.vue";
 import EmptyData from "../../components/EmptyData.vue";
 import InputCurrency from "../../components/InputCurrency.vue";
 import FormPayment from "./FormPayment.vue";
+import Actions from "../../components/Actions.vue";
 export default {
   components: {
     Pagination,
@@ -172,7 +154,8 @@ export default {
     ButtonsExport,
     EmptyData,
     InputCurrency,
-    FormPayment
+    FormPayment,
+    Actions
 },
   data() {
     return {
