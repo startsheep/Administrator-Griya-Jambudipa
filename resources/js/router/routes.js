@@ -11,6 +11,7 @@ import payment from "./modules/payment";
 import building from "./modules/building";
 import transaction from "./modules/transaction";
 import land from "./modules/land";
+import jobs from "./modules/job";
 
 
 const routes = [
@@ -27,6 +28,7 @@ const routes = [
     ...transaction,
     ...land,
     ...dashboard,
+    ...jobs,
     {
       path: '/',
           component: () => import('../pages/dashboard/Dashboard.vue'),
