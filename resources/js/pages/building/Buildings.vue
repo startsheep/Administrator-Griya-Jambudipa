@@ -395,7 +395,8 @@
                             Edit
                           </button>
                           <button
-                            class="dropdown-item action sortable btn"
+                          v-if="category.id != 1"
+                            class="dropdown-item action sortable "
                             @click="deleteCategoryBuilding(category.id)"
                           >
                             Hapus

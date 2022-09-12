@@ -261,6 +261,7 @@
                         :showDetail="false"
                         @update="sendEdit(categories)"
                         @delete="deleteCategory(categories.id)"
+                        :showDelete="categories.id != 1"
                       />
                     </td>
                   </tr>
