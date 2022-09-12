@@ -6,41 +6,32 @@
           type="text"
           v-model="landPrice.description"
           placeholder="Masukin Uraian"
-          class="form-control form-control-md m-2"
+          class="form-control form-control m-2"
         />
         <input
           type="number"
           v-model="landPrice.volume"
           placeholder="Masukin Volume"
-          class="form-control form-control-md m-2"
+          class="form-control form-control m-2"
         />
         <input
           type="text"
           v-model="landPrice.unit"
           placeholder="Masukin Satuan"
-          class="form-control form-control-md m-2"
+          class="form-control form-control m-2"
         />
-        <input
-          type="number"
-          v-model="landPrice.price"
-          @keyup="sumTotal()"
-          placeholder="Masukin Harga"
-          class="form-control form-control-md m-2"
-        />
-        <input
+       <InputCurrency   placeholder="Harga" :value="landPrice.price" v-model="landPrice.price"  class="form-control form-control m-2"
+          @keyup="sumTotal()"/>
+
+          <input
           type="number"
           v-model="landPrice.amount"
           @keyup="sumTotal()"
           placeholder="Masukin Jumlah"
-          class="form-control form-control-md m-2"
-        />
-        <input
-          type="number"
-          disabled
-          v-model="landPrice.total"
-          placeholder="Total"
-          class="form-control form-control-md m-2"
-        />
+          class="form-control form-control m-2"
+          />
+          <InputCurrency   disabled placeholder="Total" :value="landPrice.total" v-model="landPrice.total"  class="form-control form-control m-2"
+             @keyup="sumTotal()"/>
         <button
           @click="isEdit ? update() : submit()"
           class="btn btn-primary btn-md mr-1"
@@ -60,74 +51,74 @@
   </div>
 </template>
 <script>
+import InputCurrency from '../../components/InputCurrency.vue';
+import Utils from '../../store/services/utils'
 export default {
-  props: {
-    idForm: {
-      type: String,
-      default: "",
+    props: {
+        idForm: {
+            type: String,
+            default: "",
+        },
+        isEdit: {
+            type: Boolean,
+            default: false,
+        },
+        basicPrice: {
+            type: Object,
+            default: {
+                description: "",
+                volume: "",
+                unit: "",
+                price: "",
+                amount: "",
+                total: "",
+            },
+        },
     },
-    isEdit: {
-      type: Boolean,
-      default: false,
+    watch: {
+        basicPrice: {
+            handler: function (val) {
+                this.landPrice = val;
+            },
+            deep: true,
+        },
     },
-    basicPrice: {
-      type: Object,
-      default: {
-        description: "",
-        volume: "",
-        unit: "",
-        price: "",
-        amount: "",
-        total: "",
-      },
+    data() {
+        return {
+            landPrice: {
+                categories: "",
+                id: "",
+                description: "",
+                volume: "",
+                unit: "",
+                price: "",
+                amount: "",
+                total: "",
+            },
+        };
     },
-  },
-  watch: {
-    basicPrice: {
-      handler: function (val) {
-        this.landPrice = val;
-      },
-      deep: true,
+    methods: {
+        submit() {
+            this.$emit("onSubmit", this.landPrice);
+        },
+        sumTotal() {
+            this.landPrice.total = this.landPrice.amount * Utils.currencyToNumber(this.landPrice.price);
+        },
+        resetForm() {
+            (this.landPrice = {
+                categories: "",
+                id: "",
+                description: "",
+                volume: "",
+                unit: "",
+                price: "",
+                amount: "",
+                total: "",
+            }),
+                this.$emit("onResetForm");
+        },
     },
-
-
-  },
-  data() {
-    return {
-      landPrice: {
-        categories: "",
-        id: "",
-        description: "",
-        volume: "",
-        unit: "",
-        price: "",
-        amount: "",
-        total: "",
-      },
-    };
-  },
-
-  methods: {
-    submit() {
-      this.$emit("onSubmit", this.landPrice);
-    },
-    sumTotal() {
-      this.landPrice.total = this.landPrice.amount * this.landPrice.price;
-    },
-    resetForm() {
-      (this.landPrice = {
-        categories: "",
-        id: "",
-        description: "",
-        volume: "",
-        unit: "",
-        price: "",
-        amount: "",
-        total: "",
-      }),
-        this.$emit("onResetForm");
-    },
-  },
+    components: { InputCurrency }
 };
 </script>
 <style >

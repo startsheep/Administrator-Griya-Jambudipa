@@ -17,17 +17,33 @@
             </Button>
           </div>
           <div class="card-body">
-              <div class="row mb-3">
-              <div class="col-lg-8">
-                <ButtonsExport  :printData="false"/>
-              </div>
+                <div class="row mb-3 d-flex justify-content-between">
               <div class="col-lg-4">
-                <input
-                  v-on:keyup="search"
-
-                  class="form-control"
-                  placeholder="Search"
-                />
+                <ButtonsExport :printData="false" />
+              </div>
+              <div class="col-lg-3">
+                <!-- <div class="form-inline"> -->
+                  <!-- <input
+                    v-on:keyup="search"
+                    class="form-control"
+                    placeholder="Search"
+                  /> -->
+                  <div class="input-group">
+                      <select @change="onSearch" class="form-control mr-2" v-model="pagination.perPage">
+                        <option selected value="">
+                            Tampilkan Semua
+                        </option>
+                        <option v-for="limit in limits" :key="limit" :value="limit.value">{{ limit.text }}</option>
+                    </select>
+                      <select @change="onSearch" class="form-control" v-model="filter.block">
+                        <option selected disabled value="">
+                            Filter Blok Kavling
+                        </option>
+                        <option v-for="block in blocks" :key="block" :value="block.value">{{ block.text }}</option>
+                    </select>
+                     <button @click="reset()" class="btn btn-success "><i class="fas fa-arrows-rotate"></i></button>
+                </div>
+                <!-- </div> -->
               </div>
             </div>
             <div class="table-responsive">
@@ -53,7 +69,7 @@
                     <td>{{ kavling.lengthKavling }}</td>
                     <td>{{ kavling.lengthKavling }}</td>
                     <td>{{ kavling.areaKavling }}</td>
-                    <td>{{ kavling.houseTypeId }}</td>
+                    <td>{{ kavling.houseType.houseType }}</td>
                     <td>{{ kavling.areaBuilding }}</td>
                     <td class="align-middle text-center">
                       <div class="show">
@@ -72,9 +88,9 @@
                         <div class="dropdown-menu action">
                           <button
                             class="dropdown-item action sortable"
-                              data-toggle="modal"
-              data-target="#ModalKavling"
-              @click="sendEdit(kavling)"
+                            data-toggle="modal"
+                            data-target="#ModalKavling"
+                            @click="sendEdit(kavling)"
                           >
                             Edit
                           </button>
@@ -96,19 +112,29 @@
               <CircleLoader v-show="isLoading" />
             </div>
           </div>
-          <div class="card-footer">
-              <CreateEdit @onSuccess="onSuccess()" :kav="kavling"/>
-            <Pagination
+          <div class="card-footer ">
+             <!-- create total data -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <p class=" ml-2 text-muted"> Jumlah Data :{{ pagination.total }}</p>
+                </div>
+                <div class="col-lg-6">
+
+
+              <Pagination
               :currentPage="pagination.currentPage"
               :rowsTotal="pagination.total"
               :lastPage="pagination.lastPage"
               @onPageChange="onPageChange($event)"
             />
+                </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+</section>
+<CreateEdit @onSuccess="onSuccess()" :kav="kavling" />
 </template>
 <script>
 import CreateEdit from "./CreateEdi.vue";
@@ -122,14 +148,58 @@ export default {
     CreateEdit,
     Pagination,
     CircleLoader,
-    ButtonsExport
-},
+    ButtonsExport,
+  },
   data() {
     return {
       //data
-      kavling:null,
+      kavling: null,
       kavlings: [],
       isLoading: false,
+
+      filter: {
+        search: "",
+        orderDirection: "asc",
+        block: "",
+        limit: 10,
+      },
+      blocks: [
+        { text: "A", value: "A" },
+        { text: "B", value: "B" },
+        { text: "C", value: "C" },
+        { text: "D", value: "D" },
+        { text: "E", value: "E" },
+        { text: "F", value: "F" },
+        { text: "G", value: "G" },
+        { text: "H", value: "H" },
+        { text: "I", value: "I" },
+        { text: "J", value: "J" },
+        { text: "K", value: "K" },
+        { text: "L", value: "L" },
+        { text: "M", value: "M" },
+        { text: "N", value: "N" },
+        { text: "O", value: "O" },
+        { text: "P", value: "P" },
+        { text: "Q", value: "Q" },
+        { text: "R", value: "R" },
+        { text: "S", value: "S" },
+        { text: "T", value: "T" },
+        { text: "U", value: "U" },
+        { text: "V", value: "V" },
+        { text: "W", value: "W" },
+        { text: "X", value: "X" },
+        { text: "Y", value: "Y" },
+        { text: "Z", value: "Z" },
+      ],
+      limits:[
+
+        { text: "5", value: 5 },
+        { text: "10", value: 10 },
+        { text: "20", value: 20 },
+        { text: "30", value: 30 },
+        { text: "40", value: 40 },
+        { text: "50", value: 50 },
+      ],
 
       // paginations
       pagination: {
@@ -143,26 +213,24 @@ export default {
   },
   mounted() {
     this.getKavlings();
+  },
+  computed: {
 
   },
-  computed:{
-    reset(){
-    }
-  },
-  watch:{
-        kavling(newVal){
-        this.kavling = newVal;
-        },
-
-  },
-  methods: {
-    sendEdit(kavling){
-        console.log(kavling)
-        this.kavling = kavling;
+  watch: {
+    kavling(newVal) {
+      this.kavling = newVal;
     },
-    isCreate(){
-        this.kavling = null;
-        console.log(this.kavling);
+  },
+
+  methods: {
+    sendEdit(kavling) {
+      console.log(kavling);
+      this.kavling = kavling;
+    },
+    isCreate() {
+      this.kavling = null;
+      console.log(this.kavling);
     },
     getKavlings() {
       const self = this;
@@ -170,12 +238,14 @@ export default {
       const params = [
         //   `name=${this.name}`,
         // `position=${this.name}`,
+        `block=${this.filter.block}`,
         `order_by=positions.id`,
         `order_direction=${this.order_direction}`,
         `page=${this.pagination.page}`,
         `per_page=${this.pagination.perPage}`,
       ].join("&");
       self.$store.dispatch("getData", ["kavling", params]).then((res) => {
+        console.log(res)
         self.kavlings = res.data;
         self.pagination.total = res.meta.total;
         self.pagination.currentPage = res.meta.currentPage;
@@ -187,12 +257,12 @@ export default {
       this.pagination.page = page;
       this.getKavlings();
     },
-    onSuccess(){
-        this.getKavlings();
+    onSuccess() {
+      this.getKavlings();
     },
-    deleteKavling(id){
-        const self = this;
-        this.$swal
+    deleteKavling(id) {
+      const self = this;
+      this.$swal
         .fire({
           title: "Yakin ?",
           text: "Data akan dihapus",
@@ -215,6 +285,15 @@ export default {
               });
           }
         });
+    },
+    onSearch() {
+      this.getKavlings();
+    },
+    reset(){
+        this.filter.search = ''
+        this.filter.block = ''
+        this.pagination.perPage = 5
+        this.getKavlings()
     }
 
   },
