@@ -3,7 +3,7 @@
     <div class="row d-flex justify-content-center">
       <div class="card" style="width: 80%">
         <div class="card-header">
-          <h4>Formulir Pembayaran / Setoran</h4>
+          <h4>Formulir Pembayaran </h4>
         </div>
         <div class="card-body">
           <div class="alert alert-primary alert-dismissible show fade mb-4">
@@ -98,7 +98,7 @@
               </div>
               <div class="col-6">
                 <div class="form-group">
-                  <label>Setoran</label>
+                  <label>Uang Masuk</label>
                   <!-- <input
                             v-model="payment.price"
                             type="text"
