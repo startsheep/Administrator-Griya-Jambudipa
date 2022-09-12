@@ -287,11 +287,7 @@ import CircleLoader from "../../components/CircleLoader.vue";
 import Utils from "../../store/services/utils";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import EmptyData from "../../components/EmptyData.vue";
-<<<<<<< HEAD
 import PaymentDetail from "./PaymentDetail.vue";
-=======
-import InputCurrency from "../../components/InputCurrency.vue";
->>>>>>> 9e2c463b59c39c104c7efb5eead9da3204bb72f9
 export default {
   components: {
     Pagination,
