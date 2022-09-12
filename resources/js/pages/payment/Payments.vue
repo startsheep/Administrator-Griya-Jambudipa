@@ -20,127 +20,7 @@
       </div>
       <div class="row">
         <div class="col">
-          <div class="collapse " id="formCreate">
-            <div class="row d-flex justify-content-center">
-                  <div class="card" style="width:80%">
-              <div class="card-header">
-                <h4>Formulir Pembayaran / Setoran </h4>
-              </div>
-              <div class="card-body">
-                <div class="alert alert-primary alert-dismissible show fade mb-4">
-                      <div class="alert-body">
-                        <button class="close" data-dismiss="alert">
-                          <span>×</span>
-                        </button>
-                        <b>Info!</b> Form ini merupakan untuk penyetoran / Pembayaram customer.
-                      </div>
-                    </div>
-                <div class="form-col">
-                    <div class="row">
-                        <div class="col" :class="{'col-12': !selectedCustomer}">
-
-                            <div class="form-group">
-                              <label>Nama</label>
-                              <select @change="selectCustomer(this)" ref="fieldCustomer" class="form-control" v-model="payment.customerId">
-                                <option
-                                  :key="customer.id"
-                                  v-for="customer in customers"
-                                  :value="customer.id"
-                                >
-                                  {{ customer.name }}
-                                </option>
-                              </select>
-                            </div>
-                        </div>
-                        <div class="col">
-                                 <div v-if="selectedCustomer" class="form-group">
-                        <label>Blok / Kavling </label>
-                        <select class="form-control"  @change="getHouse" v-model="selectedKavling">
-                          <option v-for="kavling in selectedCustomer.customerKavling"  :value="kavling.kavling" :key="kavling">{{ kavling.kavling.block }} - {{ kavling.kavling.numberKavling }}</option>
-                        </select>
-                      </div>
-                        </div>
-                    </div>
-
-                  <div class="row " v-if="house">
-                    <div class="col">
-                        <!-- <div class="form-group">
-                            <label>Referral</label>
-                            <select class="form-control" v-model="payment.type">
-                                <option value="Cash Keras">G0323J-Ahmad</option>
-                                <option value="Cash Keras">G0323J-Ahmad</option>
-                                <option value="Cash Keras">G0323J-Ahmad</option>
-                            </select>
-                          </div> -->
-                    </div>
-                    <div class="col m-auto">
-                        <div class="box d-flex">
-
-                            <div class="mr-5">
-                                <span>
-                                Tipe Rumah :
-                            </span>
-                            <Span>
-                                {{ house.houseType }}
-                            </Span>
-                            </div>
-                            <div>
-                             <span>
-                                Harga :
-                            </span>
-                            <Span>
-                                {{ formatRupiah(house.price) }}
-                            </Span>
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-6">
-                          <div class="form-group">
-                            <label>Jenis Pembayaram</label>
-                            <select class="form-control" v-model="payment.type">
-                              <option value="Cash Keras">Cash Keras</option>
-                              <option value="Cash Bertahap">Cash Bertahap</option>
-                              <option value="KPR">KPR</option>
-                            </select>
-                          </div>
-                      </div>
-                      <div class="col-6">
-                          <div class="form-group">
-                            <label>Setoran</label>
-                            <!-- <input
-                            v-model="payment.price"
-                            type="text"
-                            class="form-control"
-                            @change="formatRupiah(payment.price)"
-                            /> -->
-                            <InputCurrency   :value="payment.price" v-model="payment.price"/>
-                          </div>
-                      </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <button
-                  class="btn btn-primary btn-block"
-                  @click="createPayment"
-                >
-                  Simpan
-                </button>
-                <button
-                  data-toggle="collapse"
-                  data-target="#formCreate"
-                  class="btn btn-danger btn-block"
-                  @click="reset"
-                >
-                  Batal
-                </button>
-              </div>
-            </div>
-            </div>
-
-          </div>
+         <FormPayment @onSuccess="onSuccess()" />
           <div class="card">
             <div class="card-header">
               <Button
@@ -284,13 +164,15 @@ import Utils from "../../store/services/utils";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import EmptyData from "../../components/EmptyData.vue";
 import InputCurrency from "../../components/InputCurrency.vue";
+import FormPayment from "./FormPayment.vue";
 export default {
   components: {
     Pagination,
     CircleLoader,
     ButtonsExport,
     EmptyData,
-    InputCurrency
+    InputCurrency,
+    FormPayment
 },
   data() {
     return {
@@ -357,28 +239,8 @@ export default {
   watch: {},
   methods: {
 
-    getHouse(){
-    const self = this;
-      this.$store.dispatch("getData", ["house-type/"+ this.selectedKavling.houseTypeId]).then((res) => {
-            this.house = res.data
-      });
-    },
-    selectCustomer(){
-        this.customers.filter((cs)=>{
-            if(cs.id == this.$refs['fieldCustomer'].value){
-                this.selectedCustomer = cs
-            }
-        })
-    },
-    showNameCustomer(id){
-            let name =''
-            this.customers.forEach((customer) => {
-                if (customer.id == id) {
-                    name = customer.name;
-                }
-            });
-            return name
-        },
+
+
     getBlocks(array) {
       //    getblock name between comma
       let blocks = [];
@@ -424,6 +286,11 @@ export default {
       this.getPayments();
     },
     onSuccess() {
+         iziToast.success({
+            title: "Success",
+            message: "Data berhasil ditambahkan",
+            position: "topRight",
+          });
       this.getPayments();
       this.reset();
     },
@@ -433,40 +300,7 @@ export default {
         self.customers = res.data;
       });
     },
-    createPayment() {
-      const self = this;
-      const url = [
-        "payment",
-        {
-          customer_id: this.payment.customerId,
-          employee_id: this.idEmployee,
-          houseTypeId: this.selectedKavling.houseTypeId,
-          type: this.payment.type,
-          price: Utils.currencyToNumber(this.payment.price),
-        },
-      ];
-      self.$store
-        .dispatch("postData", url)
-        .then((res) => {
-          iziToast.success({
-            title: "Success",
-            message: "Data berhasil ditambahkan",
-            position: "topRight",
-          });
-          $("#formCreate").collapse('hide');
-          self.onSuccess();
-        })
-        .catch((err) => {
-          let messages = err.response.data.meta.message;
-          Object.entries(messages).forEach(([key, value]) => {
-            iziToast.warning({
-              title: "Warning",
-              message: value,
-              position: "topRight",
-            });
-          });
-        });
-    },
+
     editPayment(){
         const self = this;
         const url = [
