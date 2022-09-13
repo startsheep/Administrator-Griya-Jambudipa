@@ -63,7 +63,7 @@
               <div class="col mb-3 d-flex justify-content-end">
                 <div class="form-inline">
                   <select
-                    @change="getbasicPriceCategories()"
+                    @change="getBasicPriceCategories()"
                     class="form-control mr-2"
                     style="width: 80px"
                     v-model="pagination.perPage"
