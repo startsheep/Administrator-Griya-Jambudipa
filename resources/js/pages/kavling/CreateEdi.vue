@@ -27,14 +27,11 @@
                         class="alert alert-primary alert-dismissible show fade"
                     >
                         <div class="alert-body">
-                            <button class="close" data-dismiss="alert">
-                                <span>×</span>
-                            </button>
+                           
                             Satuan Panjang dan Lebar Yang DIgunakan adalah
                             <Strong>Meter</Strong>
                         </div>
                     </div>
-
                     <form class="form-row">
                         <div class="form-group col-lg-6">
                             <label>Blok</label>
