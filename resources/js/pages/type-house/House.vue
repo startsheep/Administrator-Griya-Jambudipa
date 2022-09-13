@@ -42,14 +42,9 @@
                 />
               </div>
             </form>
-            <div v-if="isFormEdit "  class="row d-flex justify-content-center">
-                    <div  v-for="(image ,index) in previewImages" :key="image" class="d-flex justify-content-end mr-1 mb-1 " style="width: 100px; height: 100px;">
-                        <span @click="removeItem(index)" class="badge badge-primary position-absolute cursor">&times;</span>
-                        <img :src="'storage/'+image" alt="" class="img-thumbnail" style="object-fit: cover; width: 100px; height: 100px">
-                    </div>
-            </div>
 
-            <div v-else class="row d-flex justify-content-center">
+
+            <div class="row d-flex justify-content-center">
                     <div  v-for="(image ,index) in previewImages" :key="image" class="d-flex justify-content-end mr-1 mb-1 " style="width: 100px; height: 100px;">
                         <span @click="removeItem(index)" class="badge badge-primary position-absolute cursor">&times;</span>
                         <img :src="image" alt="" class="img-thumbnail" style="object-fit: cover; width: 100px; height: 100px">
@@ -67,7 +62,7 @@
             </button>
             <button
               type="button"
-              @click="reset"
+              @click="reset()"
               class="btn btn-danger btn-block"
             >
                 Batal
@@ -199,7 +194,6 @@ export default {
     this.getHouses();
   },
   computed: {
-
     formData() {
       const fieldData = new FormData();
       fieldData.append("house_type", this.house.type);
@@ -294,7 +288,7 @@ export default {
     {
         this.previewImages = [];
         for(let i = 0 ; i < images.length ; i++){
-            this.previewImages.push((images[i].documentPath));
+            this.previewImages.push(('/storage/'+images[i].documentPath));
         }
     },
 
@@ -429,6 +423,7 @@ export default {
       this.getHouses();
     },
   },
+
   components: {
     CircleLoader,
     Pagination,
