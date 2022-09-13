@@ -23,6 +23,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div
+                        class="alert alert-primary alert-dismissible show fade"
+                    >
+                        <div class="alert-body">
+                           
+                            Satuan Panjang dan Lebar Yang DIgunakan adalah
+                            <Strong>Meter</Strong>
+                        </div>
+                    </div>
                     <form class="form-row">
                         <div class="form-group col-lg-6">
                             <label>Blok</label>
