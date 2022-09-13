@@ -7,15 +7,33 @@
       ></i>
     </button>
     <div class="dropdown-menu action">
-      <button
-       :data-toggle="toggleEdit"
-        :data-target="targetEdit"
-      v-if="showEdit" class="dropdown-item action sortable" @click="update">
-        {{ labelEdit }}
-      </button>
+      <div v-if="!editIsRouter">
+        <button
+          :data-toggle="toggleEdit"
+          :data-target="targetEdit"
+          v-if="showEdit"
+          class="dropdown-item action sortable"
+          @click="update"
+        >
+          {{ labelEdit }}
+        </button>
+      </div>
+      <div v-else>
+        <router-link custom v-slot="{ navigate }" :to="linkEdit"
+          >
+          <button
+          class="dropdown-item action sortable"
+            @click="navigate"
+            @keypress.enter="navigate"
+            role="link"
+
+          > {{ labelEdit }}</button>
+        </router-link>
+      </div>
+
       <button
         v-if="showDelete"
-        class="dropdown-item action sortable "
+        class="dropdown-item action sortable"
         @click="doDelete"
       >
         {{ labelDelete }}
@@ -34,65 +52,71 @@
 </template>
 <script>
 export default {
-    props:{
-
-        labelDelete:{
-            type : String ,
-            default :'Hapus'
-        },
-        labelDetail :{
-            type: String ,
-            default : 'Detail'
-        },
-        labelEdit:{
-            type :String ,
-            default : 'Edit'
-        },
-        showDetail :{
-            type:Boolean ,
-            default : true,
-        },
-        showEdit:{
-            type:Boolean ,
-            default : true
-        },
-        showDelete:{
-            type:Boolean,
-            default : true
-        },
-        targetDetail:{
-            type:String ,
-            default : ''
-        },
-        toggleDetail:{
-            type:String ,
-            default : ''
-        },
-        targetEdit:{
-            type:String ,
-            default : ''
-        },
-        toggleEdit:{
-            type:String ,
-            default : ''
-        },
-        isRouterLink:{
-            type:Boolean ,
-            default : false
-        },
-
+  props: {
+    labelDelete: {
+      type: String,
+      default: "Hapus",
     },
-   methods:{
-        detail(){
-            this.$emit('detail')
-        },
-        doDelete(){
-            this.$emit('delete')
-        },
-        update(){
-            this.$emit('update')
-        }
-   }
+    labelDetail: {
+      type: String,
+      default: "Detail",
+    },
+    labelEdit: {
+      type: String,
+      default: "Edit",
+    },
+    showDetail: {
+      type: Boolean,
+      default: true,
+    },
+    showEdit: {
+      type: Boolean,
+      default: true,
+    },
+    showDelete: {
+      type: Boolean,
+      default: true,
+    },
+    targetDetail: {
+      type: String,
+      default: "",
+    },
+    toggleDetail: {
+      type: String,
+      default: "",
+    },
+    targetEdit: {
+      type: String,
+      default: "",
+    },
+    toggleEdit: {
+      type: String,
+      default: "",
+    },
+    isRouterLink: {
+      type: Boolean,
+      default: false,
+    },
+    editIsRouter: {
+      type: Boolean,
+      default: false,
+    },
+    linkEdit: {
+      type: String,
+      default: "",
+    },
+  },
+  methods: {
+    detail() {
+      this.$emit("detail");
+    },
+    doDelete() {
+      this.$emit("delete");
+    },
+    update() {
+      this.$emit("update");
+    },
+  },
 };
 </script>
 <style>

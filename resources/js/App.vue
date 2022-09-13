@@ -1,15 +1,15 @@
 <template>
-  <div class="main-wrapper">
+  <div class="main-wrapper main-wrapper-1">
     <Navbar />
     <Sidebar />
     <div class="main-content">
       <router-view></router-view>
     </div>
-    <footer class="main-footer">
+    <footer class="main-footer ">
       <div class="footer-left">
-        Copyright &copy; 2018
+        Copyright &copy; 2022
         <div class="bullet"></div>
-        Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+        Created By <a href="https://github.com/startsheep/" target="_blank">Start Sheep</a>
       </div>
       <div class="footer-right">2.3.0</div>
     </footer>

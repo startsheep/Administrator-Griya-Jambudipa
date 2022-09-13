@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 const router = createRouter({
     history: createWebHistory(),
     routes,
-    linkActiveClass: "text-primary",
+    linkActiveClass: "text-warning",
 });
 
 router.beforeEach(async (to, from, next) => {

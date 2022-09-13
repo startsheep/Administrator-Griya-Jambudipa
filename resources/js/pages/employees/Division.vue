@@ -38,28 +38,7 @@
                     </td>
                     <td>{{ formatRupiah(division.salary) }}</td>
                     <td class="text-center">
-                      <div class="show">
-                         <button data-toggle="dropdown" class="btn btn-transparent">
-                            <i
-                          class="fa-solid fa-ellipsis-vertical dropdown-toggle"
-                          aria-expanded="true"
-                        ></i>
-                        </button>
-                        <div class="dropdown-menu action">
-                          <a
-                            @click="editDivision(division.id)"
-                            class="dropdown-item action"
-                            href="#"
-                            >Edit</a
-                          >
-                          <a
-                            @click="deleteDivision(division.id)"
-                            class="dropdown-item action"
-                            href="#"
-                            >Hapus</a
-                          >
-                        </div>
-                      </div>
+                     <Actions :showDetail="false" @delete="deleteDivision(division.id)" @update="editDivision(division.id)"/>
                     </td>
                   </tr>
                      <td colspan="3"     >
@@ -103,12 +82,7 @@
                 >Gaji</label
               >
               <div class="col-sm-9 mt-4">
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="division.salary"
-                  placeholder="Gaji"
-                />
+                <InputCurrency  :value="division.salary" v-model="division.salary"/>
               </div>
             </form>
           </div>
@@ -140,6 +114,8 @@ import Utils from "../../store/services/utils";
 import CircleLoader from "../../components/CircleLoader.vue";
 import moment from "moment";
 import EmptyData from "../../components/EmptyData.vue";
+import InputCurrency from "../../components/InputCurrency.vue";
+import Actions from "../../components/Actions.vue";
 export default {
   data() {
     return {
@@ -166,9 +142,15 @@ export default {
   mounted() {
     this.getDivisions();
   },
+  watch:{
+    division:(val)=>{
+      console.log(val)
+    }
+  },
   computed: {
   },
   methods: {
+
     showLogUpdate(date){
         return moment(date).fromNow();
     },
@@ -185,7 +167,7 @@ export default {
         "position",
         {
           position: self.division.name,
-          salary: self.division.salary,
+          salary: Utils.currencyToNumber(self.division.salary),
         },
       ];
       self.$store
@@ -272,7 +254,7 @@ export default {
         self.idDivision,
         {
           position: self.division.name,
-          salary: self.division.salary,
+          salary: Utils.currencyToNumber(self.division.salary),
         },
       ];
       // self.isEditForm = true
@@ -306,6 +288,6 @@ export default {
 
 
   },
-  components: { Pagination, CircleLoader, EmptyData },
+  components: { Pagination, CircleLoader, EmptyData, InputCurrency, Actions },
 };
 </script>

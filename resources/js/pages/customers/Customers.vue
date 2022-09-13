@@ -80,39 +80,14 @@
                       </div>
                     </td>
                     <td width="10%" class="align-middle text-center">
-                      <div class="show">
-                        <button
-                          data-toggle="dropdown"
-                          class="btn btn-transparent"
-                        >
-                          <i
-                            class="
-                              fa-solid fa-ellipsis-vertical
-                              dropdown-toggle
-                            "
-                            aria-expanded="true"
-                          ></i>
-                        </button>
-                        <div class="dropdown-menu action">
-                          <router-link
-                            class="dropdown-item action sortable"
-                            :to="'/customer/' + customer.id + '/edit'"
-                            >Edit</router-link
-                          >
-                          <router
-                            class="dropdown-item action sortable "
-                            @click="deleteCustomer(customer.id)"
-                            >Hapus</router
-                          >
-                        <span
-                          data-toggle="modal"
-                          data-target="#detailCustomer"
-                          class="dropdown-item action sortable"
-                          @click="sendId(customer.id)"
-                            >Detail</span
-                          >
-                        </div>
-                      </div>
+                          <Actions
+                        @delete="deleteCustomer(customer.id)"
+                        toggleDetail="modal"
+                        targetDetail="#detailCustomer"
+                        @detail="sendId(customer.id)"
+                        :editIsRouter="true"
+                        :linkEdit="'/customer/' + customer.id + '/edit'"
+                      />
                     </td>
                   </tr>
                     <td colspan="5" >
@@ -147,6 +122,7 @@ import CircleLoader from "../../components/CircleLoader.vue";
 import DetailCustomer from "./DetailCustomer.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import EmptyData from "../../components/EmptyData.vue";
+import Actions from "../../components/Actions.vue";
 
 export default {
   data() {
@@ -242,6 +218,6 @@ export default {
       this.getCustomers();
     },
   },
-  components: { Pagination, CircleLoader, DetailCustomer, ButtonsExport, EmptyData },
+  components: { Pagination, CircleLoader, DetailCustomer, ButtonsExport, EmptyData, Actions },
 };
 </script>
