@@ -155,6 +155,16 @@ border-color: var(--light) !important;
     /* make shadow */
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important;
 }
+.preview-image {
+    width: 200px;
+    height: 200px;
+    object-fit: fill;
+    background-size: cover;
+    object-position: center;
+    border-radius: 5px;
+    border: 1px solid #aeaeae;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
 
 footer  {
     /* position: sticky !important;
