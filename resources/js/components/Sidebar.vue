@@ -29,13 +29,13 @@
                     >
                 </li>
                 <li class="nav-item">
-                    <router-link to="/building" class="nav-link"
+                    <router-link to="/basic-price-building" class="nav-link"
                         ><i class="fa-solid fa-building-columns"></i
                         ><span>Harga Dasar Bangunan</span></router-link
                     >
                 </li>
                 <li class="nav-item">
-                    <router-link to="/land" class="nav-link"
+                    <router-link to="/basic-price-land" class="nav-link"
                         ><i class="fa-solid fa-signs-post"></i
                         ><span>Harga Dasar Tanah</span></router-link
                     >

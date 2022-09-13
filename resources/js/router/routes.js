@@ -8,9 +8,8 @@ import user from "./modules/users";
 import kavling from "./modules/kavling";
 import contractor from "./modules/contractor";
 import payment from "./modules/payment";
-import building from "./modules/building";
 import transaction from "./modules/transaction";
-import land from "./modules/land";
+import BasicPrice from "./modules/basic_price";
 import jobs from "./modules/job";
 
 
@@ -24,9 +23,8 @@ const routes = [
     ...user,
     ...contractor,
     ...payment,
-    ...building,
     ...transaction,
-    ...land,
+    ...BasicPrice,
     ...dashboard,
     ...jobs,
     {
