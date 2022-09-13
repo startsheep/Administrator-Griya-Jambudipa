@@ -119,18 +119,7 @@
               <div class="row">
                 <div class="col-lg-6">
                   <h6>Foto :</h6>
-                  <div
-                    v-show="previewImage"
-                    class="card"
-                    style="width: 200px; height: 200px"
-                  >
-                    <img
-                      :src="previewImage"
-                      alt="Gambar"
-                      class="img-responsive"
-                      style=""
-                    />
-                  </div>
+                    <PreviewImage :previewImage="previewImage" />
                 </div>
                 <div class="col-lg-6">
                   <div
@@ -174,208 +163,205 @@
 <script>
 import iziToast from "izitoast";
 import moment from "moment";
+import PreviewImage from "../../components/PreviewImage.vue";
 
 export default {
-  props: ["id"],
-  data() {
-    return {
-      idEmp: "",
-      employee: {
-        name: "",
-        email: "",
-        position_id: "",
-        type_emp: "",
-        entry_date: "",
-        phone: "",
-        address: "",
-        gender: "",
-        image: "",
-        document: [],
-      },
-      defaultImage: "../../../../public/assets/images/avatar/avatar-1.png",
-      previewImage: "",
-      positions: [],
-      isSubmit: false,
-    };
-  },
-  mounted: function () {
-    this.getPositions();
-    if (this.id) {
-      this.showEmployee();
-    }
-  },
-  computed: {
-    formData() {
-      const fieldData = new FormData();
-      if (this.id) {
-        fieldData.append("id", this.id);
-        fieldData.append("_method", "PUT");
-      }
-      fieldData.append("name", this.employee.name);
-      fieldData.append("email", this.employee.email);
-      fieldData.append("position_id", this.employee.position_id);
-      fieldData.append("type_emp", this.employee.type_emp);
-      fieldData.append("entry_date", this.employee.entry_date);
-      fieldData.append("phone", this.employee.phone);
-      fieldData.append("address", this.employee.address);
-      fieldData.append("gender", this.employee.gender);
-      //   fieldData.append("documents", this.employee.document);
-      this.employee.document.forEach((document, index) =>
-        fieldData.append("documents[" + index + "]", document)
-      );
-
-      if (this.employee.image) {
-        fieldData.append("image", this.employee.image);
-      }
-      return fieldData;
+    props: ["id"],
+    data() {
+        return {
+            idEmp: "",
+            employee: {
+                name: "",
+                email: "",
+                position_id: "",
+                type_emp: "",
+                entry_date: "",
+                phone: "",
+                address: "",
+                gender: "",
+                image: "",
+                document: [],
+            },
+            defaultImage: "../../../../public/assets/images/avatar/avatar-1.png",
+            previewImage: "",
+            positions: [],
+            isSubmit: false,
+        };
     },
-  },
-  methods: {
-    back() {
-      this.$router.back();
-    },
-    removeDocument(document) {
-      this.employee.document.splice(
-        this.employee.document.indexOf(document),
-        1
-      );
-    },
-    checkExtension(file) {
-      const allowedExtensions = ["image/jpg", "image/png", "image/jpeg"];
-      const extension = file.type;
-      if (allowedExtensions.includes(extension)) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    checkIsDocument(file) {
-      const allowedExtensions = [
-        "image/jpg",
-        "image/png",
-        "image/jpeg",
-        "application/pdf",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      ];
-      const extension = file.type;
-      if (allowedExtensions.includes(extension)) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-
-    selectDocuments(e) {
-      const files = e.target.files;
-
-      for (let i = 0; i < files.length; i++) {
-        if (this.checkIsDocument(files[i])) {
-          this.employee.document.push(files[i]);
-        } else {
-          iziToast.warning({
-            title: "Peringatan",
-            message: "File harus berupa dokumen",
-            position: "topRight",
-          });
+    mounted: function () {
+        this.getPositions();
+        if (this.id) {
+            this.showEmployee();
         }
-      }
     },
-    selectImage(e) {
-      const file = e.target.files[0];
-      if (this.checkExtension(file)) {
-        this.employee.image = file;
-        this.previewImage = URL.createObjectURL(file);
-      } else {
-        iziToast.warning({
-          title: "Warning",
-          message: "File harus berformat jpg, png, jpeg",
-          position: "topRight",
-        });
-      }
+    computed: {
+        formData() {
+            const fieldData = new FormData();
+            if (this.id) {
+                fieldData.append("id", this.id);
+                fieldData.append("_method", "PUT");
+            }
+            fieldData.append("name", this.employee.name);
+            fieldData.append("email", this.employee.email);
+            fieldData.append("position_id", this.employee.position_id);
+            fieldData.append("type_emp", this.employee.type_emp);
+            fieldData.append("entry_date", this.employee.entry_date);
+            fieldData.append("phone", this.employee.phone);
+            fieldData.append("address", this.employee.address);
+            fieldData.append("gender", this.employee.gender);
+            //   fieldData.append("documents", this.employee.document);
+            this.employee.document.forEach((document, index) => fieldData.append("documents[" + index + "]", document));
+            if (this.employee.image) {
+                fieldData.append("image", this.employee.image);
+            }
+            return fieldData;
+        },
     },
-
-    getPositions() {
-      const self = this;
-      self.$store.dispatch("getData", ["position"]).then((response) => {
-        self.positions = response.data;
-      });
-    },
-    createEmployee() {
-      const self = this;
-      this.isSubmit = true;
-      let type = "postDataUploadEmployee";
-      let fieldData = this.formData;
-      self.$store
-        .dispatch(type, fieldData, "employee")
-        .then((res) => {
-          this.isSubmit = false;
-          this.$router.back();
-          iziToast.success({
-            title: "Success",
-            message: "Data berhasil ditambahkan",
-            position: "topRight",
-          });
-        })
-        .catch((err) => {
-          this.isSubmit = false;
-          let meta = err.response.data.meta;
-          let messages = err.response.data.meta.message;
-          Object.entries(messages).forEach(([key, value]) => {
-            iziToast.warning({
-              title: "Warning",
-              message: value,
-              position: "topRight",
+    methods: {
+        back() {
+            this.$router.back();
+        },
+        removeDocument(document) {
+            this.employee.document.splice(this.employee.document.indexOf(document), 1);
+        },
+        checkExtension(file) {
+            const allowedExtensions = ["image/jpg", "image/png", "image/jpeg"];
+            const extension = file.type;
+            if (allowedExtensions.includes(extension)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        },
+        checkIsDocument(file) {
+            const allowedExtensions = [
+                "image/jpg",
+                "image/png",
+                "image/jpeg",
+                "application/pdf",
+                "application/msword",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            ];
+            const extension = file.type;
+            if (allowedExtensions.includes(extension)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        },
+        selectDocuments(e) {
+            const files = e.target.files;
+            for (let i = 0; i < files.length; i++) {
+                if (this.checkIsDocument(files[i])) {
+                    this.employee.document.push(files[i]);
+                }
+                else {
+                    iziToast.warning({
+                        title: "Peringatan",
+                        message: "File harus berupa dokumen",
+                        position: "topRight",
+                    });
+                }
+            }
+        },
+        selectImage(e) {
+            const file = e.target.files[0];
+            if (this.checkExtension(file)) {
+                this.employee.image = file;
+                this.previewImage = URL.createObjectURL(file);
+            }
+            else {
+                iziToast.warning({
+                    title: "Warning",
+                    message: "File harus berformat jpg, png, jpeg",
+                    position: "topRight",
+                });
+            }
+        },
+        getPositions() {
+            const self = this;
+            self.$store.dispatch("getData", ["position"]).then((response) => {
+                self.positions = response.data;
             });
-          });
-        });
-    },
-    showEmployee() {
-      const self = this;
-      self.$store
-        .dispatch("getData", ["/employee/" + self.id])
-        .then((response) => {
-          this.previewImage = "storage/" + response.data.image;
-          self.employee.name = response.data.name;
-          self.employee.email = response.data.email;
-          self.employee.position_id = response.data.positionId;
-          self.employee.type_emp = response.data.status;
-          self.employee.entry_date = response.data.entryDate;
-          self.employee.phone = response.data.phone;
-          self.employee.address = response.data.address;
-          self.employee.gender = response.data.gender;
-        });
-    },
-    updateEmployee() {
-      const self = this;
-      this.isSubmit = true;
-      let type = "updateDataUploadEmployee";
-      const fieldData = this.formData;
-      self.$store
-        .dispatch(type, fieldData, ["employee/" + self.id])
-        .then((res) => {
-          this.isSubmit = false;
-          this.$router.back();
-          iziToast.success({
-            title: "Success",
-            message: "Data berhasil diubah",
-            position: "topRight",
-          });
-        })
-        .catch((err) => {
-          this.isSubmit = false;
-          let meta = err.response.data.meta;
-          let messages = err.response.data.meta.message;
-          Object.entries(messages).forEach(([key, value]) => {
-            iziToast.warning({
-              title: "Warning",
-              message: value,
-              position: "topRight",
+        },
+        createEmployee() {
+            const self = this;
+            this.isSubmit = true;
+            let type = "postDataUploadEmployee";
+            let fieldData = this.formData;
+            self.$store
+                .dispatch(type, fieldData, "employee")
+                .then((res) => {
+                this.isSubmit = false;
+                this.$router.back();
+                iziToast.success({
+                    title: "Success",
+                    message: "Data berhasil ditambahkan",
+                    position: "topRight",
+                });
+            })
+                .catch((err) => {
+                this.isSubmit = false;
+                let meta = err.response.data.meta;
+                let messages = err.response.data.meta.message;
+                Object.entries(messages).forEach(([key, value]) => {
+                    iziToast.warning({
+                        title: "Warning",
+                        message: value,
+                        position: "topRight",
+                    });
+                });
             });
-          });
-        });
+        },
+        showEmployee() {
+            const self = this;
+            self.$store
+                .dispatch("getData", ["/employee/" + self.id])
+                .then((response) => {
+                this.previewImage = "/storage/" + response.data.image;
+                self.employee.name = response.data.name;
+                self.employee.email = response.data.email;
+                self.employee.position_id = response.data.positionId;
+                self.employee.type_emp = response.data.status;
+                self.employee.entry_date = response.data.entryDate;
+                self.employee.phone = response.data.phone;
+                self.employee.address = response.data.address;
+                self.employee.gender = response.data.gender;
+            });
+        },
+        updateEmployee() {
+            const self = this;
+            this.isSubmit = true;
+            let type = "updateDataUploadEmployee";
+            const fieldData = this.formData;
+            self.$store
+                .dispatch(type, fieldData, ["employee/" + self.id])
+                .then((res) => {
+                this.isSubmit = false;
+                this.$router.back();
+                iziToast.success({
+                    title: "Success",
+                    message: "Data berhasil diubah",
+                    position: "topRight",
+                });
+            })
+                .catch((err) => {
+                this.isSubmit = false;
+                let meta = err.response.data.meta;
+                let messages = err.response.data.meta.message;
+                Object.entries(messages).forEach(([key, value]) => {
+                    iziToast.warning({
+                        title: "Warning",
+                        message: value,
+                        position: "topRight",
+                    });
+                });
+            });
+        },
     },
-  },
+    components: { PreviewImage }
 };
 </script>
 
