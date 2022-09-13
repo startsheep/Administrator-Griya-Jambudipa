@@ -1,11 +1,16 @@
 <template>
   <section class="section">
     <div class="section-header">
-      <h4>Perincian Harga Dasar {{ isBuilding ? "Bangunan" : "Tanah" }} {{ currentRouteName }} is building  ? {{ isBuilding }}</h4>
+      <h4>Perincian Harga Dasar {{ isBuilding ? "Bangunan" : "Tanah" }} </h4>
     </div>
     <div class="row">
       <div class="col">
         <div class="card">
+        <div class="card-header">
+             <div class="card-header-action">
+                 <ButtonsExport />
+            </div>
+        </div>
           <div class="card-body">
             <div class="row">
               <div class="col-4 mb-3">
@@ -287,6 +292,7 @@ import iziToast from "izitoast";
 import Utils from "../../store/services/utils";
 import FormChild from "./FormChild.vue";
 import Pagination from "../../components/Pagination.vue";
+import ButtonsExport from "../../components/ButtonsExport.vue";
 export default {
   data() {
     return {
@@ -587,7 +593,7 @@ export default {
       };
     },
   },
-  components: { Media, Actions, FormChild, Pagination },
+  components: { Media, Actions, FormChild, Pagination, ButtonsExport },
 };
 </script>
 <style>
