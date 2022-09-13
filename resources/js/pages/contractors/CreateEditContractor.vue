@@ -51,14 +51,14 @@
                   </div>
 
                   <div class="form-group col-lg-12">
-                    <label>Alamat</label>
-                    <input
-                      v-model="contractor.address"
-                      type="text"
-                      class="form-control"
-                      placeholder="Alamat"
-                    />
-                  </div>
+                <label>Alamat</label>
+                <textarea
+                  v-model="contractor.address"
+                  class="form-control"
+                  rows="1" style="height: 120px" placeholder="Alamat"
+                ></textarea>
+              </div>
+                  
 
                   <div class="custom-file form-group col-lg-6">
                     <input
@@ -85,7 +85,7 @@
                   <div class="col-lg-6">
                     <h6>Foto :</h6>
                     <PreviewImage  :previewImage="previewImage"/>
-                  </div>>
+                  </div>
                   <div class="col-lg-6">
                     <div
                       v-for="document in contractor.document"

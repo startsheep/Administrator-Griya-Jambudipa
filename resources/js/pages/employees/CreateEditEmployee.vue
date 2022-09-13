@@ -81,7 +81,7 @@
                   <textarea
                     v-model="employee.address"
                     class="form-control"
-                    rows="1"
+                    rows="1" style="height: 100px"
                   ></textarea>
                 </div>
 

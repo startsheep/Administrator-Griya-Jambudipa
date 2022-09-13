@@ -88,6 +88,14 @@
                 </multiselect>
                 <!-- <pre class="language-json"><code>{{ value  }}</code></pre> -->
               </div>
+              <div class="form-group col-lg-12">
+                <label>Alamat</label>
+                <textarea
+                  v-model="customer.address"
+                  class="form-control"
+                  rows="1" style="height: 120px" placeholder="Alamat"
+                ></textarea>
+              </div>
               <div class="custom-file form-group col-lg-6">
                 <input
                   @change="selectImage"
@@ -113,14 +121,7 @@
                 </div>
               </div>
 
-              <div class="form-group col-lg-12">
-                <label>Alamat</label>
-                <textarea
-                  v-model="customer.address"
-                  class="form-control"
-                  rows="1"
-                ></textarea>
-              </div>
+              
             </form>
             <div class="row">
               <div class="col-lg-6">
