@@ -47,7 +47,7 @@
                                                 href="auth-forgot-password.html"
                                                 class="text-small"
                                             >
-                                                Forgot Password?
+                                                Lupa Sandi?
                                             </a>
                                         </div>
                                     </div>
