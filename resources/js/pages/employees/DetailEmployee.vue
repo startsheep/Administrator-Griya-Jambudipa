@@ -30,17 +30,17 @@
                     <div v-else class="card bg-primary">
                         <div class="card-body">
                             <div class="user-item">
-                                <img
-                                    alt="image"
-                                    :src="'storage/' + employee.image"
-                                    class="avatar"
+                                <div
+                                    class="avatar avatar-lg"
+                                    :style="{
+                                        'background-image': `url(storage/${employee.image})`,
+                                    }"
                                     style="
+                                        background-size: cover;
                                         width: 120px;
                                         height: 120px;
-                                        background-size: cover;
-                                        background-image':`url(storage/${customer.image})
                                     "
-                                />
+                                ></div>
                                 <div class="user-details">
                                     <div class="user-name text-white">
                                         {{ employee.name }}
