@@ -25,12 +25,10 @@ class Recapitulation implements FilterContract
      */
     public function handle(Builder $query, Closure $next)
     {
-        // dd(request()->segment(2));
-        if(request()->segment(2)=='transaction'){
-            if(request('from') && request('to')){
+        if (request()->segment(2) == 'transaction') {
+            if (request('from') && request('to')) {
                 $query->whereBetween('created_at', [request('from'), request('to')]);
             }
-            // $query->whereBetween('created_at', [request('from'), request('to')]);
         }
 
         return $next($query);
