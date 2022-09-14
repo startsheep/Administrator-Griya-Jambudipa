@@ -88,8 +88,8 @@
                       </td>
                       <td>{{ payment.customer.phone }}</td>
                       <td>{{ payment.block.block}}-{{ payment.block.numberKavling }}</td>
-                      <td>{{ payment.houseType.houseType}}</td>
-                      <td>{{ formatRupiah(payment.houseType.price) }}</td>
+                      <td>{{ payment.block.houseType.houseType}}</td>
+                      <td>{{ formatRupiah(payment.block.houseType.price) }}</td>
                       <td>{{  formatRupiah(payment.reminderPayment)}}</td>
                       <td>
                         <span
@@ -256,7 +256,6 @@ export default {
         `per_page=${this.pagination.perPage}`,
       ].join("&");
       self.$store.dispatch("getData", ["payment", params]).then((res) => {
-        console.log(res.data)
         self.payments = res.data;
         self.pagination.total = res.meta.total;
         self.pagination.currentPage = res.meta.currentPage;
