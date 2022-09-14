@@ -7,6 +7,8 @@ use App\Http\Repositories\BaseRepository;
 use App\Models\Customer;
 use App\Models\Kavling;
 use App\Models\Payment;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardRepository implements DashboardContract
 {
@@ -69,5 +71,43 @@ class DashboardRepository implements DashboardContract
                 'kavlings' => $data,
             ]
         ], 200);
+    }
+
+    public function graph()
+    {
+        $year = date("Y");
+
+        if (request()->year) {
+            $year = request()->year;
+        }
+
+        $counters = [];
+        $month = $this->cekMonth();
+
+        for ($i = 1; $i <= $month; $i++) {
+            $counters[Carbon::now()->isoFormat('') . sprintf("%02d", $i)] = 0;
+        }
+
+        $payments = Payment::select(
+            DB::raw("count(*) as value, DATE_FORMAT(created_at, '%m') AS date")
+        )
+            ->whereYear('created_at', $year)
+            ->groupBy(DB::raw("date"))->get();
+
+        foreach ($payments as $item) {
+            $counters[$item->date] = (int) $item->value;
+        }
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $counters
+        ], 200);
+    }
+
+    protected function cekMonth()
+    {
+        $carbon = Carbon::now();
+        $month = $carbon->endOfYear()->format('m');
+        return $month;
     }
 }

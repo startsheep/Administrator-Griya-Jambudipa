@@ -35,4 +35,11 @@ class DashboardController extends Controller
 
         return $result;
     }
+
+    public function graph()
+    {
+        $result = $this->dashboardRepository->graph();
+
+        return $result;
+    }
 }

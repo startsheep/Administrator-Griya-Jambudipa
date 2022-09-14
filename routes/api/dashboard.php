@@ -8,5 +8,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/count-customer', [DashboardController::class, 'countCustomer'])->name('api.dashboard.count.customer');
         Route::get('/count-transaction', [DashboardController::class, 'countTransaction'])->name('api.dashboard.count.transaction');
         Route::get('/kavling', [DashboardController::class, 'kavling'])->name('api.dashboard.kavling');
+        Route::get('/graph', [DashboardController::class, 'graph'])->name('api.dashboard.graph');
     });
 });
