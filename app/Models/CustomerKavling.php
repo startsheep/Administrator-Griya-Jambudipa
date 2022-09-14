@@ -15,4 +15,9 @@ class CustomerKavling extends Model
     {
         return $this->hasOne(Kavling::class, 'id', 'kavling_id');
     }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+    }
 }
