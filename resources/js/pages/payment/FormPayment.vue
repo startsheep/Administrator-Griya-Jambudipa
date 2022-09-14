@@ -180,7 +180,7 @@ export default {
         {
           customer_id: this.payment.customerId,
           employee_id: this.idEmployee,
-          houseTypeId: this.selectedKavling.houseTypeId,
+          kavling_id: this.selectedKavling.id,
           type: this.payment.type,
           price: Utils.currencyToNumber(this.payment.price),
         },
