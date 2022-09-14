@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('email', function () {
+//     return view('emails.verification');
+// })->name('email');
+
 includeRouteFiles(__DIR__ . '/web');
 
 Route::get('/{any}', [PageController::class, 'index'])->where('any', '^(?!auth|export).*$');
