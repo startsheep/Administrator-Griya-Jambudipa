@@ -9,4 +9,6 @@ interface DashboardContract
     public function countTransaction();
 
     public function kavling();
+
+    public function graph();
 }
