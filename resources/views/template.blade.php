@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
      <link rel="stylesheet" href="{{ asset('assets/fontawesome-free-6.1.2-web/css/all.min.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('') }}"> --}}
+    <link rel="shortcut icon" href="{{asset('assets/images/logo.png')}}"/>
     <title>Administrator Griya Jambudipa</title>
 </head>
 
