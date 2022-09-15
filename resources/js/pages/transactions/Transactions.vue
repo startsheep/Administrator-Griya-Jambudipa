@@ -94,25 +94,14 @@
                       </span>
                     </td>
                     <td class="align-middle text-center">
-                      <div class="show">
-                        <button
-                          data-toggle="dropdown"
-                          class="btn btn-transparent"
-                        >
-                          <i
-                            class="
-                              fa-solid fa-ellipsis-vertical
-                              dropdown-toggle
-                            "
-                            aria-expanded="true"
-                          ></i>
-                        </button>
-                        <div data-toggle="modal" data-target="#detailTransaction" class="dropdown-menu action">
-                          <button  @click="sendDetail(transaction.id)" class="dropdown-item action sortable">
-                            Detail
-                          </button>
-                        </div>
-                      </div>
+                        <Actions
+                            toggleDetail="modal"
+                            targetDetail="#detailTransaction"
+                            @detail="sendDetail(transaction.id)"
+                            :showDelete="false"
+                            :showEdit="false"
+                        />
+
                     </td>
                   </tr>
                   <tr>
@@ -147,6 +136,7 @@ import Pagination from "../../components/Pagination.vue";
 import CircleLoader from "../../components/CircleLoader.vue";
 import EmptyData from "../../components/EmptyData.vue";
 import DetailTransaction from './DetailTransaction.vue';
+import Actions from '../../components/Actions.vue';
 export default {
   data() {
     return {
@@ -219,7 +209,7 @@ export default {
     }
 
   },
-  components: { ButtonsExport, Pagination, CircleLoader, EmptyData, DetailTransaction },
+  components: { ButtonsExport, Pagination, CircleLoader, EmptyData, DetailTransaction, Actions },
 };
 </script>
 <style lang="">

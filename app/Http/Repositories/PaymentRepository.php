@@ -30,14 +30,12 @@ class PaymentRepository implements PaymentContract
     public function store(array $attributes)
     {
         $cekData = $this->payment->where('customer_id', $attributes['customer_id'])
-            ->where('house_type_id', $attributes['house_type_id'])
+            ->where('kavling_id', $attributes['kavling_id'])
             ->whereMonth('created_at', date('m'))
             ->whereYear('created_at', date('Y'))
             ->first();
 
-
-
-            if ($cekData) {
+        if ($cekData) {
             $cekTotalPrice = $this->cekTotalPrice($cekData, $attributes['price']);
             if (!$cekTotalPrice) {
                 return collect([
@@ -91,7 +89,7 @@ class PaymentRepository implements PaymentContract
 
         $total += $price;
 
-        if ((string) $total >= $result->houseType->price + 1) {
+        if ((string) $total >= $result->kavling->houseType->price + 1) {
             return false;
         }
 

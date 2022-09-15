@@ -1,11 +1,16 @@
 <template>
   <section class="section">
     <div class="section-header">
-      <h4>Perincian Harga Dasar Tanah</h4>
+      <h4>Perincian Harga Dasar {{ isBuilding ? "Bangunan" : "Tanah" }} </h4>
     </div>
     <div class="row">
       <div class="col">
         <div class="card">
+        <div class="card-header">
+             <div class="card-header-action">
+                 <ButtonsExport />
+            </div>
+        </div>
           <div class="card-body">
             <div class="row">
               <div class="col-4 mb-3">
@@ -58,7 +63,7 @@
               <div class="col mb-3 d-flex justify-content-end">
                 <div class="form-inline">
                   <select
-                    @change="getLandCategories()"
+                    @change="getBasicPriceCategories()"
                     class="form-control mr-2"
                     style="width: 80px"
                     v-model="pagination.perPage"
@@ -105,7 +110,7 @@
                 </thead>
                 <tbody style="font-size: 12px">
                   <tr
-                    v-for="(categories, index) in landCategories"
+                    v-for="(categories, index) in basicPriceCategories"
                     :key="categories"
                   >
                     <td class="text-center">
@@ -287,6 +292,7 @@ import iziToast from "izitoast";
 import Utils from "../../store/services/utils";
 import FormChild from "./FormChild.vue";
 import Pagination from "../../components/Pagination.vue";
+import ButtonsExport from "../../components/ButtonsExport.vue";
 export default {
   data() {
     return {
@@ -294,7 +300,7 @@ export default {
         category: "",
         id: "",
       },
-      landCategories: [],
+      basicPriceCategories: [],
       landPrice: {
         id: "",
         categoryId: "",
@@ -327,7 +333,21 @@ export default {
     };
   },
   mounted() {
-    this.getLandCategories();
+    this.getBasicPriceCategories();
+  },
+  watch: {
+        $route(to, from) {
+            this.getBasicPriceCategories();
+        }
+
+  },
+  computed: {
+    isBuilding () {
+      return this.currentRouteName == 'Building' ? true : false
+    },
+     currentRouteName() {
+        return this.$route.name;
+    }
   },
   methods: {
     iteration(index) {
@@ -349,10 +369,11 @@ export default {
       const url = [
         "basic-price-category",
         {
-          section: "tanah",
+          section: this.isBuilding ? 'bangunan' : 'tanah',
           category: this.categoryLand.category,
         },
       ];
+      console.log(url)
       self.$store.dispatch("postData", url).then(() => {
         self.isLoading = false;
         self.isCreateCategories = false;
@@ -361,7 +382,7 @@ export default {
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
-        self.getLandCategories();
+        self.getBasicPriceCategories();
         self.reset();
       });
     },
@@ -383,7 +404,7 @@ export default {
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
-        self.getLandCategories();
+        self.getBasicPriceCategories();
         self.reset();
       });
     },
@@ -410,7 +431,7 @@ export default {
             message: "Data Berhasil Disimpan",
             position: "topRight",
             });
-            self.getLandCategories();
+            self.getBasicPriceCategories();
             self.reset();
         });
 
@@ -438,7 +459,7 @@ export default {
                   message: "Data Berhasil Dihapus",
                   position: "topRight",
                 });
-                self.getLandCategories();
+                self.getBasicPriceCategories();
                 self.reset();
               });
           }
@@ -465,7 +486,7 @@ export default {
                 message: "Data Berhasil Dihapus",
                 position: "topRight",
               });
-              self.getLandCategories();
+              self.getBasicPriceCategories();
               self.reset();
             });
           }
@@ -486,20 +507,20 @@ export default {
 
       this.isEditLand = true;
     },
-    getLandCategories() {
+    getBasicPriceCategories() {
       const self = this;
       this.isLoading = true;
       const params = [
         `per_page=${self.pagination.perPage}`,
         `page=${self.pagination.currentPage}`,
         `order_direction=${this.orderDirection}`,
-        `section=tanah`,
+        `section=${this.isBuilding ? 'bangunan' : 'tanah'}`,
       ].join("&");
       self.$store
         .dispatch("getData", ["basic-price-category", params])
         .then((res) => {
           console.log(res);
-          self.landCategories = res.data;
+          self.basicPriceCategories = res.data;
           self.pagination.total = res.meta.total;
           self.pagination.currentPage = res.meta.currentPage;
           self.pagination.lastPage = res.meta.lastPage;
@@ -529,7 +550,7 @@ export default {
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
-        self.getLandCategories();
+        self.getbasicPriceCategories();
         self.reset();
       });
     },
@@ -556,13 +577,13 @@ export default {
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
-        self.getLandCategories();
+        self.getBasicPriceCategories();
         self.reset();
       });
     },
     onPageChange(page){
         this.pagination.currentPage = page;
-        this.getLandCategories();
+        this.getBasicPriceCategories();
         },
 
     reset() {
@@ -572,7 +593,7 @@ export default {
       };
     },
   },
-  components: { Media, Actions, FormChild, Pagination },
+  components: { Media, Actions, FormChild, Pagination, ButtonsExport },
 };
 </script>
 <style>

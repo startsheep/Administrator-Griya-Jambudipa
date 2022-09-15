@@ -42,14 +42,9 @@
                 />
               </div>
             </form>
-            <div v-if="isFormEdit "  class="row d-flex justify-content-center">
-                    <div  v-for="(image ,index) in previewImages" :key="image" class="d-flex justify-content-end mr-1 mb-1 " style="width: 100px; height: 100px;">
-                        <span @click="removeItem(index)" class="badge badge-primary position-absolute cursor">&times;</span>
-                        <img :src="'storage/'+image" alt="" class="img-thumbnail" style="object-fit: cover; width: 100px; height: 100px">
-                    </div>
-            </div>
 
-            <div v-else class="row d-flex justify-content-center">
+
+            <div class="row d-flex justify-content-center">
                     <div  v-for="(image ,index) in previewImages" :key="image" class="d-flex justify-content-end mr-1 mb-1 " style="width: 100px; height: 100px;">
                         <span @click="removeItem(index)" class="badge badge-primary position-absolute cursor">&times;</span>
                         <img :src="image" alt="" class="img-thumbnail" style="object-fit: cover; width: 100px; height: 100px">
@@ -67,7 +62,7 @@
             </button>
             <button
               type="button"
-              @click="reset"
+              @click="reset()"
               class="btn btn-danger btn-block"
             >
                 Batal
@@ -125,37 +120,13 @@
                       <span> {{ formatRupiah(house.price) }}</span>
                     </td>
                     <td class="align-middle text-center">
-                      <div class="show">
-                        <button
-                          data-toggle="dropdown"
-                          class="btn btn-transparent"
-                        >
-                          <i
-                            class="
-                              fa-solid fa-ellipsis-vertical
-                              dropdown-toggle
-                            "
-                            aria-expanded="true"
-                          ></i>
-                        </button>
-                        <div class="dropdown-menu action">
-                          <button
-                            class="dropdown-item action sortable "
-                              @click="getHouse(house.id)"
-                            >Edit</button
-                          >
-                          <button
-                            class="dropdown-item action sortable btn"
-                            @click="deleteHouse(house.id)"
-                            >Hapus</button
-                          >
-                          <button
-
-                          class="dropdown-item action sortable" data-target="#detailTypeHouse" data-toggle="modal" @click="detailTypeHouse(houses[index])"
-                            >Detail</button
-                          >
-                        </div>
-                      </div>
+                        <Actions
+                            @update="getHouse(house.id)"
+                            @delete="deleteHouse(house.id)"
+                            toggleDetail="modal"
+                            targetDetail="#detailTypeHouse"
+                            @detail="detailTypeHouse(houses[index])"
+                        />
                     </td>
                   </tr>
                 </tbody>
@@ -189,6 +160,7 @@ import Utils from "../../store/services/utils"
 import DetailTypeHouse from "./DetailTypeHouse.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import InputCurrency from "../../components/InputCurrency.vue";
+import Actions from "../../components/Actions.vue";
 
 export default {
   data() {
@@ -222,7 +194,6 @@ export default {
     this.getHouses();
   },
   computed: {
-
     formData() {
       const fieldData = new FormData();
       fieldData.append("house_type", this.house.type);
@@ -317,7 +288,7 @@ export default {
     {
         this.previewImages = [];
         for(let i = 0 ; i < images.length ; i++){
-            this.previewImages.push((images[i].documentPath));
+            this.previewImages.push(('/storage/'+images[i].documentPath));
         }
     },
 
@@ -452,6 +423,7 @@ export default {
       this.getHouses();
     },
   },
+
   components: {
     CircleLoader,
     Pagination,
@@ -460,7 +432,8 @@ export default {
     DetailImage,
     DetailTypeHouse,
     ButtonsExport,
-    InputCurrency
+    InputCurrency,
+    Actions
 },
 };
 </script>

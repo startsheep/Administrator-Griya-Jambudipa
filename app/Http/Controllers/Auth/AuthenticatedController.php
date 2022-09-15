@@ -11,9 +11,13 @@ class AuthenticatedController extends Controller
     public function __invoke()
     {
         $user = Auth::user();
+        $image = $user->image()->where("documentable_type", 'App\Models\Account')
+            ->where("documentable_id", $user->id)
+            ->first();
 
         return response()->json([
             'user' => $user,
+            'image' => $image,
             'role' => "Auth"
         ]);
     }

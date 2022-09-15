@@ -15,6 +15,7 @@ use App\Http\Repositories\Contracts\BasicPriceContract;
 use App\Http\Repositories\Contracts\CompanyProfileContract;
 use App\Http\Repositories\Contracts\ContractorContract;
 use App\Http\Repositories\Contracts\CustomerContract;
+use App\Http\Repositories\Contracts\DashboardContract;
 use App\Http\Repositories\Contracts\EmployeeContract;
 use App\Http\Repositories\Contracts\HouseTypeContract;
 use App\Http\Repositories\Contracts\KavlingContract;
@@ -22,6 +23,7 @@ use App\Http\Repositories\Contracts\PaymentContract;
 use App\Http\Repositories\Contracts\PositionContract;
 use App\Http\Repositories\Contracts\UserContract;
 use App\Http\Repositories\CustomerRepository;
+use App\Http\Repositories\DashboardRepository;
 use App\Http\Repositories\EmployeeRepository;
 use App\Http\Repositories\HouseTypeRepository;
 use App\Http\Repositories\KavlingRepository;
@@ -50,6 +52,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->bind(BaseRepositoryContract::class, BaseRepository::class);
+        $this->app->bind(DashboardContract::class, DashboardRepository::class);
         $this->app->bind(UserContract::class, UserRepository::class);
         $this->app->bind(PositionContract::class, PositionRepository::class);
         $this->app->bind(EmployeeContract::class, EmployeeRepository::class);

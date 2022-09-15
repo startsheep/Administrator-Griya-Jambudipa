@@ -38,28 +38,7 @@
                     </td>
                     <td>{{ formatRupiah(division.salary) }}</td>
                     <td class="text-center">
-                      <div class="show">
-                         <button data-toggle="dropdown" class="btn btn-transparent">
-                            <i
-                          class="fa-solid fa-ellipsis-vertical dropdown-toggle"
-                          aria-expanded="true"
-                        ></i>
-                        </button>
-                        <div class="dropdown-menu action">
-                          <a
-                            @click="editDivision(division.id)"
-                            class="dropdown-item action"
-                            href="#"
-                            >Edit</a
-                          >
-                          <a
-                            @click="deleteDivision(division.id)"
-                            class="dropdown-item action"
-                            href="#"
-                            >Hapus</a
-                          >
-                        </div>
-                      </div>
+                     <Actions :showDetail="false" @delete="deleteDivision(division.id)" @update="editDivision(division.id)"/>
                     </td>
                   </tr>
                      <td colspan="3"     >
@@ -136,6 +115,7 @@ import CircleLoader from "../../components/CircleLoader.vue";
 import moment from "moment";
 import EmptyData from "../../components/EmptyData.vue";
 import InputCurrency from "../../components/InputCurrency.vue";
+import Actions from "../../components/Actions.vue";
 export default {
   data() {
     return {
@@ -308,6 +288,6 @@ export default {
 
 
   },
-  components: { Pagination, CircleLoader, EmptyData, InputCurrency },
+  components: { Pagination, CircleLoader, EmptyData, InputCurrency, Actions },
 };
 </script>

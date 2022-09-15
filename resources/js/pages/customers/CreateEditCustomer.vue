@@ -88,6 +88,14 @@
                 </multiselect>
                 <!-- <pre class="language-json"><code>{{ value  }}</code></pre> -->
               </div>
+              <div class="form-group col-lg-12">
+                <label>Alamat</label>
+                <textarea
+                  v-model="customer.address"
+                  class="form-control"
+                  rows="1" style="height: 120px" placeholder="Alamat"
+                ></textarea>
+              </div>
               <div class="custom-file form-group col-lg-6">
                 <input
                   @change="selectImage"
@@ -113,30 +121,11 @@
                 </div>
               </div>
 
-              <div class="form-group col-lg-12">
-                <label>Alamat</label>
-                <textarea
-                  v-model="customer.address"
-                  class="form-control"
-                  rows="1"
-                ></textarea>
-              </div>
+              
             </form>
             <div class="row">
               <div class="col-lg-6">
-                <h6>Foto :</h6>
-                <div
-                  v-show="previewImage"
-                  class="card"
-                  style="width: 200px; height: 200px"
-                >
-                  <img
-                    :src="previewImage"
-                    alt="Gambar"
-                    class="img-responsive"
-                    style=""
-                  />
-                </div>
+                <PreviewImage  :previewImage="previewImage"/>
               </div>
               <div class="col-lg-6">
                 <div
@@ -178,10 +167,11 @@
 import Multiselect from "vue-multiselect";
 import iziToast from "izitoast";
 import moment from "moment";
+import PreviewImage from "../../components/PreviewImage.vue";
 
 export default {
   props: ["id"],
-  components: { Multiselect },
+  components: { Multiselect, PreviewImage },
   data() {
     return {
       //   value: [],
@@ -356,7 +346,7 @@ export default {
         .dispatch("getData", ["/customer/" + self.id])
         .then((response) => {
           //   console.log(response);
-          this.previewImage = response.data.image;
+          this.previewImage = '/storage/'+response.data.image;
           self.customer.name = response.data.name;
           self.customer.email = response.data.email;
           self.customer.profession = response.data.profession;
