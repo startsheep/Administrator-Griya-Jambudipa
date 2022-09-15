@@ -57,4 +57,14 @@ class User extends Authenticatable
 
         $this->notify(new SendEmailVerification($url));
     }
+
+    public function document()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
+
+    public function image()
+    {
+        return $this->hasOne(Document::class, 'documentable_id', 'id');
+    }
 }
