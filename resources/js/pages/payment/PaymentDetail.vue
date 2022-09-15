@@ -27,60 +27,44 @@
             <div v-else class="card bg-primary">
             <div class=" card-body-left">
                 <div class="user-item">
-                    <div class="row mt-3">
-                        <div class="col text-left">
-                            <img
-                v-if="user.documents.length > 0"
-                  alt="image"
-                  :src="'storage/'+ payment.documents[0].documentPath"
-                  class="img-fluid"
-                  style="width: 150px"/>
+                    <div class="row mt-1">
+                        <div class="col text-middle">
                 <img
-                v-else
                   alt="image"
                   src="../../../../public/assets/images/avatar/avatar-1.png"
                   class="img-fluid"
                   style="width: 150px"/>
-                    </div>
-                    <div class="user-details">
-
-                            <div class="col text-middle">
-                                <div class="user-name text-white">{{ customers.name }}</div>
+                  <div class="user-details">
+                            <div class="col text-left">
+                                <div class="user-name text-white">Nama</div>
                             </div>
-                            <div class="col text">
+                            <div class="col text-left">
                                 <div class="">No Telp</div>
-                                <div class="">{{ customers.phone }}</div>
                             </div>
-                            <div class="col text">
+                            <div class="col text-left">
                                 <div class="">Blok</div>
-                                <div class="">{{ payment.block.block}}-{{ payment.block.numberKavling }}</div>
                             </div>
-                            <div class="col text">
+                            <div class="col text-left">
                                 <div class="">Tipe Rumah</div>
-                                <div class="">{{ payment.houseType.houseType}}</div>
                             </div>
-                            <div class="col text">
+                            <div class="col text-left">
                                 <div class="">Jenis Pembayaran</div>
-                                <div class="">{{  formatRupiah(payment.reminderPayment)}}</div>
                             </div>
-                            <div class="col text-middle">
+                            <div class="col text-left">
                                 <div class="">Referal</div>
-                                <div class="">{{ user.name }}</div>
                             </div>
-                            <div class="col text-middle">
+                            <div class="col text-left">
                                 <div class="">Komisi</div>
-                                <div class="">{{ user.name }}</div>
                             </div>
-                            <div class="col text">
+                            <div class="col text-left">
                                 <div class="">Sisa Pembayaran</div>
-                                <div class="">{{ formatRupiah(payment.houseType.price) }}</div>
                             </div>
                             <div class="col text-left">
                                 <div class="">Pembayaran Cicilan</div>
-                                <div class="">{{ user.name }}</div>
                             </div>
-
                     </div>
+                    </div>
+
 
                 </div>
                 </div>
@@ -106,19 +90,14 @@
 
       data() {
           return {
-              user: {
-                  name: "",
-                  email: "",
-                  phone: "",
-                  documents : []
-              },
+              payment: {},
               isLoading: false,
           };
       },
 
       watch : {
           id(newVal){
-              this.getPayments();
+              this.getPayment();
           }
       },
       computed : {
@@ -126,14 +105,11 @@
       },
       methods: {
 
-          getPayments() {
+          getPayment() {
               this.isLoading = true;
               const self = this;
               self.$store.dispatch("showData", ["payment/" +self.id]).then(function (result) {
-                  self.user.email = result.data.email;
-                  self.user.name = result.data.name;
-                  self.user.phone = result.data.phone;
-                  self.user.documents = result.data.document;
+                console.log(result)
                   self.isLoading = false;
               }).catch(error=>{
                   this.isLoading = false;

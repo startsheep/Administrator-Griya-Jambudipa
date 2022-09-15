@@ -101,42 +101,20 @@
                         </span>
                       </td>
                       <td class="align-middle text-center">
-                        <div class="show">
-                          <button
-                            data-toggle="dropdown"
-                            class="btn btn-transparent"
-                          >
-                            <i
-                              class="
-                                fa-solid fa-ellipsis-vertical
-                                dropdown-toggle
-                              "
-                              aria-expanded="true"
-                            ></i>
-                          </button>
-                          <div class="dropdown-menu action">
-                            <button
-                              class="dropdown-item action sortable"
-                              data-toggle="collapse"
-                              data-target="#formCreate"
-                              @click="sendEdit(payment)"
-                            >
-                              Setor
-                            </button>
-                            <button
-                            class="dropdown-item action sortable"
-                            data-target="#detailPayment"
-                            data-toggle="modal" @click="detailPayment(payment.id)">
-                              Detail
-                            </button>
-                          </div>
-                        </div>
-                        <Actions
+
+                        <!-- <Actions
                             @update="sendEdit(payment)"
                               toggleEdit="collapse"
                               targetEdit="#formUpdate"
+                              targetDetail="#detailPayment"
                               :showDelete="false"
 
+                        /> -->
+                        <Actions
+                            toggleDetail="modal"
+                            targetDetail="#detailPayment"
+                            @detail="detailPayment(payment.id)"
+                            :showDelete="false"
                         />
                       </td>
                     </tr>
@@ -162,7 +140,7 @@
         </div>
       </div>
     </div>
-    <PaymentDetail :detailPayment="detailPayment"/>
+    <PaymentDetail :id="payment.id"/>
   </section>
 </template>
 <script>
@@ -192,7 +170,6 @@ export default {
   data() {
     return {
       //data
-      detailPayment: {},
       payment: {
         id: "",
         customerId: "",
@@ -255,7 +232,7 @@ export default {
   watch: {},
   methods: {
     detailPayment(data){
-        this.detailPayment = data;
+        this.payment.id = data;
     },
     getHouse(){
     const self = this;
@@ -311,7 +288,7 @@ export default {
         `page=${this.pagination.page}`,
         `per_page=${this.pagination.perPage}`,
       ].join("&");
-      self.$store.dispatch("getData", ["payment", params]).then((res) => {
+      self.$store.dispatch("getData", ["payment", params]).then((res) => {  console.log(res)
         self.payments = res.data;
         self.pagination.total = res.meta.total;
         self.pagination.currentPage = res.meta.currentPage;
