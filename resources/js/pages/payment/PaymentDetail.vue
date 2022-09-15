@@ -29,26 +29,37 @@
                 <div class="user-item">
                     <div class="row mt-3">
                         <div class="col text-left">
-                            <div class="avatar avatar-lg" :style="{'background-image':`url(storage/${customer.image})`}" style="background-size: cover; width: 120px; height: 120px">
+                            <img
+                v-if="user.documents.length > 0"
+                  alt="image"
+                  :src="'storage/'+ payment.documents[0].documentPath"
+                  class="img-fluid"
+                  style="width: 150px"/>
+                <img
+                v-else
+                  alt="image"
+                  src="../../../../public/assets/images/avatar/avatar-1.png"
+                  class="img-fluid"
+                  style="width: 150px"/>
                     </div>
                     <div class="user-details">
-                        <div class="row mt-6">
+
                             <div class="col text-middle">
-                                <div class="user-name text-white">{{ payment.customer.name }}</div>
+                                <div class="user-name text-white">{{ customers.name }}</div>
                             </div>
-                            <div class="col text-middle">
+                            <div class="col text">
                                 <div class="">No Telp</div>
-                                <div class="">{{ payment.customer.phone }}</div>
+                                <div class="">{{ customers.phone }}</div>
                             </div>
-                            <div class="col text-middle">
+                            <div class="col text">
                                 <div class="">Blok</div>
                                 <div class="">{{ payment.block.block}}-{{ payment.block.numberKavling }}</div>
                             </div>
-                            <div class="col text-middle">
+                            <div class="col text">
                                 <div class="">Tipe Rumah</div>
                                 <div class="">{{ payment.houseType.houseType}}</div>
                             </div>
-                            <div class="col text-middle">
+                            <div class="col text">
                                 <div class="">Jenis Pembayaran</div>
                                 <div class="">{{  formatRupiah(payment.reminderPayment)}}</div>
                             </div>
@@ -60,7 +71,7 @@
                                 <div class="">Komisi</div>
                                 <div class="">{{ user.name }}</div>
                             </div>
-                            <div class="col text-middle">
+                            <div class="col text">
                                 <div class="">Sisa Pembayaran</div>
                                 <div class="">{{ formatRupiah(payment.houseType.price) }}</div>
                             </div>
@@ -68,7 +79,7 @@
                                 <div class="">Pembayaran Cicilan</div>
                                 <div class="">{{ user.name }}</div>
                             </div>
-                        </div>
+
                     </div>
 
                 </div>
@@ -87,7 +98,6 @@
 
         </div>
       </div>
-    </div>
   </template>
   <script>
   import CircleLoader from '../../components/CircleLoader.vue';

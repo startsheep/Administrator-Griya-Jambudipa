@@ -184,7 +184,7 @@
                         <div class="media">
                           <figure class="avatar mr-2 avatar-md">
                             <img
-                              :src="'storage/' + payment.customer.image"
+                              :src="'storage/customer' + payment.customer.image"
                               alt="..."
                             />
                             <i
@@ -246,7 +246,7 @@
                             <button
                             class="dropdown-item action sortable"
                             data-target="#detailPayment"
-                            data-toggle="modal" @click="paymentDetail(payment.id)">
+                            data-toggle="modal" @click="detailPayment(payment.id)">
                               Detail
                             </button>
                           </div>
@@ -288,13 +288,15 @@ import Utils from "../../store/services/utils";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import EmptyData from "../../components/EmptyData.vue";
 import PaymentDetail from "./PaymentDetail.vue";
+import InputCurrency from "../../components/InputCurrency.vue";
 export default {
   components: {
     Pagination,
     CircleLoader,
     ButtonsExport,
     EmptyData,
-    InputCurrency
+    InputCurrency,
+    PaymentDetail,
 },
   data() {
     return {
@@ -361,7 +363,7 @@ export default {
   },
   watch: {},
   methods: {
-    paymentDetail(data){
+    detailPayment(data){
         this.detailPayment = data;
     },
     getHouse(){
@@ -410,6 +412,7 @@ export default {
     getPayments() {
       const self = this;
       this.isLoading = true;
+      console.log("getPayments");
       const params = [
         //   `name=${this.name}`,
         // `position=${this.name}`,
@@ -541,9 +544,6 @@ export default {
         this.house = null
 
     },
-    components: {
-        PaymentDetail
-    }
   },
 };
 </script>
