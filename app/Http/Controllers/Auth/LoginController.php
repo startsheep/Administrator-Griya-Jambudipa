@@ -44,12 +44,17 @@ class LoginController extends Controller
 
         Auth::login($user);
 
+        $image = $user->image()->where("documentable_type", 'App\Models\Account')
+            ->where("documentable_id", $user->id)
+            ->first();
+
         return response()->json([
             'message' => 'Login success!',
             'data' => [
                 'user' => [
                     'name' => $user->name,
                     'email' => $user->email,
+                    'image' => $image,
                     'role' => $role
                 ],
                 'token' => $token->plainTextToken

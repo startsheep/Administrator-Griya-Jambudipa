@@ -20,7 +20,7 @@ import { bindAll } from "lodash";
 if(!Cookie.get("user") && !Cookie.get('token')){
 } else {
 }
-createApp(Auth).use(router).use(store).use(izitoast).mount("#auth");
+createApp(Auth).use(router).use(store).use(izitoast).use(VueSweetalert2).mount("#auth");
 createApp(App).use(router).use(store).use(VueSweetalert2).use(CKEditor).mount("#app");
 
 

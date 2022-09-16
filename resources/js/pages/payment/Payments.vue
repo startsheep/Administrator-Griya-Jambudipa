@@ -64,7 +64,7 @@
                         <div class="media">
                           <figure class="avatar mr-2 avatar-md">
                             <img
-                              :src="'storage/' + payment.customer.image"
+                              :src="'storage/customer' + payment.customer.image"
                               alt="..."
                             />
                             <i
@@ -88,8 +88,8 @@
                       </td>
                       <td>{{ payment.customer.phone }}</td>
                       <td>{{ payment.block.block}}-{{ payment.block.numberKavling }}</td>
-                      <td>{{ payment.houseType.houseType}}</td>
-                      <td>{{ formatRupiah(payment.houseType.price) }}</td>
+                      <td>{{ payment.block.houseType.houseType}}</td>
+                      <td>{{ formatRupiah(payment.block.houseType.price) }}</td>
                       <td>{{  formatRupiah(payment.reminderPayment)}}</td>
                       <td>
                         <span
@@ -101,14 +101,21 @@
                         </span>
                       </td>
                       <td class="align-middle text-center">
-                        <Actions
+
+                        <!-- <Actions
                             @update="sendEdit(payment)"
                               toggleEdit="collapse"
                               targetEdit="#formUpdate"
+                              targetDetail="#detailPayment"
                               :showDelete="false"
 
+                        /> -->
+                        <Actions
+                            toggleDetail="modal"
+                            targetDetail="#detailPayment"
+                            @detail="detailPayment(payment.id)"
+                            :showDelete="false"
                         />
-
                       </td>
                     </tr>
                       <td colspan="8"     >
@@ -133,6 +140,7 @@
         </div>
       </div>
     </div>
+    <PaymentDetail :id="payment.id"/>
   </section>
 </template>
 <script>
@@ -144,6 +152,7 @@ import CircleLoader from "../../components/CircleLoader.vue";
 import Utils from "../../store/services/utils";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import EmptyData from "../../components/EmptyData.vue";
+import PaymentDetail from "./PaymentDetail.vue";
 import InputCurrency from "../../components/InputCurrency.vue";
 import FormPayment from "./FormPayment.vue";
 import Actions from "../../components/Actions.vue";
@@ -154,6 +163,7 @@ export default {
     ButtonsExport,
     EmptyData,
     InputCurrency,
+    PaymentDetail,
     FormPayment,
     Actions
 },
@@ -201,12 +211,12 @@ export default {
       },
     };
   },
-  watch: {
-    selectedCustomer(newVal){
-        this.selectedCustomer = newVal
+//   watch: {
+//     selectedCustomer(newVal){
+//         this.selectedCustomer = newVal
 
-    }
-  },
+//     }
+//   },
   mounted() {
     this.getPayments();
     this.getCustomers();
@@ -221,9 +231,31 @@ export default {
   },
   watch: {},
   methods: {
-
-
-
+    detailPayment(data){
+        this.payment.id = data;
+    },
+    getHouse(){
+    const self = this;
+      this.$store.dispatch("getData", ["house-type/"+ this.selectedKavling.houseTypeId]).then((res) => {
+            this.house = res.data
+      });
+    },
+    selectCustomer(){
+        this.customers.filter((cs)=>{
+            if(cs.id == this.$refs['fieldCustomer'].value){
+                this.selectedCustomer = cs
+            }
+        })
+    },
+    showNameCustomer(id){
+            let name =''
+            this.customers.forEach((customer) => {
+                if (customer.id == id) {
+                    name = customer.name;
+                }
+            });
+            return name
+        },
     getBlocks(array) {
       //    getblock name between comma
       let blocks = [];
@@ -248,6 +280,7 @@ export default {
     getPayments() {
       const self = this;
       this.isLoading = true;
+      console.log("getPayments");
       const params = [
         //   `name=${this.name}`,
         // `position=${this.name}`,
@@ -255,8 +288,7 @@ export default {
         `page=${this.pagination.page}`,
         `per_page=${this.pagination.perPage}`,
       ].join("&");
-      self.$store.dispatch("getData", ["payment", params]).then((res) => {
-        console.log(res.data)
+      self.$store.dispatch("getData", ["payment", params]).then((res) => {  console.log(res)
         self.payments = res.data;
         self.pagination.total = res.meta.total;
         self.pagination.currentPage = res.meta.currentPage;
@@ -350,7 +382,7 @@ export default {
         this.selectedKavling = null
         this.house = null
 
-    }
+    },
   },
 };
 </script>
