@@ -75,8 +75,7 @@
                 </li>
                 <li class="nav-item">
                     <router-link to="/contractor" class="nav-link"
-                        ><i  class="fa-solid fa-people-roof"></i
-                        ><span>Data Pemborong</span></router-link>
+                        ><i class="fa-solid fa-user-gear"></i><span>Data Pemborong</span></router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/users" class="nav-link"
@@ -100,8 +99,7 @@
                 </li> 
                 <li class="dropdown">
                     <router-link to="/jobs" class="nav-link has-dropdown" data-toggle="dropdown"
-                        ><i class="fa-solid fa-wallet"></i
-                        ><span>Borongan Pekerjaan</span></router-link
+                        ><i class="fa-solid fa-house-user"></i><span>Borongan Pekerjaan</span></router-link
                     >
               <!-- <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Borongan Pekerjaan</span></a> -->
               <ul class="dropdown-menu" >
