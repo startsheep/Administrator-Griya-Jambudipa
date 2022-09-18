@@ -23,7 +23,7 @@
               <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th class="text-center" scope="col">No</th>
+                    <!-- <th class="text-center" scope="col">No</th> -->
                     <th scope="col">Nama PIC/Perusahaan</th>
                     <th s cope="col">Customer</th>
                     <th scope="col">Deskripsi Borongan</th>
@@ -34,9 +34,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th class="text-center" scope="row">1</th>
-                    <td>Ahmad | PT Sanghai</td>
+                  <tr v-for="job in jobs " :key="job">
+                    <!-- <th class="text-center" scope="row">1</th> -->
+                    <td>
+                        <span class="d-block">{{ job.picName }}</span>
+                        <span class="d-block">{{ job.companyName }}</span>
+                    </td>
                     <td>Nannnn | A-102</td>
                     <td>Borongan RUmah Tangga</td>
                     <td>{{ dateNow }}</td>
@@ -71,6 +74,35 @@ export default {
       return moment().format("DD-MM-YYYY");
     },
   },
+  data: () => ({
+    jobs: [
+      {
+        id: 1,
+        picName: "Ahmad",
+        companyName: "PT Sanghai",
+        customerName: "Nannnn",
+        customerType: "A-102",
+        description: "Borongan RUmah Tangga",
+        firstDate: "2022-08-10",
+        endDate: "2022-12-10",
+        paymentType: "Termin",
+        status: "Selesai",
+      },
+    //   make same data with different value
+      {
+        id: 2,
+        picName: "Ahmad",
+        companyName: "PT Sanghai",
+        customerName: "Nannnn",
+        customerType: "A-102",
+        description: "Borongan RUmah Tangga",
+        firstDate: "2022-08-10",
+        endDate: "2022-12-10",
+        paymentType: "Termin",
+        status: "Selesai",
+      },
+    ],
+  }),
 };
 </script>
 <style>
