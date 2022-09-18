@@ -9,7 +9,7 @@ export default [
             },
             {
                 path: '/jobs/facility',
-                // component: () => import("../../pages/whole-job/PaymentJobs.vue"),
+                component: () => import("../../pages/whole-job/JobFacility.vue"),
             },
         ]
     },
