@@ -9,9 +9,9 @@
       <div class="footer-left">
         Copyright &copy; 2022
         <div class="bullet"></div>
-        Created By <a href="https://github.com/startsheep/" target="_blank">Start Sheep</a>
+        Created By <a href="https://github.com/startsheep/" target="_blank">Griya Jambudipa</a>
       </div>
-      <div class="footer-right">2.3.0</div>
+      <!-- <div class="footer-right">2.3.0</div> -->
     </footer>
   </div>
 </template>

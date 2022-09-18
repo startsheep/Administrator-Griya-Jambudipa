@@ -13,7 +13,7 @@
              style="width: 60%"
 
             />
-            <h6 class="text-center mb-3">Setel Ulang Sandi</h6>
+            <h6 class="text-center mb-3">Silahkan Masuk</h6>
             <form
               class="needs-validation"
               @submit.prevent="login"
