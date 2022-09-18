@@ -12,4 +12,6 @@ interface PaymentContract
     public function store(array $attributes);
 
     public function find($id): Model;
+
+    public function customer();
 }
