@@ -26,7 +26,7 @@
                 <li class="nav-item">
                     <router-link to="/company_profile" class="nav-link"
                         ><i class="fa-solid fa-building"></i
-                        ><span>Profile Perusahaan</span></router-link
+                        ><span>Profil Perusahaan</span></router-link
                     >
                 </li>
                 <li class="nav-item">
