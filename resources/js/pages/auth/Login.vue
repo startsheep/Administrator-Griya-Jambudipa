@@ -13,7 +13,7 @@
                             style="width: 60%"
                             id="logo"
                         />
-                        <h6 class="text-center mb-3">Silahkan Masuk</h6>
+                        <h6 class="text-center mb-3 mt-3">Silahkan Masuk</h6>
                         <form
                             class="needs-validation"
                             @submit.prevent="login"
