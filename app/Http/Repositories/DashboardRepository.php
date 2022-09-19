@@ -38,6 +38,36 @@ class DashboardRepository implements DashboardContract
         ], 200);
     }
 
+    public function countProfit()
+    {
+        $customers = Customer::all();
+        $payments = Payment::all();
+
+        $housePrice = $this->housePrice($customers);
+        $paymentPrice = $this->paymentPrice($payments);
+
+        $price = $housePrice - ($paymentPrice);
+
+        return response()->json([
+            'message' => 'success',
+            'data' => [
+                'price' => $price,
+            ]
+        ], 200);
+    }
+
+    public function countWholeJob()
+    {
+        // $transaction =
+
+        // return response()->json([
+        //     'message' => 'success',
+        //     'data' => [
+        //         'transaction' => $transaction,
+        //     ]
+        // ], 200);
+    }
+
     public function kavling()
     {
         $kavlings = Kavling::all();
@@ -109,5 +139,33 @@ class DashboardRepository implements DashboardContract
         $carbon = Carbon::now();
         $month = $carbon->endOfYear()->format('m');
         return $month;
+    }
+
+    protected function housePrice($result)
+    {
+        $price = 0;
+
+        foreach ($result as $item) {
+            foreach ($item->customerKavling as $kavling) {
+                $price += $kavling->kavling->houseType->price;
+            }
+        }
+
+        return $price;
+    }
+
+    protected function paymentPrice($result)
+    {
+        $price = 0;
+
+        foreach ($result as $item) {
+            if ($item->commission == null) {
+                $item->commission = 0;
+            }
+
+            $price += $item->commission;
+        }
+
+        return $price;
     }
 }

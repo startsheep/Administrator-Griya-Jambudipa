@@ -8,6 +8,10 @@ interface DashboardContract
 
     public function countTransaction();
 
+    public function countProfit();
+
+    public function countWholeJob();
+
     public function kavling();
 
     public function graph();
