@@ -5,6 +5,7 @@ namespace App\Http\Repositories;
 use App\Http\Repositories\Contracts\PaymentContract;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\PaymentSearch;
+use App\Models\Customer;
 use App\Models\Payment;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -71,13 +72,55 @@ class PaymentRepository implements PaymentContract
         return $this->payment->findOrFail($id);
     }
 
-    protected function cekHouseType($result, $id)
+    public function customer()
     {
-        if ($result == $id) {
-            return true;
+        $data = [];
+        $customers = Customer::all();
+
+        $payments = $this->payment->whereMonth('created_at', date('m'))
+            ->whereYear('created_at', date('Y'))->get();
+
+        foreach ($customers as $customer) {
+            $cekHouseType = $this->cekHouseType($payments, $customer);
+            if (!$cekHouseType) {
+                $data[] = $customer;
+            }
         }
 
-        return false;
+        return $data;
+    }
+
+    protected function cekHouseType($payments, $customer)
+    {
+        $cek = false;
+
+        foreach ($payments as $payment) {
+            if ($payment->customer_id == $customer->id) {
+                $cek = $this->finishingPayment($payment, $customer);
+            }
+        }
+
+        return $cek;
+    }
+
+    protected function finishingPayment($payment, $customer)
+    {
+        $cek = false;
+        $data = 0;
+
+        foreach ($payment->paymentPrice as $price) {
+            foreach ($customer->customerKavling as $kavling) {
+                if ($payment->kavling->houseType->id == $kavling->kavling->houseType->id) {
+                    $data = $price->price - $kavling->kavling->houseType->price;
+                }
+            }
+        }
+
+        if ($data == 0) {
+            $cek = true;
+        }
+
+        return $cek;
     }
 
     protected function cekTotalPrice($result, $price)
