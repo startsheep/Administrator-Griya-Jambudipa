@@ -7,6 +7,7 @@ use App\Http\Repositories\BaseRepository;
 use App\Models\Customer;
 use App\Models\Kavling;
 use App\Models\Payment;
+use App\Models\WholeJob;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -34,6 +35,38 @@ class DashboardRepository implements DashboardContract
             'message' => 'success',
             'data' => [
                 'transaction' => $transaction,
+            ]
+        ], 200);
+    }
+
+    public function countProfit()
+    {
+        $customers = Customer::all();
+        $payments = Payment::all();
+        $wholeJobs = WholeJob::all();
+
+        $housePrice = $this->housePrice($customers);
+        $paymentPrice = $this->paymentPrice($payments);
+        $wholeJobPrice = $this->wholeJobPrice($wholeJobs);
+
+        $price = $housePrice - ($paymentPrice + $wholeJobPrice);
+
+        return response()->json([
+            'message' => 'success',
+            'data' => [
+                'price' => $price,
+            ]
+        ], 200);
+    }
+
+    public function countWholeJob()
+    {
+        $wholeJobs = WholeJob::where('end_date', '<=', Carbon::today()->toDateTimeString())->get()->count();
+
+        return response()->json([
+            'message' => 'success',
+            'data' => [
+                'whole_job' => $wholeJobs,
             ]
         ], 200);
     }
@@ -109,5 +142,44 @@ class DashboardRepository implements DashboardContract
         $carbon = Carbon::now();
         $month = $carbon->endOfYear()->format('m');
         return $month;
+    }
+
+    protected function housePrice($result)
+    {
+        $price = 0;
+
+        foreach ($result as $item) {
+            foreach ($item->customerKavling as $kavling) {
+                $price += $kavling->kavling->houseType->price;
+            }
+        }
+
+        return $price;
+    }
+
+    protected function paymentPrice($result)
+    {
+        $price = 0;
+
+        foreach ($result as $item) {
+            if ($item->commission == null) {
+                $item->commission = 0;
+            }
+
+            $price += $item->commission;
+        }
+
+        return $price;
+    }
+
+    protected function wholeJobPrice($result)
+    {
+        $price = 0;
+
+        foreach ($result as $item) {
+            $price += $item->total_cost;
+        }
+
+        return $price;
     }
 }

@@ -29,6 +29,20 @@ class DashboardController extends Controller
         return $result;
     }
 
+    public function countProfit()
+    {
+        $result = $this->dashboardRepository->countProfit();
+
+        return $result;
+    }
+
+    public function countWholeJob()
+    {
+        $result = $this->dashboardRepository->countWholeJob();
+
+        return $result;
+    }
+
     public function kavling()
     {
         $result = $this->dashboardRepository->kavling();
