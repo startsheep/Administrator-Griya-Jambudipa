@@ -7,6 +7,7 @@ use App\Http\Repositories\BaseRepository;
 use App\Models\Customer;
 use App\Models\Kavling;
 use App\Models\Payment;
+use App\Models\WholeJob;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -42,11 +43,13 @@ class DashboardRepository implements DashboardContract
     {
         $customers = Customer::all();
         $payments = Payment::all();
+        $wholeJobs = WholeJob::all();
 
         $housePrice = $this->housePrice($customers);
         $paymentPrice = $this->paymentPrice($payments);
+        $wholeJobPrice = $this->wholeJobPrice($wholeJobs);
 
-        $price = $housePrice - ($paymentPrice);
+        $price = $housePrice - ($paymentPrice + $wholeJobPrice);
 
         return response()->json([
             'message' => 'success',
@@ -58,14 +61,14 @@ class DashboardRepository implements DashboardContract
 
     public function countWholeJob()
     {
-        // $transaction =
+        $wholeJobs = WholeJob::whereRaw('Date(end_date) = CURDATE()')->get()->count();
 
-        // return response()->json([
-        //     'message' => 'success',
-        //     'data' => [
-        //         'transaction' => $transaction,
-        //     ]
-        // ], 200);
+        return response()->json([
+            'message' => 'success',
+            'data' => [
+                'whole_job' => $wholeJobs,
+            ]
+        ], 200);
     }
 
     public function kavling()
@@ -164,6 +167,17 @@ class DashboardRepository implements DashboardContract
             }
 
             $price += $item->commission;
+        }
+
+        return $price;
+    }
+
+    protected function wholeJobPrice($result)
+    {
+        $price = 0;
+
+        foreach ($result as $item) {
+            $price += $item->total_cost;
         }
 
         return $price;
