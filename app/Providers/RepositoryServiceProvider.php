@@ -22,6 +22,7 @@ use App\Http\Repositories\Contracts\KavlingContract;
 use App\Http\Repositories\Contracts\PaymentContract;
 use App\Http\Repositories\Contracts\PositionContract;
 use App\Http\Repositories\Contracts\UserContract;
+use App\Http\Repositories\Contracts\WholeJobContract;
 use App\Http\Repositories\CustomerRepository;
 use App\Http\Repositories\DashboardRepository;
 use App\Http\Repositories\EmployeeRepository;
@@ -30,6 +31,7 @@ use App\Http\Repositories\KavlingRepository;
 use App\Http\Repositories\PaymentRepository;
 use App\Http\Repositories\PositionRepository;
 use App\Http\Repositories\UserRepository;
+use App\Http\Repositories\WholeJobRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -65,5 +67,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PaymentContract::class, PaymentRepository::class);
         $this->app->bind(BasicPriceContract::class, BasicPriceRepository::class);
         $this->app->bind(BasicPriceCategoryContract::class, BasicPriceCategoryRepository::class);
+        $this->app->bind(WholeJobContract::class, WholeJobRepository::class);
     }
 }
