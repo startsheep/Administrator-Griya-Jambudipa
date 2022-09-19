@@ -61,7 +61,7 @@ class DashboardRepository implements DashboardContract
 
     public function countWholeJob()
     {
-        $wholeJobs = WholeJob::whereRaw('Date(end_date) = CURDATE()')->get()->count();
+        $wholeJobs = WholeJob::where('end_date', '<=', Carbon::today()->toDateTimeString())->get()->count();
 
         return response()->json([
             'message' => 'success',
