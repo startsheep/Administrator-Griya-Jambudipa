@@ -101,41 +101,31 @@
                     >
                 </li>
                 <li class="dropdown">
-                    <router-link
-                        to="/jobs"
-                        class="nav-link has-dropdown"
-                        data-toggle="dropdown"
+                    <a class="nav-link has-dropdown" data-toggle="dropdown"
                         ><i class="fa-solid fa-house-user"></i
-                        ><span>Borongan Pekerjaan</span></router-link
+                        ><span>Borongan Pekerjaan</span></a
                     >
-                    <!-- <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Borongan Pekerjaan</span></a> -->
                     <ul class="dropdown-menu">
                         <li>
-                            <a
+                            <router-link
                                 class="nav-link"
                                 style="background-color: #141d3e; color: white"
-                                href="layout-default.html"
+                                to="/jobs/house"
                                 ><i class="fa-solid fa-house"></i>Borongan
-                                Rumah</a
+                                Rumah</router-link
                             >
                         </li>
                         <li>
-                            <a
+                            <router-link
                                 class="nav-link"
                                 style="background-color: #141d3e; color: white"
-                                href="layout-transparent.html"
+                                to="/jobs/facility"
                                 ><i class="fa-solid fa-stethoscope"></i
-                                >Fasilitas Umum</a
+                                >Fasilitas Umum</router-link
                             >
                         </li>
                     </ul>
                 </li>
-
-                <!-- <li>
-                    <a href="#" class="nav-link"
-                        ><i class="fas fa-gear"></i><span>Settings</span></a
-                    >
-                </li> -->
             </ul>
             <div class="mt-4 mb-4 p-3 hide-sidebar-mini"></div>
             <div class="mt-4 mb-4 p-3 hide-sidebar-mini"></div>

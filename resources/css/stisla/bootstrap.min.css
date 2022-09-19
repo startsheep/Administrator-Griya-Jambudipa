@@ -6315,21 +6315,21 @@ a.close.disabled {
 }
 
 .modal-backdrop {
-    /* position: fixed;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 999;
     width: 100vw;
     height: 100vh;
-    background-color: #000 */
+    background-color: #000
 }
 
 .modal-backdrop.fade {
-    /* opacity: 0 */
+    opacity: 0
 }
 
 .modal-backdrop.show {
-    /* opacity: .5 */
+    opacity: .5
 }
 
 .modal-header {

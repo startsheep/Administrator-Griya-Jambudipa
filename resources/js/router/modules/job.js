@@ -2,11 +2,20 @@ export default [
     {
         path: "/jobs",
         name: "Jobs",
-        component: () => import("../../pages/whole-job/Jobs.vue"),
+        children:[
+            {
+                path: '/jobs/house',
+                component: () => import("../../pages/whole-job/JobHouse.vue"),
+            },
+            {
+                path: '/jobs/facility',
+                component: () => import("../../pages/whole-job/JobFacility.vue"),
+            },
+        ]
     },
-    {
-        path: "/payment-jobs",
-        name: "Payment Jobs",
-        component: () => import("../../pages/whole-job/PaymentJobs.vue"),
-    },
+    // {
+    //     path: "/payment-jobs",
+    //     name: "Payment Jobs",
+    //     component: () => import("../../pages/whole-job/PaymentJobs.vue"),
+    // },
 ]
