@@ -110,8 +110,8 @@
         </div>
       </div>
     </div>
-    <DetailCustomer :id="csId"/>
-  </section>
+</section>
+<DetailCustomer :id="csId"/>
 </template>
 <script>
 import iziToast from "izitoast";
