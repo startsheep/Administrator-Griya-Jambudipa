@@ -125,8 +125,8 @@
         </div>
       </div>
     </div>
-    <DetailEmployee :id="empId" />
   </section>
+  <DetailEmployee :id="empId" />
 </template>
 <script>
 import iziToast from "izitoast";
