@@ -42,6 +42,13 @@ class KavlingController extends Controller
         return new KavlingDetail($result);
     }
 
+    public function paymentCheck($customer_id)
+    {
+        $result = $this->kavling->paymentCheck($customer_id);
+
+        return new KavlingCollection($result);
+    }
+
     public function update(KavlingRequest $request, $id)
     {
         $result = $this->kavling->find($id);
