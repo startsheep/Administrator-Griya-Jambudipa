@@ -5,13 +5,15 @@ namespace App\Http\Repositories\Contracts;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
-interface PaymentContract
+interface WholeJobContract
 {
     public function all($request);
 
-    public function store(array $attributes);
+    public function store(array $attributes): ?Collection;
 
     public function find($id): Model;
 
-    public function customer();
+    public function update(array $attributes, $result);
+
+    public function delete($result);
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="main-sidebar  sidebar-style-2" style="z-index:999">
+    <div class="main-sidebar sidebar-style-2" style="z-index: 999">
         <aside id="sidebar-wrapper">
             <div class="sidebar-brand">
                 <img
@@ -7,6 +7,7 @@
                     class="img-fluid"
                     alt=""
                     style="width: 30%"
+                    id="logo"
                 />
             </div>
             <div class="sidebar-brand sidebar-brand-sm">
@@ -25,7 +26,7 @@
                 <li class="nav-item">
                     <router-link to="/company_profile" class="nav-link"
                         ><i class="fa-solid fa-building"></i
-                        ><span>Profile Perusahaan</span></router-link
+                        ><span>Profil Perusahaan</span></router-link
                     >
                 </li>
                 <li class="nav-item">
@@ -75,7 +76,9 @@
                 </li>
                 <li class="nav-item">
                     <router-link to="/contractor" class="nav-link"
-                        ><i class="fa-solid fa-user-gear"></i><span>Data Pemborong</span></router-link>
+                        ><i class="fa-solid fa-user-gear"></i
+                        ><span>Data Pemborong</span></router-link
+                    >
                 </li>
                 <li class="nav-item">
                     <router-link to="/users" class="nav-link"
@@ -96,32 +99,36 @@
                         ><i class="fa-solid fa-wallet"></i
                         ><span>Pembayaran</span></router-link
                     >
-                </li> 
+                </li>
                 <li class="dropdown">
-                    <router-link to="/jobs" class="nav-link has-dropdown" data-toggle="dropdown"
-                        ><i class="fa-solid fa-house-user"></i><span>Borongan Pekerjaan</span></router-link
+                    <a class="nav-link has-dropdown" data-toggle="dropdown"
+                        ><i class="fa-solid fa-house-user"></i
+                        ><span>Borongan Pekerjaan</span></a
                     >
-              <!-- <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Borongan Pekerjaan</span></a> -->
-              <ul class="dropdown-menu" >
-                <li><a class="nav-link" style="background-color: #141D3E; color: white;" href="layout-default.html"><i class="fa-solid fa-house"></i
-                        >Borongan Rumah</a></li>
-                <li><a class="nav-link" style="background-color: #141D3E; color: white;"  href="layout-transparent.html"><i class="fa-solid fa-stethoscope"></i>Fasilitas Umum</a></li>
-              </ul>
-            </li>
-
-
-                <!-- <li>
-                    <a href="#" class="nav-link"
-                        ><i class="fas fa-gear"></i><span>Settings</span></a
-                    >
-                </li> -->
+                    <ul class="dropdown-menu">
+                        <li>
+                            <router-link
+                                class="nav-link"
+                                style="background-color: #141d3e; color: white"
+                                to="/jobs/house"
+                                ><i class="fa-solid fa-house"></i>Borongan
+                                Rumah</router-link
+                            >
+                        </li>
+                        <li>
+                            <router-link
+                                class="nav-link"
+                                style="background-color: #141d3e; color: white"
+                                to="/jobs/facility"
+                                ><i class="fa-solid fa-stethoscope"></i
+                                >Fasilitas Umum</router-link
+                            >
+                        </li>
+                    </ul>
+                </li>
             </ul>
-            <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-
-            </div>
-            <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-
-            </div>
+            <div class="mt-4 mb-4 p-3 hide-sidebar-mini"></div>
+            <div class="mt-4 mb-4 p-3 hide-sidebar-mini"></div>
         </aside>
     </div>
 </template>

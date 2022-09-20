@@ -1,20 +1,20 @@
 <template>
   <section class="section">
-    <div class="section-header" >
+    <div class="section-header">
       <h1>Tipe Rumah</h1>
     </div>
-    <div class="row ">
-         <div class="col-12 col-lg-5" >
-        <div class="card ">
+    <div class="row">
+      <div class="col-12 col-lg-5">
+        <div class="card">
           <div class="card-header">
-            <h4>{{ isFormEdit ? 'Edit' : 'Tambah' }} Tipe Rumah</h4>
+            <h4>{{ isFormEdit ? "Edit" : "Tambah" }} Tipe Rumah</h4>
           </div>
           <div class="card-body">
-            <form >
+            <form>
               <div class="form-group">
                 <label>Tipe</label>
                 <input
-                ref="formHouse"
+                  ref="formHouse"
                   v-model="house.type"
                   type="text"
                   class="form-control"
@@ -23,7 +23,7 @@
               </div>
 
               <div class="form-group">
-                <label >Harga</label>
+                <label>Harga</label>
                 <InputCurrency :value="house.price" v-model="house.price" />
               </div>
               <div class="form-group">
@@ -33,7 +33,6 @@
               <div class="form-group custom-file">
                 <label class="custom-file-label">Gambar</label>
                 <input
-
                   multiple
                   type="file"
                   @change="selectImages"
@@ -43,45 +42,50 @@
               </div>
             </form>
 
-
             <div class="row d-flex justify-content-center">
-                    <div  v-for="(image ,index) in previewImages" :key="image" class="d-flex justify-content-end mr-1 mb-1 " style="width: 100px; height: 100px;">
-                        <span @click="removeItem(index)" class="badge badge-primary position-absolute cursor">&times;</span>
-                        <img :src="image" alt="" class="img-thumbnail" style="object-fit: cover; width: 100px; height: 100px">
-                    </div>
+              <div
+                v-for="(image, index) in previewImages"
+                :key="image"
+                class="d-flex justify-content-end mr-1 mb-1"
+                style="width: 100px; height: 100px"
+              >
+                <span
+                  @click="removeItem(index)"
+                  class="badge badge-primary position-absolute cursor"
+                  >&times;</span
+                >
+                <img
+                  :src="image"
+                  alt=""
+                  class="img-thumbnail"
+                  style="object-fit: cover; width: 100px; height: 100px"
+                />
+              </div>
             </div>
           </div>
           <div class="card-footer">
             <button
-              type="button"
               :class="{ 'disabled btn-progress': isSubmit }"
               @click="isFormEdit ? editHouse() : createHouse()"
               class="btn btn-primary btn-block"
             >
-                {{ isFormEdit ? 'Edit' : 'Tambah' }}
+              {{ isFormEdit ? "Edit" : "Tambah" }}
             </button>
-            <button
-              type="button"
-              @click="reset()"
-              class="btn btn-danger btn-block"
-            >
-                Batal
+            <button @click="reset()" class="btn btn-danger btn-block">
+              Batal
             </button>
-
           </div>
         </div>
       </div>
       <div class="col-12 col-lg-7">
-        <div class="card" >
+        <div class="card">
           <div class="card-header">
-            <h4>
-                Data Rumah
-            </h4>
+            <h4>Data Rumah</h4>
           </div>
           <div class="card-body">
             <div class="row">
               <div class="col-lg-8">
-               <ButtonsExport :printData="false"/>
+                <ButtonsExport :printData="false" />
               </div>
               <div class="col-lg-4">
                 <input
@@ -98,7 +102,7 @@
                   <tr>
                     <th width="5%">#</th>
                     <th width="25%">Tipe</th>
-                    <th width="35%">Deskripsi</th>
+                    <!-- <th width="35%">Deskripsi</th> -->
                     <th width="25%">Harga</th>
                     <th width="10% " class="text-center">Aksi</th>
                   </tr>
@@ -112,21 +116,20 @@
                     <td>
                       <span> {{ house.houseType }}</span>
                     </td>
-                    <td>
-                      <div v-html="house.description" >
-                      </div>
-                    </td>
+                    <!-- <td>
+                      <div v-html="house.description"></div>
+                    </td> -->
                     <td>
                       <span> {{ formatRupiah(house.price) }}</span>
                     </td>
                     <td class="align-middle text-center">
-                        <Actions
-                            @update="getHouse(house.id)"
-                            @delete="deleteHouse(house.id)"
-                            toggleDetail="modal"
-                            targetDetail="#detailTypeHouse"
-                            @detail="detailTypeHouse(houses[index])"
-                        />
+                      <Actions
+                        @update="getHouse(house.id)"
+                        @delete="deleteHouse(house.id)"
+                        toggleDetail="modal"
+                        targetDetail="#detailTypeHouse"
+                        @detail="detailTypeHouse(houses[index])"
+                      />
                     </td>
                   </tr>
                 </tbody>
@@ -146,8 +149,8 @@
         </div>
       </div>
     </div>
-    <DetailTypeHouse :detailHouse="detailHouse"/>
   </section>
+  <DetailTypeHouse :detailHouse="detailHouse" />
 </template>
 <script>
 import iziToast from "izitoast";
@@ -156,7 +159,7 @@ import Pagination from "../../components/Pagination.vue";
 import ModalCreate from "./ModalCreate.vue";
 import SummerNote from "../../components/SummerNote.vue";
 import DetailImage from "../../components/DetailImage.vue";
-import Utils from "../../store/services/utils"
+import Utils from "../../store/services/utils";
 import DetailTypeHouse from "./DetailTypeHouse.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import InputCurrency from "../../components/InputCurrency.vue";
@@ -165,7 +168,7 @@ import Actions from "../../components/Actions.vue";
 export default {
   data() {
     return {
-      detailHouse:{},
+      detailHouse: {},
       houses: [],
       house: {
         type: "",
@@ -179,7 +182,7 @@ export default {
       name: "",
       order_direction: "asc",
       isSubmit: false,
-      isFormEdit : false,
+      isFormEdit: false,
       //Pagination
       pagination: {
         total: 0,
@@ -197,60 +200,56 @@ export default {
     formData() {
       const fieldData = new FormData();
       fieldData.append("house_type", this.house.type);
-      fieldData.append('price' , Utils.currencyToNumber(this.house.price))
-        fieldData.append("description", this.house.description);
-        if(this.house.images.length > 0){
-          this.house.images.forEach((image , index) => {
-            fieldData.append("images["+ index+"]", image);
-          });
-        }
-        if(this.isFormEdit){
-          fieldData.append("id", this.house.id);
-           fieldData.append("_method", "PUT");
-        }
+      fieldData.append("price", Utils.currencyToNumber(this.house.price));
+      fieldData.append("description", this.house.description);
+      if (this.house.images.length > 0) {
+        this.house.images.forEach((image, index) => {
+          fieldData.append("images[" + index + "]", image);
+        });
+      }
+      if (this.isFormEdit) {
+        fieldData.append("id", this.house.id);
+        fieldData.append("_method", "PUT");
+      }
 
       // fieldData.append('image' , self.house.image)
       return fieldData;
     },
   },
   methods: {
-    detailTypeHouse(data){
-        this.detailHouse=data;
+    detailTypeHouse(data) {
+      this.detailHouse = data;
     },
-    reset(){
-        this.house = {
-            type: "",
-            description: "",
-            price: "",
-            images: [],
-        };
-        this.previewImages = [];
-        this.detailImage = [];
-        this.isFormEdit = false;
-        },
-    getEditorValue(event){
-        this.house.description = event
+    reset() {
+      this.house = {
+        type: "",
+        description: "",
+        price: "",
+        images: [],
+      };
+      this.previewImages = [];
+      this.detailImage = [];
+      this.isFormEdit = false;
+    },
+    getEditorValue(event) {
+      this.house.description = event;
     },
     showDetail(img) {
       this.detailImage = img;
     },
     formatRupiah(value) {
-      return Utils.formatRupiah(value , 'Rp. ');
+      return Utils.formatRupiah(value, "Rp. ");
     },
-    parseDescription(html){
-        return Utils.parseHtmlFromEditor(html)
-
+    parseDescription(html) {
+      return Utils.parseHtmlFromEditor(html);
     },
-    removeItem(index){
-        if(this.isFormEdit){
-            this.house.images.splice(index , 1)
-            this.previewImages.splice(index, 1);
-        }else
-        {
-
-            this.previewImages.splice(index, 1);
-        }
-
+    removeItem(index) {
+      if (this.isFormEdit) {
+        this.house.images.splice(index, 1);
+        this.previewImages.splice(index, 1);
+      } else {
+        this.previewImages.splice(index, 1);
+      }
     },
     iteration(index) {
       return (
@@ -268,7 +267,6 @@ export default {
     },
 
     selectImages(e) {
-
       const files = e.target.files;
       for (let i = 0; i < files.length; i++) {
         if (this.checkExtension(files[i])) {
@@ -284,41 +282,40 @@ export default {
         }
       }
     },
-    updatePreviewImage(images)
-    {
-        this.previewImages = [];
-        for(let i = 0 ; i < images.length ; i++){
-            this.previewImages.push(('/storage/'+images[i].documentPath));
-        }
+    updatePreviewImage(images) {
+      this.previewImages = [];
+      for (let i = 0; i < images.length; i++) {
+        this.previewImages.push("/storage/" + images[i].documentPath);
+      }
     },
 
-    getHouse(id){
-        const self = this;
-        this.isFormEdit = true;
-        this.houses.filter(function(house){
-            if(house.id == id){
-                // console.log(house.document.path)
-                self.house.type = house.houseType
-                self.house.description = house.description
-                self.house.price = house.price
-                self.house.id = house.id
-                self.house.images = house.document
-                self.updatePreviewImage(house.document)
-                // this.house = house;
-            }
-        })
+    getHouse(id) {
+      const self = this;
+      this.isFormEdit = true;
+      this.houses.filter(function (house) {
+        if (house.id == id) {
+          // console.log(house.document.path)
+          self.house.type = house.houseType;
+          self.house.description = house.description;
+          self.house.price = house.price;
+          self.house.id = house.id;
+          self.house.images = house.document;
+          self.updatePreviewImage(house.document);
+          // this.house = house;
+        }
+      });
     },
     getHouses() {
       const self = this;
       this.isLoading = true;
       const params = [
-          `name=${this.name}`,
+        `name=${this.name}`,
         // `position=${this.name}`,
         `order_by=positions.id`,
         `order_direction=${this.order_direction}`,
         `page=${this.pagination.page}`,
         `per_page=${this.pagination.perPage}`,
-      ].join('&');
+      ].join("&");
       self.$store.dispatch("getData", ["house-type", params]).then((res) => {
         self.houses = res.data;
         self.pagination.total = res.meta.total;
@@ -329,26 +326,58 @@ export default {
       });
     },
     createHouse() {
-        // console.log(this.$refs.formHouse)
-      const self = this ;
+      // console.log(this.$refs.formHouse)
+      const self = this;
       let type = "postDataUploadHouse";
       const fieldData = self.formData;
       this.isSubmit = true;
-     self.$store.dispatch(type , fieldData , 'type-house').then(
-        (response)=>{
-            this.isSubmit = false;
-            iziToast.success({
-                title: "Berhasil",
-                message: "Data berhasil ditambahkan",
-                position: "topRight",
+      self.$store
+        .dispatch(type, fieldData, "type-house")
+        .then((response) => {
+          this.isSubmit = false;
+          iziToast.success({
+            title: "Berhasil",
+            message: "Data berhasil ditambahkan",
+            position: "topRight",
+          });
+          self.getHouses();
+          self.reset();
+        })
+        .catch((error) => {
+          this.isSubmit = false;
+          let messages = error.response.data.meta.message;
+          Object.entries(messages).forEach(([key, value]) => {
+            iziToast.warning({
+              title: "Warning",
+              message: value,
+              position: "topRight",
             });
-            self.getHouses();
-            self.reset();
-        }
-     ).catch(
-        (error)=>{
-            this.isSubmit = false;
-            let messages = error.response.data.meta.message;
+          });
+        });
+    },
+    editHouse(id) {
+      this.isFormEdit = true;
+      const self = this;
+      let type = "updateDataUploadHouse";
+      const fieldData = self.formData;
+      this.isSubmit = true;
+      self.$store
+        .dispatch(type, fieldData, "type-house/" + id)
+        .then((response) => {
+          this.isSubmit = false;
+          this.getHouses();
+          iziToast.success({
+            title: "Berhasil",
+            message: "Data berhasil diubah",
+            position: "topRight",
+          });
+          self.reset();
+        })
+        .catch((error) => {
+          this.isSubmit = false;
+          let messages ;
+          if (messages) {
+            messages = error.response.data.meta.message
             Object.entries(messages).forEach(([key, value]) => {
               iziToast.warning({
                 title: "Warning",
@@ -356,40 +385,10 @@ export default {
                 position: "topRight",
               });
             });
-        }
-     );
-    },
-    editHouse(id){
-        console.log(id)
-        this.isFormEdit = true;
-        const self = this ;
-        let type = "updateDataUploadHouse";
-        const fieldData = self.formData;
-        this.isSubmit = true;
-       self.$store.dispatch(type , fieldData , 'type-house/'+id).then(
-            (response)=>{
-                this.isSubmit = false;
-                 this.getHouses();
-                 self.reset();
-                 iziToast.success({
-                    title: "Berhasil",
-                    message: "Data berhasil diubah",
-                    position: "topRight"})
-            }
-       ).catch(
-            (error)=>{
-                this.reset()
-                this.isSubmit = false;
-                let messages = error.response.data.meta.message;
-                Object.entries(messages).forEach(([key, value]) => {
-                  iziToast.warning({
-                    title: "Warning",
-                    message: value,
-                    position: "topRight",
-                  });
-                });
-            }
-       );
+          }
+
+          this.reset();
+        });
     },
 
     deleteHouse(id) {
@@ -433,7 +432,7 @@ export default {
     DetailTypeHouse,
     ButtonsExport,
     InputCurrency,
-    Actions
-},
+    Actions,
+  },
 };
 </script>

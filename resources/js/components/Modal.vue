@@ -1,7 +1,7 @@
 <template>
   <div class="modal fade" :id="idModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
+  <div class="modal-dialog modal-dialog-centered " :class="size" role="document">
+    <div class="modal-content " :class="{'bg-primary text-white':dark}">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">{{ tittle }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -22,6 +22,10 @@
 <script>
 export default {
     props: {
+        dark: {
+            type: Boolean,
+            default: false
+        },
         tittle:{
             type: String,
             default: 'Modal'
@@ -52,6 +56,10 @@ export default {
         confirmBtn : {
             type: Boolean,
             default : true
+        },
+        size:{
+            type: String,
+            default : ''
         }
     }
 };

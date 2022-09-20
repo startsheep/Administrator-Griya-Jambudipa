@@ -1,6 +1,10 @@
 <template>
-    <CircleLoader v-if="isLoading" />
+    <section class="section">
+        <div class="section-header">
+      </div>
+      <CircleLoader v-if="isLoading" />
     <div class="card">
+        <div class="card-profil-header"></div>
         <div class="card-header d-flex justify-content-end">
             <button
                 class="btn btn-success"
@@ -164,6 +168,8 @@
             </div>
         </div>
     </div>
+      </section>
+
 </template>
 
 <script>
@@ -191,5 +197,21 @@ export default Logic;
 .modal-backdrop.show {
     opacity: 0.5;
     display: none;
+}
+
+.main-wrapper-1 .card .card-profil-header {
+    margin-left: -30px;
+    margin-right: -30px;
+    margin-top: -10px;
+    border-radius: 0;
+    border-top: 1px solid #f9f9f9;
+    padding-left: 35px;
+    padding-right: 35px;
+}
+
+.card-header {
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    margin-top: 10px;
 }
 </style>
