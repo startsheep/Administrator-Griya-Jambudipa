@@ -32,8 +32,6 @@ class PaymentRepository implements PaymentContract
     {
         $cekData = $this->payment->where('customer_id', $attributes['customer_id'])
             ->where('kavling_id', $attributes['kavling_id'])
-            ->whereMonth('created_at', date('m'))
-            ->whereYear('created_at', date('Y'))
             ->first();
 
         if ($cekData) {
@@ -77,12 +75,11 @@ class PaymentRepository implements PaymentContract
         $data = [];
         $customers = Customer::all();
 
-        $payments = $this->payment->whereMonth('created_at', date('m'))
-            ->whereYear('created_at', date('Y'))->get();
-
         foreach ($customers as $customer) {
-            $cekHouseType = $this->cekHouseType($payments, $customer);
-            if (!$cekHouseType) {
+            $countPayment = $this->payment->where('customer_id', $customer->id)->count();
+            $countKavling = $customer->customerKavling->count();
+
+            if ($countKavling != $countPayment) {
                 $data[] = $customer;
             }
         }

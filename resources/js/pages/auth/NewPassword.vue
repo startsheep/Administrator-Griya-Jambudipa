@@ -35,6 +35,7 @@
               </div>
             </div>
             <div class="form-group">
+                <label>Konfirmasi Sandi Baru</label>
               <div class="input-group">
                 <InputPassword
                   :showPassword="showPassword"

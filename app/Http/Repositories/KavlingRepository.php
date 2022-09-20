@@ -5,7 +5,9 @@ namespace App\Http\Repositories;
 use App\Http\Repositories\Contracts\KavlingContract;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\KavlingSearch;
+use App\Models\CustomerKavling;
 use App\Models\Kavling;
+use App\Models\Payment;
 
 class KavlingRepository implements KavlingContract
 {
@@ -50,5 +52,40 @@ class KavlingRepository implements KavlingContract
     public function delete($result)
     {
         return $result->delete();
+    }
+
+    public function paymentCheck($customer_id)
+    {
+        $customerKavlings = CustomerKavling::where('customer_id', $customer_id)->get();
+        $data = [];
+
+        foreach ($customerKavlings as $customerKavling) {
+            $payment = Payment::where('customer_id', $customer_id)->where('kavling_id', $customerKavling->kavling_id)->first();
+
+            if (!$payment) {
+                $data[] = $customerKavling;
+            }
+        }
+
+        return $data;
+    }
+
+    protected function checkPrice($resultPayment, $resultHouseType)
+    {
+        $price = 0;
+
+        foreach ($resultPayment as $item) {
+            $price += $item->price;
+        }
+
+        $result = $price - $resultHouseType->price;
+
+        $response = false;
+
+        if ($result == 0) {
+            $response = true;
+        }
+
+        return $response;
     }
 }
