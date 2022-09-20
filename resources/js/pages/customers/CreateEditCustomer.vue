@@ -1,11 +1,13 @@
 
 <template>
-      <div class="col d-flex justify-content-center">
-        <div class="card" style="width: 80%">
-          <div class="card-header">
-            <h4>Formulir {{ id ? "Edit" : "Tambah" }} Data Customer</h4>
-          </div>
-          <div class="card-body">
+      <section class="section">
+        <div class="section-header">
+            <h1>{{ id ? "Edit" : "Tambah" }} Data Customer</h1>
+        </div>
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <div class="card" style="width: 80%">
+                    <div class="card-body">
             <form class="form-row">
               <div class="form-group col-lg-6">
                 <label for="name">Nama Lengkap</label>
@@ -160,7 +162,9 @@
             </button>
           </div>
         </div>
-      </div>
+        </div>
+        </div>
+      </section>
 
 </template>
 <script>
