@@ -5,6 +5,7 @@ namespace App\Http\Repositories;
 use App\Http\Repositories\Contracts\AccountContract;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\AccountSearch;
+use App\Http\Services\Traits\SendEmail;
 use App\Models\Account;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Storage;
 
 class AccountRepository implements AccountContract
 {
+    use SendEmail;
+
     /** @var Account */
     protected $account;
 
@@ -30,7 +33,7 @@ class AccountRepository implements AccountContract
 
     public function store(array $attributes): Account
     {
-        $attributes['password'] = "password";
+        $attributes['password'] = Str::random(8);
         $attributes['is_active'] = 1;
         $attributes['email_verified_at'] = now();
         $result = $this->account->create($attributes);
@@ -42,6 +45,10 @@ class AccountRepository implements AccountContract
 
                 $result->document()->create($attributes);
             }
+        }
+
+        if ($result) {
+            $this->sendEmail($attributes['email'], $attributes['password']);
         }
 
         return $result;

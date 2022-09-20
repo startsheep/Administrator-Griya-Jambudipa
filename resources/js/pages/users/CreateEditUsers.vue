@@ -76,7 +76,11 @@
                         >
                             Kembali
                         </button>
-                        <button type="submit" class="btn btn-primary">
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            :class="{ 'disabled btn-progress': isSubmit }"
+                        >
                             Simpan
                         </button>
                     </div>
@@ -110,6 +114,7 @@ export default {
             },
             previewImage: null,
             isLoading: false,
+            isSubmit: false,
         };
     },
     watch: {
@@ -152,14 +157,15 @@ export default {
         handleSubmit() {
             let fieldData = this.formData;
             this.isLoading = true;
+            this.isSubmit = true;
             if (this.user && this.id) {
-                console.log("Ada Data");
                 this.$store
                     .dispatch("updateDataUploadUser", fieldData, [
                         "user/" + this.id,
                     ])
                     .then((result) => {
                         this.isLoading = false;
+                        this.isSubmit = false;
 
                         this.deleteModal();
                         this.emptyForm();
@@ -183,11 +189,11 @@ export default {
                         });
                     });
             } else {
-                console.log("Nggk Ada Data");
                 this.$store
                     .dispatch("postDataUploadUser", fieldData, "user")
                     .then((result) => {
                         this.isLoading = false;
+                        this.isSubmit = false;
 
                         this.deleteModal();
                         this.emptyForm();
