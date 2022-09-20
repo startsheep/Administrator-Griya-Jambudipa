@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::get('email', function () {
-//     return view('emails.verification');
+//     $token = "Ok";
+//     return view('emails.activation', compact('token'));
 // })->name('email');
 
 includeRouteFiles(__DIR__ . '/web');

@@ -59,12 +59,32 @@
                                     <td class="content-cell"
                                         style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 32px;">
                                         <h1
-                                            style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #3d4852; font-size: 18px; font-weight: bold; margin-top: 0; text-align: left; text-align: center">
-                                            Permintaan Mengatur Ulang Password</h1>
+                                            style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #3d4852; font-size: 18px; font-weight: bold; margin-top: 0; text-align: center">
+                                            Permintaan Mengatur Kata Sandi Anda</h1>
                                         <p
-                                            style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left; text-align: center">
-                                            Hi, apakah anda yakin ubah kata sandi? <br> Silahkan klik tombol dibawah ini
-                                            untuk mengubah kata sandi anda
+                                            style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: center">
+                                            Selamat akun Anda telah terdaftar, berikut password akun anda:
+                                        <table>
+                                            <tr style="text-align: left">
+                                                <th>Email</th>
+                                                <th>:</th>
+                                                <th><a href="mailto:{{ Request::get('email') }}"
+                                                        target="_blank">{{ Request::get('email') }}</a></th>
+                                            </tr>
+                                            <tr style="text-align: left">
+                                                <th>Password</th>
+                                                <th>:</th>
+                                                <th>{{ $password }}</th>
+                                            </tr>
+                                            <tr style="text-align: left">
+                                                <th>Alamat Login</th>
+                                                <th>:</th>
+                                                <th><a href="{{ url('') }}"
+                                                        target="_blank">{{ url('') }}</a></th>
+                                            </tr>
+                                        </table>
+                                        <p style="text-align: center">Silahkan klik link di bawah ini untuk mengatur
+                                            password baru Anda</p>
                                         <table class="action" align="center" width="100%" cellpadding="0"
                                             cellspacing="0" role="presentation"
                                             style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; margin: 30px auto; padding: 0; text-align: center; width: 100%;">
@@ -88,7 +108,7 @@
                                                                                 <a href="{{ $token }}"
                                                                                     class="button button-primary"
                                                                                     rel="noopener"
-                                                                                    style="cursor: pointer; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; border-radius: 4px; color: #fff; display: inline-block; overflow: hidden; text-decoration: none; background-color: #2d3748; border-bottom: 8px solid #2d3748; border-left: 18px solid #2d3748; border-right: 18px solid #2d3748; border-top: 8px solid #2d3748;">UBAH
+                                                                                    style="cursor: pointer; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; border-radius: 4px; color: #fff; display: inline-block; overflow: hidden; text-decoration: none; background-color: #2d3748; border-bottom: 8px solid #2d3748; border-left: 18px solid #2d3748; border-right: 18px solid #2d3748; border-top: 8px solid #2d3748;">SET
                                                                                     KATA SANDI</a>
                                                                             </form>
                                                                         </td>
