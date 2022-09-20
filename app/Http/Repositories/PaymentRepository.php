@@ -73,7 +73,6 @@ class PaymentRepository implements PaymentContract
     public function customer()
     {
         $data = [];
-        $pay = [];
         $customers = Customer::all();
 
         foreach ($customers as $customer) {
