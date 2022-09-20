@@ -20,7 +20,7 @@
       </div>
       <div class="row">
         <div class="col">
-         <FormPayment @onSuccess="onSuccess()" />
+          <FormPayment @onSuccess="onSuccess()" />
           <div class="card">
             <div class="card-header">
               <Button
@@ -32,9 +32,9 @@
               </Button>
             </div>
             <div class="card-body">
-              <div class="row mb-2 d-flex justify-content-between" >
+              <div class="row mb-2 d-flex justify-content-between">
                 <div class="col-lg-6">
-                 <ButtonsExport :printData="false" />
+                  <ButtonsExport :printData="false" />
                 </div>
                 <div class="col-lg-4">
                   <input
@@ -45,17 +45,17 @@
                 </div>
               </div>
               <div class="table-responsive">
-                <table class="table table-striped" style="font-size:12px">
+                <table class="table table-striped" style="font-size: 12px">
                   <thead>
                     <tr>
-                      <th >Nama</th>
-                      <th >Nomor telepon</th>
-                      <th >Blok / Kavling</th>
-                      <th >Tipe Rumah</th>
-                      <th >Harga Rumah</th>
-                      <th >Sisa Angsuran</th>
-                      <th >Tipe Pembayaran</th>
-                      <th class="text-center" >Aksi</th>
+                      <th>Nama</th>
+                      <th>Nomor telepon</th>
+                      <th>Blok / Kavling</th>
+                      <th>Tipe Rumah</th>
+                      <th>Harga Rumah</th>
+                      <th>Sisa Angsuran</th>
+                      <th>Tipe Pembayaran</th>
+                      <th class="text-center">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -87,10 +87,14 @@
                         </div>
                       </td>
                       <td>{{ payment.customer.phone }}</td>
-                      <td>{{ payment.block.block}}-{{ payment.block.numberKavling }}</td>
-                      <td>{{ payment.block.houseType.houseType}}</td>
+                      <td>
+                        {{ payment.block.block }}-{{
+                          payment.block.numberKavling
+                        }}
+                      </td>
+                      <td>{{ payment.block.houseType.houseType }}</td>
                       <td>{{ formatRupiah(payment.block.houseType.price) }}</td>
-                      <td>{{  formatRupiah(payment.reminderPayment)}}</td>
+                      <td>{{ formatRupiah(payment.reminderPayment) }}</td>
                       <td>
                         <span
                           :class="
@@ -101,7 +105,6 @@
                         </span>
                       </td>
                       <td class="align-middle text-center">
-
                         <!-- <Actions
                             @update="sendEdit(payment)"
                               toggleEdit="collapse"
@@ -111,21 +114,22 @@
 
                         /> -->
                         <Actions
-                            toggleDetail="modal"
-                            targetDetail="#detailPayment"
-                            @detail="detailPayment(payment.id)"
-                            :showDelete="false"
+                          toggleDetail="modal"
+                          targetDetail="#detailPayment"
+                          @detail="detailPayment(payment.id)"
+                          :showDelete="false"
                         />
                       </td>
                     </tr>
-                      <td colspan="8"     >
-                        <EmptyData v-if="!isLoading && payments.length < 1" message="Data Pembayaran Ngga Ada"/>
-                        <CircleLoader v-if="isLoading" />
+                    <td colspan="8">
+                      <EmptyData
+                        v-if="!isLoading && payments.length < 1"
+                        message="Data Pembayaran Ngga Ada"
+                      />
+                      <CircleLoader v-if="isLoading" />
                     </td>
                   </tbody>
-
                 </table>
-
               </div>
             </div>
             <div class="card-footer">
@@ -140,8 +144,8 @@
         </div>
       </div>
     </div>
-    <PaymentDetail :id="payment.id"/>
   </section>
+  <PaymentDetail :id="payment.id" />
 </template>
 <script>
 import moment from "moment";
@@ -165,8 +169,8 @@ export default {
     InputCurrency,
     PaymentDetail,
     FormPayment,
-    Actions
-},
+    Actions,
+  },
   data() {
     return {
       //data
@@ -211,12 +215,12 @@ export default {
       },
     };
   },
-//   watch: {
-//     selectedCustomer(newVal){
-//         this.selectedCustomer = newVal
+  //   watch: {
+  //     selectedCustomer(newVal){
+  //         this.selectedCustomer = newVal
 
-//     }
-//   },
+  //     }
+  //   },
   mounted() {
     this.getPayments();
     this.getCustomers();
@@ -231,36 +235,37 @@ export default {
   },
   watch: {},
   methods: {
-    detailPayment(data){
-        this.payment.id = data;
+    detailPayment(data) {
+      this.payment.id = data;
     },
-    getHouse(){
-    const self = this;
-      this.$store.dispatch("getData", ["house-type/"+ this.selectedKavling.houseTypeId]).then((res) => {
-            this.house = res.data
+    getHouse() {
+      const self = this;
+      this.$store
+        .dispatch("getData", ["house-type/" + this.selectedKavling.houseTypeId])
+        .then((res) => {
+          this.house = res.data;
+        });
+    },
+    selectCustomer() {
+      this.customers.filter((cs) => {
+        if (cs.id == this.$refs["fieldCustomer"].value) {
+          this.selectedCustomer = cs;
+        }
       });
     },
-    selectCustomer(){
-        this.customers.filter((cs)=>{
-            if(cs.id == this.$refs['fieldCustomer'].value){
-                this.selectedCustomer = cs
-            }
-        })
+    showNameCustomer(id) {
+      let name = "";
+      this.customers.forEach((customer) => {
+        if (customer.id == id) {
+          name = customer.name;
+        }
+      });
+      return name;
     },
-    showNameCustomer(id){
-            let name =''
-            this.customers.forEach((customer) => {
-                if (customer.id == id) {
-                    name = customer.name;
-                }
-            });
-            return name
-        },
     getBlocks(array) {
       //    getblock name between comma
       let blocks = [];
       array.forEach((element) => {
-
         blocks.push(element.kavling.block);
       });
       return blocks.join(", ");
@@ -268,14 +273,15 @@ export default {
     formatRupiah(number) {
       return Utils.formatRupiah(number, "Rp. ");
     },
-    calcReferral(percent , number){
-        return Utils.calcReferral(percent , number)
+    calcReferral(percent, number) {
+      return Utils.calcReferral(percent, number);
     },
     showLogUpdate(date) {
       return moment(date).fromNow();
     },
     showTypePayment(type) {
-        if(type)return this.typePayment.find((item) => item.type === type).color;
+      if (type)
+        return this.typePayment.find((item) => item.type === type).color;
     },
     getPayments() {
       const self = this;
@@ -288,7 +294,8 @@ export default {
         `page=${this.pagination.page}`,
         `per_page=${this.pagination.perPage}`,
       ].join("&");
-      self.$store.dispatch("getData", ["payment", params]).then((res) => {  console.log(res)
+      self.$store.dispatch("getData", ["payment", params]).then((res) => {
+        console.log(res);
         self.payments = res.data;
         self.pagination.total = res.meta.total;
         self.pagination.currentPage = res.meta.currentPage;
@@ -301,11 +308,11 @@ export default {
       this.getPayments();
     },
     onSuccess() {
-         iziToast.success({
-            title: "Success",
-            message: "Data berhasil ditambahkan",
-            position: "topRight",
-          });
+      iziToast.success({
+        title: "Success",
+        message: "Data berhasil ditambahkan",
+        position: "topRight",
+      });
       this.getPayments();
       this.reset();
     },
@@ -316,33 +323,31 @@ export default {
       });
     },
 
-    editPayment(){
-        const self = this;
-        const url = [
-          "payment",
-          {
+    editPayment() {
+      const self = this;
+      const url = [
+        "payment",
+        {
           customer_id: this.payment.customerId,
           employee_id: this.idEmployee,
           price: this.payment.price,
-          },
-        ];
-        self.$store.dispatch('postData' ,url).then(
-              res=>{
-                iziToast.success({
-                  title: "Success",
-                  message: "Data berhasil diubah",
-                  position: "topRight",
-                });
-                $("#formEdit").collapse('hide');
-                self.onSuccess();
-                self.reset()
-              }
-        )
+        },
+      ];
+      self.$store.dispatch("postData", url).then((res) => {
+        iziToast.success({
+          title: "Success",
+          message: "Data berhasil diubah",
+          position: "topRight",
+        });
+        $("#formEdit").collapse("hide");
+        self.onSuccess();
+        self.reset();
+      });
     },
-    sendEdit(payment){
-        // this.payment.customerId= payment.customer.id
+    sendEdit(payment) {
+      // this.payment.customerId= payment.customer.id
 
-        this.selectedCustomer = payment.customer
+      this.selectedCustomer = payment.customer;
     },
     delete(id) {
       const self = this;
@@ -370,28 +375,26 @@ export default {
           }
         });
     },
-    reset(){
-        this.payment = {
-            id: "",
-            customerId: "",
-            employeeId: "",
-            type: "",
-            price: "",
-        },
-        this.selectedCustomer = null
-        this.selectedKavling = null
-        this.house = null
-
+    reset() {
+      (this.payment = {
+        id: "",
+        customerId: "",
+        employeeId: "",
+        type: "",
+        price: "",
+      }),
+        (this.selectedCustomer = null);
+      this.selectedKavling = null;
+      this.house = null;
     },
   },
 };
 </script>
 <style >
-    table th {
-
-    padding: 0 15px !important;
-    height: 60px;
-    vertical-align: middle;
+table th {
+  padding: 0 15px !important;
+  height: 60px;
+  vertical-align: middle;
 }
 .avatar .avatar-presence {
   top: 0 !important;
@@ -400,7 +403,7 @@ export default {
   border: 1px solid #e5e5e5;
   border-radius: 5px;
   padding: 10px;
-  background-color: #E6EFFF;
+  background-color: #e6efff;
   margin: auto;
 }
 </style>
