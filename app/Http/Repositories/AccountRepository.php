@@ -9,6 +9,7 @@ use App\Http\Services\Traits\SendEmail;
 use App\Models\Account;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class AccountRepository implements AccountContract
@@ -59,20 +60,28 @@ class AccountRepository implements AccountContract
         return $this->account->with('document')->findOrFail($id);
     }
 
+    public function findByCriteria(array $criteria): Account
+    {
+        return $this->account
+            ->where($criteria)->with('image')
+            ->first();
+    }
+
     public function update(array $attributes, $result)
     {
         $result->update($attributes);
-
         if (isset($attributes['image'])) {
             if (isset($attributes['image']) && $attributes['image']) {
-                if ($result->image?->document_path) {
+                if ($result->image) {
                     Storage::delete($result->image->document_path);
+
+                    $result->document()->delete();
                 }
 
                 $path = $attributes['image']->store('user');
                 $name = $attributes['image']->getClientOriginalName();
 
-                $result->document()->update([
+                $result->document()->create([
                     'documentable_id' => $result->id,
                     'documentable_type' => 'App\Models\Account',
                     'document_path' => $path,
@@ -104,6 +113,18 @@ class AccountRepository implements AccountContract
 
     public function changePassword(array $attributes, $result)
     {
+        $checkPassword = Hash::check($attributes['old_password'], $result->password);
+        if (!$checkPassword) {
+            return collect([
+                'message' => 'password lama tidak cocok!',
+                'type' => 'error',
+                'data' => [],
+                'status' => 400
+            ]);
+        }
+
+        $attributes['password'] = $attributes['new_password'];
+
         $result->update($attributes);
 
         return collect([

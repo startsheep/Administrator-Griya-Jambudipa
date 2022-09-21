@@ -134,10 +134,6 @@ export default {
             fieldData.append("email", this.form.email);
             fieldData.append("phone", this.form.phone);
 
-            if (this.form.image) {
-                fieldData.append("image", this.form.image);
-            }
-
             if (this.user && this.id) {
                 fieldData.append("_method", "PUT");
                 fieldData.append("id", this.id);
@@ -158,6 +154,11 @@ export default {
             let fieldData = this.formData;
             this.isLoading = true;
             this.isSubmit = true;
+
+            if (this.form.image) {
+                fieldData.append("image", this.form.image);
+            }
+
             if (this.user && this.id) {
                 this.$store
                     .dispatch("updateDataUploadUser", fieldData, [

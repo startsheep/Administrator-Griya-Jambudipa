@@ -44,6 +44,13 @@ class AccountController extends Controller
         return new AccountDetail($result);
     }
 
+    public function showByEmail($email)
+    {
+        $result = $this->account->findByCriteria([['email', '=', $email]]);
+
+        return new AccountDetail($result);
+    }
+
     public function update(AccountUpdateRequest $request, $id)
     {
         $result = $this->account->find($id);
