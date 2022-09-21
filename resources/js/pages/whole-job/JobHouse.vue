@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <div class="section-header"><h1>Borongan Rumah</h1></div>
+    <div class="section-header">    </div>
     <div class="row m-auto">
       <div class="col">
         <div class="card">
@@ -28,6 +28,7 @@
                     <th s cope="col">Customer</th>
                     <!-- <th scope="col">Deskripsi Borongan</th> -->
                     <th scope="col">Tanggal Pengerjaan</th>
+                    <th scope="col">Total Biaya</th>
                     <th scope="col">Pembayaran</th>
                     <th scope="col">Status</th>
                     <th class="text-center" scope="col">Aksi</th>
@@ -46,12 +47,15 @@
                     </td>
                     <td>
                       <strong class="d-block">{{ job.customer.name }}</strong>
-                      <span>{{ job.houseType.houseType }}</span>
+                      <span>Tipe Rumah: {{ job.houseType.houseType }}</span>
                     </td>
                     <!-- <td>Borongan RUmah Tangga</td> -->
                     <td>
                       <span>{{ formatDateLocal(job.startDate) }}</span> -
                       {{ formatDateLocal(job.endDate) }}
+                    </td>
+                    <td>
+                      <span>{{formatRupiah(job.totalCost) }}</span>
                     </td>
                     <td>{{ job.paymentType }}</td>
                     <td>
@@ -62,6 +66,9 @@
                     </td>
                     <td class="align-middle text-center">
                       <Actions
+                        toggleEdit="modal"
+                        targetEdit="#FormHouse"
+                        @update="sendId(job.id)"
                         @delete="deleteJob(job.id)"
                       />
                     </td>
@@ -106,12 +113,18 @@ export default {
       return moment().format("DD-MM-YYYY");
     },
   },
+  watch:{
+    idForEdit(){
+        this.getJobById(this.idForEdit);
+    }
+  },
+
   mounted() {
     this.getJobs();
   },
   data: () => ({
     jobs: [],
-
+    idForEdit: '',
     isLoading: false,
     pagination: {
       total: 0,
@@ -122,8 +135,14 @@ export default {
     },
   }),
   methods: {
+    sendId(id){
+        this.idForEdit = id;
+    },
     formatDateLocal(date) {
       return Utils.formateDateLocale(date);
+    },
+    formatRupiah(num){
+        return Utils.formatRupiah(num , 'Rp. ');
     },
     checkStatus(s, e) {
       let start = moment(s);
