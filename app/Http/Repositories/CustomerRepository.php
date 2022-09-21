@@ -23,7 +23,7 @@ class CustomerRepository implements CustomerContract
     public function all($request)
     {
         $factory = app()->make(CustomerSearch::class);
-        $employees = $factory->apply()->with(['document', 'customerKavling.kavling'])->paginate($request->per_page);
+        $employees = $factory->apply()->with(['document', 'customerKavling.kavling.houseType'])->paginate($request->per_page);
 
         return $employees;
     }

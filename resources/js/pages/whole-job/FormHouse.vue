@@ -1,13 +1,12 @@
 <template >
   <Modal
     idModal="FormHouse"
-    tittle="Formulir Borongan Rumah"
+    :tittle="id ? 'Edit Borongan Rumah' : 'Formulir Borongan Rumah'"
     size="modal-lg"
     @onConfirm="createJobHouse()"
   >
     <template v-slot:body>
       <div class="row m-auto">
-        {{}}
         <div class="col-12">
           <div class="form-row">
             <div class="form-group col-lg-6">
@@ -52,10 +51,13 @@
                 <option
                   v-for="kavling in kavlings"
                   :key="kavling"
-                  :value="kavling.kavling.houseTypId"
+                  :value="kavling.kavling.houseTypeId"
                 >
-                  {{ showHouse(kavling) }}|{{ kavling.kavling.block }} -
-                  {{ kavling.kavling.numberKavling }}
+                  <span>Tipe: {{ kavling.kavling.houseType.houseType }} </span
+                  > || Blok:  <span
+                    >{{ kavling.kavling.block }} -
+                    {{ kavling.kavling.numberKavling }}</span
+                  >
                 </option>
               </select>
             </div>
@@ -80,7 +82,12 @@
               />
             </div>
             <div class="custom-file form-group col-lg-6">
-              <input type="file" class="custom-file-input" multiple />
+              <input
+                type="file"
+                class="custom-file-input"
+                multiple
+                @change="selectDocuments"
+              />
               <label class="custom-file-label" for="customFile">Dokumen</label>
             </div>
             <div class="form-group col-lg-6">
@@ -90,6 +97,20 @@
                 placeholder="Total Anggaran"
               />
             </div>
+          </div>
+        </div>
+        <div class="col-lg-6 mt-2">
+          <strong class="d-block mb-2">Dokumen:</strong>
+          <div
+            v-for="document in contract.documents"
+            :key="document"
+            class="badge badge-primary m-1 p-2"
+          >
+            {{ document.name }}
+            <i
+              class="fas fa-times sortable"
+              @click="removeDocument(document)"
+            ></i>
           </div>
         </div>
       </div>
@@ -103,6 +124,7 @@ import SummerNote from "../../components/SummerNote.vue";
 import InputCurrency from "../../components/InputCurrency.vue";
 import iziToast from "izitoast";
 export default {
+  props: [],
   components: { Modal, SummerNote, InputCurrency },
   data() {
     return {
@@ -135,7 +157,7 @@ export default {
       let formData = new FormData();
       formData.append("contractor_id", this.contract.contractor_id);
       formData.append("customer_id", this.contract.customer_id);
-      formData.append("house_type_id", 1);
+      formData.append("house_type_id", this.contract.house_type_id);
       formData.append("description", this.contract.description);
       formData.append("start_date", this.contract.start_date);
       formData.append("end_date", this.contract.end_date);
@@ -151,6 +173,42 @@ export default {
     },
   },
   methods: {
+    removeDocument(doc) {
+      this.contract.documents = this.contract.documents.filter(
+        (document) => document.name !== doc.name
+      );
+    },
+    checkIsDocument(file) {
+      const allowedExtensions = [
+        "image/jpg",
+        "image/png",
+        "image/jpeg",
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ];
+      const extension = file.type;
+      if (allowedExtensions.includes(extension)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    selectDocuments(e) {
+      const files = e.target.files;
+
+      for (let i = 0; i < files.length; i++) {
+        if (this.checkIsDocument(files[i])) {
+          this.contract.documents.push(files[i]);
+        } else {
+          iziToast.warning({
+            title: "Peringatan",
+            message: "File harus berupa dokumen",
+            position: "topRight",
+          });
+        }
+      }
+    },
     hideModal() {
       $("#FormHouse").hide("modal");
       $("div").removeClass("modal-backdrop");
@@ -195,12 +253,13 @@ export default {
         .then((response) => {
           //   hide this. modal
           this.$emit("onSuccess");
-          this.hideModal()
-            iziToast.success({
-                title: "Success",
-                message: "Data berhasil disimpan",
-                position:'topRight'
-            });
+          this.hideModal();
+          this.reset();
+          iziToast.success({
+            title: "Success",
+            message: "Data berhasil disimpan",
+            position: "topRight",
+          });
         })
         .catch((error) => {
           let messages = error.response.data.meta.message;
