@@ -12,6 +12,8 @@ interface KavlingContract
 
     public function find($id): Model;
 
+    public function paymentCheck($customer_id);
+
     public function update(array $attributes, $result);
 
     public function delete($result);

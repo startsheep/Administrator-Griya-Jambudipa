@@ -13,6 +13,8 @@ interface AccountContract
 
     public function find($id): Model;
 
+    public function findByCriteria(array $criteria): ?Model;
+
     public function update(array $attributes, $result);
 
     public function delete($result);

@@ -4,16 +4,15 @@ import Pagination from "../../../components/Pagination.vue";
 import CircleLoader from "../../../components/CircleLoader.vue";
 import ModalForm from "../../../pages/users/CreateEditUsers.vue";
 import ChangePasswordModal from "../../../pages/users/ChangePassword.vue";
-import DetailUser from './../../../pages/users/DetailUser.vue'
+import DetailUser from "./../../../pages/users/DetailUser.vue";
 import Cookies from "js-cookie";
-
 
 export default {
     data() {
         return {
             session: Cookies.get("user"),
             user: {},
-            userId : '',
+            userId: "",
             users: [],
             status: 0,
             // edit
@@ -37,7 +36,7 @@ export default {
     },
     computed: {},
     methods: {
-        sendId(id){
+        sendId(id) {
             this.userId = id;
         },
         showLogUpdate(date) {
@@ -119,6 +118,48 @@ export default {
                     }
                 });
         },
+        resetPassword(user) {
+            const url = [
+                "auth/reset-password",
+                {
+                    email: user.email,
+                },
+            ];
+
+            this.$swal
+                .fire({
+                    title: "Yakin ?",
+                    text: "Password akan direset",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Reset!",
+                    cancelButtonText: "Batal",
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        this.$store.dispatch("postData", url).then((res) => {
+                            if (res.meta) {
+                                if (res.meta.statusCode == 400) {
+                                    this.$swal.fire({
+                                        title: "Perhatian",
+                                        text: res.meta.message.email[0],
+                                        icon: "warning",
+                                        confirmButtonText: "Coba Lagi",
+                                    });
+                                }
+                            } else {
+                                iziToast.success({
+                                    title: "Success",
+                                    message:
+                                        "Cek e-mail untuk merubah password",
+                                    position: "topRight",
+                                });
+                                this.getUsers();
+                            }
+                        });
+                    }
+                });
+        },
         showModal(user) {
             this.user = user;
         },
@@ -137,5 +178,11 @@ export default {
             this.getUsers();
         },
     },
-    components: { Pagination, CircleLoader, ModalForm, ChangePasswordModal , DetailUser},
+    components: {
+        Pagination,
+        CircleLoader,
+        ModalForm,
+        ChangePasswordModal,
+        DetailUser,
+    },
 };

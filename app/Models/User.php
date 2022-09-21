@@ -58,6 +58,14 @@ class User extends Authenticatable
         $this->notify(new SendEmailVerification($url));
     }
 
+    public function sendActivationUserNotification($token)
+    {
+        $url = url("/auth/new-password?token=$token&email=$this->email");
+
+        $this->notify(new SendEmailVerification($url));
+    }
+
+
     public function document()
     {
         return $this->morphMany(Document::class, 'documentable');
