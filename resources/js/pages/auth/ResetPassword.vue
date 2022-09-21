@@ -74,6 +74,9 @@
             >
               Periksa Email
             </a>
+            <button @click="$router.back" class="btn btn-danger btn-block">
+              Kembali
+            </button>
           </div>
         </div>
       </div>

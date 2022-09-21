@@ -13,7 +13,7 @@
       </div>
       <div class="modal-footer">
         <button v-if="cancelBtn" type="button" class="btn btn-danger" :class="displayBtn" data-dismiss="modal">{{ labelCancel }}</button>
-        <button v-if="confirmBtn" type="button" class="btn btn-primary " :class="displayBtn">{{ labelConfirm }}</button>
+        <button v-if="confirmBtn" type="button" class="btn btn-primary " :class="displayBtn" @click="confirm">{{ labelConfirm }} </button>
       </div>
     </div>
   </div>
@@ -60,6 +60,11 @@ export default {
         size:{
             type: String,
             default : ''
+        },
+    },
+    methods:{
+        confirm(){
+            this.$emit('onConfirm')
         }
     }
 };
