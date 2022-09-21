@@ -11,7 +11,7 @@ import payment from "./modules/payment";
 import transaction from "./modules/transaction";
 import BasicPrice from "./modules/basic_price";
 import jobs from "./modules/job";
-
+import profile from "./modules/profile";
 
 const routes = [
     ...auth,
@@ -27,11 +27,11 @@ const routes = [
     ...BasicPrice,
     ...dashboard,
     ...jobs,
+    ...profile,
     {
-      path: '/',
-          component: () => import('../pages/dashboard/Dashboard.vue'),
-    }
-
+        path: "/",
+        component: () => import("../pages/dashboard/Dashboard.vue"),
+    },
 ];
 
 export default routes;

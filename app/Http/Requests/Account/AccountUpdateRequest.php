@@ -26,12 +26,19 @@ class AccountUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required',
-            'email' => 'email',
-            'phone' => 'required|numeric',
-            'image' => 'image|mimes:png,jpg,jpeg',
-        ];
+        if (empty(request()->image)) {
+            $request = [
+                'name' => 'required',
+                'email' => 'email',
+                'phone' => 'required|numeric',
+            ];
+        }
+
+        if (!empty(request()->image)) {
+            $request['image'] = 'image|mimes:png,jpg,jpeg';
+        }
+
+        return $request;
     }
 
     public function messages()

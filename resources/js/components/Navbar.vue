@@ -31,15 +31,17 @@
                         <img
                             alt="image"
                             :src="
-                                userImage == null
+                                userData.image == null
                                     ? '/assets/images/avatar/avatar-2.png'
-                                    : '/storage/' + userImage.documentPath
+                                    : '/storage/' + userData.image.documentPath
                             "
+                            onerror="this.onerror = null; this.src
+                        = '/assets/images/avatar/avatar-2.png';"
                             class="rounded-circle mr-1"
                             height="30"
                         />
                         <div class="d-sm-none d-lg-inline-block profile-name">
-                            Halo , {{ username }}
+                            Halo , {{ userData.name }}
                         </div></a
                     >
                     <div class="dropdown-menu dropdown-menu-right">
@@ -48,6 +50,12 @@
                             class="dropdown-item has-icon"
                         >
                             <i class="far fa-user"></i> Profil
+                        </router-link>
+                        <router-link
+                            to="/change-password"
+                            class="dropdown-item has-icon"
+                        >
+                            <i class="fas fa-key"></i> Ubah Password
                         </router-link>
                         <div class="dropdown-divider"></div>
                         <a
@@ -69,6 +77,7 @@ export default {
     data() {
         return {
             user: this.userCookie,
+            userData: {},
         };
     },
     computed: {
@@ -82,7 +91,19 @@ export default {
             return Cookie.get("user");
         },
     },
+    mounted() {
+        this.getUser();
+    },
     methods: {
+        getUser() {
+            let user = JSON.parse(Cookie.get("user"));
+
+            this.$store
+                .dispatch("showData", ["user/show-email/" + user.email, []])
+                .then((result) => {
+                    this.userData = result.data;
+                });
+        },
         logout() {
             axios
                 .post(
