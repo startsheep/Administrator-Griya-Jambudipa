@@ -15,10 +15,10 @@
                 style="width: 60%"
               />
 
-              <h6 v-if="!isLoading" class="text-center mx-4">
-                Verifikasi Email Untuk Melakukan Reset Ulang Sandi
+              <h6 v-if="!isLoading" class="text-center mx-4 mt-3">
+                Masukkan email Anda dan kami akan mengirimkan tautan untuk kembali ke akun Anda
               </h6>
-              <h6 v-else class="text-center mx-3">Mohon Tunggu 🙏</h6>
+              <h6 v-else class="text-center mx-3 mt-3">Mohon Tunggu 🙏</h6>
 
               <div class="form-group">
                 <label>Email</label>
