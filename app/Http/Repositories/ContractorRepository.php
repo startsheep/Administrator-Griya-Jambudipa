@@ -106,6 +106,19 @@ class ContractorRepository implements ContractorContract
         return $result->delete();
     }
 
+    public function updateStatus(array $attributes, $result)
+    {
+        $result->status = $attributes['active'] ? 1 : 2;
+        $result->save();
+
+        return collect([
+            'message' => "success",
+            'type' => 'success',
+            'data' => $result,
+            'status' => 200
+        ]);
+    }
+
     protected function storageFile($file, $folder)
     {
         $path = $file->store($folder);
