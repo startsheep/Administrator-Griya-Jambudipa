@@ -14,14 +14,26 @@ class PaymentDetail extends JsonResource
      */
     public function toArray($request)
     {
-        $result = [
-            "id" => $this->id,
-            "customer_id" => $this->customer_id,
-            "price" => $this->price,
-            "created_at" => $this->created_at,
-            "updated_at" => $this->updated_at,
-            "price_house" => (string) $this->priceHouseType($this->customer->customerKavling)
-        ];
+        $block = $this->cekBlock($this->customer->customerKavling, $this->kavling->id);
+        $reminderPrice = (string) $this->reminderPrice($this->kavling->houseType->price, $this->paymentPrice);
+        $cekData = $this->customer()
+            ->whereMonth('created_at', date('m'))
+            ->whereYear('created_at', date('Y'))
+            ->first();
+
+        if ($cekData) {
+            if ($reminderPrice != 0) {
+                $result  = [
+                    "id" => $this->id,
+                    "reminder_payment" => $reminderPrice,
+                    "type" => $this->type,
+                    "block" => $this->kavling,
+                    "customer" => $this->customer,
+                    "created_at" => $this->created_at,
+                    "updated_at" => $this->updated_at,
+                ];
+            }
+        }
 
         return $result;
     }
@@ -35,5 +47,26 @@ class PaymentDetail extends JsonResource
         }
 
         return $price;
+    }
+
+    protected function reminderPrice($price, $result)
+    {
+        $total = 0;
+        foreach ($result as $item) {
+            $total += $item->price;
+        }
+
+        $price -= $total;
+
+        return $price;
+    }
+
+    protected function cekBlock($result, $id)
+    {
+        foreach ($result as $item) {
+            if ($item->kavling_id == $id) {
+                return $item->kavling;
+            }
+        }
     }
 }
