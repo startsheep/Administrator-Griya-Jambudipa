@@ -35,7 +35,7 @@
             <CardStatistic tittle=" Tipe Rumah" count="99" />
           </div>
           <div class="col-lg-4">
-            <CardStatistic tittle="Transaksi" icon="fas fa-wallet" backgroundColor="o" :count="count.transaction" />
+            <CardStatistic tittle="Transaksi" icon="fas fa-wallet" backgroundColor="info" :count="count.transaction" />
           </div>
           <div class="col-lg-12">
             <Chart />
