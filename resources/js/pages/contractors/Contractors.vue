@@ -65,17 +65,25 @@
                       <td width="20%" class="align-middle">
                         <span>{{ contractor.phone }}</span>
                       </td>
-
+                    
                       <td width="20%" class="align-middle">
-                      <div
-                        v-if="contractor.status == 1"
-                        class="badge badge-success"
-                      >
-                        Aktif
-                      </div>
-                      <div v-else class="badge badge-danger">
-                        Tidak Aktif
-                      </div>
+                      <label class="" v-if="contractor.id != 2">
+                                                <input
+                                                    type="checkbox"
+                                                    name="custom-switch-checkbox"
+                                                    class="custom-switch-input"
+                                                    :checked="contractor.status == 1"
+                                                />
+                                                <span
+                                                    class="custom-switch-indicator"
+                                                    @click="
+                                                        updateStatus(
+                                                            contractor.id,
+                                                            contractor.status
+                                                        )
+                                                    "
+                                                ></span>
+                                            </label>
                     </td>
                       <td width="10%" class="align-middle text-center">
                            <Actions
@@ -86,12 +94,11 @@
                       </td>
                     </tr>
                       <td colspan="5">
-                        <EmptyData v-if="!isLoading && contractors.length < 1" message="Datan Pemborong Ngga Ada"/>
+                        <EmptyData v-if="!isLoading && contractors.length < 1" message="Data Pemborong Ngga Ada"/>
                         <CircleLoader v-if="isLoading" />
                     </td>
                   </tbody>
                 </table>
-
               </div>
             </div>
             <div class="card-footer">
@@ -114,14 +121,16 @@
   import Utils from "../../store/services/utils";
   import CircleLoader from "../../components/CircleLoader.vue";
   import CreateEditContractor from "./CreateEditContractor.vue";
-import ButtonsExport from "../../components/ButtonsExport.vue";
-import EmptyData from "../../components/EmptyData.vue";
-import Actions from "../../components/Actions.vue";
+  import ButtonsExport from "../../components/ButtonsExport.vue";
+  import EmptyData from "../../components/EmptyData.vue";
+  import Actions from "../../components/Actions.vue";
 
   export default {
     data() {
       return {
         contractors: [],
+        contractor:{},
+        status: 0,
         // edit
         isLoading: false,
         // filter
@@ -197,11 +206,38 @@ import Actions from "../../components/Actions.vue";
             }
           });
       },
-
       onPageChange(page) {
         this.pagination.page = page;
         this.getContractors();
       },
+    updateStatus(id, status) {
+            let desc = "";
+            if (status == 1) {
+                status = 0;
+                desc = "Non-aktif"
+            } else {
+                status = 1;
+                desc = "Aktif";
+            }
+            var type = "updateData";
+            var url = [
+                "contractor/active",
+                id,
+                {
+                    active: status,
+                },
+            ];
+            this.$store.dispatch(type, url).then((response) => {
+                if (response.type == "success") {
+                    iziToast.success({
+                        title: "Success",
+                        message: "Status Borongan " + desc,
+                        position: "topRight",
+                    });
+                    this.getContractors();
+                }
+            });
+        },
     },
     components: { Pagination, CircleLoader, ButtonsExport, EmptyData, EmptyData, Actions },
   };

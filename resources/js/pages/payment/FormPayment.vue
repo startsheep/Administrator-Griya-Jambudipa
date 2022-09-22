@@ -3,7 +3,7 @@
     <div class="row d-flex justify-content-center">
       <div class="card" style="width: 80%">
         <div class="card-header">
-          <h4>Formulir Pembayaran </h4>
+          <h4>Formulir Pembayaran</h4>
         </div>
         <div class="card-body">
           <div class="alert alert-primary alert-dismissible show fade mb-4">
@@ -45,7 +45,7 @@
                     v-model="selectedKavling"
                   >
                     <option
-                      v-for="kavling in selectedCustomer.customerKavling"
+                      v-for="kavling in customerKavling"
                       :value="kavling.kavling"
                       :key="kavling"
                     >
@@ -136,6 +136,7 @@ import Cookie from "js-cookie";
 import InputCurrency from "../../components/InputCurrency.vue";
 import Utils from "../../store/services/utils";
 import iziToast from "izitoast";
+
 export default {
   data() {
     return {
@@ -147,6 +148,7 @@ export default {
         price: "",
       },
       customers: [],
+      customerKavling:[],
       house: null,
       selectedCustomer: null,
       selectedKavling: null,
@@ -155,7 +157,6 @@ export default {
   },
   watch: {
     // watch selected kavling for change
-
   },
   computed: {
     submit() {
@@ -209,6 +210,7 @@ export default {
           this.selectedCustomer = cs;
         }
       });
+      this.getKavling(this.selectedCustomer.id)
     },
     showNameCustomer(id) {
       let name = "";
@@ -231,6 +233,12 @@ export default {
       const self = this;
       self.$store.dispatch("getData", ["customer"]).then((res) => {
         self.customers = res.data;
+      });
+    },
+    getKavling(id) {
+        const self = this;
+        self.$store.dispatch("getData", ["kavling/check/" + id]).then((res) => {
+            this.customerKavling = res.data;
       });
     },
     resetForm() {

@@ -15,5 +15,7 @@ interface ContractorContract
 
     public function update(array $attributes, $result);
 
+    public function updateStatus(array $attributes, $result);
+
     public function delete($result);
 }

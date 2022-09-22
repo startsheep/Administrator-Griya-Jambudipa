@@ -10,6 +10,7 @@
                 class="btn btn-success"
                 data-toggle="modal"
                 data-target="#editCompanyModal"
+                @click="getProfile"
             >
                 Ubah
             </button>
@@ -18,14 +19,7 @@
             <div class="d-flex justify-content-center">
                 <div class="hero-head">
                     <div class="logo">
-                        <LightBox
-                            :image="
-                                profile.logo
-                                    ? 'storage/' + profile.logo
-                                    : '/assets/images/logo.png'
-                            "
-                        >
-                        </LightBox>
+
                         <img
                             data-toggle="modal"
                             data-target="#detailImage"
@@ -69,7 +63,16 @@
         <div class="card-footer"></div>
     </div>
 
-    <div
+      </section>
+      <LightBox
+                            :image="
+                                profile.logo
+                                    ? 'storage/' + profile.logo
+                                    : '/assets/images/logo.png'
+                            "
+                        >
+                        </LightBox>
+      <div
         class="modal fade"
         id="editCompanyModal"
         tabindex="-1"
@@ -168,7 +171,6 @@
             </div>
         </div>
     </div>
-      </section>
 
 </template>
 
@@ -179,7 +181,7 @@ export default Logic;
 </script>
 
 <style>
-.modal-backdrop {
+/* .modal-backdrop {
     position: fixed;
     height: 100vh;
     width: 100vw;
@@ -197,9 +199,9 @@ export default Logic;
 .modal-backdrop.show {
     opacity: 0.5;
     display: none;
-}
+} */
 
-.main-wrapper-1 .card .card-profil-header {
+/* .main-wrapper-1 .card .card-profil-header {
     margin-left: -30px;
     margin-right: -30px;
     margin-top: -10px;
@@ -207,11 +209,11 @@ export default Logic;
     border-top: 1px solid #f9f9f9;
     padding-left: 35px;
     padding-right: 35px;
-}
+} */
 
-.card-header {
+/* .card-header {
     padding: .75rem 1.25rem;
     margin-bottom: 0;
     margin-top: 10px;
-}
+} */
 </style>

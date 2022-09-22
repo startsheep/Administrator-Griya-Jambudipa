@@ -21,6 +21,7 @@
       <div class="row">
         <div class="col">
           <FormPayment @onSuccess="onSuccess()" />
+          <FormDepo :id="idPayment" @onSuccess="onSuccess()"/>
           <div class="card">
             <div class="card-header">
               <Button
@@ -64,7 +65,7 @@
                         <div class="media">
                           <figure class="avatar mr-2 avatar-md">
                             <img
-                              :src="'storage/customer' + payment.customer.image"
+                              :src="'storage/'+ payment.customer.image"
                               alt="..."
                             />
                             <i
@@ -105,19 +106,16 @@
                         </span>
                       </td>
                       <td class="align-middle text-center">
-                        <!-- <Actions
-                            @update="sendEdit(payment)"
-                              toggleEdit="collapse"
-                              targetEdit="#formUpdate"
-                              targetDetail="#detailPayment"
-                              :showDelete="false"
 
-                        /> -->
                         <Actions
                           toggleDetail="modal"
                           targetDetail="#detailPayment"
                           @detail="detailPayment(payment.id)"
                           :showDelete="false"
+                          labelEdit="Bayar"
+                          targetEdit="#formDeposit"
+                          toggleEdit="collapse"
+                          @update="sendId(payment.id)"
                         />
                       </td>
                     </tr>
@@ -160,6 +158,7 @@ import PaymentDetail from "./PaymentDetail.vue";
 import InputCurrency from "../../components/InputCurrency.vue";
 import FormPayment from "./FormPayment.vue";
 import Actions from "../../components/Actions.vue";
+import FormDepo from "./FormDepo.vue";
 export default {
   components: {
     Pagination,
@@ -170,7 +169,8 @@ export default {
     PaymentDetail,
     FormPayment,
     Actions,
-  },
+    FormDepo
+},
   data() {
     return {
       //data
@@ -182,12 +182,14 @@ export default {
         type: "",
         price: "",
       },
-
+      idPayment: null,
       house: null,
+    //   customer: null,
       payments: [
         //  make same data with deferent value
       ],
       customers: [],
+      customerKavling:[],
       selectedCustomer: null,
       selectedKavling: null,
       isLoading: false,
@@ -237,6 +239,9 @@ export default {
   methods: {
     detailPayment(data) {
       this.payment.id = data;
+    },
+    sendId(id){
+        this.idPayment = id;
     },
     getHouse() {
       const self = this;

@@ -56,7 +56,8 @@ class CreateEmployeeRequest extends FormRequest
             'image' => [
                 'required',
                 'image',
-                'mimes:png,jpg,jpeg'
+                'mimes:png,jpg,jpeg',
+                'max:5000'
             ],
         ];
     }
@@ -75,6 +76,7 @@ class CreateEmployeeRequest extends FormRequest
             'image.required' => "gambar harap diisi!",
             'image.image' => "harap masukan tipe data gambar!",
             'image.mimes' => "harap masukan tipe data png, jpg, jpeg!",
+            'image.max' => "ukuran file maksimal :max MB",
             'email.required' => ":attribute harap diisi!",
             'email.email' => "harap masukan :attribute yang benar!",
             'email.unique' => ":attribute sudah terdaftar!",

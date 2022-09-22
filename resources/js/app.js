@@ -5,7 +5,7 @@ import App from "./App.vue";
 import Auth from "./Auth.vue";
 import router from "./router";
 import store from "./store";
-
+import VueApexCharts from "vue3-apexcharts";
 import izitoast from "izitoast";
 import VueSweetalert2 from 'vue-sweetalert2';
 import  CKEditor from "@ckeditor/ckeditor5-vue";
@@ -20,7 +20,7 @@ import { bindAll } from "lodash";
 if(!Cookie.get("user") && !Cookie.get('token')){
 } else {
 }
-createApp(Auth).use(router).use(store).use(izitoast).use(VueSweetalert2).mount("#auth");
+createApp(Auth).use(router).use(store).use(izitoast).use(VueSweetalert2).use(VueApexCharts).mount("#auth");
 createApp(App).use(router).use(store).use(VueSweetalert2).use(CKEditor).mount("#app");
 
 

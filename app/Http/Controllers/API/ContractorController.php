@@ -63,6 +63,22 @@ class ContractorController extends Controller
         );
     }
 
+    public function updateActive(Request $request, $id)
+    {
+        $result = $this->contractorRepository->find($id);
+
+        $data = $this->contractorRepository->updateStatus($request->all(), $result);
+        $output = $data;
+        return response()->json(
+            [
+                'message' => $output['message'],
+                'type' => $output['type'],
+                'result' => $output['data']
+            ],
+            $output['status']
+        );
+    }
+
     public function delete($id)
     {
         $result = $this->contractorRepository->find($id);

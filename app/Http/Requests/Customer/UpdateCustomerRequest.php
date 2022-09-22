@@ -33,7 +33,7 @@ class UpdateCustomerRequest extends FormRequest
             'phone' => 'required|numeric',
             'profession' => 'required',
             'gender' => 'required',
-            'image' => 'image|mimes:png,jpg,jpeg',
+            'image' => 'image|mimes:png,jpg,jpeg|max:5000',
             'address' => 'required',
         ];
     }
@@ -52,6 +52,7 @@ class UpdateCustomerRequest extends FormRequest
             'email.email' => "Harap masukan :attribute yang benar!",
             'image.image' => "harap masukan tipe data gambar!",
             'image.mimes' => "harap masukan tipe data png, jpg, jpeg!",
+            'image.max' => "ukuran file maksimal :max MB"
         ];
     }
 

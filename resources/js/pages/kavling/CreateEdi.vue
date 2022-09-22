@@ -27,7 +27,7 @@
                         class="alert alert-primary alert-dismissible show fade"
                     >
                         <div class="alert-body">
-                           
+
                             Satuan Panjang dan Lebar Yang DIgunakan adalah
                             <Strong>Meter</Strong>
                         </div>
@@ -231,6 +231,7 @@ export default {
     methods: {
         hideModal() {
             $("#ModalKavling").hide("modal");
+            $('div').removeClass('modal-backdrop');
         },
         reset() {
             this.kavling = {
