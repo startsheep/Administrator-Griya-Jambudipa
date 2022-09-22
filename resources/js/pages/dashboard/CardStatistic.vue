@@ -1,7 +1,7 @@
 <template>
 
-    <div class="card card-statistic-2">
-      <div class="card-icon bg-primary">
+    <div class="card card-statistic-1">
+      <div class="card-icon " :class="'bg-'+backgroundColor">
         <i :class="icon"></i>
       </div>
       <div class="card-wrap">
@@ -28,7 +28,7 @@ export default {
             type: Number,
             default: 0,
         },
-        color: {
+        backgroundColor: {
             type: String,
             default: "primary",
         },
