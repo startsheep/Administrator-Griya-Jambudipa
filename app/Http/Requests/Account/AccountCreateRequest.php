@@ -30,7 +30,7 @@ class AccountCreateRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|numeric',
-            'image' => 'required|image|mimes:png,jpg,jpeg',
+            'image' => 'required|image|mimes:png,jpg,jpeg|max:5000',
         ];
     }
 
@@ -46,6 +46,7 @@ class AccountCreateRequest extends FormRequest
             'image.required' => "gambar harap diisi!",
             'image.image' => "harap masukan tipe data gambar!",
             'image.mimes' => "harap masukan tipe data png, jpg, jpeg!",
+            'image.max' => "ukuran file maksimal :max MB",
         ];
     }
 

@@ -33,7 +33,7 @@ class HouseTypeRequest extends FormRequest
         ];
 
         if (request()->images) {
-            $request['images'] = 'required';
+            $request['images'] = 'max:5000';
         }
 
         return $request;
@@ -45,7 +45,7 @@ class HouseTypeRequest extends FormRequest
             'house_type.required' => "tipe rumah harap diisi!",
             'description.required' => "keterangan harap diisi!",
             'price.required' => "harga harap diisi!",
-            'images' => "image harap diisi!"
+            'images.max' => "ukuran file maksimal :max MB"
         ];
     }
 

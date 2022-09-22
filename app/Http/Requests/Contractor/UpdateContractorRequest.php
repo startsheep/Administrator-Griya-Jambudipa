@@ -32,7 +32,7 @@ class UpdateContractorRequest extends FormRequest
             'email' => 'required|email',
             'address' => 'required',
             'pic_name' => 'required',
-            'image' => 'image|mimes:png,jpg,jpeg',
+            'image' => 'image|mimes:png,jpg,jpeg|max:5000',
         ];
 
         return $data;
@@ -50,6 +50,7 @@ class UpdateContractorRequest extends FormRequest
             'pic_name.required' => "nama pic harap diisi!",
             'image.image' => "harap masukan tipe data gambar!",
             'image.mimes' => "harap masukan tipe data png, jpg, jpeg!",
+            'image.max' => "ukuran file maksimal :max MB"
         ];
     }
 
