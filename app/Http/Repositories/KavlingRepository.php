@@ -63,6 +63,7 @@ class KavlingRepository implements KavlingContract
             $payment = Payment::where('customer_id', $customer_id)->where('kavling_id', $customerKavling->kavling_id)->first();
 
             if (!$payment) {
+                $customerKavling->kavling->houseType;
                 $data[] = $customerKavling;
             }
         }
