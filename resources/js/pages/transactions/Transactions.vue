@@ -87,7 +87,7 @@
                     </td>
                     <td>
                       <span
-                        v-if="transaction.reminderPayment < 1"
+
                         class="badge badge-success"
                       >
                         Lunas
