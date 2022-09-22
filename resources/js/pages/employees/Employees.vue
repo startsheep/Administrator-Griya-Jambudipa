@@ -78,15 +78,10 @@
                                             <div class="media">
                                                 <img
                                                     style="
-                                                        object-fit: contain;
-                                                        width: 50px;
-                                                        height: 50px;
-                                                    "
+                                                        object-fit: contain; width: 50px;
+                                                        height: 50px;"
                                                     class="img-thumbnail rounded-circle mr-2"
-                                                    :src="
-                                                        '/storage/' +
-                                                        employee.image
-                                                    "
+                                                    :src="'/storage/' +employee.image"
                                                     alt=""
                                                 />
                                                 <div class="media-body">
@@ -118,21 +113,28 @@
                                                 )
                                             }}</span>
                                         </td>
-                                        <td width="20%" class="align-middle">
-                                            <div
-                                                v-if="employee.isActive == 1"
-                                                class="badge badge-success"
-                                            >
-                                                Aktif
-                                            </div>
-                                            <div
-                                                v-else
-                                                class="badge badge-danger"
-                                            >
-                                                Aktif
-                                            </div>
+                                        <td>
+                                            <label class="" v-if="employee.id != 1">
+                                                <input
+                                                    type="checkbox"
+                                                    name="custom-switch-checkbox"
+                                                    class="custom-switch-input"
+                                                    :checked="
+                                                        employee.isActive == 1
+                                                    "
+                                                />
+                                                <span
+                                                    class="custom-switch-indicator"
+                                                    @click="
+                                                        updateStatus(
+                                                            employee.id,
+                                                            employee.isActive
+                                                        )
+                                                    "
+                                                ></span>
+                                            </label>
                                         </td>
-
+                                        
                                         <td width="20%" class="align-middle">
                                             <div
                                                 v-if="employee.status == 1"
@@ -170,10 +172,7 @@
                                     <tr>
                                         <td colspan="6">
                                             <EmptyData
-                                                v-if="
-                                                    !isLoading &&
-                                                    employees.length < 1
-                                                "
+                                                v-if=" !isLoading && employees.length < 1"
                                                 message="Data Pegawainya Ngga Ada"
                                             />
                                             <CircleLoader v-if="isLoading" />
@@ -213,6 +212,8 @@ export default {
     data() {
         return {
             employees: [],
+            employee:{},
+            status: 0,
             empId: "",
             // edit
             isLoading: false,
@@ -305,11 +306,38 @@ export default {
                     }
                 });
         },
-
         onPageChange(page) {
             //   this.isLoading = true;
             this.pagination.page = page;
             this.getEmployees();
+        },
+        updateStatus(id, status) {
+            let desc = "";
+            if (status == 1) {
+                status = 0;
+                desc = "Non-aktif";
+            } else {
+                status = 1;
+                desc = "Aktif";
+            }
+            var type = "updateData";
+            var url = [
+                "employee/active",
+                id,
+                {
+                    active: status,
+                },
+            ];
+            this.$store.dispatch(type, url).then((response) => {
+                if (response.type == "success") {
+                    iziToast.success({
+                        title: "Success",
+                        message: "Status " + desc,
+                        position: "topRight",
+                    });
+                    this.getEmployees();
+                }
+            });
         },
     },
     components: {
