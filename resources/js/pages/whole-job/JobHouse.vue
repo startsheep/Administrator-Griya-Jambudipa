@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <div class="section-header">    </div>
+    <div class="section-header"></div>
     <div class="row m-auto">
       <div class="col">
         <div class="card">
@@ -9,6 +9,7 @@
               data-toggle="modal"
               data-target="#FormHouse"
               class="btn btn-primary"
+              @click="idForEdit = null"
             >
               Tambah Borongan Rumah
             </button>
@@ -20,7 +21,7 @@
               </div>
             </div>
             <div class="table-responsive">
-              <table class="table table-striped">
+              <table class="table table-striped table-bordered">
                 <thead>
                   <tr>
                     <!-- <th class="text-center" scope="col">No</th> -->
@@ -94,7 +95,7 @@
       </div>
     </div>
   </section>
-  <FormHouse @onSuccess="onSuccess" />
+  <FormHouse @onSuccess="onSuccess" :id="idForEdit"/>
 </template>
 <script>
 import Utils from "../../store/services/utils";
@@ -106,6 +107,9 @@ import Pagination from "../../components/Pagination.vue";
 import EmptyData from "../../components/EmptyData.vue";
 import CircleLoader from "../../components/CircleLoader.vue";
 import iziToast from 'izitoast';
+
+// create action when hide when click outside modal clear all value in input
+
 export default {
   components: { ButtonsExport, Actions, FormHouse, Pagination, EmptyData, CircleLoader },
   computed: {
@@ -115,7 +119,7 @@ export default {
   },
   watch:{
     idForEdit(){
-        this.getJobById(this.idForEdit);
+
     }
   },
 

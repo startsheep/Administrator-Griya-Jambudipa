@@ -4,6 +4,9 @@
     :tittle="id ? 'Edit Borongan Rumah' : 'Formulir Borongan Rumah'"
     size="modal-lg"
     @onConfirm="createJobHouse()"
+    :loading="isLoading"
+    data-backdrop="static"
+    data-keyboard="false"
   >
     <template v-slot:body>
       <div class="row m-auto">
@@ -53,8 +56,9 @@
                   :key="kavling"
                   :value="kavling.kavling.houseTypeId"
                 >
-                  <span>Tipe: {{ kavling.kavling.houseType.houseType }} </span
-                  > || Blok:  <span
+                  <span>Tipe: {{ kavling.kavling.houseType.houseType }} </span>
+                  || Blok:
+                  <span
                     >{{ kavling.kavling.block }} -
                     {{ kavling.kavling.numberKavling }}</span
                   >
@@ -123,8 +127,10 @@ import Utils from "../../store/services/utils";
 import SummerNote from "../../components/SummerNote.vue";
 import InputCurrency from "../../components/InputCurrency.vue";
 import iziToast from "izitoast";
+import moment from "moment";
+
 export default {
-  props: [],
+  props: ["id"],
   components: { Modal, SummerNote, InputCurrency },
   data() {
     return {
@@ -142,19 +148,37 @@ export default {
       contractors: [],
       customers: [],
       kavlings: [],
-      houses: [],
+      //   houses: [],
+      isLoading: false,
 
       selectedCustomer: null,
     };
+  },
+  watch: {
+    id(newVal) {
+      if (newVal != null) {
+        this.getContract(newVal);
+      }else{
+        this.reset();
+      }
+    },
   },
   mounted() {
     this.getContractors();
     this.getCustomers();
     this.getHouse();
+    // if (this.id != null) {
+    //   this.getContract(this.id);
+    // }
   },
+
   computed: {
     formData() {
       let formData = new FormData();
+      if (this.id) {
+        formData.append("id", this.id);
+        formData.append("_method", "PUT");
+      }
       formData.append("contractor_id", this.contract.contractor_id);
       formData.append("customer_id", this.contract.customer_id);
       formData.append("house_type_id", this.contract.house_type_id);
@@ -169,6 +193,7 @@ export default {
       this.contract.documents.forEach((file, index) => {
         formData.append("documents[" + index + "]", file);
       });
+
       return formData;
     },
   },
@@ -177,6 +202,34 @@ export default {
       this.contract.documents = this.contract.documents.filter(
         (document) => document.name !== doc.name
       );
+    },
+    getContract(id) {
+      this.isLoading = true;
+      this.contract.documents = [];
+      this.$store.dispatch("showData", ["whole-job/" + id]).then((res) => {
+        console.log(res);
+        this.contract.contractor_id = res.data.contractor.id;
+        this.contract.customer_id = res.data.customer.id;
+        this.contract.payment_type = res.data.paymentType;
+        this.selectedCustomer = this.customers.find(
+          (c) => c.id === res.data.customer.id
+        );
+        this.kavlings = this.selectedCustomer.customerKavling;
+        this.contract.house_type_id = res.data.houseTypeId;
+        this.contract.description = res.data.description;
+        this.contract.start_date = moment(res.data.startDate).format(
+          "YYYY-MM-DD"
+        );
+        this.contract.end_date = moment(res.data.endDate).format("YYYY-MM-DD");
+        this.contract.budget = res.data.totalCost;
+        res.data.document.forEach((doc) => {
+          this.contract.documents.push({
+            name: doc.documentName,
+            path: doc.documentPath,
+          });
+        });
+        this.isLoading = false;
+      });
     },
     checkIsDocument(file) {
       const allowedExtensions = [
@@ -214,14 +267,13 @@ export default {
       $("div").removeClass("modal-backdrop");
     },
     pickCustomer(customer) {
-      console.log("pickCustomer=>", customer.contract.customer_id);
       // find customer by id in customers
+
       this.selectedCustomer = this.customers.find(
         (c) => c.id === customer.contract.customer_id
       );
-      // console.log('selectedCustomer=>',this.selectedCustomer)
       this.kavlings = this.selectedCustomer.customerKavling;
-      console.log("kavlings=>", this.kavlings);
+      // console.log('selectedCustomer=>',this.selectedCustomer)
     },
     getContractors() {
       const self = this;
@@ -235,9 +287,9 @@ export default {
         this.houses = response.data;
       });
     },
-    showHouse(id) {
-      return this.houses.find((house) => house.id === id);
-    },
+    // showHouse(id) {
+    //   return this.houses.find((house) => house.id === id);
+    // },
     getCustomers() {
       const self = this;
       self.$store.dispatch("getData", ["customer"]).then((response) => {
@@ -246,15 +298,23 @@ export default {
     },
     createJobHouse() {
       const self = this;
-      const type = "postDataUploadJob";
+      const type = this.id ? "updateDataUploadJob" : "postDataUploadJob";
       const formData = self.formData;
+      this.isLoading = true;
       self.$store
-        .dispatch(type, formData, "whole-job")
+        .dispatch(
+          type,
+          formData,
+          this.id ? "whole-job/" + this.id : "whole-job"
+        )
         .then((response) => {
           //   hide this. modal
           this.$emit("onSuccess");
           this.hideModal();
-          this.reset();
+          if (this.id == null) {
+            this.reset();
+          }
+          this.isLoading = false;
           iziToast.success({
             title: "Berhasil",
             message: "Data berhasil disimpan",
@@ -272,8 +332,10 @@ export default {
               });
             });
           }
+          this.isLoading = false;
         });
     },
+
     reset() {
       this.contract = {
         contractor_id: "",
