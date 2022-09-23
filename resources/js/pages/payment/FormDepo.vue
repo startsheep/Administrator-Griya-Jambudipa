@@ -2,6 +2,7 @@
   <div class="collapse" id="formDeposit">
     <div class="row d-flex justify-content-center">
       <div class="card" style="width: 80%">
+        <LoadingComponent v-if="isLoading" />
         <div class="card-header">
           <h4>Formulir Pembayaran {{ idEmployee }}</h4>
         </div>
@@ -88,6 +89,7 @@
             data-toggle="collapse"
             data-target="#formDeposit"
             class="btn btn-danger btn-block"
+            @click="resetForm()"
           >
             Batal
           </button>
@@ -99,20 +101,14 @@
 <style>
 .custom-box {
   margin-bottom: 5px;
-  /* padding: 10px;
-        border: 1px solid rgba(218, 218, 218, 0.971);
-        background-color: rgb(215, 223, 255);
-        border-radius: 10px;
-        margin-bottom: 10px;
-        margin-right: 5px; */
-  /* width: fit-content; */
-  /*  */
 }
 </style>
 <script>
 import Utils from "../../store/services/utils";
 import InputCurrency from "../../components/InputCurrency.vue";
 import Cookie from "js-cookie";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import iziToast from "izitoast";
 export default {
   props: ["id"],
   data() {
@@ -121,6 +117,7 @@ export default {
       //   selectedKavling: '',
       budget: "",
       documents: [],
+      isLoading: false,
     };
   },
   watch: {
@@ -137,10 +134,14 @@ export default {
     formData() {
       const formData = new FormData();
       formData.append("customer_id", this.payment.customer.id);
-    //   formData.append("employee_id", this.payment.employeeId);
+      //   formData.append("employee_id", this.payment.employeeId);
       formData.append("kavling_id", this.payment.block.id);
       formData.append("type", this.payment.type);
-      formData.append("price", Utils.currencyToNumber(this.budget));
+
+      if (this.budget) {
+        formData.append("price", Utils.currencyToNumber(this.budget));
+      }
+
       this.documents.forEach((document, index) => {
         formData.append("documents[" + index + "]", document);
       });
@@ -148,8 +149,8 @@ export default {
     },
   },
   methods: {
-    removeDocument(doc){
-        this.documents = this.documents.filter(document => document !== doc)
+    removeDocument(doc) {
+      this.documents = this.documents.filter((document) => document !== doc);
     },
     formatRupiah(num) {
       return Utils.formatRupiah(num, "Rp.");
@@ -180,12 +181,15 @@ export default {
     },
     createPayment() {
       const self = this;
-      let type = "postDataUploadPayment"
+      let type = "postDataUploadPayment";
+      this.isLoading = true;
       self.$store
-        .dispatch(type, this.formData , 'payment')
+        .dispatch(type, this.formData, "payment")
         .then((res) => {
           this.$emit("onSuccess");
           $("#formDeposit").collapse("hide");
+          this.isLoading = false;
+          this.resetForm()
         })
         .catch((err) => {
           let messages = err.response.data.meta.message;
@@ -196,9 +200,15 @@ export default {
               position: "topRight",
             });
           });
+          this.isLoading = false;
         });
     },
+    resetForm(){
+        // this.payment = null;
+        // this.budget = "";
+        this.documents = [];
+    }
   },
-  components: { InputCurrency },
+  components: { InputCurrency, LoadingComponent },
 };
 </script>
