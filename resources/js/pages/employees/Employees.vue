@@ -134,7 +134,7 @@
                                                 ></span>
                                             </label>
                                         </td>
-                                        
+
                                         <td width="20%" class="align-middle">
                                             <div
                                                 v-if="employee.status == 1"
@@ -193,8 +193,8 @@
                 </div>
             </div>
         </div>
-        <DetailEmployee :id="empId" />
     </section>
+    <DetailEmployee :id="empId" />
 </template>
 <script>
 import iziToast from "izitoast";
