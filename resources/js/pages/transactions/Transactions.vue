@@ -206,7 +206,7 @@ export default {
         this.filter.from = moment().format("YYYY-MM");
         this.filter.to = null;
         this.getTransactions();
-    }
+    },
 
   },
   components: { ButtonsExport, Pagination, CircleLoader, EmptyData, DetailTransaction, Actions },
