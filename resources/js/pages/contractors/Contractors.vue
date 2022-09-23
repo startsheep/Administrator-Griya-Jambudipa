@@ -65,25 +65,19 @@
                       <td width="20%" class="align-middle">
                         <span>{{ contractor.phone }}</span>
                       </td>
-                    
+
                       <td width="20%" class="align-middle">
-                      <label class="" v-if="contractor.id != 2">
-                                                <input
-                                                    type="checkbox"
-                                                    name="custom-switch-checkbox"
-                                                    class="custom-switch-input"
-                                                    :checked="contractor.status == 1"
-                                                />
-                                                <span
-                                                    class="custom-switch-indicator"
-                                                    @click="
-                                                        updateStatus(
-                                                            contractor.id,
-                                                            contractor.status
-                                                        )
-                                                    "
-                                                ></span>
-                                            </label>
+                      <label class="" >
+                        <input type="checkbox" name="custom-switch-checkbox"
+                        class="custom-switch-input"
+                        :checked="contractor.status == 1"
+                        />
+                        <span
+                        class="custom-switch-indicator"
+                        @click=" updateStatus(contractor.id,
+                        contractor.status ) ">
+                        </span>
+                    </label>
                     </td>
                       <td width="10%" class="align-middle text-center">
                            <Actions
@@ -94,7 +88,7 @@
                       </td>
                     </tr>
                       <td colspan="5">
-                        <EmptyData v-if="!isLoading && contractors.length < 1" message="Data Pemborong Ngga Ada"/>
+                        <EmptyData v-if="!isLoading && contractors.length < 1" message="Data Pemborong Tidak Ada"/>
                         <CircleLoader v-if="isLoading" />
                     </td>
                   </tbody>
@@ -197,7 +191,7 @@
                 .dispatch("deleteData", ["contractor", id])
                 .then((response) => {
                   iziToast.success({
-                    title: "Success",
+                    title: "Berhasil",
                     message: "Data berhasil dihapus",
                     position: "topRight",
                   });
@@ -230,7 +224,7 @@
             this.$store.dispatch(type, url).then((response) => {
                 if (response.type == "success") {
                     iziToast.success({
-                        title: "Success",
+                        title: "Berhasil",
                         message: "Status Borongan " + desc,
                         position: "topRight",
                     });

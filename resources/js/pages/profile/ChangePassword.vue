@@ -1,14 +1,14 @@
 <template>
     <section class="section profile">
         <div class="section-header">
-            <h4>Ubah Password</h4>
+            <h4>Ubah Sandi</h4>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <form class="card" @submit.prevent="handleSubmit">
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="oldPassword">Password Lama</label>
+                            <label for="oldPassword">Sandi Lama</label>
                             <input
                                 type="password"
                                 id="oldPassword"
@@ -17,7 +17,7 @@
                             />
                         </div>
                         <div class="form-group">
-                            <label for="newPassword">Password Baru</label>
+                            <label for="newPassword">Sandi Baru</label>
                             <input
                                 type="password"
                                 id="newPassword"
@@ -27,7 +27,7 @@
                         </div>
                         <div class="form-group">
                             <label for="confirmPassword"
-                                >Konfirmasi Password</label
+                                >Konfirmasi Sandi</label
                             >
                             <input
                                 type="password"
@@ -95,7 +95,7 @@ export default {
                     this.form.confirmPassword = "";
                     this.isSubmit = false;
                     iziToast.success({
-                        title: "Success",
+                        title: "Berhasil",
                         message: "Data berhasil diubah",
                         position: "topRight",
                     });
@@ -107,14 +107,14 @@ export default {
                         let messages = err.response.data.meta.message;
                         Object.entries(messages).forEach(([key, value]) => {
                             iziToast.warning({
-                                title: "Warning",
+                                title: "Peringatan",
                                 message: value,
                                 position: "topRight",
                             });
                         });
                     } else {
                         iziToast.warning({
-                            title: "Warning",
+                            title: "Peringatan",
                             message: err.response.data.message,
                             position: "topRight",
                         });

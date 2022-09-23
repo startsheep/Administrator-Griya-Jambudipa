@@ -63,7 +63,7 @@
                                         <th>Nama</th>
                                         <th>Email</th>
                                         <th>Nomor Telepon</th>
-                                        <th>Blok dan nomor kavling</th>
+                                        <th>Blok dan Nomor Kavling</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
@@ -168,7 +168,7 @@
                                                 !isLoading &&
                                                 customers.length < 1
                                             "
-                                            message="Data Customer Ngga Ada"
+                                            message="Data Customer Tidak Ada"
                                         />
                                         <CircleLoader v-if="isLoading" />
                                     </td>
@@ -288,7 +288,7 @@ export default {
                             .dispatch("deleteData", ["customer", id])
                             .then((response) => {
                                 iziToast.success({
-                                    title: "Success",
+                                    title: "Berhasil",
                                     message: "Data berhasil dihapus",
                                     position: "topRight",
                                 });

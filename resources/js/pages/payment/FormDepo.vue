@@ -45,7 +45,7 @@
                   <InputCurrency v-model="budget" :value="budget" />
                 </div>
                 <div class="form-group col-lg-6">
-                  <label>Jenis Pembayaram</label>
+                  <label>Jenis Pembayaran</label>
                   <select class="form-control" v-model="payment.type">
                     <option value="Cash Keras">Cash Keras</option>
                     <option value="Cash Bertahap">Cash Bertahap</option>
@@ -191,7 +191,7 @@ export default {
           let messages = err.response.data.meta.message;
           Object.entries(messages).forEach(([key, value]) => {
             iziToast.warning({
-              title: "Warning",
+              title: "Peringatan",
               message: value,
               position: "topRight",
             });

@@ -5,19 +5,19 @@
         <input
           type="text"
           v-model="landPrice.description"
-          placeholder="Masukin Uraian"
+          placeholder="Masukan Uraian"
           class="form-control form-control m-2"
         />
         <input
           type="number"
           v-model="landPrice.volume"
-          placeholder="Masukin Volume"
+          placeholder="Masukan Volume"
           class="form-control form-control m-2"
         />
         <input
           type="text"
           v-model="landPrice.unit"
-          placeholder="Masukin Satuan"
+          placeholder="Masukan Satuan"
           class="form-control form-control m-2"
         />
        <InputCurrency   placeholder="Harga" :value="landPrice.price" v-model="landPrice.price"  class="form-control form-control m-2"
@@ -27,7 +27,7 @@
           type="number"
           v-model="landPrice.amount"
           @keyup="sumTotal()"
-          placeholder="Masukin Jumlah"
+          placeholder="Masukan Jumlah"
           class="form-control form-control m-2"
           />
           <InputCurrency   disabled placeholder="Total" :value="landPrice.total" v-model="landPrice.total"  class="form-control form-control m-2"

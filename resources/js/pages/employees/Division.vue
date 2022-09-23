@@ -42,7 +42,7 @@
                     </td>
                   </tr>
                      <td colspan="3"     >
-                        <EmptyData v-if="!isLoading && divisions.length < 1" message="Datanya Ngga Ada"/>
+                        <EmptyData v-if="!isLoading && divisions.length < 1" message="Datanya Tidak Ada"/>
                         <CircleLoader v-if="isLoading" />
                     </td>
                 </tbody>
@@ -177,14 +177,14 @@ export default {
           self.division.name = "";
           self.division.salary = "";
           iziToast.success({
-            title: "Success",
+            title: "Berhasil",
             message: "Data berhasil ditambahkan",
             position: "topRight",
           });
         })
         .catch((err) => {
           iziToast.error({
-            title: "Error",
+            title: "Galat",
             message: "Data gagal ditambahkan",
             position: "topRight",
           });
@@ -227,7 +227,7 @@ export default {
               .dispatch("deleteData", ["position", id])
               .then((response) => {
                 iziToast.success({
-                  title: "Success",
+                  title: "Berhasil",
                   message: "Data berhasil dihapus",
                   position: "topRight",
                 });
@@ -260,7 +260,7 @@ export default {
       // self.isEditForm = true
       self.$store.dispatch("updateData", url).then((response) => {
         iziToast.success({
-          title: "Success",
+          title: "Berhasil",
           message: "Data berhasil diubah",
           position: "topRight",
         });

@@ -172,7 +172,7 @@ export default {
                         this.emptyForm();
                         this.$emit("onSuccess", result);
                         iziToast.success({
-                            title: "Success",
+                            title: "Berhasil",
                             message: "Data berhasil diubah",
                             position: "topRight",
                         });
@@ -183,7 +183,7 @@ export default {
                         let messages = err.response.data.meta.message;
                         Object.entries(messages).forEach(([key, value]) => {
                             iziToast.warning({
-                                title: "Warning",
+                                title: "Peringatn",
                                 message: value,
                                 position: "topRight",
                             });
@@ -200,7 +200,7 @@ export default {
                         this.emptyForm();
 
                         iziToast.success({
-                            title: "Success",
+                            title: "Berhasil",
                             message: "Data berhasil ditambah",
                             position: "topRight",
                         });
@@ -213,7 +213,7 @@ export default {
                         let messages = err.response.data.meta.message;
                         Object.entries(messages).forEach(([key, value]) => {
                             iziToast.warning({
-                                title: "Warning",
+                                title: "Peringatan",
                                 message: value,
                                 position: "topRight",
                             });

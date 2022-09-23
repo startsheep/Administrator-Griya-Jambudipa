@@ -135,7 +135,7 @@
                                             v-if="
                                                 !isLoading && users.length < 1
                                             "
-                                            message="Datanya Ngga Ada"
+                                            message="Datanya Tidak Ada"
                                         />
                                         <CircleLoader v-if="isLoading" />
                                     </td>

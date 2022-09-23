@@ -11,8 +11,8 @@
               <button class="close" data-dismiss="alert">
                 <span>×</span>
               </button>
-              <b>Info!</b> Form ini merupakan untuk penyetoran / Pembayaran
-              customer.
+              <b>Info!</b> Form ini merupakan untuk Penyetoran / Pembayaran
+              Customer
             </div>
           </div>
           <div class="form-col">
@@ -246,7 +246,7 @@ export default {
           let messages = err.response.data.meta.message;
           Object.entries(messages).forEach(([key, value]) => {
             iziToast.warning({
-              title: "Warning",
+              title: "Peringatan",
               message: value,
               position: "topRight",
             });
