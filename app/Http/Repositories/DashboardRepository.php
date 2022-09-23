@@ -4,7 +4,10 @@ namespace App\Http\Repositories;
 
 use App\Http\Repositories\Contracts\DashboardContract;
 use App\Http\Repositories\BaseRepository;
+use App\Models\Contractor;
 use App\Models\Customer;
+use App\Models\Employee;
+use App\Models\HouseType;
 use App\Models\Kavling;
 use App\Models\Payment;
 use App\Models\WholeJob;
@@ -71,6 +74,58 @@ class DashboardRepository implements DashboardContract
         ], 200);
     }
 
+    public function countEmployee()
+    {
+        $employeeActive = Employee::where('is_active', 1)->get()->count();
+        $employeeNoActive = Employee::where('is_active', '!=', 1)->get()->count();
+
+        return response()->json([
+            'message' => 'success',
+            'data' => [
+                'employee_active' => $employeeActive,
+                'employee_no_active' => $employeeNoActive,
+            ]
+        ], 200);
+    }
+
+    public function countContractor()
+    {
+        $contractorActive = Contractor::where('status', 1)->get()->count();
+        $contractorNoActive = Contractor::where('status', '!=', 1)->get()->count();
+
+        return response()->json([
+            'message' => 'success',
+            'data' => [
+                'contractor_active' => $contractorActive,
+                'contractor_no_active' => $contractorNoActive,
+            ]
+        ], 200);
+    }
+
+    public function countKavling()
+    {
+        $kavling = Kavling::all()->count();
+
+        return response()->json([
+            'message' => 'success',
+            'data' => [
+                'kavling' => $kavling,
+            ]
+        ], 200);
+    }
+
+    public function countHouseType()
+    {
+        $houseType = HouseType::all()->count();
+
+        return response()->json([
+            'message' => 'success',
+            'data' => [
+                'house_type' => $houseType,
+            ]
+        ], 200);
+    }
+
     public function kavling()
     {
         $kavlings = Kavling::all();
@@ -131,11 +186,12 @@ class DashboardRepository implements DashboardContract
             ->groupBy(DB::raw("date"))->get();
 
         $payments2 = Payment::all();
+        $wholeJobs = WholeJob::all();
 
         foreach ($payments as $key => $item) {
             $counters[$item->date] = [
                 "pemasukan" => $this->income($payments2[$key]),
-                "pengeluaran" => 0
+                "pengeluaran" => $this->expense($wholeJobs[$key])
             ];
         }
 
@@ -150,6 +206,16 @@ class DashboardRepository implements DashboardContract
         $carbon = Carbon::now();
         $month = $carbon->endOfYear()->format('m');
         return $month;
+    }
+
+    protected function expense($result)
+    {
+        $price = 0;
+        foreach ($result as $item) {
+            $price += $item->total_cost;
+        }
+
+        return $price;
     }
 
     protected function income($result)
