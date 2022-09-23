@@ -3,8 +3,9 @@
     <div class="row d-flex justify-content-center">
       <div class="card" style="width: 80%">
         <div class="card-header">
-          <h4>Formulir Pembayaran</h4>
+            <h4>Formulir Pembayaran</h4>
         </div>
+        <LoadingComponent v-if="isLoading" />
         <div class="card-body">
           <div class="alert alert-primary alert-dismissible show fade mb-4">
             <div class="alert-body">
@@ -157,6 +158,7 @@ import Cookie from "js-cookie";
 import InputCurrency from "../../components/InputCurrency.vue";
 import Utils from "../../store/services/utils";
 import iziToast from "izitoast";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
   data() {
@@ -176,6 +178,7 @@ export default {
       selectedCustomer: null,
       selectedKavling: null,
       house: null,
+      isLoading: false,
     };
   },
   watch: {
@@ -192,7 +195,10 @@ export default {
       const formData = new FormData();
       formData.append("customer_id", this.payment.customerId);
       formData.append("employee_id", this.payment.employeeId);
-      formData.append("kavling_id", this.selectedKavling.id);
+      if (this.selectedKavling) {
+        formData.append("kavling_id", this.selectedKavling.id);
+      }
+
       formData.append("type", this.payment.type);
       formData.append("price", Utils.currencyToNumber(this.payment.price));
       this.payment.documents.forEach((document, index) => {
@@ -206,8 +212,10 @@ export default {
   },
 
   methods: {
-    removeDocument(dov){
-        this.payment.documents = this.payment.documents.filter(document => document !== dov)
+    removeDocument(dov) {
+      this.payment.documents = this.payment.documents.filter(
+        (document) => document !== dov
+      );
     },
     formatRupiah(value) {
       return Utils.formatRupiah(value, "Rp. ");
@@ -235,12 +243,14 @@ export default {
     createPayment() {
       const self = this;
       let type = "postDataUploadPayment";
+      this.isLoading = true;
       self.$store
         .dispatch(type, this.formData, "payment")
         .then((res) => {
           this.$emit("onSuccess");
           $("#formCreate").collapse("hide");
           this.resetForm();
+          this.isLoading = false;
         })
         .catch((err) => {
           let messages = err.response.data.meta.message;
@@ -250,6 +260,7 @@ export default {
               message: value,
               position: "topRight",
             });
+            this.isLoading = false;
           });
         });
     },
@@ -304,7 +315,7 @@ export default {
       this.house = null;
     },
   },
-  components: { InputCurrency },
+  components: { InputCurrency, LoadingComponent },
 };
 </script>
 <style>
