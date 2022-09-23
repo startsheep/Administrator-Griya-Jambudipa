@@ -11,7 +11,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="formPasswordLabel">
-                        Edit Password {{ name }}
+                        Edit Sandi {{ name }}
                     </h5>
                     <button
                         type="button"
@@ -26,7 +26,7 @@
                 <form @submit.prevent="handleSubmit">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="password">Password</label>
+                            <label for="password">Sandi</label>
                             <input
                                 type="password"
                                 class="form-control"
@@ -36,7 +36,7 @@
                         </div>
                         <div class="form-group">
                             <label for="confirm_password"
-                                >Password Konfirmasi</label
+                                >Konfirmasi Sandi</label
                             >
                             <input
                                 type="password"
@@ -96,7 +96,7 @@ export default {
                     this.emptyForm();
                     this.$emit("onSuccess", result);
                     iziToast.success({
-                        title: "Success",
+                        title: "Berhasil",
                         message: "Data berhasil diubah",
                         position: "topRight",
                     });
@@ -106,7 +106,7 @@ export default {
                     let messages = err.response.data.meta.message;
                     Object.entries(messages).forEach(([key, value]) => {
                         iziToast.warning({
-                            title: "Warning",
+                            title: "Peringatan",
                             message: value,
                             position: "topRight",
                         });

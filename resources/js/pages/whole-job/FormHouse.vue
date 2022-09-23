@@ -256,7 +256,7 @@ export default {
           this.hideModal();
           this.reset();
           iziToast.success({
-            title: "Success",
+            title: "Berhasil",
             message: "Data berhasil disimpan",
             position: "topRight",
           });
@@ -266,7 +266,7 @@ export default {
           if (messages) {
             Object.entries(messages).forEach(([key, value]) => {
               iziToast.warning({
-                title: "Warning",
+                title: "Peringatan",
                 message: value,
                 position: "topRight",
               });

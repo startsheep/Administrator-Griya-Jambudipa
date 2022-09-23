@@ -406,7 +406,7 @@
                     </td>
                   </tr>
                     <td colspan="8" >
-                        <EmptyData v-if="!isLoading && buildingCategories.length < 1" message="Data Ngga Ada"/>
+                        <EmptyData v-if="!isLoading && buildingCategories.length < 1" message="Data Tidak Ada"/>
                         <CircleLoader v-if="isLoading" />
                     </td>
                 </tbody>
@@ -555,7 +555,7 @@ export default {
 
       self.$store.dispatch("postData", url).then((res) => {
         iziToast.success({
-          title: "Success",
+          title: "Berhasil",
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
@@ -586,7 +586,7 @@ export default {
               .dispatch("deleteData", ["basic-price-category", id])
               .then((response) => {
                 iziToast.success({
-                  title: "Success",
+                  title: "Berhasil",
                   message: "Data berhasil dihapus",
                   position: "topRight",
                 });
@@ -607,7 +607,7 @@ export default {
       ];
       self.$store.dispatch("updateData", url).then((res) => {
         iziToast.success({
-          title: "Success",
+          title: "Berhasil",
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
@@ -633,7 +633,7 @@ export default {
       ];
       self.$store.dispatch("updateData", url).then((res) => {
         iziToast.success({
-          title: "Success",
+          title: "Berhasil",
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
@@ -679,7 +679,7 @@ export default {
         .dispatch("postData", url)
         .then((res) => {
           iziToast.success({
-            title: "Success",
+            title: "Berhasil",
             message: "Data Berhasil Disimpan",
             position: "topRight",
           });
@@ -689,7 +689,7 @@ export default {
         })
         .catch((err) => {
           iziToast.error({
-            title: "Error",
+            title: "Galat",
             message: "Data Gagal Disimpan",
             position: "topRight",
           });
@@ -717,7 +717,7 @@ export default {
         .dispatch("postData", url)
         .then((res) => {
           iziToast.success({
-            title: "Success",
+            title: "Berhasil",
             message: "Data Berhasil Disimpan",
             position: "topRight",
           });
@@ -727,7 +727,7 @@ export default {
         })
         .catch((err) => {
           iziToast.error({
-            title: "Error",
+            title: "Galat",
             message: "Data Gagal Disimpan",
             position: "topRight",
           });
@@ -758,7 +758,7 @@ export default {
               .dispatch("deleteData", ["basic-price", id])
               .then((response) => {
                 iziToast.success({
-                  title: "Success",
+                  title: "Berhasil",
                   message: "Data berhasil dihapus",
                   position: "topRight",
                 });

@@ -1,7 +1,7 @@
 <template>
   <input
     v-model="password"
-    :type="showPassword ? 'text' : 'password'"
+    :type="showPassword ? 'text' : 'Sandi'"
     class="form-control"
     @input="handleInput"
   />

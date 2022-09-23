@@ -115,14 +115,14 @@ export default {
       if (this.newPass) {
         if (self.newPass.length < 8) {
           iziToast.error({
-            title: "Error",
+            title: "Galat",
             message: "Password minimal 8 karakter",
             position: "topRight",
           });
         } else {
           if (self.confirmPass !== self.newPass) {
             iziToast.error({
-              title: "Error",
+              title: "Galat",
               message: "Password tidak sama",
               position: "topRight",
             });
@@ -150,7 +150,7 @@ export default {
         .dispatch("postData", url)
         .then((res) => {
             iziToast.success({
-                title: "Success",
+                title: "Berhasil",
                 message: "Password berhasil diubah",
                 position: "topRight",
                 onOpened: ()=>{

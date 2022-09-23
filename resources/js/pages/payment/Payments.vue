@@ -50,7 +50,7 @@
                   <thead>
                     <tr>
                       <th>Nama</th>
-                      <th>Nomor telepon</th>
+                      <th>Nomor Telepon</th>
                       <th>Blok / Kavling</th>
                       <th>Tipe Rumah</th>
                       <th>Harga Rumah</th>
@@ -122,7 +122,7 @@
                     <td colspan="8">
                       <EmptyData
                         v-if="!isLoading && payments.length < 1"
-                        message="Data Pembayaran Ngga Ada"
+                        message="Data Pembayaran Tidak Ada"
                       />
                       <CircleLoader v-if="isLoading" />
                     </td>
@@ -314,7 +314,7 @@ export default {
     },
     onSuccess() {
       iziToast.success({
-        title: "Success",
+        title: "Berhasil",
         message: "Data berhasil ditambahkan",
         position: "topRight",
       });
@@ -340,7 +340,7 @@ export default {
       ];
       self.$store.dispatch("postData", url).then((res) => {
         iziToast.success({
-          title: "Success",
+          title: "Berhasil",
           message: "Data berhasil diubah",
           position: "topRight",
         });
@@ -371,7 +371,7 @@ export default {
               .dispatch("deleteData", ["payment", id])
               .then((response) => {
                 iziToast.success({
-                  title: "Success",
+                  title: "Berhasil",
                   message: "Data berhasil dihapus",
                   position: "topRight",
                 });

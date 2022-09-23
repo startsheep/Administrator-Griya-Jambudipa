@@ -114,7 +114,7 @@
                             class="btn btn-primary btn-block"
                             type="button"
                         >
-                            {{ id ? "Update" : "Tambah" }}
+                            {{ id ? "Simpan" : "Tambah" }}
                         </button>
                         <button
                             @click="back"
@@ -234,7 +234,7 @@ export default {
                 this.previewImage = URL.createObjectURL(file);
             } else {
                 iziToast.warning({
-                    title: "Warning",
+                    title: "Peringatan",
                     message: "File harus berformat jpg, png, jpeg",
                     position: "topRight",
                 });
@@ -262,7 +262,7 @@ export default {
                     let messages = err.response.data.meta.message;
                     Object.entries(messages).forEach(([key, value]) => {
                         iziToast.warning({
-                            title: "Warning",
+                            title: "Peringatan",
                             message: value,
                             position: "topRight",
                         });
@@ -304,7 +304,7 @@ export default {
                     let messages = err.response.data.meta.message;
                     Object.entries(messages).forEach(([key, value]) => {
                         iziToast.warning({
-                            title: "Warning",
+                            title: "Peringatan",
                             message: value,
                             position: "topRight",
                         });

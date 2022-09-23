@@ -47,11 +47,11 @@
                                     <input
                                         v-model="user.password"
                                         :type="
-                                            showPassword ? 'text' : 'password'
+                                            showPassword ? 'text' : 'sandi'
                                         "
                                         class="form-control"
                                         required
-                                        placeholder="Enter your password"
+                                        placeholder="Enter sandi anda"
                                     />
                                     <div class="input-group-append">
                                         <span
@@ -75,7 +75,7 @@
                                     class="btn btn-primary btn-lg btn-block"
                                     tabindex="4"
                                 >
-                                    Login
+                                    Masuk
                                 </button>
                             </div>
                         </form>
@@ -125,8 +125,8 @@ export default {
                 })
                 .catch((error) => {
                     iziToast.error({
-                        title: "Gagal",
-                        message: "Periksa Email dan Password",
+                        title: "Galat",
+                        message: "Periksa Email dan Sandi",
                         position: "topCenter",
                     });
 

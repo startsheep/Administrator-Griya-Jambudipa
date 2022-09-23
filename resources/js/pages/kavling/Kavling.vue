@@ -277,7 +277,7 @@ export default {
               .dispatch("deleteData", ["kavling", id])
               .then((response) => {
                 iziToast.success({
-                  title: "Success",
+                  title: "Berhasil",
                   message: "Data berhasil dihapus",
                   position: "topRight",
                 });
