@@ -186,11 +186,12 @@ class DashboardRepository implements DashboardContract
             ->groupBy(DB::raw("date"))->get();
 
         $payments2 = Payment::all();
+        $wholeJobs = WholeJob::all();
 
         foreach ($payments as $key => $item) {
             $counters[$item->date] = [
                 "pemasukan" => $this->income($payments2[$key]),
-                "pengeluaran" => 0
+                "pengeluaran" => $this->expense($wholeJobs[$key])
             ];
         }
 
@@ -205,6 +206,16 @@ class DashboardRepository implements DashboardContract
         $carbon = Carbon::now();
         $month = $carbon->endOfYear()->format('m');
         return $month;
+    }
+
+    protected function expense($result)
+    {
+        $price = 0;
+        foreach ($result as $item) {
+            $price += $item->total_cost;
+        }
+
+        return $price;
     }
 
     protected function income($result)
