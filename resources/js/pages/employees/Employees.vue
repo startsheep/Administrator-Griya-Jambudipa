@@ -114,7 +114,7 @@
                                             }}</span>
                                         </td>
                                         <td>
-                                            <label class="" v-if="employee.id != 1">
+                                            <label class="">
                                                 <input
                                                     type="checkbox"
                                                     name="custom-switch-checkbox"

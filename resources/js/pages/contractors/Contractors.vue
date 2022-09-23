@@ -67,23 +67,17 @@
                       </td>
                     
                       <td width="20%" class="align-middle">
-                      <label class="" v-if="contractor.id != 2">
-                                                <input
-                                                    type="checkbox"
-                                                    name="custom-switch-checkbox"
-                                                    class="custom-switch-input"
-                                                    :checked="contractor.status == 1"
-                                                />
-                                                <span
-                                                    class="custom-switch-indicator"
-                                                    @click="
-                                                        updateStatus(
-                                                            contractor.id,
-                                                            contractor.status
-                                                        )
-                                                    "
-                                                ></span>
-                                            </label>
+                      <label class="">
+                        <input type="checkbox" name="custom-switch-checkbox"
+                        class="custom-switch-input"
+                        :checked="contractor.status == 1"
+                        />
+                        <span
+                        class="custom-switch-indicator"
+                        @click=" updateStatus(contractor.id,
+                        contractor.status ) ">
+                        </span>
+                    </label>
                     </td>
                       <td width="10%" class="align-middle text-center">
                            <Actions
