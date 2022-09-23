@@ -42,15 +42,39 @@
               <div class="form-row">
                 <div class="form-group col-lg-6">
                   <label>Uang Masuk</label>
-                  <InputCurrency v-model="budget" :value="budget"/>
+                  <InputCurrency v-model="budget" :value="budget" />
                 </div>
-               <div class="form-group col-lg-6">
+                <div class="form-group col-lg-6">
                   <label>Jenis Pembayaran</label>
                   <select class="form-control" v-model="payment.type">
                     <option value="Cash Keras">Cash Keras</option>
                     <option value="Cash Bertahap">Cash Bertahap</option>
                     <option value="KPR">KPR</option>
                   </select>
+                </div>
+                <div class="form-group col-lg-4">
+                  <div class="custom-file form-group">
+                    <input
+                      @change="selectDocuments"
+                      type="file"
+                      class="custom-file-input"
+                      multiple
+                    />
+                    <label class="custom-file-label">Pilih Dokumen</label>
+                  </div>
+                </div>
+                <div class="form-group col-lg-8">
+                  <div
+                    v-for="document in documents"
+                    :key="document"
+                    class="badge badge-primary m-1 p-2"
+                  >
+                    {{ document.name }}
+                    <i
+                      class="fas fa-times sortable"
+                      @click="removeDocument(document)"
+                    ></i>
+                  </div>
                 </div>
               </div>
             </div>
@@ -94,8 +118,9 @@ export default {
   data() {
     return {
       payment: null,
-    //   selectedKavling: '',
-        budget:""
+      //   selectedKavling: '',
+      budget: "",
+      documents: [],
     };
   },
   watch: {
@@ -108,11 +133,44 @@ export default {
       this.getPayment(this.id);
     }
   },
-  computed:{
+  computed: {
+    formData() {
+      const formData = new FormData();
+      formData.append("customer_id", this.payment.customer.id);
+    //   formData.append("employee_id", this.payment.employeeId);
+      formData.append("kavling_id", this.payment.block.id);
+      formData.append("type", this.payment.type);
+      formData.append("price", Utils.currencyToNumber(this.budget));
+      this.documents.forEach((document, index) => {
+        formData.append("documents[" + index + "]", document);
+      });
+      return formData;
+    },
   },
   methods: {
+    removeDocument(doc){
+        this.documents = this.documents.filter(document => document !== doc)
+    },
     formatRupiah(num) {
       return Utils.formatRupiah(num, "Rp.");
+    },
+    checkIsDocument(file) {
+      return Utils.checkIsDocument(file);
+    },
+
+    selectDocuments(e) {
+      const files = e.target.files;
+      for (let i = 0; i < files.length; i++) {
+        if (this.checkIsDocument(files[i])) {
+          this.documents.push(files[i]);
+        } else {
+          iziToast.warning({
+            title: "Peringatan",
+            message: "File harus berupa dokumen",
+            position: "topRight",
+          });
+        }
+      }
     },
     getPayment(id) {
       const self = this;
@@ -120,20 +178,11 @@ export default {
         this.payment = res.data;
       });
     },
-     createPayment() {
+    createPayment() {
       const self = this;
-      const url = [
-        "payment",
-        {
-          customer_id: this.payment.customer.id,
-        //   employee_id: this.idEmployee,
-          kavling_id: this.payment.block.id,
-          type: this.payment.type,
-          price: Utils.currencyToNumber(this.budget),
-        },
-      ];
+      let type = "postDataUploadPayment"
       self.$store
-        .dispatch("postData", url)
+        .dispatch(type, this.formData , 'payment')
         .then((res) => {
           this.$emit("onSuccess");
           $("#formDeposit").collapse("hide");

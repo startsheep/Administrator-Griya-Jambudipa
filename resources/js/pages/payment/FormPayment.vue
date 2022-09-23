@@ -69,7 +69,7 @@
                           </div> -->
               </div>
               <div class="col m-auto">
-                <div class="box d-flex">
+                <div class="box d-flex justify-content-start mb-2">
                   <div class="mr-5">
                     <span> Tipe Rumah : </span>
                     <Span>
@@ -99,16 +99,37 @@
               <div class="col-6">
                 <div class="form-group">
                   <label>Uang Masuk</label>
-                  <!-- <input
-                            v-model="payment.price"
-                            type="text"
-                            class="form-control"
-                            @change="formatRupiah(payment.price)"
-                            /> -->
                   <InputCurrency
                     :value="payment.price"
                     v-model="payment.price"
                   />
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="custom-file form-group">
+                  <input
+                    @change="selectDocuments"
+                    type="file"
+                    class="custom-file-input"
+                    multiple
+                  />
+                  <label class="custom-file-label" for="customFile"
+                    >Pilih Dokumen</label
+                  >
+                </div>
+              </div>
+              <div class="col-6">
+                <span class="d-block">Dokumen</span>
+                <div
+                  v-for="document in payment.documents"
+                  :key="document"
+                  class="badge badge-primary m-1 p-2"
+                >
+                  {{ document.name }}
+                  <i
+                    class="fas fa-times sortable"
+                    @click="removeDocument(document)"
+                  ></i>
                 </div>
               </div>
             </div>
@@ -146,9 +167,11 @@ export default {
         employeeId: "",
         type: "",
         price: "",
+        documents: [],
       },
       customers: [],
-      customerKavling:[],
+      previewImages: [],
+      customerKavling: [],
       house: null,
       selectedCustomer: null,
       selectedKavling: null,
@@ -165,29 +188,55 @@ export default {
     idEmployee() {
       return Cookie.get("id");
     },
+    formData() {
+      const formData = new FormData();
+      formData.append("customer_id", this.payment.customerId);
+      formData.append("employee_id", this.payment.employeeId);
+      formData.append("kavling_id", this.selectedKavling.id);
+      formData.append("type", this.payment.type);
+      formData.append("price", Utils.currencyToNumber(this.payment.price));
+      this.payment.documents.forEach((document, index) => {
+        formData.append("documents[" + index + "]", document);
+      });
+      return formData;
+    },
   },
   mounted() {
     this.getCustomers();
   },
 
   methods: {
+    removeDocument(dov){
+        this.payment.documents = this.payment.documents.filter(document => document !== dov)
+    },
     formatRupiah(value) {
       return Utils.formatRupiah(value, "Rp. ");
     },
+    checkIsDocument(file) {
+      return Utils.checkIsDocument(file);
+    },
+
+    selectDocuments(e) {
+      const files = e.target.files;
+
+      for (let i = 0; i < files.length; i++) {
+        if (this.checkIsDocument(files[i])) {
+          this.payment.documents.push(files[i]);
+        } else {
+          iziToast.warning({
+            title: "Peringatan",
+            message: "File harus berupa dokumen",
+            position: "topRight",
+          });
+        }
+      }
+    },
+
     createPayment() {
       const self = this;
-      const url = [
-        "payment",
-        {
-          customer_id: this.payment.customerId,
-          employee_id: this.idEmployee,
-          kavling_id: this.selectedKavling.id,
-          type: this.payment.type,
-          price: Utils.currencyToNumber(this.payment.price),
-        },
-      ];
+      let type = "postDataUploadPayment";
       self.$store
-        .dispatch("postData", url)
+        .dispatch(type, this.formData, "payment")
         .then((res) => {
           this.$emit("onSuccess");
           $("#formCreate").collapse("hide");
@@ -210,7 +259,7 @@ export default {
           this.selectedCustomer = cs;
         }
       });
-      this.getKavling(this.selectedCustomer.id)
+      this.getKavling(this.selectedCustomer.id);
     },
     showNameCustomer(id) {
       let name = "";
@@ -236,9 +285,9 @@ export default {
       });
     },
     getKavling(id) {
-        const self = this;
-        self.$store.dispatch("getData", ["kavling/check/" + id]).then((res) => {
-            this.customerKavling = res.data;
+      const self = this;
+      self.$store.dispatch("getData", ["kavling/check/" + id]).then((res) => {
+        this.customerKavling = res.data;
       });
     },
     resetForm() {
@@ -248,6 +297,7 @@ export default {
         employeeId: "",
         type: "",
         price: "",
+        documents: [],
       };
       this.selectedCustomer = null;
       this.selectedKavling = null;
