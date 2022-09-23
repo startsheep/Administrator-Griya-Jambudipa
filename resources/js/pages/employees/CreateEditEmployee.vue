@@ -143,7 +143,7 @@
                 class="btn btn-primary btn-block"
                 type="button"
                 >
-                {{ id ? "Update" : "Tambah" }}
+                {{ id ? "Simpan" : "Tambah" }}
             </button>
             <button
 
@@ -274,7 +274,7 @@ export default {
             }
             else {
                 iziToast.warning({
-                    title: "Warning",
+                    title: "Peringatan",
                     message: "File harus berformat jpg, png, jpeg",
                     position: "topRight",
                 });
@@ -297,7 +297,7 @@ export default {
                 this.isSubmit = false;
                 this.$router.back();
                 iziToast.success({
-                    title: "Success",
+                    title: "Berhasil",
                     message: "Data berhasil ditambahkan",
                     position: "topRight",
                 });
@@ -308,7 +308,7 @@ export default {
                 let messages = err.response.data.meta.message;
                 Object.entries(messages).forEach(([key, value]) => {
                     iziToast.warning({
-                        title: "Warning",
+                        title: "Peringatan",
                         message: value,
                         position: "topRight",
                     });
@@ -342,7 +342,7 @@ export default {
                 this.isSubmit = false;
                 this.$router.back();
                 iziToast.success({
-                    title: "Success",
+                    title: "Berhasil",
                     message: "Data berhasil diubah",
                     position: "topRight",
                 });
@@ -353,7 +353,7 @@ export default {
                 let messages = err.response.data.meta.message;
                 Object.entries(messages).forEach(([key, value]) => {
                     iziToast.warning({
-                        title: "Warning",
+                        title: "Peringatan",
                         message: value,
                         position: "topRight",
                     });

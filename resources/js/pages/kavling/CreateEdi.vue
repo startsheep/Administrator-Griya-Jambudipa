@@ -28,7 +28,7 @@
                     >
                         <div class="alert-body">
 
-                            Satuan Panjang dan Lebar Yang DIgunakan adalah
+                            Satuan Panjang dan Lebar yang digunakan adalah
                             <Strong>Meter</Strong>
                         </div>
                     </div>
@@ -215,7 +215,7 @@ export default {
     computed: {
         successMessage() {
             return iziToast.success({
-                title: "Success",
+                title: "Berhasil",
                 message:
                     "Kavling Berhasil Di " +
                     (this.kav != null ? "Edit" : "Tambah"),
@@ -285,7 +285,7 @@ export default {
                     let messages = err.response.data.meta.message;
                     Object.entries(messages).forEach(([key, value]) => {
                         iziToast.warning({
-                            title: "Warning",
+                            title: "Peringatan",
                             message: value,
                             position: "topRight",
                         });
@@ -322,7 +322,7 @@ export default {
                     let messages = err.response.data.meta.message;
                     Object.entries(messages).forEach(([key, value]) => {
                         iziToast.warning({
-                            title: "Warning",
+                            title: "Peringatan",
                             message: value,
                             position: "topRight",
                         });

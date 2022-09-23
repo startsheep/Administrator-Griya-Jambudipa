@@ -173,7 +173,7 @@
                                         <td colspan="6">
                                             <EmptyData
                                                 v-if=" !isLoading && employees.length < 1"
-                                                message="Data Pegawainya Ngga Ada"
+                                                message="Data Pegawainya Tidak Ada"
                                             />
                                             <CircleLoader v-if="isLoading" />
                                         </td>
@@ -297,7 +297,7 @@ export default {
                             .dispatch("deleteData", ["employee", id])
                             .then((response) => {
                                 iziToast.success({
-                                    title: "Success",
+                                    title: "Berhasil",
                                     message: "Data berhasil dihapus",
                                     position: "topRight",
                                 });
@@ -331,7 +331,7 @@ export default {
             this.$store.dispatch(type, url).then((response) => {
                 if (response.type == "success") {
                     iziToast.success({
-                        title: "Success",
+                        title: "Berhasil",
                         message: "Status " + desc,
                         position: "topRight",
                     });

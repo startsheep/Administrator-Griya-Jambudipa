@@ -23,7 +23,7 @@
                       type="text"
                       v-model="categoryLand.category"
                       class="form-control"
-                      placeholder="Masukan RIncian"
+                      placeholder="Masukan Rincian"
                     />
                     <div class="input-group-append">
                       <button
@@ -378,7 +378,7 @@ export default {
         self.isLoading = false;
         self.isCreateCategories = false;
         iziToast.success({
-          title: "Success",
+          title: "Berhasil",
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
@@ -400,7 +400,7 @@ export default {
         self.isLoading = false;
         self.isEditCategories = false;
         iziToast.success({
-          title: "Success",
+          title: "Berhasil",
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
@@ -427,7 +427,7 @@ export default {
             self.isLoading = false;
             self.isEditLand = false;
             iziToast.success({
-            title: "Success",
+            title: "Berhasil",
             message: "Data Berhasil Disimpan",
             position: "topRight",
             });
@@ -455,7 +455,7 @@ export default {
               .then(() => {
                 self.isLoading = false;
                 iziToast.success({
-                  title: "Success",
+                  title: "Berhasil",
                   message: "Data Berhasil Dihapus",
                   position: "topRight",
                 });
@@ -482,7 +482,7 @@ export default {
             self.$store.dispatch("deleteData", ["basic-price", id]).then(() => {
               self.isLoading = false;
               iziToast.success({
-                title: "Success",
+                title: "Berhasil",
                 message: "Data Berhasil Dihapus",
                 position: "topRight",
               });
@@ -546,7 +546,7 @@ export default {
         self.isLoading = false;
         self.isCreateCategories = false;
         iziToast.success({
-          title: "Success",
+          title: "Berhasil",
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
@@ -573,7 +573,7 @@ export default {
         self.isLoading = false;
         self.isCreateCategories = false;
         iziToast.success({
-          title: "Success",
+          title: "Berhasil",
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });

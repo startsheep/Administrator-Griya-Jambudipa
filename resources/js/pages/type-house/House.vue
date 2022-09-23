@@ -348,7 +348,7 @@ export default {
           let messages = error.response.data.meta.message;
           Object.entries(messages).forEach(([key, value]) => {
             iziToast.warning({
-              title: "Warning",
+              title: "Peringatan",
               message: value,
               position: "topRight",
             });
@@ -380,7 +380,7 @@ export default {
             messages = error.response.data.meta.message
             Object.entries(messages).forEach(([key, value]) => {
               iziToast.warning({
-                title: "Warning",
+                title: "Peringatan",
                 message: value,
                 position: "topRight",
               });
@@ -408,7 +408,7 @@ export default {
               .dispatch("deleteData", ["house-type", id])
               .then((response) => {
                 iziToast.success({
-                  title: "Success",
+                  title: "Berhasil",
                   message: "Data berhasil dihapus",
                   position: "topRight",
                 });

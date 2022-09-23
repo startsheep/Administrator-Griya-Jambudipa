@@ -137,7 +137,7 @@ export default {
                     this.isSubmit = false;
                     location.reload();
                     iziToast.success({
-                        title: "Success",
+                        title: "Berhasil",
                         message: "Data berhasil diubah",
                         position: "topRight",
                     });
@@ -148,7 +148,7 @@ export default {
                     let messages = err.response.data.meta.message;
                     Object.entries(messages).forEach(([key, value]) => {
                         iziToast.warning({
-                            title: "Warning",
+                            title: "Peringatan",
                             message: value,
                             position: "topRight",
                         });
@@ -174,7 +174,7 @@ export default {
                     this.isSubmit = false;
                     location.reload();
                     iziToast.success({
-                        title: "Success",
+                        title: "Berhasil",
                         message: "Data berhasil diubah",
                         position: "topRight",
                     });
@@ -185,7 +185,7 @@ export default {
                     let messages = err.response.data.meta.message;
                     Object.entries(messages).forEach(([key, value]) => {
                         iziToast.warning({
-                            title: "Warning",
+                            title: "Peringatan",
                             message: value,
                             position: "topRight",
                         });

@@ -41,7 +41,7 @@
                             height="30"
                         />
                         <div class="d-sm-none d-lg-inline-block profile-name">
-                            Halo , {{ userData.name }}
+                            {{ userData.name }}
                         </div></a
                     >
                     <div class="dropdown-menu dropdown-menu-right">

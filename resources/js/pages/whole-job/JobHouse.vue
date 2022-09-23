@@ -74,7 +74,7 @@
                     </td>
                   </tr>
                     <td colspan="5" >
-                        <EmptyData v-if="!isLoading && jobs.length < 1" message="Data Ngga Ada"/>
+                        <EmptyData v-if="!isLoading && jobs.length < 1" message="Data Tidak Ada"/>
                         <CircleLoader v-if="isLoading" />
                     </td>
                 </tbody>
