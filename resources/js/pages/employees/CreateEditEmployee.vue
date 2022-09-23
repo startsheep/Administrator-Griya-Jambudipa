@@ -2,7 +2,7 @@
 
     <section class="section">
       <div class="section-header">
-        <h1>{{ id ? "Edit" : "Tambah" }} Data Pegawai</h1>
+        <h1>{{ id ? "Simpan" : "Tambah" }} Data Pegawai</h1>
       </div>
       <div class="row">
         <div class="col d-flex justify-content-center">

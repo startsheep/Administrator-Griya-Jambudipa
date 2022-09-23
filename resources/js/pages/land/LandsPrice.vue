@@ -31,7 +31,7 @@
                         :disabled="categoryLand.category == ''"
                         type="button"
                       >
-                        {{ !isCreateCategories ? "Edit" : "Tambah" }}
+                        {{ !isCreateCategories ? "Simpan" : "Tambah" }}
                       </button>
                       <button
                         @click="
