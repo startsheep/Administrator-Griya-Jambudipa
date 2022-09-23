@@ -69,7 +69,7 @@
               @click="isFormEdit ? editHouse() : createHouse()"
               class="btn btn-primary btn-block"
             >
-              {{ isFormEdit ? "Edit" : "Tambah" }}
+              {{ isFormEdit ? "Simpan" : "Tambah" }}
             </button>
             <button @click="reset()" class="btn btn-danger btn-block">
               Batal
