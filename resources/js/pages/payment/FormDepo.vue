@@ -89,6 +89,7 @@
             data-toggle="collapse"
             data-target="#formDeposit"
             class="btn btn-danger btn-block"
+            @click="resetForm()"
           >
             Batal
           </button>
@@ -188,6 +189,7 @@ export default {
           this.$emit("onSuccess");
           $("#formDeposit").collapse("hide");
           this.isLoading = false;
+          this.resetForm()
         })
         .catch((err) => {
           let messages = err.response.data.meta.message;
@@ -201,6 +203,11 @@ export default {
           this.isLoading = false;
         });
     },
+    resetForm(){
+        // this.payment = null;
+        // this.budget = "";
+        this.documents = [];
+    }
   },
   components: { InputCurrency, LoadingComponent },
 };

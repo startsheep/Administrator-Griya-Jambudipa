@@ -169,8 +169,6 @@ export default {
     FormPayment,
     Actions,
     FormDepo,
-    LoadingComponent,
-    LoadingComponent1,
   },
   data() {
     return {
