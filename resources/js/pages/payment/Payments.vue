@@ -21,7 +21,7 @@
       <div class="row">
         <div class="col">
           <FormPayment @onSuccess="onSuccess()" />
-          <FormDepo :id="idPayment" @onSuccess="onSuccess()"/>
+          <FormDepo :id="idPayment" @onSuccess="onSuccess()" />
           <div class="card">
             <div class="card-header">
               <Button
@@ -65,7 +65,7 @@
                         <div class="media">
                           <figure class="avatar mr-2 avatar-md">
                             <img
-                              :src="'storage/'+ payment.customer.image"
+                              :src="'storage/' + payment.customer.image"
                               alt="..."
                             />
                             <i
@@ -106,7 +106,6 @@
                         </span>
                       </td>
                       <td class="align-middle text-center">
-
                         <Actions
                           toggleDetail="modal"
                           targetDetail="#detailPayment"
@@ -169,8 +168,10 @@ export default {
     PaymentDetail,
     FormPayment,
     Actions,
-    FormDepo
-},
+    FormDepo,
+    LoadingComponent,
+    LoadingComponent1,
+  },
   data() {
     return {
       //data
@@ -184,12 +185,12 @@ export default {
       },
       idPayment: null,
       house: null,
-    //   customer: null,
+      //   customer: null,
       payments: [
         //  make same data with deferent value
       ],
       customers: [],
-      customerKavling:[],
+      customerKavling: [],
       selectedCustomer: null,
       selectedKavling: null,
       isLoading: false,
@@ -240,8 +241,8 @@ export default {
     detailPayment(data) {
       this.payment.id = data;
     },
-    sendId(id){
-        this.idPayment = id;
+    sendId(id) {
+      this.idPayment = id;
     },
     getHouse() {
       const self = this;
