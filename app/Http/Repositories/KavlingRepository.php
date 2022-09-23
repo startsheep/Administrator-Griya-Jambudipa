@@ -7,7 +7,9 @@ use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\KavlingSearch;
 use App\Models\CustomerKavling;
 use App\Models\Kavling;
+use App\Models\Log;
 use App\Models\Payment;
+use Illuminate\Support\Str;
 
 class KavlingRepository implements KavlingContract
 {
@@ -29,6 +31,12 @@ class KavlingRepository implements KavlingContract
 
     public function store(array $attributes): Kavling
     {
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penambahan data pada kavling'
+        ]);
+
         return $this->kavling->create($attributes);
     }
 
@@ -41,6 +49,12 @@ class KavlingRepository implements KavlingContract
     {
         $result->update($attributes);
 
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan perubahan data pada kavling'
+        ]);
+
         return collect([
             'message' => "success",
             'type' => 'success',
@@ -51,6 +65,12 @@ class KavlingRepository implements KavlingContract
 
     public function delete($result)
     {
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penghapusan data pada kavling'
+        ]);
+
         return $result->delete();
     }
 

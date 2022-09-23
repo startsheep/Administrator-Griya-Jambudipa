@@ -6,6 +6,8 @@ use App\Http\Repositories\Contracts\HouseTypeContract;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\HouseTypeSearch;
 use App\Models\HouseType;
+use App\Models\Log;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 class HouseTypeRepository implements HouseTypeContract
@@ -36,6 +38,12 @@ class HouseTypeRepository implements HouseTypeContract
             }
         }
 
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penambahan data pada tipe rumah'
+        ]);
+
         return $result;
     }
 
@@ -58,6 +66,12 @@ class HouseTypeRepository implements HouseTypeContract
 
         $result->update($attributes);
 
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan perubahan data pada tipe rumah'
+        ]);
+
         return collect([
             'message' => "success",
             'type' => 'success',
@@ -75,6 +89,12 @@ class HouseTypeRepository implements HouseTypeContract
 
             $result->document()->delete();
         }
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penghapusan data pada tipe rumah'
+        ]);
 
         return $result->delete();
     }

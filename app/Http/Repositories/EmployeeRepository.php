@@ -6,6 +6,7 @@ use App\Http\Repositories\Contracts\EmployeeContract;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\EmployeeSearch;
 use App\Models\Employee;
+use App\Models\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
@@ -46,6 +47,12 @@ class EmployeeRepository implements EmployeeContract
             }
         }
 
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penambahan data pada pegawai'
+        ]);
+
         return $result;
     }
 
@@ -80,6 +87,12 @@ class EmployeeRepository implements EmployeeContract
             }
         }
 
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan perubahan data pada pegawai'
+        ]);
+
         return collect([
             'message' => "success",
             'type' => 'success',
@@ -92,6 +105,12 @@ class EmployeeRepository implements EmployeeContract
     {
         $result->is_active = $attributes['active'] ? 1 : 2;
         $result->save();
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' merubah status ' . $result->name
+        ]);
 
         return collect([
             'message' => "success",
@@ -114,6 +133,12 @@ class EmployeeRepository implements EmployeeContract
         if ($result->image != null) {
             Storage::delete($result->image);
         }
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penghapusan data pada pegawai'
+        ]);
 
         return $result->delete();
     }
