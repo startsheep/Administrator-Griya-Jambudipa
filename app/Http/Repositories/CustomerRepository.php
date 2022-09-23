@@ -7,6 +7,8 @@ use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\CustomerSearch;
 use App\Models\Customer;
 use App\Models\Kavling;
+use App\Models\Log;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
@@ -61,6 +63,12 @@ class CustomerRepository implements CustomerContract
                 $this->multipleUpload($attributes['documents'], $result);
             }
         }
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penambahan data pada customer'
+        ]);
 
         return collect([
             'message' => 'success',
@@ -118,6 +126,12 @@ class CustomerRepository implements CustomerContract
             }
         }
 
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan perubahan data pada customer'
+        ]);
+
         return collect([
             'message' => "success",
             'type' => 'success',
@@ -141,6 +155,12 @@ class CustomerRepository implements CustomerContract
         }
 
         $result->customerKavling()->delete();
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penghapusan data pada customer'
+        ]);
 
         return $result->delete();
     }
