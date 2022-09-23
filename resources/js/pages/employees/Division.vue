@@ -100,7 +100,7 @@
               class="btn btn-primary mr-1"
               type="button"
             >
-              {{ isEditForm ? "Edit" : "Tambah" }}
+              {{ isEditForm ? "Simpan" : "Tambah" }}
             </button>
           </div>
         </div>

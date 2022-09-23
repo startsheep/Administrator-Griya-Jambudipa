@@ -2,6 +2,7 @@
   <div class="collapse" id="formDeposit">
     <div class="row d-flex justify-content-center">
       <div class="card" style="width: 80%">
+        <LoadingComponent v-if="isLoading" />
         <div class="card-header">
           <h4>Formulir Pembayaran {{ idEmployee }}</h4>
         </div>
@@ -42,15 +43,39 @@
               <div class="form-row">
                 <div class="form-group col-lg-6">
                   <label>Uang Masuk</label>
-                  <InputCurrency v-model="budget" :value="budget"/>
+                  <InputCurrency v-model="budget" :value="budget" />
                 </div>
-               <div class="form-group col-lg-6">
+                <div class="form-group col-lg-6">
                   <label>Jenis Pembayaran</label>
                   <select class="form-control" v-model="payment.type">
                     <option value="Cash Keras">Cash Keras</option>
                     <option value="Cash Bertahap">Cash Bertahap</option>
                     <option value="KPR">KPR</option>
                   </select>
+                </div>
+                <div class="form-group col-lg-4">
+                  <div class="custom-file form-group">
+                    <input
+                      @change="selectDocuments"
+                      type="file"
+                      class="custom-file-input"
+                      multiple
+                    />
+                    <label class="custom-file-label">Pilih Dokumen</label>
+                  </div>
+                </div>
+                <div class="form-group col-lg-8">
+                  <div
+                    v-for="document in documents"
+                    :key="document"
+                    class="badge badge-primary m-1 p-2"
+                  >
+                    {{ document.name }}
+                    <i
+                      class="fas fa-times sortable"
+                      @click="removeDocument(document)"
+                    ></i>
+                  </div>
                 </div>
               </div>
             </div>
@@ -64,6 +89,7 @@
             data-toggle="collapse"
             data-target="#formDeposit"
             class="btn btn-danger btn-block"
+            @click="resetForm()"
           >
             Batal
           </button>
@@ -75,27 +101,23 @@
 <style>
 .custom-box {
   margin-bottom: 5px;
-  /* padding: 10px;
-        border: 1px solid rgba(218, 218, 218, 0.971);
-        background-color: rgb(215, 223, 255);
-        border-radius: 10px;
-        margin-bottom: 10px;
-        margin-right: 5px; */
-  /* width: fit-content; */
-  /*  */
 }
 </style>
 <script>
 import Utils from "../../store/services/utils";
 import InputCurrency from "../../components/InputCurrency.vue";
 import Cookie from "js-cookie";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+import iziToast from "izitoast";
 export default {
   props: ["id"],
   data() {
     return {
       payment: null,
-    //   selectedKavling: '',
-        budget:""
+      //   selectedKavling: '',
+      budget: "",
+      documents: [],
+      isLoading: false,
     };
   },
   watch: {
@@ -108,11 +130,48 @@ export default {
       this.getPayment(this.id);
     }
   },
-  computed:{
+  computed: {
+    formData() {
+      const formData = new FormData();
+      formData.append("customer_id", this.payment.customer.id);
+      //   formData.append("employee_id", this.payment.employeeId);
+      formData.append("kavling_id", this.payment.block.id);
+      formData.append("type", this.payment.type);
+
+      if (this.budget) {
+        formData.append("price", Utils.currencyToNumber(this.budget));
+      }
+
+      this.documents.forEach((document, index) => {
+        formData.append("documents[" + index + "]", document);
+      });
+      return formData;
+    },
   },
   methods: {
+    removeDocument(doc) {
+      this.documents = this.documents.filter((document) => document !== doc);
+    },
     formatRupiah(num) {
       return Utils.formatRupiah(num, "Rp.");
+    },
+    checkIsDocument(file) {
+      return Utils.checkIsDocument(file);
+    },
+
+    selectDocuments(e) {
+      const files = e.target.files;
+      for (let i = 0; i < files.length; i++) {
+        if (this.checkIsDocument(files[i])) {
+          this.documents.push(files[i]);
+        } else {
+          iziToast.warning({
+            title: "Peringatan",
+            message: "File harus berupa dokumen",
+            position: "topRight",
+          });
+        }
+      }
     },
     getPayment(id) {
       const self = this;
@@ -120,23 +179,17 @@ export default {
         this.payment = res.data;
       });
     },
-     createPayment() {
+    createPayment() {
       const self = this;
-      const url = [
-        "payment",
-        {
-          customer_id: this.payment.customer.id,
-        //   employee_id: this.idEmployee,
-          kavling_id: this.payment.block.id,
-          type: this.payment.type,
-          price: Utils.currencyToNumber(this.budget),
-        },
-      ];
+      let type = "postDataUploadPayment";
+      this.isLoading = true;
       self.$store
-        .dispatch("postData", url)
+        .dispatch(type, this.formData, "payment")
         .then((res) => {
           this.$emit("onSuccess");
           $("#formDeposit").collapse("hide");
+          this.isLoading = false;
+          this.resetForm()
         })
         .catch((err) => {
           let messages = err.response.data.meta.message;
@@ -147,9 +200,15 @@ export default {
               position: "topRight",
             });
           });
+          this.isLoading = false;
         });
     },
+    resetForm(){
+        // this.payment = null;
+        // this.budget = "";
+        this.documents = [];
+    }
   },
-  components: { InputCurrency },
+  components: { InputCurrency, LoadingComponent },
 };
 </script>

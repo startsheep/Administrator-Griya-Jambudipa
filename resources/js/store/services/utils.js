@@ -59,7 +59,23 @@ const Utils = {
     },
     currencyToNumber(currency){
         return parseInt(currency.replace(/[^0-9]/g, ''));
-    }
+    },
+    checkIsDocument(file) {
+        const allowedExtensions = [
+            "image/jpg",
+            "image/png",
+            "image/jpeg",
+            "application/pdf",
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        ];
+        const extension = file.type;
+        if (allowedExtensions.includes(extension)) {
+            return true;
+        } else {
+            return false;
+        }
+    },
 
 
 

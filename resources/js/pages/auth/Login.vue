@@ -47,7 +47,7 @@
                                     <input
                                         v-model="user.password"
                                         :type="
-                                            showPassword ? 'text' : 'sandi'
+                                            showPassword ? 'text' : 'password'
                                         "
                                         class="form-control"
                                         required

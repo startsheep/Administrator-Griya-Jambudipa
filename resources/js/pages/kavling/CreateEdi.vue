@@ -172,7 +172,7 @@
                         type="button"
                         class="btn btn-primary"
                     >
-                        {{ kav != null ? "Edit" : "Tambah" }}
+                        {{ kav != null ? "Simpan" : "Tambah" }}
                     </button>
                 </div>
             </div>
