@@ -43,6 +43,34 @@ class DashboardController extends Controller
         return $result;
     }
 
+    public function countEmployee()
+    {
+        $result = $this->dashboardRepository->countEmployee();
+
+        return $result;
+    }
+
+    public function countContractor()
+    {
+        $result = $this->dashboardRepository->countContractor();
+
+        return $result;
+    }
+
+    public function countKavling()
+    {
+        $result = $this->dashboardRepository->countKavling();
+
+        return $result;
+    }
+
+    public function countHouseType()
+    {
+        $result = $this->dashboardRepository->countHouseType();
+
+        return $result;
+    }
+
     public function kavling()
     {
         $result = $this->dashboardRepository->kavling();

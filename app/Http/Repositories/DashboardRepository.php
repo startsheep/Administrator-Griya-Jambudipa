@@ -4,7 +4,10 @@ namespace App\Http\Repositories;
 
 use App\Http\Repositories\Contracts\DashboardContract;
 use App\Http\Repositories\BaseRepository;
+use App\Models\Contractor;
 use App\Models\Customer;
+use App\Models\Employee;
+use App\Models\HouseType;
 use App\Models\Kavling;
 use App\Models\Payment;
 use App\Models\WholeJob;
@@ -67,6 +70,58 @@ class DashboardRepository implements DashboardContract
             'message' => 'success',
             'data' => [
                 'whole_job' => $wholeJobs,
+            ]
+        ], 200);
+    }
+
+    public function countEmployee()
+    {
+        $employeeActive = Employee::where('is_active', 1)->get()->count();
+        $employeeNoActive = Employee::where('is_active', '!=', 1)->get()->count();
+
+        return response()->json([
+            'message' => 'success',
+            'data' => [
+                'employee_active' => $employeeActive,
+                'employee_no_active' => $employeeNoActive,
+            ]
+        ], 200);
+    }
+
+    public function countContractor()
+    {
+        $contractorActive = Contractor::where('status', 1)->get()->count();
+        $contractorNoActive = Contractor::where('status', '!=', 1)->get()->count();
+
+        return response()->json([
+            'message' => 'success',
+            'data' => [
+                'contractor_active' => $contractorActive,
+                'contractor_no_active' => $contractorNoActive,
+            ]
+        ], 200);
+    }
+
+    public function countKavling()
+    {
+        $kavling = Kavling::all()->count();
+
+        return response()->json([
+            'message' => 'success',
+            'data' => [
+                'kavling' => $kavling,
+            ]
+        ], 200);
+    }
+
+    public function countHouseType()
+    {
+        $houseType = HouseType::all()->count();
+
+        return response()->json([
+            'message' => 'success',
+            'data' => [
+                'house_type' => $houseType,
             ]
         ], 200);
     }

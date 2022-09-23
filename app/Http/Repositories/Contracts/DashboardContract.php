@@ -12,6 +12,14 @@ interface DashboardContract
 
     public function countWholeJob();
 
+    public function countEmployee();
+
+    public function countContractor();
+
+    public function countKavling();
+
+    public function countHouseType();
+
     public function kavling();
 
     public function graph();
