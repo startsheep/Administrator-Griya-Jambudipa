@@ -114,14 +114,12 @@
                                             }}</span>
                                         </td>
                                         <td>
-                                            <label class="" v-if="employee.id != 1">
+                                            <label class="">
                                                 <input
                                                     type="checkbox"
                                                     name="custom-switch-checkbox"
                                                     class="custom-switch-input"
-                                                    :checked="
-                                                        employee.isActive == 1
-                                                    "
+                                                    :checked="employee.isActive == 1"
                                                 />
                                                 <span
                                                     class="custom-switch-indicator"
