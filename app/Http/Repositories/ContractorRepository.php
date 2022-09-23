@@ -6,6 +6,8 @@ use App\Http\Repositories\Contracts\ContractorContract;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\ContractorSearch;
 use App\Models\Contractor;
+use App\Models\Log;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
@@ -42,6 +44,12 @@ class ContractorRepository implements ContractorContract
                 $this->multipleUpload($attributes['documents'], $result);
             }
         }
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penambahan data pada pemborong'
+        ]);
 
         return collect([
             'message' => 'success',
@@ -81,6 +89,12 @@ class ContractorRepository implements ContractorContract
             }
         }
 
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan perubahan data pada pemborong'
+        ]);
+
         return collect([
             'message' => "success",
             'type' => 'success',
@@ -103,6 +117,12 @@ class ContractorRepository implements ContractorContract
             Storage::delete($result->image);
         }
 
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penghapusan data pada pemborong'
+        ]);
+
         return $result->delete();
     }
 
@@ -110,6 +130,12 @@ class ContractorRepository implements ContractorContract
     {
         $result->status = $attributes['active'] ? 1 : 2;
         $result->save();
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' merubah status ' . $result->name
+        ]);
 
         return collect([
             'message' => "success",

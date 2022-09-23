@@ -261,7 +261,7 @@
                         :idForm="categories.id"
                       />
                     </td>
-                    <td>
+                    <td class="align-top text-center">
                       <Actions
                         :showDetail="false"
                         @update="sendEdit(categories)"

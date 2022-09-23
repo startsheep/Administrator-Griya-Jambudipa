@@ -5,7 +5,9 @@ namespace App\Http\Repositories;
 use App\Http\Repositories\Contracts\WholeJobContract;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\WholeJobSearch;
+use App\Models\Log;
 use App\Models\WholeJob;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
@@ -37,6 +39,12 @@ class WholeJobRepository implements WholeJobContract
             }
         }
 
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penambahan data pada borongan pekerjaan'
+        ]);
+
         return collect([
             'message' => 'success',
             'type' => 'success',
@@ -64,6 +72,12 @@ class WholeJobRepository implements WholeJobContract
             }
         }
 
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan perubahan data pada borongan pekerjaan'
+        ]);
+
         return collect([
             'message' => 'success',
             'type' => 'success',
@@ -81,6 +95,12 @@ class WholeJobRepository implements WholeJobContract
 
             $result->document()->delete();
         }
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penghapusan data pada borongan pekerjaan'
+        ]);
 
         return $result->delete();
     }

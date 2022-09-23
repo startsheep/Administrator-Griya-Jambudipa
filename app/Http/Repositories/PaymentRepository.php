@@ -6,7 +6,9 @@ use App\Http\Repositories\Contracts\PaymentContract;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\PaymentSearch;
 use App\Models\Customer;
+use App\Models\Log;
 use App\Models\Payment;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -75,6 +77,12 @@ class PaymentRepository implements PaymentContract
                 }
             }
         }
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penambahan data pada pembayaran'
+        ]);
 
         return collect([
             'message' => "success",

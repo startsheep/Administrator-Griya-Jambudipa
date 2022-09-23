@@ -7,6 +7,7 @@ use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\AccountSearch;
 use App\Http\Services\Traits\SendEmail;
 use App\Models\Account;
+use App\Models\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
@@ -52,6 +53,12 @@ class AccountRepository implements AccountContract
             $this->sendEmail($attributes['email'], $attributes['password']);
         }
 
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penambahan data pada pengguna'
+        ]);
+
         return $result;
     }
 
@@ -90,6 +97,12 @@ class AccountRepository implements AccountContract
             }
         }
 
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan perubahan data pada pengguna'
+        ]);
+
         return collect([
             'message' => 'success',
             'type' => 'success',
@@ -108,6 +121,13 @@ class AccountRepository implements AccountContract
             $result->image()->delete();
             $result->delete();
         }
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penghapusan data pada pengguna'
+        ]);
+
         return $result;
     }
 
@@ -127,6 +147,12 @@ class AccountRepository implements AccountContract
 
         $result->update($attributes);
 
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' merubah password'
+        ]);
+
         return collect([
             'message' => 'success',
             'type' => 'success',
@@ -139,6 +165,12 @@ class AccountRepository implements AccountContract
     {
         $result->is_active = $attributes['active'] ? 1 : 2;
         $result->save();
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' merubah status ' . $result->name
+        ]);
 
         return collect([
             'message' => "success",
