@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\CompanyProfile;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -42,9 +43,14 @@ class SendEmailVerification extends Notification
      */
     public function toMail($notifiable)
     {
+        $profile = CompanyProfile::first();
+
         return (new MailMessage)
             ->subject('Email Ubah Kata Sandi')
-            ->view('emails.verification', ['token' => $this->token]);
+            ->view('emails.verification', [
+                'token' => $this->token,
+                'profile' => $profile
+            ]);
     }
 
     /**

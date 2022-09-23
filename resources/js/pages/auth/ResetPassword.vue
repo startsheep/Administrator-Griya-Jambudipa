@@ -13,6 +13,7 @@
                 src="../../../../public/assets/images/logo.png"
                 class="img-fluid rounded mx-auto d-block"
                 style="width: 60%"
+                id="logo"
               />
 
               <h6 v-if="!isLoading" class="text-center mx-4 mt-3">

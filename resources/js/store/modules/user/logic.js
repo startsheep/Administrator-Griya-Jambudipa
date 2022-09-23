@@ -5,6 +5,7 @@ import CircleLoader from "../../../components/CircleLoader.vue";
 import ModalForm from "../../../pages/users/CreateEditUsers.vue";
 import ChangePasswordModal from "../../../pages/users/ChangePassword.vue";
 import DetailUser from "./../../../pages/users/DetailUser.vue";
+import LoadingComponent from "../../../components/LoadingComponent.vue";
 import Cookies from "js-cookie";
 
 export default {
@@ -82,6 +83,8 @@ export default {
                     active: status,
                 },
             ];
+
+            this.isLoading = true;
             this.$store.dispatch(type, url).then((response) => {
                 if (response.type == "success") {
                     iziToast.success({
@@ -89,6 +92,7 @@ export default {
                         message: "Status " + desc,
                         position: "topRight",
                     });
+                    this.isLoading = false;
                     this.getUsers();
                 }
             });
@@ -105,6 +109,7 @@ export default {
                 })
                 .then((result) => {
                     if (result.isConfirmed) {
+                        this.isLoading = true;
                         this.$store
                             .dispatch("deleteData", ["user", id])
                             .then((response) => {
@@ -113,6 +118,7 @@ export default {
                                     message: "Data berhasil dihapus",
                                     position: "topRight",
                                 });
+                                this.isLoading = false;
                                 this.getUsers();
                             });
                     }
@@ -125,7 +131,7 @@ export default {
                     email: user.email,
                 },
             ];
-
+            this.isLoading = true;
             this.$swal
                 .fire({
                     title: "Yakin ?",
@@ -138,6 +144,7 @@ export default {
                 .then((result) => {
                     if (result.isConfirmed) {
                         this.$store.dispatch("postData", url).then((res) => {
+                            this.isLoading = false;
                             if (res.meta) {
                                 if (res.meta.statusCode == 400) {
                                     this.$swal.fire({
@@ -184,5 +191,6 @@ export default {
         ModalForm,
         ChangePasswordModal,
         DetailUser,
+        LoadingComponent,
     },
 };

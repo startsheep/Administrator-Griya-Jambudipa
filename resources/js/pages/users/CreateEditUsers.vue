@@ -73,6 +73,7 @@
                             class="btn btn-secondary"
                             data-dismiss="modal"
                             @click="emptyForm()"
+                            :class="{ disabled: isSubmit }"
                         >
                             Kembali
                         </button>
@@ -178,6 +179,7 @@ export default {
                         });
                     })
                     .catch((err) => {
+                        this.isLoading = false;
                         this.isSubmit = false;
                         let meta = err.response.data.meta;
                         let messages = err.response.data.meta.message;
@@ -208,6 +210,7 @@ export default {
                         this.$emit("onSuccess", this);
                     })
                     .catch((err) => {
+                        this.isLoading = false;
                         this.isSubmit = false;
                         let meta = err.response.data.meta;
                         let messages = err.response.data.meta.message;

@@ -6,6 +6,7 @@
         <div class="row">
             <div class="col-12 col-lg-12">
                 <div class="card">
+                    <!-- <LoadingComponent /> -->
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6 mb-3">
@@ -51,7 +52,8 @@
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="position-relative">
+                                    <LoadingComponent v-if="isLoading" />
                                     <tr v-for="user in users">
                                         <td>{{ user.name }}</td>
                                         <td>{{ user.email }}</td>
@@ -137,7 +139,7 @@
                                             "
                                             message="Datanya Tidak Ada"
                                         />
-                                        <CircleLoader v-if="isLoading" />
+                                        <!-- <CircleLoader v-if="isLoading" /> -->
                                     </td>
                                 </tbody>
                             </table>

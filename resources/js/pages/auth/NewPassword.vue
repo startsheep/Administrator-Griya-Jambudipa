@@ -11,6 +11,7 @@
               src="../../../../public/assets/images/logo.png"
               class="img-fluid rounded mx-auto d-block"
               style="width: 60%"
+              id="logo"
             />
             <h6 class="text-center mb-3">Setel Ulang Sandi</h6>
             <div class="form-group">
