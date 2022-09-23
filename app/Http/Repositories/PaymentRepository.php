@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Payment;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PaymentRepository implements PaymentContract
 {
@@ -50,11 +51,29 @@ class PaymentRepository implements PaymentContract
             $cekData->paymentPrice()->create([
                 'price' => $attributes['price'],
             ]);
+
+            if (isset($attributes['documents'])) {
+                if (isset($attributes['documents']) && $attributes['documents']) {
+                    $this->multipleUpload($attributes['documents'], $result);
+                }
+            }
         } else {
             $result = $this->payment->create($attributes);
             $result->paymentPrice()->create([
                 'price' => $attributes['price'],
             ]);
+
+            if (isset($attributes['documents'])) {
+                if (isset($attributes['documents']) && $attributes['documents']) {
+                    if ($result->document) {
+                        foreach ($result->document as $document) {
+                            Storage::delete($document->document_path);
+                            $result->document()->delete();
+                        }
+                    }
+                    $this->multipleUpload($attributes['documents'], $result);
+                }
+            }
         }
 
         return collect([
@@ -134,5 +153,21 @@ class PaymentRepository implements PaymentContract
         }
 
         return true;
+    }
+
+    protected function storageFile($file, $folder)
+    {
+        $path = $file->store($folder);
+        return $path;
+    }
+
+    protected function multipleUpload($files, $model)
+    {
+        foreach ($files as $file) {
+            $document = $this->storageFile($file, 'payment');
+            $request['document_path'] = $document;
+            $request['document_name'] = $file->getClientOriginalName();
+            $model->document()->create($request);
+        }
     }
 }

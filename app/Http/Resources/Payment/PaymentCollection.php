@@ -20,8 +20,6 @@ class PaymentCollection extends ResourceCollection
             $block = $this->cekBlock($item->customer->customerKavling, $item->kavling->id);
             $reminderPrice = (string) $this->reminderPrice($item->kavling->houseType->price, $item->paymentPrice);
             $cekData = $item->customer()
-                ->whereMonth('created_at', date('m'))
-                ->whereYear('created_at', date('Y'))
                 ->first();
 
             if ($cekData) {
@@ -32,6 +30,7 @@ class PaymentCollection extends ResourceCollection
                         "type" => $item->type,
                         "block" => $item->kavling,
                         "customer" => $item->customer,
+                        "documents" => $item->document,
                         "created_at" => $item->created_at,
                         "updated_at" => $item->updated_at,
                     ];

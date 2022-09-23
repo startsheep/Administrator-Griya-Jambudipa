@@ -31,6 +31,7 @@ class TransactionCollection extends ResourceCollection
                         "house_type" => $item->kavling->houseType,
                         "type" => $item->type,
                         "customer" => $item->customer,
+                        "documents" => $item->document,
                         "block" => $block,
                         "created_at" => $item->created_at,
                         "updated_at" => $item->updated_at,
