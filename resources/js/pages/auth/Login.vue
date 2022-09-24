@@ -11,6 +11,7 @@
                             src="../../../../public/assets/images/logo.png"
                             class="img-fluid rounded mx-auto d-block"
                             style="width: 60%"
+                            onerror="this.null; this.src='/assets/images/logo.png'"
                             id="logo"
                         />
                         <h6 class="text-center mb-3 mt-3">Silahkan Masuk</h6>

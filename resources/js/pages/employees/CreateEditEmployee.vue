@@ -1,164 +1,169 @@
 <template>
-
     <section class="section">
-      <div class="section-header">
-        <h1>{{ id ? "Simpan" : "Tambah" }} Data Pegawai</h1>
-      </div>
-      <div class="row">
-        <div class="col d-flex justify-content-center">
-          <div class="card" style="width:80%">
-            <div class="card-header"></div>
-            <div class="card-body">
-              <form class="form-row">
-                <div class="form-group col-lg-6">
-                  <label for="name">Nama Lengkap</label>
-                  <input
-                    v-model="employee.name"
-                    type="text"
-                    class="form-control"
-                    placeholder="Nama Lengkap"
-                  />
-                </div>
-
-                <div class="form-group col-lg-6">
-                  <label>Jenis Pegawai</label>
-                  <select
-                    v-model="employee.type_emp"
-                    class="form-control form-control"
-                  >
-                    <option value="1">Pegawai Tetap</option>
-                    <option value="0">Pegawai Tidak Tetap</option>
-                  </select>
-                </div>
-                <div class="form-group col-lg-6">
-                  <label>Jabatan</label>
-                  <select
-                    v-model="employee.position_id"
-                    class="form-control form-control"
-                  >
-                    <option
-                      v-for="position in positions"
-                      :key="position.id"
-                      :value="position.id"
-                    >
-                      {{ position.name }}
-                    </option>
-                  </select>
-                </div>
-                <div class="form-group col-lg-6">
-                  <label>Email</label>
-                  <input
-                    v-model="employee.email"
-                    type="text"
-                    class="form-control"
-                    placeholder="Email"
-                  />
-                </div>
-                <div class="form-group col-lg-6">
-                  <label>Nomor Telepon</label>
-                  <input
-                    v-model="employee.phone"
-                    type="number"
-                    class="form-control"
-                    placeholder="Nomor Telepon"
-                  />
-                </div>
-
-                <div class="form-group col-lg-6">
-                  <label>Jenis Kelamin</label>
-                  <select
-                    v-model="employee.gender"
-                    class="form-control form-control"
-                  >
-                    <option value="L">Laki-Laki</option>
-
-                    <option value="P">Perempuan</option>
-                  </select>
-                </div>
-
-                <div class="form-group col-lg-6">
-                  <label>Alamat</label>
-                  <textarea
-                    v-model="employee.address"
-                    class="form-control"
-                    rows="1" style="height: 100px"
-                  ></textarea>
-                </div>
-
-                <div class="form-group col-lg-6">
-                  <label>Tanggal Masuk</label>
-                  <input
-                    v-model="employee.entry_date"
-                    type="date"
-                    class="form-control"
-                  />
-                </div>
-
-                <div class="custom-file form-group col-lg-6">
-                  <input
-                    @change="selectImage"
-                    type="file"
-                    class="custom-file-input"
-                  />
-                  <label class="custom-file-label" for="customFile"
-                    >Pilih Foto</label
-                  >
-                </div>
-                <div class="custom-file form-group col-lg-6">
-                  <input
-                    @change="selectDocuments"
-                    type="file"
-                    class="custom-file-input"
-                    multiple
-                  />
-                  <label class="custom-file-label" for="customFile"
-                    >Pilih Dokumen</label
-                  >
-                </div>
-              </form>
-              <div class="row">
-                <div class="col-lg-6">
-                  <h6>Foto :</h6>
-                    <PreviewImage :previewImage="previewImage" />
-                </div>
-                <div class="col-lg-6">
-                  <div
-                    v-for="document in employee.document"
-                    :key="document"
-                    class="badge badge-primary m-1 p-2"
-                  >
-                    {{ document.name }}
-                    <i
-                      class="fas fa-times sortable"
-                      @click="removeDocument(document)"
-                    ></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-footer text-right">
-                <button
-                :class="{ 'disabled btn-progress': isSubmit }"
-                @click="id ? updateEmployee() : createEmployee()"
-                class="btn btn-primary btn-block"
-                type="button"
-                >
-                {{ id ? "Simpan" : "Tambah" }}
-            </button>
-            <button
-
-              @click="back"
-              class="btn btn-danger btn-block"
-              type="button"
-            >
-              Batal
-            </button>
-            </div>
-          </div>
+        <div class="section-header">
+            <h1>{{ id ? "Simpan" : "Tambah" }} Data Pegawai</h1>
         </div>
-      </div>
-    </section>
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <div class="card" style="width: 80%">
+                    <div class="card-header"></div>
+                    <div class="card-body">
+                        <form class="form-row">
+                            <div class="form-group col-lg-6">
+                                <label for="name">Nama Lengkap</label>
+                                <input
+                                    v-model="employee.name"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Nama Lengkap"
+                                />
+                            </div>
 
+                            <div class="form-group col-lg-6">
+                                <label>Jenis Pegawai</label>
+                                <select
+                                    v-model="employee.type_emp"
+                                    class="form-control form-control"
+                                >
+                                    <option value="1">Pegawai Tetap</option>
+                                    <option value="0">
+                                        Pegawai Tidak Tetap
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Jabatan</label>
+                                <select
+                                    v-model="employee.position_id"
+                                    class="form-control form-control"
+                                >
+                                    <option
+                                        v-for="position in positions"
+                                        :key="position.id"
+                                        :value="position.id"
+                                    >
+                                        {{ position.name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Email</label>
+                                <input
+                                    v-model="employee.email"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Email"
+                                />
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Nomor Telepon</label>
+                                <input
+                                    v-model="employee.phone"
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="Nomor Telepon"
+                                />
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label>Jenis Kelamin</label>
+                                <select
+                                    v-model="employee.gender"
+                                    class="form-control form-control"
+                                >
+                                    <option value="L">Laki-Laki</option>
+
+                                    <option value="P">Perempuan</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label>Alamat</label>
+                                <textarea
+                                    v-model="employee.address"
+                                    class="form-control"
+                                    rows="1"
+                                    style="height: 100px"
+                                ></textarea>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label>Tanggal Masuk</label>
+                                <input
+                                    v-model="employee.entry_date"
+                                    type="date"
+                                    class="form-control"
+                                />
+                            </div>
+
+                            <div class="custom-file form-group col-lg-6">
+                                <input
+                                    @change="selectImage"
+                                    type="file"
+                                    class="custom-file-input"
+                                />
+                                <label
+                                    class="custom-file-label"
+                                    for="customFile"
+                                    >Pilih Foto</label
+                                >
+                            </div>
+                            <div class="custom-file form-group col-lg-6">
+                                <input
+                                    @change="selectDocuments"
+                                    type="file"
+                                    class="custom-file-input"
+                                    multiple
+                                />
+                                <label
+                                    class="custom-file-label"
+                                    for="customFile"
+                                    >Pilih Dokumen</label
+                                >
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h6>Foto :</h6>
+                                <PreviewImage :previewImage="previewImage" />
+                            </div>
+                            <div class="col-lg-6">
+                                <div
+                                    v-for="document in employee.document"
+                                    :key="document"
+                                    class="badge badge-primary m-1 p-2"
+                                >
+                                    {{ document.name }}
+                                    <i
+                                        class="fas fa-times sortable"
+                                        @click="removeDocument(document)"
+                                    ></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-right">
+                        <button
+                            :class="{ 'disabled btn-progress': isSubmit }"
+                            @click="id ? updateEmployee() : createEmployee()"
+                            class="btn btn-primary btn-block"
+                            type="button"
+                        >
+                            {{ id ? "Simpan" : "Tambah" }}
+                        </button>
+                        <button
+                            @click="back"
+                            class="btn btn-danger btn-block"
+                            type="button"
+                            :disabled="isSubmit ?? false"
+                        >
+                            Batal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </template>
 <script>
 import iziToast from "izitoast";
@@ -182,10 +187,12 @@ export default {
                 image: "",
                 document: [],
             },
-            defaultImage: "../../../../public/assets/images/avatar/avatar-1.png",
+            defaultImage:
+                "../../../../public/assets/images/avatar/avatar-1.png",
             previewImage: "",
             positions: [],
             isSubmit: false,
+            isLoading: false,
         };
     },
     mounted: function () {
@@ -210,7 +217,9 @@ export default {
             fieldData.append("address", this.employee.address);
             fieldData.append("gender", this.employee.gender);
             //   fieldData.append("documents", this.employee.document);
-            this.employee.document.forEach((document, index) => fieldData.append("documents[" + index + "]", document));
+            this.employee.document.forEach((document, index) =>
+                fieldData.append("documents[" + index + "]", document)
+            );
             if (this.employee.image) {
                 fieldData.append("image", this.employee.image);
             }
@@ -222,15 +231,17 @@ export default {
             this.$router.back();
         },
         removeDocument(document) {
-            this.employee.document.splice(this.employee.document.indexOf(document), 1);
+            this.employee.document.splice(
+                this.employee.document.indexOf(document),
+                1
+            );
         },
         checkExtension(file) {
             const allowedExtensions = ["image/jpg", "image/png", "image/jpeg"];
             const extension = file.type;
             if (allowedExtensions.includes(extension)) {
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         },
@@ -246,8 +257,7 @@ export default {
             const extension = file.type;
             if (allowedExtensions.includes(extension)) {
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         },
@@ -256,8 +266,7 @@ export default {
             for (let i = 0; i < files.length; i++) {
                 if (this.checkIsDocument(files[i])) {
                     this.employee.document.push(files[i]);
-                }
-                else {
+                } else {
                     iziToast.warning({
                         title: "Peringatan",
                         message: "File harus berupa dokumen",
@@ -271,8 +280,7 @@ export default {
             if (this.checkExtension(file)) {
                 this.employee.image = file;
                 this.previewImage = URL.createObjectURL(file);
-            }
-            else {
+            } else {
                 iziToast.warning({
                     title: "Peringatan",
                     message: "File harus berformat jpg, png, jpeg",
@@ -289,79 +297,84 @@ export default {
         createEmployee() {
             const self = this;
             this.isSubmit = true;
+            this.isLoading = true;
             let type = "postDataUploadEmployee";
             let fieldData = this.formData;
             self.$store
                 .dispatch(type, fieldData, "employee")
                 .then((res) => {
-                this.isSubmit = false;
-                this.$router.back();
-                iziToast.success({
-                    title: "Berhasil",
-                    message: "Data berhasil ditambahkan",
-                    position: "topRight",
-                });
-            })
-                .catch((err) => {
-                this.isSubmit = false;
-                let meta = err.response.data.meta;
-                let messages = err.response.data.meta.message;
-                Object.entries(messages).forEach(([key, value]) => {
-                    iziToast.warning({
-                        title: "Peringatan",
-                        message: value,
+                    this.isSubmit = false;
+                    this.isLoading = false;
+                    this.$router.back();
+                    iziToast.success({
+                        title: "Berhasil",
+                        message: "Data berhasil ditambahkan",
                         position: "topRight",
                     });
+                })
+                .catch((err) => {
+                    this.isSubmit = false;
+                    this.isLoading = false;
+                    let meta = err.response.data.meta;
+                    let messages = err.response.data.meta.message;
+                    Object.entries(messages).forEach(([key, value]) => {
+                        iziToast.warning({
+                            title: "Peringatan",
+                            message: value,
+                            position: "topRight",
+                        });
+                    });
                 });
-            });
         },
         showEmployee() {
             const self = this;
             self.$store
                 .dispatch("getData", ["/employee/" + self.id])
                 .then((response) => {
-                this.previewImage = "/storage/" + response.data.image;
-                self.employee.name = response.data.name;
-                self.employee.email = response.data.email;
-                self.employee.position_id = response.data.positionId;
-                self.employee.type_emp = response.data.status;
-                self.employee.entry_date = response.data.entryDate;
-                self.employee.phone = response.data.phone;
-                self.employee.address = response.data.address;
-                self.employee.gender = response.data.gender;
-            });
+                    this.previewImage = "/storage/" + response.data.image;
+                    self.employee.name = response.data.name;
+                    self.employee.email = response.data.email;
+                    self.employee.position_id = response.data.positionId;
+                    self.employee.type_emp = response.data.status;
+                    self.employee.entry_date = response.data.entryDate;
+                    self.employee.phone = response.data.phone;
+                    self.employee.address = response.data.address;
+                    self.employee.gender = response.data.gender;
+                });
         },
         updateEmployee() {
             const self = this;
             this.isSubmit = true;
+            this.isLoading = true;
             let type = "updateDataUploadEmployee";
             const fieldData = this.formData;
             self.$store
                 .dispatch(type, fieldData, ["employee/" + self.id])
                 .then((res) => {
-                this.isSubmit = false;
-                this.$router.back();
-                iziToast.success({
-                    title: "Berhasil",
-                    message: "Data berhasil diubah",
-                    position: "topRight",
-                });
-            })
-                .catch((err) => {
-                this.isSubmit = false;
-                let meta = err.response.data.meta;
-                let messages = err.response.data.meta.message;
-                Object.entries(messages).forEach(([key, value]) => {
-                    iziToast.warning({
-                        title: "Peringatan",
-                        message: value,
+                    this.isSubmit = false;
+                    this.isLoading = false;
+                    this.$router.back();
+                    iziToast.success({
+                        title: "Berhasil",
+                        message: "Data berhasil diubah",
                         position: "topRight",
                     });
+                })
+                .catch((err) => {
+                    this.isSubmit = false;
+                    this.isLoading = false;
+                    let meta = err.response.data.meta;
+                    let messages = err.response.data.meta.message;
+                    Object.entries(messages).forEach(([key, value]) => {
+                        iziToast.warning({
+                            title: "Peringatan",
+                            message: value,
+                            position: "topRight",
+                        });
+                    });
                 });
-            });
         },
     },
-    components: { PreviewImage }
+    components: { PreviewImage },
 };
 </script>
-

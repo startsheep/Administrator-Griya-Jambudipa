@@ -1,6 +1,7 @@
 import iziToast from "izitoast";
 import LightBox from "../../../components/DetailImage.vue";
 import CircleLoader from "../../../components/CircleLoader.vue";
+import LoadingComponent from "../../../components/LoadingComponent.vue";
 
 export default {
     data() {
@@ -43,11 +44,12 @@ export default {
     methods: {
         getProfile() {
             const self = this;
-            self.isLoading = false;
+            self.isLoading = true;
 
             self.$store
                 .dispatch("getData", ["company-profile"])
                 .then((response) => {
+                    self.isLoading = false;
                     self.profile = response.data;
                     self.form.name = response.data.name;
                     self.form.email = response.data.email;
@@ -55,7 +57,6 @@ export default {
                     self.form.url = response.data.url;
                     self.form.address = response.data.address;
                     self.previewLogo = "/storage/" + response.data.logo;
-                    self.isLoading = false;
                 });
         },
         uploadLogo(e) {
@@ -67,12 +68,15 @@ export default {
             const self = this;
             let fieldData = this.formData;
             let type = "updateDataUploadCompanyProfile";
+            this.isLoading = true;
+            this.isSubmit = true;
 
             self.$store
                 .dispatch(type, fieldData, [
                     "company-profile/" + self.profile.id,
                 ])
                 .then((result) => {
+                    this.isLoading = false;
                     this.isSubmit = false;
 
                     this.deleteModal();
@@ -85,6 +89,7 @@ export default {
                     });
                 })
                 .catch((err) => {
+                    this.isLoading = false;
                     this.isSubmit = false;
                     let meta = err.response.data.meta;
                     let messages = err.response.data.meta.message;
@@ -99,10 +104,18 @@ export default {
         },
         deleteModal() {
             $("#editCompanyModal").modal("hide");
+
+            self.form.name = "";
+            self.form.email = "";
+            self.form.phone = "";
+            self.form.url = "";
+            self.form.address = "";
+            self.previewLogo = "";
         },
     },
     components: {
         CircleLoader,
         LightBox,
+        LoadingComponent,
     },
 };

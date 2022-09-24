@@ -69,7 +69,8 @@
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="position-relative">
+                                    <LoadingComponent v-if="isLoading" />
                                     <tr
                                         v-for="employee in employees"
                                         :key="employee.id"
@@ -78,10 +79,15 @@
                                             <div class="media">
                                                 <img
                                                     style="
-                                                        object-fit: contain; width: 50px;
-                                                        height: 50px;"
+                                                        object-fit: contain;
+                                                        width: 50px;
+                                                        height: 50px;
+                                                    "
                                                     class="img-thumbnail rounded-circle mr-2"
-                                                    :src="'/storage/' +employee.image"
+                                                    :src="
+                                                        '/storage/' +
+                                                        employee.image
+                                                    "
                                                     alt=""
                                                 />
                                                 <div class="media-body">
@@ -119,7 +125,9 @@
                                                     type="checkbox"
                                                     name="custom-switch-checkbox"
                                                     class="custom-switch-input"
-                                                    :checked="employee.isActive == 1"
+                                                    :checked="
+                                                        employee.isActive == 1
+                                                    "
                                                 />
                                                 <span
                                                     class="custom-switch-indicator"
@@ -170,10 +178,12 @@
                                     <tr>
                                         <td colspan="6">
                                             <EmptyData
-                                                v-if=" !isLoading && employees.length < 1"
+                                                v-if="
+                                                    !isLoading &&
+                                                    employees.length < 1
+                                                "
                                                 message="Data Pegawainya Tidak Ada"
                                             />
-                                            <CircleLoader v-if="isLoading" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -206,11 +216,12 @@ import DetailEmployee from "./DetailEmployee.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import EmptyData from "../../components/EmptyData.vue";
 import Actions from "../../components/Actions.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 export default {
     data() {
         return {
             employees: [],
-            employee:{},
+            employee: {},
             status: 0,
             empId: "",
             // edit
@@ -291,6 +302,7 @@ export default {
                 })
                 .then((result) => {
                     if (result.isConfirmed) {
+                        this.isLoading = true;
                         self.$store
                             .dispatch("deleteData", ["employee", id])
                             .then((response) => {
@@ -300,6 +312,7 @@ export default {
                                     position: "topRight",
                                 });
                                 self.getEmployees();
+                                this.isLoading = false;
                             });
                     }
                 });
@@ -326,6 +339,7 @@ export default {
                     active: status,
                 },
             ];
+            this.isLoading = true;
             this.$store.dispatch(type, url).then((response) => {
                 if (response.type == "success") {
                     iziToast.success({
@@ -333,6 +347,7 @@ export default {
                         message: "Status " + desc,
                         position: "topRight",
                     });
+                    this.isLoading = false;
                     this.getEmployees();
                 }
             });
@@ -346,6 +361,7 @@ export default {
         EmptyData,
         DetailEmployee,
         Actions,
+        LoadingComponent,
     },
 };
 </script>

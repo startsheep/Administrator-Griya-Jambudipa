@@ -1,78 +1,73 @@
 <template>
     <section class="section">
-        <div class="section-header">
-      </div>
-      <CircleLoader v-if="isLoading" />
-    <div class="card">
-        <div class="card-profil-header"></div>
-        <div class="card-header d-flex justify-content-end">
-            <button
-                class="btn btn-success"
-                data-toggle="modal"
-                data-target="#editCompanyModal"
-                @click="getProfile"
-            >
-                Ubah
-            </button>
-        </div>
-        <div class="card-body">
-            <div class="d-flex justify-content-center">
-                <div class="hero-head">
-                    <div class="logo">
-
-                        <img
-                            data-toggle="modal"
-                            data-target="#detailImage"
-                            :src="
-                                profile.logo
-                                    ? 'storage/' + profile.logo
-                                    : '/assets/images/logo.png'
-                            "
-                            alt=""
-                            style="width: 100%"
-                            height="284"
-                        />
-                    </div>
-                    <h2 class="text-center text-dark my-3 text-uppercase">
-                        {{ profile.name }}
-                    </h2>
-                    <div class="link text-center">
-                        <p>{{ profile.url }}</p>
+        <div class="section-header"></div>
+        <div class="card">
+            <LoadingComponent v-if="isLoading" />
+            <div class="card-profil-header"></div>
+            <div class="card-header d-flex justify-content-end">
+                <button
+                    class="btn btn-success"
+                    data-toggle="modal"
+                    data-target="#editCompanyModal"
+                    @click="getProfile"
+                >
+                    Ubah
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                    <div class="hero-head">
+                        <div class="logo">
+                            <img
+                                data-toggle="modal"
+                                data-target="#detailImage"
+                                :src="
+                                    profile.logo
+                                        ? 'storage/' + profile.logo
+                                        : '/assets/images/logo.png'
+                                "
+                                alt=""
+                                style="width: 100%"
+                                height="284"
+                            />
+                        </div>
+                        <h2 class="text-center text-dark my-3 text-uppercase">
+                            {{ profile.name }}
+                        </h2>
+                        <div class="link text-center">
+                            <p>{{ profile.url }}</p>
+                        </div>
                     </div>
                 </div>
+                <table
+                    class="table d-flex justify-content-around flex-column flex-sm-row"
+                    style="width: 100%"
+                >
+                    <tr>
+                        <th>Email</th>
+                        <th>:</th>
+                        <th>{{ profile.email }}</th>
+                    </tr>
+                    <tr>
+                        <th>No Telp</th>
+                        <th>:</th>
+                        <th>{{ profile.phone }}</th>
+                    </tr>
+                </table>
+                <div class="text-center mt-5">
+                    {{ profile.address }}
+                </div>
             </div>
-            <table
-                class="table d-flex justify-content-around flex-column flex-sm-row"
-                style="width: 100%"
-            >
-                <tr>
-                    <th>Email</th>
-                    <th>:</th>
-                    <th>{{ profile.email }}</th>
-                </tr>
-                <tr>
-                    <th>No Telp</th>
-                    <th>:</th>
-                    <th>{{ profile.phone }}</th>
-                </tr>
-            </table>
-            <div class="text-center mt-5">
-                {{ profile.address }}
-            </div>
+            <div class="card-footer"></div>
         </div>
-        <div class="card-footer"></div>
-    </div>
-
-      </section>
-      <LightBox
-                            :image="
-                                profile.logo
-                                    ? 'storage/' + profile.logo
-                                    : '/assets/images/logo.png'
-                            "
-                        >
-                        </LightBox>
-      <div
+    </section>
+    <LightBox
+        :image="
+            profile.logo ? 'storage/' + profile.logo : '/assets/images/logo.png'
+        "
+    >
+    </LightBox>
+    <div
         class="modal fade"
         id="editCompanyModal"
         tabindex="-1"
@@ -160,10 +155,15 @@
                             type="button"
                             class="btn btn-secondary"
                             data-dismiss="modal"
+                            :disabled="isSubmit ?? false"
                         >
                             Kembali
                         </button>
-                        <button type="submit" class="btn btn-primary">
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            :class="{ 'disabled btn-progress': isSubmit }"
+                        >
                             Simpan
                         </button>
                     </div>
@@ -171,7 +171,6 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script>

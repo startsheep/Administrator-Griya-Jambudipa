@@ -27,7 +27,6 @@
                         class="alert alert-primary alert-dismissible show fade"
                     >
                         <div class="alert-body">
-
                             Satuan Panjang dan Lebar yang digunakan adalah
                             <Strong>Meter</Strong>
                         </div>
@@ -163,6 +162,7 @@
                         type="button"
                         class="btn btn-secondary"
                         data-dismiss="modal"
+                        :disabled="isSubmit"
                     >
                         Batal
                     </button>
@@ -231,7 +231,7 @@ export default {
     methods: {
         hideModal() {
             $("#ModalKavling").hide("modal");
-            $('div').removeClass('modal-backdrop');
+            $("div").removeClass("modal-backdrop");
         },
         reset() {
             this.kavling = {
@@ -246,7 +246,7 @@ export default {
             };
         },
         showKav() {
-            console.log(this.kav);
+            // console.log(this.kav);
         },
         getHouses() {
             const self = this;
@@ -256,7 +256,6 @@ export default {
         },
         update() {
             this.isSubmit = true;
-            this.isLoading = true;
             const self = this;
             const url = [
                 "kavling",
@@ -294,7 +293,6 @@ export default {
         },
         create() {
             this.isSubmit = true;
-            this.isLoading = true;
             const self = this;
             const url = [
                 "kavling",
