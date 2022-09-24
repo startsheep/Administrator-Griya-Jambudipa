@@ -19,7 +19,7 @@ const process={
             var id = credentials.get('id');
             return new Promise((resolve,reject)=>{
                 ServiceApi.init()
-                ServiceApi.postFormData('whole-jobs/'+id,credentials).then(
+                ServiceApi.postFormData('whole-job/'+id,credentials).then(
                     response=>{
                         resolve(response.data)
                     },error=>{
