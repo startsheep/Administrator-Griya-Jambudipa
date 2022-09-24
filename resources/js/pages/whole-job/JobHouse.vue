@@ -35,7 +35,8 @@
                     <th class="text-center" scope="col">Aksi</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="position-relative">
+                  <LoadingComponent v-if="isLoading" />
                   <tr v-for="job in jobs" :key="job">
                     <!-- <th class="text-center" scope="row">1</th> -->
                     <td>
@@ -56,7 +57,7 @@
                       {{ formatDateLocal(job.endDate) }}
                     </td>
                     <td>
-                      <span>{{formatRupiah(job.totalCost) }}</span>
+                      <span>{{ formatRupiah(job.totalCost) }}</span>
                     </td>
                     <td>{{ job.paymentType }}</td>
                     <td>
@@ -71,31 +72,38 @@
                         targetEdit="#FormHouse"
                         @update="sendId(job.id)"
                         @delete="deleteJob(job.id)"
+                        labelDetail="Rekapitulasi"
+                        @detail="detailJob(job.id)"
+                        :showCustom="true"
+                        labelCustom="Bayar"
+
                       />
                     </td>
                   </tr>
-                    <td colspan="5" >
-                        <EmptyData v-if="!isLoading && jobs.length < 1" message="Data Tidak Ada"/>
-                        <CircleLoader v-if="isLoading" />
-                    </td>
+                  <td colspan="7">
+                    <EmptyData
+                      v-if="!isLoading && jobs.length < 1"
+                      message="Data Tidak Ada"
+                    />
+                    <!-- <CircleLoader v-if="isLoading" /> -->
+                  </td>
                 </tbody>
               </table>
             </div>
           </div>
           <div class="card-footer">
-             <Pagination
+            <Pagination
               :currentPage="pagination.currentPage"
               :rowsTotal="pagination.total"
               :lastPage="pagination.lastPage"
               @onPageChange="onPageChange($event)"
             />
           </div>
-
         </div>
       </div>
     </div>
   </section>
-  <FormHouse @onSuccess="onSuccess" :id="idForEdit"/>
+  <FormHouse @onSuccess="onSuccess" :id="idForEdit" />
 </template>
 <script>
 import Utils from "../../store/services/utils";
@@ -106,21 +114,28 @@ import FormHouse from "./FormHouse.vue";
 import Pagination from "../../components/Pagination.vue";
 import EmptyData from "../../components/EmptyData.vue";
 import CircleLoader from "../../components/CircleLoader.vue";
-import iziToast from 'izitoast';
+import iziToast from "izitoast";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 // create action when hide when click outside modal clear all value in input
 
 export default {
-  components: { ButtonsExport, Actions, FormHouse, Pagination, EmptyData, CircleLoader },
+  components: {
+    ButtonsExport,
+    Actions,
+    FormHouse,
+    Pagination,
+    EmptyData,
+    CircleLoader,
+    LoadingComponent,
+  },
   computed: {
     dateNow() {
       return moment().format("DD-MM-YYYY");
     },
   },
-  watch:{
-    idForEdit(){
-
-    }
+  watch: {
+    idForEdit() {},
   },
 
   mounted() {
@@ -128,7 +143,7 @@ export default {
   },
   data: () => ({
     jobs: [],
-    idForEdit: '',
+    idForEdit: "",
     isLoading: false,
     pagination: {
       total: 0,
@@ -139,14 +154,17 @@ export default {
     },
   }),
   methods: {
-    sendId(id){
-        this.idForEdit = id;
+    detailJob(id){
+        this.$router.push(`/job/${id}/detail`)
+    },
+    sendId(id) {
+      this.idForEdit = id;
     },
     formatDateLocal(date) {
       return Utils.formateDateLocale(date);
     },
-    formatRupiah(num){
-        return Utils.formatRupiah(num , 'Rp. ');
+    formatRupiah(num) {
+      return Utils.formatRupiah(num, "Rp. ");
     },
     checkStatus(s, e) {
       let start = moment(s);
@@ -177,37 +195,41 @@ export default {
         self.isLoading = false;
       });
     },
-    deleteJob(id){
-        const self = this;
-       this.$swal.fire({
-            title: 'Apakah Anda Yakin?',
-            text: "Data yang dihapus tidak dapat dikembalikan!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal'
-          }).then((result) => {
-            if (result.isConfirmed) {
-                self.$store.dispatch("deleteData", ["whole-job", id]).then((res) => {
-                    iziToast.success({
-                        title: 'Berhasil',
-                        message: 'Data Berhasil Dihapus',
-                        position: 'topRight'
-                    });
-                    self.getJobs();
+    deleteJob(id) {
+      const self = this;
+      this.$swal
+        .fire({
+          title: "Apakah Anda Yakin?",
+          text: "Data yang dihapus tidak dapat dikembalikan!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Ya, Hapus!",
+          cancelButtonText: "Batal",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            self.$store
+              .dispatch("deleteData", ["whole-job", id])
+              .then((res) => {
+                iziToast.success({
+                  title: "Berhasil",
+                  message: "Data Berhasil Dihapus",
+                  position: "topRight",
                 });
-            }
-          })
+                self.getJobs();
+              });
+          }
+        });
     },
     onSuccess() {
       this.getJobs();
     },
-    onPageChange(page){
-        this.pagination.currentPage = page;
-        this.getJobs();
-    }
+    onPageChange(page) {
+      this.pagination.currentPage = page;
+      this.getJobs();
+    },
   },
 };
 </script>
