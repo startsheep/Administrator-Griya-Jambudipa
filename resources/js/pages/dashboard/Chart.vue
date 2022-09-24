@@ -1,9 +1,8 @@
 <template >
-  <div class="card">
+  <div class="card h-100">
     <div class="card-body">
       <apexchart
         type="line"
-        height="450"
         :options="chartOptions"
         :series="series"
       ></apexchart>
@@ -37,7 +36,7 @@ export default {
       ],
       chartOptions: {
         chart: {
-          height: 350,
+          height: 450,
           type: "line",
           dropShadow: {
             enabled: true,

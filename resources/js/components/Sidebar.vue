@@ -101,7 +101,7 @@
                     >
                 </li>
                 <li class="dropdown">
-                    <a class="nav-link has-dropdown" data-toggle="dropdown"
+                    <a class="nav-link has-dropdown cursor" data-toggle="dropdown"
                         ><i class="fa-solid fa-house-user"></i
                         ><span>Borongan Pekerjaan</span></a
                     >
