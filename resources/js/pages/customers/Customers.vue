@@ -67,7 +67,8 @@
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="position-relative">
+                                    <LoadingComponent v-if="isLoading" />
                                     <tr
                                         v-for="customer in customers"
                                         :key="customer.id"
@@ -170,7 +171,6 @@
                                             "
                                             message="Data Customer Tidak Ada"
                                         />
-                                        <CircleLoader v-if="isLoading" />
                                     </td>
                                 </tbody>
                             </table>
@@ -200,6 +200,7 @@ import DetailCustomer from "./DetailCustomer.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import EmptyData from "../../components/EmptyData.vue";
 import Actions from "../../components/Actions.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 
 export default {
     data() {
@@ -268,7 +269,6 @@ export default {
                     self.pagination.currentPage = response.meta.currentPage;
                     self.pagination.lastPage = response.meta.lastPage;
                     self.isLoading = false;
-                    // console.log(self.customers)
                 });
         },
         deleteCustomer(id) {
@@ -284,6 +284,7 @@ export default {
                 })
                 .then((result) => {
                     if (result.isConfirmed) {
+                        self.isLoading = true;
                         self.$store
                             .dispatch("deleteData", ["customer", id])
                             .then((response) => {
@@ -292,6 +293,7 @@ export default {
                                     message: "Data berhasil dihapus",
                                     position: "topRight",
                                 });
+                                self.isLoading = false;
                                 self.getCustomers();
                             });
                     }
@@ -310,6 +312,7 @@ export default {
         ButtonsExport,
         EmptyData,
         Actions,
+        LoadingComponent,
     },
 };
 </script>

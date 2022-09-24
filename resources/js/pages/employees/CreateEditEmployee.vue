@@ -155,7 +155,7 @@
                             @click="back"
                             class="btn btn-danger btn-block"
                             type="button"
-                            :class="{ disabled: isSubmit }"
+                            :disabled="isSubmit ?? false"
                         >
                             Batal
                         </button>

@@ -120,6 +120,7 @@
                             @click="back"
                             class="btn btn-danger btn-block"
                             type="button"
+                            :disabled="isSubmit"
                         >
                             Batal
                         </button>

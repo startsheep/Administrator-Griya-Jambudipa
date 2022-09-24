@@ -119,7 +119,7 @@
                         class="btn btn-danger mr-1"
                         @click="cancelUpdate"
                         type="button"
-                        :class="{ disabled: isSubmit }"
+                        :disabled="isSubmit ?? false"
                     >
                         Batal
                     </button>
