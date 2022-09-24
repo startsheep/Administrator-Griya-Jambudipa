@@ -176,9 +176,7 @@ export default {
     },
     methods: {
         removeDocument(doc) {
-            this.documents = this.documents.filter(
-                (document) => document !== doc
-            );
+            this.documents.splice(this.documents.indexOf(doc), 1);
         },
         formatRupiah(num) {
             return Utils.formatRupiah(num, "Rp.");
