@@ -59,7 +59,7 @@
                     <div class="boxes">
                       <strong>Uang Muka : </strong>
                       <span>20%</span>
-                      <span >{{ calcPercentage(20) }}</span>
+                      <span>{{ calcPercentage(20) }}</span>
                       <i class="fas fa-check-circle text-success fa-lg"></i>
                       <span>Lihat Bukti Pembayaran</span>
                     </div>
@@ -78,9 +78,16 @@
                       <span>Lihat Bukti Pembayaran</span>
                     </div>
                     <div class="boxes">
-                      <strong>Progress 100% : </strong>
-                      <span>20%</span>
-                      <span>Rp.20.000.000</span>
+                        <strong>Progress 100% : </strong>
+                        <span>20%</span>
+                        <span>{{ calcPercentage(20) }}</span>
+                      <i class="fas fa-check-circle text-success fa-lg"></i>
+                      <span>Lihat Bukti Pembayaran</span>
+                    </div>
+                    <div class="boxes">
+                        <strong>Retensi : </strong>
+                        <span>10%</span>
+                        <span>{{ calcPercentage(10) }}</span>
                       <i class="fas fa-check-circle text-success fa-lg"></i>
                       <span>Lihat Bukti Pembayaran</span>
                     </div>
@@ -100,6 +107,38 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="area-body d-flex">
+                  <div class="area-tittle mr-3">
+                    <strong class="d-block">Status</strong>
+                    <div v-if="contract != null">
+                      <div
+                        v-html="checkStatus(contract.startDate, contract.endDate)"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="area-tittle mr-3">
+                    <strong class="d-block">Tanggal Dibuat</strong>
+                    <span v-if="contract != null">{{
+                      formatDate(contract.createdAt)
+                    }}</span>
+                  </div>
+                  <div class="area-tittle mr-3">
+                    <strong class="d-block">Tanggal Diperbarui</strong>
+                    <span v-if="contract != null">{{
+                      formatDate(contract.updatedAt)
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <!-- btn -->
+            <button class="btn-block btn btn-primary" @click="$router.back">
+              Kembali
+            </button>
           </div>
         </div>
       </div>
@@ -109,6 +148,7 @@
 <script>
 import LoadingComponent from "../../components/LoadingComponent.vue";
 import Utils from "../../store/services/utils";
+import moment from "moment";
 export default {
   props: ["id"],
   data() {
@@ -135,16 +175,27 @@ export default {
     },
   },
   methods: {
-    formatRupiah(num){
-         return Utils.formatRupiah(num, "Rp.");
+    checkStatus(s, e) {
+      let start = moment(s);
+      let end = moment(e);
+      let now = moment();
+      if (moment().isBetween(start, end)) {
+        return ` <span class="badge badge-info">Sedang Dikerjakan</span>`;
+      } else if (now.isAfter(end)) {
+        return ` <span class="badge badge-success">Selesai Dikerjakan</span>`; //Selesai Dikerjakan
+      } else {
+        return ` <span class="badge badge-warning">Belum Dikerjakan</span>`; //Belum dikerjakan
+      }
+    },
+    formatRupiah(num) {
+      return Utils.formatRupiah(num, "Rp.");
     },
     formatDate(date) {
       return Utils.formateDateLocale(date);
     },
-    calcPercentage(percent)
-    {
-      if(this.contract) return this.formatRupiah((this.contract.totalCost * percent) / 100);
-
+    calcPercentage(percent) {
+      if (this.contract)
+        return this.formatRupiah((this.contract.totalCost * percent) / 100);
     },
     getContract() {
       const self = this;
@@ -190,6 +241,6 @@ export default {
   align-items: center;
   padding: 10px;
   border-radius: 10px;
-  border: 1px solid #e4e4e4;
+  border-bottom: 1px solid #e4e4e4;
 }
 </style>
