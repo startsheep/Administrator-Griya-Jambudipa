@@ -7,7 +7,7 @@
       <div class="col-lg-8">
         <div class="row">
           <div class="col-lg-6">
-            <CardStatistic tittle="Pegawai" count="99" />
+            <CardStatistic tittle="Pegawai" icon="fas fa-people-group" backgroundColor="dark" :count="count.employeeActive" />
           </div>
           <div class="col-lg-6">
             <CardStatistic
@@ -18,7 +18,7 @@
             />
           </div>
           <div class="col-lg-6">
-            <CardStatistic tittle="Pemborong" count="99" />
+            <CardStatistic tittle="Pemborong" icon="fas fa-users" backgroundColor="secondary" :count="count.contractorActive" />
           </div>
           <div class="col-lg-6">
             <CardStatistic
@@ -29,10 +29,13 @@
             />
           </div>
           <div class="col-lg-4">
-            <CardStatistic tittle=" Kavling" count="99" />
+            <CardStatistic tittle="Kavling" icon="fas fa-maximize" :count="count.kavling" />
           </div>
           <div class="col-lg-4">
-            <CardStatistic tittle=" Tipe Rumah" count="99" />
+            <CardStatistic tittle=" Tipe Rumah"
+             icon="fas fa-house-circle-check"
+             backgroundColor="danger"
+            :count="count.houseType" />
           </div>
           <div class="col-lg-4">
             <CardStatistic tittle="Transaksi" icon="fas fa-wallet" backgroundColor="info" :count="count.transaction" />
@@ -66,11 +69,11 @@ export default {
         employeeInactive: 0,
         contractorActive: 0,
         contractorInactive: 0,
-        houseTypeActive: 0,
-        houseTypeInactive: 0,
+       houseType: 0,
         kavlingActive: 0,
         kavlingInactive: 0,
         transaction: 0,
+        kavling: 0,
         job: 0,
       },
     };
@@ -79,7 +82,7 @@ export default {
     this.getCount();
   },
   methods: {
-    getCountCustomer() {
+    getCountPeople() {
       const self = this;
       this.isLoading = true;
       const params = [].join("&");
@@ -89,16 +92,44 @@ export default {
           this.count.customerActive = response.data.customerActive;
           this.count.customerInactive = response.data.customerNoActive;
         });
+      self.$store
+        .dispatch("getData", ["dashboard/count-employee", params])
+        .then((response) => {
+            console.log(response.data)
+          this.count.employeeActive = response.data.employeeActive;
+          this.count.employeeInactive = response.data.employeeNoActive;
+        });
+      self.$store
+        .dispatch("getData", ["dashboard/count-contractor", params])
+        .then((response) => {
+            console.log(response.data)
+          this.count.contractorActive = response.data.contractorActive;
+          this.count.contractorInactive = response.data.contractorNoActive;
+        });
     },
     getCountWholeJob() {
       const self = this;
-      this.isLoading = true;
-      const params = [].join("&");
+    //   this.isLoading = true;
       self.$store
-        .dispatch("getData", ["dashboard/count-whole-job", params])
+        .dispatch("getData", ["dashboard/count-whole-job"])
         .then((response) => {
           this.count.job = response.data.wholeJob;
         });
+    },
+    getCountKavling(){
+        const self = this;
+        // this.isLoading = true;
+        self.$store
+            .dispatch("getData", ["dashboard/count-kavling"])
+            .then((response) => {
+                this.count.kavling = response.data.kavling;
+            });
+        self.$store
+            .dispatch("getData", ["dashboard/count-house-type"])
+            .then((response) => {
+                this.count.houseType = response.data.houseType
+            });
+
     },
     getCountTransaction() {
       const self = this;
@@ -111,10 +142,12 @@ export default {
         });
     },
     getCount() {
-      this.getCountCustomer();
+      this.getCountPeople();
       this.getCountWholeJob();
       this.getCountTransaction();
+      this.getCountKavling()
     },
+
   },
 };
 </script>
