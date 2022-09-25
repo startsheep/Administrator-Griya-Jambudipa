@@ -3,7 +3,8 @@
 namespace App\Http\Services\Searches;
 
 use App\Http\Services\Searches\Filters\Log\Sort;
-use App\Http\Services\Searches\Filters\Log\userId;
+use App\Http\Services\Searches\Filters\Log\Search;
+use App\Http\Services\Searches\Filters\Log\UserId;
 use App\Http\Services\Searches\HttpSearch;
 use App\Models\Log;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +21,8 @@ class LogSearch extends HttpSearch
     {
         return [
             Sort::class,
-            UserId::class
+            UserId::class,
+            Search::class
         ];
     }
 

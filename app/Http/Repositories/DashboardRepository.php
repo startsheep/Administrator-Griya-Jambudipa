@@ -174,8 +174,8 @@ class DashboardRepository implements DashboardContract
 
         for ($i = 1; $i <= $month; $i++) {
             $counters[Carbon::now()->isoFormat('') . sprintf("%02d", $i)] = [
-                "pemasukan" => 0,
-                "pengeluaran" => 0
+                "income" => 0,
+                "expense" => 0
             ];
         }
 
@@ -186,12 +186,30 @@ class DashboardRepository implements DashboardContract
             ->groupBy(DB::raw("date"))->get();
 
         $payments2 = Payment::all();
+
+        if ($payments2->count() < 1) {
+            foreach ($payments as $key => $item) {
+                $counters[$item->date] = [
+                    "income" => 0,
+                    "expense" => 0
+                ];
+            }
+        }
+
         $wholeJobs = WholeJob::all();
+        if ($wholeJobs->count() < 1) {
+            foreach ($payments as $key => $item) {
+                $counters[$item->date] = [
+                    "income" => 0,
+                    "expense" => 0
+                ];
+            }
+        }
 
         foreach ($payments as $key => $item) {
             $counters[$item->date] = [
-                "pemasukan" => $this->income($payments2[$key]),
-                "pengeluaran" => $this->expense($wholeJobs[$key])
+                "income" => $this->income($payments2),
+                "expense" => $this->expense($wholeJobs)
             ];
         }
 
@@ -222,8 +240,10 @@ class DashboardRepository implements DashboardContract
     {
         $price = 0;
 
-        foreach ($result->paymentPrice as $payment) {
-            $price += $payment->price;
+        foreach ($result as $item) {
+            foreach ($item->paymentPrice as $payment) {
+                $price += $payment->price;
+            }
         }
 
         return $price;
