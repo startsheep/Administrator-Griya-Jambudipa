@@ -69,6 +69,7 @@ class LoginController extends Controller
             'message' => 'Login success!',
             'data' => [
                 'user' => [
+                    'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
                     'image' => $image,
