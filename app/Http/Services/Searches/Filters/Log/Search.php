@@ -6,18 +6,18 @@ use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Services\Searches\Contracts\FilterContract;
 
-class UserId implements FilterContract
+class Search implements FilterContract
 {
     /** @var string|null */
-    protected $userId;
+    protected $search;
 
     /**
-     * @param string|null $userId
+     * @param string|null $search
      * @return void
      */
-    public function __construct($userId)
+    public function __construct($search)
     {
-        $this->userId = $userId;
+        $this->search = $search;
     }
 
     /**
@@ -29,9 +29,9 @@ class UserId implements FilterContract
             return $next($query);
         }
 
-        $query->when($userId = $this->userId, function ($query) use ($userId) {
-            $query->whereHas('user', function ($queryUser) use ($userId) {
-                $queryUser->where('id', 'LIKE', '%' . $userId . '%');
+        $query->when($search = $this->search, function ($query) use ($search) {
+            $query->whereHas('user', function ($queryUser) use ($search) {
+                $queryUser->where('email', 'LIKE', '%' . $search . '%');
             });
         });
 
@@ -39,18 +39,18 @@ class UserId implements FilterContract
     }
 
     /**
-     * Get userId keyword.
+     * Get search keyword.
      *
      * @return mixed
      */
     protected function keyword()
     {
-        if ($this->userId) {
-            return $this->userId;
+        if ($this->search) {
+            return $this->search;
         }
 
-        $this->userId = request('user_id', null);
+        $this->search = request('search', null);
 
-        return request('user_id');
+        return request('search');
     }
 }

@@ -128,6 +128,24 @@
                                                     >
                                                         Detail
                                                     </button>
+                                                    <router-link
+                                                        :to="
+                                                            '/users/' + user.id
+                                                        "
+                                                        custom
+                                                        v-slot="{ navigate }"
+                                                    >
+                                                        <button
+                                                            class="dropdown-item action sortable"
+                                                            role="link"
+                                                            @click="navigate"
+                                                            @keypress.enter="
+                                                                navigate
+                                                            "
+                                                        >
+                                                            Aktifitas
+                                                        </button>
+                                                    </router-link>
                                                 </div>
                                             </div>
                                         </td>

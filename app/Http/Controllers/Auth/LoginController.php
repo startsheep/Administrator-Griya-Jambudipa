@@ -45,17 +45,25 @@ class LoginController extends Controller
 
         $token = $user->createToken('api', [$role]);
 
-        Auth::login($user);
+        $cek = Auth::login($user);
 
         $image = $user->image()->where("documentable_type", 'App\Models\Account')
             ->where("documentable_id", $user->id)
             ->first();
 
-        Log::create([
-            'id' => Str::uuid()->toString(),
-            'user_id' => $user->id,
-            'description' => $user->name . ' login pada tanggal ' . Carbon::now()->isoFormat("D MMMM Y")
-        ]);
+        if ($cek) {
+            Log::create([
+                'id' => Str::uuid()->toString(),
+                'user_id' => $user->id,
+                'description' => $user->name . ' login pada tanggal ' . Carbon::now()->isoFormat("D MMMM Y")
+            ]);
+        } else {
+            Log::create([
+                'id' => Str::uuid()->toString(),
+                'user_id' => $user->id,
+                'description' => 'melakukan percobaan login pada tanggal ' . Carbon::now()->isoFormat("D MMMM Y")
+            ]);
+        }
 
         return response()->json([
             'message' => 'Login success!',

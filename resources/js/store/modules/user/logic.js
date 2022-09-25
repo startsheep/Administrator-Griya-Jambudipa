@@ -11,7 +11,7 @@ import Cookies from "js-cookie";
 export default {
     data() {
         return {
-            session: Cookies.get("user"),
+            session: JSON.parse(Cookies.get("user")),
             user: {},
             userId: "",
             users: [],
@@ -171,7 +171,6 @@ export default {
             this.user = user;
         },
         onSort() {
-            console.log("OK");
             this.getUsers();
         },
         onSuccess() {
