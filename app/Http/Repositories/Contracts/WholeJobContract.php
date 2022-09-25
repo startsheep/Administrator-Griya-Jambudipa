@@ -16,4 +16,6 @@ interface WholeJobContract
     public function update(array $attributes, $result);
 
     public function delete($result);
+
+    public function payment($result, array $attributes);
 }

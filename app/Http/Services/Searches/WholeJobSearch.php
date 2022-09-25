@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Searches;
 
+use App\Http\Services\Searches\Filters\WholeJob\Type;
 use App\Http\Services\Searches\HttpSearch;
 use App\Models\WholeJob;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +17,9 @@ class WholeJobSearch extends HttpSearch
 
     protected function filters(): array
     {
-        return [];
+        return [
+            Type::class
+        ];
     }
 
     protected function thenReturn($wholeJobSearch)

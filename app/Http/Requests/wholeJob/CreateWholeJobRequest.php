@@ -48,11 +48,11 @@ class CreateWholeJobRequest extends FormRequest
     {
         return [
             'contractor_id.required' => 'pemborong harap diisi!',
-            'contractor_id.exist' => 'pemborong tidak terdaftar!',
+            'contractor_id.exists' => 'pemborong tidak terdaftar!',
             'customer_id.required' => 'customer harap diisi!',
-            'customer_id.exist' => 'customer tidak terdaftar!',
+            'customer_id.exists' => 'customer tidak terdaftar!',
             'house_type_id.required' => 'tipe rumah harap diisi!',
-            'house_type_id.exist' => 'tipe rumah tidak terdaftar!',
+            'house_type_id.exists' => 'tipe rumah tidak terdaftar!',
             'payment_type.required' => 'tipe pembayaran harap diisi!',
             'description.required' => 'deskripsi harap diisi!',
             'total_cost.required' => 'total biaya harap diisi!',

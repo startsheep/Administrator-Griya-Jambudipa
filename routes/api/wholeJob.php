@@ -10,5 +10,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/{id}', [WholeJobController::class, 'show'])->name('api.whole.job.show');
         Route::put('/{id}', [WholeJobController::class, 'update'])->name('api.whole.job.update');
         Route::delete('/{id}', [WholeJobController::class, 'delete'])->name('api.whole.job.delete');
+        Route::post('/payment/{id}', [WholeJobController::class, 'payment'])->name('api.whole.job.payment');
     });
 });
