@@ -47,6 +47,15 @@
       >
         {{ labelDetail }}
       </button>
+      <button
+        v-if="showCustom"
+        :data-toggle="toggleCustomBtn"
+        :data-target="targetCustomBtn"
+        class="dropdown-item action sortable"
+        @click="customAct"
+      >
+        {{ labelCustom }}
+      </button>
     </div>
   </div>
 </template>
@@ -105,6 +114,22 @@ export default {
       type: String,
       default: "",
     },
+    showCustom: {
+      type: Boolean,
+      default: false,
+    },
+    labelCustom: {
+      type: String,
+      default: "",
+    },
+    targetCustomBtn: {
+      type: String,
+      default: "",
+    },
+    toggleCustomBtn: {
+      type: String,
+      default: "",
+    },
   },
   methods: {
     detail() {
@@ -116,6 +141,9 @@ export default {
     update() {
       this.$emit("update");
     },
+    customAct(){
+        this.$emit("customAction");
+    }
   },
 };
 </script>

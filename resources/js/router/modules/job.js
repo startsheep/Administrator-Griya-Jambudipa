@@ -4,7 +4,7 @@ export default [
         name: "Jobs",
         children:[
             {
-                path: '/jobs/house',
+                path: '/jobs/house/',
                 component: () => import("../../pages/whole-job/JobHouse.vue"),
             },
             {
@@ -13,6 +13,11 @@ export default [
             },
         ]
     },
+     {
+         path: '/job/:id/detail',
+         component: () => import("../../pages/whole-job/DetailJob.vue"),
+         props: true
+     },
     // {
     //     path: "/payment-jobs",
     //     name: "Payment Jobs",
