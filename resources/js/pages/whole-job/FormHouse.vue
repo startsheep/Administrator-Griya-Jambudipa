@@ -116,6 +116,17 @@
               @click="removeDocument(document)"
             ></i>
           </div>
+          <div
+            v-for="document in contract.oldDocuments"
+            :key="document"
+            class="badge badge-primary m-1 p-2"
+          >
+            {{ document.documentName }}
+            <i
+              class="fas fa-times sortable"
+              @click="removeOldDocument(document)"
+            ></i>
+          </div>
         </div>
       </div>
     </template>
@@ -143,6 +154,7 @@ export default {
         end_date: "",
         payment_type: "",
         documents: [],
+        oldDocuments: [],
         budget: "",
       },
       contractors: [],
@@ -199,15 +211,18 @@ export default {
   },
   methods: {
     removeDocument(doc) {
-      this.contract.documents = this.contract.documents.filter(
-        (document) => document.name !== doc.name
-      );
+      this.contract.documents.splice(this.contract.documents.indexOf(doc), 1);
+    },
+    removeOldDocument(doc) {
+        this.contract.oldDocuments.splice(
+            this.contract.oldDocuments.indexOf(doc),
+            1
+        );
     },
     getContract(id) {
       this.isLoading = true;
       this.contract.documents = [];
       this.$store.dispatch("showData", ["whole-job/" + id]).then((res) => {
-        console.log(res);
         this.contract.contractor_id = res.data.contractor.id;
         this.contract.customer_id = res.data.customer.id;
         this.contract.payment_type = res.data.paymentType;
@@ -223,10 +238,7 @@ export default {
         this.contract.end_date = moment(res.data.endDate).format("YYYY-MM-DD");
         this.contract.budget = res.data.totalCost;
         res.data.document.forEach((doc) => {
-          this.contract.documents.push({
-            name: doc.documentName,
-            path: doc.documentPath,
-          });
+          this.contract.oldDocuments.push(doc);
         });
         this.isLoading = false;
       });

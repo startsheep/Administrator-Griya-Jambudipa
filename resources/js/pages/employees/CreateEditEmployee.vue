@@ -139,6 +139,17 @@
                                         @click="removeDocument(document)"
                                     ></i>
                                 </div>
+                                <div
+                                    v-for="document in employee.oldDocument"
+                                    :key="document"
+                                    class="badge badge-primary m-1 p-2"
+                                >
+                                    {{ document.documentName }}
+                                    <i
+                                        class="fas fa-times sortable"
+                                        @click="removeOldDocument(document)"
+                                    ></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -186,6 +197,7 @@ export default {
                 gender: "",
                 image: "",
                 document: [],
+                oldDocument: []
             },
             defaultImage:
                 "../../../../public/assets/images/avatar/avatar-1.png",
@@ -233,6 +245,12 @@ export default {
         removeDocument(document) {
             this.employee.document.splice(
                 this.employee.document.indexOf(document),
+                1
+            );
+        },
+        removeOldDocument(document) {
+            this.employee.oldDocument.splice(
+                this.employee.oldDocument.indexOf(document),
                 1
             );
         },
@@ -336,10 +354,15 @@ export default {
                     self.employee.email = response.data.email;
                     self.employee.position_id = response.data.positionId;
                     self.employee.type_emp = response.data.status;
-                    self.employee.entry_date = response.data.entryDate;
+                    self.employee.entry_date = moment(response.data.entryDate).format(
+                        "YYYY-MM-DD"
+                    );
                     self.employee.phone = response.data.phone;
                     self.employee.address = response.data.address;
                     self.employee.gender = response.data.gender;
+                    response.data.document.forEach((document) => {
+                        self.employee.oldDocument.push(document);
+                    });
                 });
         },
         updateEmployee() {

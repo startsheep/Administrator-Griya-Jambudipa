@@ -102,6 +102,17 @@
                                         @click="removeDocument(document)"
                                     ></i>
                                 </div>
+                                <div
+                                    v-for="document in contractor.oldDocument"
+                                    :key="document"
+                                    class="badge badge-primary m-1 p-2"
+                                >
+                                    {{ document.documentName }}
+                                    <i
+                                        class="fas fa-times sortable"
+                                        @click="removeDocument(document)"
+                                    ></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -147,6 +158,7 @@ export default {
                 address: "",
                 image: "",
                 document: [],
+                oldDocument: [],
             },
             previewImage: "",
             isSubmit: false,
@@ -170,6 +182,11 @@ export default {
             fieldData.append("email", this.contractor.email);
             fieldData.append("address", this.contractor.address);
             //   fieldData.append("documents", this.contractor.document);
+
+                // this.contractor.oldDocument.forEach((document, index) =>
+                //     fieldData.append("documents[" + index + "]", document)
+                // );
+
             this.contractor.document.forEach((document, index) =>
                 fieldData.append("documents[" + index + "]", document)
             );
@@ -281,6 +298,9 @@ export default {
                     self.contractor.phone = response.data.phone;
                     self.contractor.email = response.data.email;
                     self.contractor.address = response.data.address;
+                    response.data.document.forEach((document) => {
+                        self.contractor.oldDocument.push(document);
+                    });
                 });
         },
         updateContractor() {

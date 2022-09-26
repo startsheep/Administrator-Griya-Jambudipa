@@ -151,6 +151,17 @@
                                         @click="removeDocument(document)"
                                     ></i>
                                 </div>
+                                <div
+                                    v-for="document in customer.oldDocument"
+                                    :key="document"
+                                    class="badge badge-primary m-1 p-2"
+                                >
+                                    {{ document.documentName }}
+                                    <i
+                                        class="fas fa-times sortable"
+                                        @click="removeOldDocument(document)"
+                                    ></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -199,6 +210,7 @@ export default {
                 gender: "",
                 image: "",
                 document: [],
+                oldDocument:[],
             },
             previewImage: "",
             kavlings: [],
@@ -253,6 +265,12 @@ export default {
         removeDocument(document) {
             this.customer.document.splice(
                 this.customer.document.indexOf(document),
+                1
+            );
+        },
+        removeOldDocument(document) {
+            this.customer.oldDocument.splice(
+                this.customer.oldDocument.indexOf(document),
                 1
             );
         },
@@ -359,7 +377,7 @@ export default {
             self.$store
                 .dispatch("getData", ["/customer/" + self.id])
                 .then((response) => {
-                    //   console.log(response);
+                      console.log(response);
                     this.previewImage = "/storage/" + response.data.image;
                     self.customer.name = response.data.name;
                     self.customer.email = response.data.email;
@@ -374,6 +392,9 @@ export default {
                             kav.kavling.block + "-" + kav.kavling.numberKavling;
                         //   console.log(kav.kavling)
                         this.customer.kavlings.push(kav.kavling);
+                    });
+                    response.data.document.forEach((document) => {
+                        this.customer.oldDocument.push(document);
                     });
                 });
         },
