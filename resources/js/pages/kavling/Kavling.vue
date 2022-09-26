@@ -136,11 +136,11 @@
                                                     >
                                                         Hapus
                                                     </button>
-                                                    <button
+                                                    <!-- <button
                                                         class="dropdown-item action sortable"
                                                     >
                                                         Detail
-                                                    </button>
+                                                    </button> -->
                                                 </div>
                                             </div>
                                         </td>
