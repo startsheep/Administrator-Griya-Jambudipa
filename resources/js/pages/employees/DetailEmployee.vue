@@ -62,7 +62,7 @@
                                         <div class="col text-left">
                                             <div class="">Divisi</div>
                                             <div class="">
-                                                {{ employee.positionId }}
+                                                {{ employee.position }}
                                             </div>
                                         </div>
                                     </div>
