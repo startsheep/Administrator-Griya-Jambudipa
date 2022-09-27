@@ -61,8 +61,8 @@
                                         </div>
                                         <div class="col text-left">
                                             <div class="">Divisi</div>
-                                            <div class="">
-                                                {{ employee.position }}
+                                            <div class="" v-if="employee.position">
+                                                {{ employee.position.name }}
                                             </div>
                                         </div>
                                     </div>
