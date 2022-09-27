@@ -7,4 +7,13 @@ export default [
             title: "Users",
         },
     },
+    {
+        path: "/users/:id",
+        name: "User Activity",
+        component: () => import("../../pages/users/Activity.vue"),
+        props: true,
+        meta: {
+            title: "User Activity",
+        },
+    },
 ];

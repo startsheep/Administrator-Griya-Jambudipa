@@ -24,7 +24,7 @@ class WholeJobRepository implements WholeJobContract
     public function all($request)
     {
         $factory = app()->make(WholeJobSearch::class);
-        $result = $factory->apply()->with(['document', 'customer', 'contractor', 'houseType'])->paginate($request->per_page);
+        $result = $factory->apply()->with(['document', 'customer', 'contractor', 'houseType', 'wholeJobPrice'])->paginate($request->per_page);
 
         return $result;
     }
@@ -55,7 +55,7 @@ class WholeJobRepository implements WholeJobContract
 
     public function find($id): WholeJob
     {
-        return $this->wholeJob->with(['document', 'customer', 'contractor', 'houseType'])->findOrFail($id);
+        return $this->wholeJob->with(['document', 'customer', 'contractor', 'houseType', 'wholeJobPrice'])->findOrFail($id);
     }
 
     public function update(array $attributes, $result)
@@ -103,6 +103,15 @@ class WholeJobRepository implements WholeJobContract
         ]);
 
         return $result->delete();
+    }
+
+    public function payment($result, $attributes)
+    {
+        $result->wholeJobPrice()->create([
+            'price' => $attributes['price']
+        ]);
+
+        return $result;
     }
 
     protected function storageFile($file, $folder)

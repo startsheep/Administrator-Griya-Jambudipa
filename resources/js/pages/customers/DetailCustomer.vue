@@ -23,16 +23,21 @@
           </button>
         </div>
         <div class="modal-body">
-            <CircleLoader v-if="isLoading" />
+          <CircleLoader v-if="isLoading" />
           <div v-else class="card bg-primary">
             <div class="card-body">
               <div class="user-item">
-                    <div class="avatar avatar-lg" :style="{'background-image':`url(storage/${customer.image})`}" style="background-size: cover; width: 120px; height: 120px">
-                    </div>
+                <div
+                  class="avatar avatar-lg"
+                  :style="{
+                    'background-image': `url(storage/${customer.image})`,
+                  }"
+                  style="background-size: cover; width: 120px; height: 120px"
+                ></div>
 
                 <div class="user-details">
                   <div class="user-name text-white">{{ customer.name }}</div>
-                  <div class="text-job text-muted">{{ }}</div>
+                  <div class="text-job text-muted">{{}}</div>
                   <div class="row mt-3">
                     <div class="col text-left">
                       <div class="text-bold">Email</div>
@@ -62,9 +67,7 @@
                       <div class="mt-2">
                         <div class="">Alamat</div>
                         <div class="">
-                          {{
-                            customer.address
-                          }}
+                          {{ customer.address }}
                         </div>
                       </div>
                       <div class="mt-2">
@@ -107,87 +110,87 @@
               </div>
             </div>
             <div class="card-footer">
-                 <button
-                    style="width: 100%;"
-                 type="button" class="btn btn-danger" data-dismiss="modal">
-            Tutup
-          </button>
+              <button
+                style="width: 100%"
+                type="button"
+                class="btn btn-danger"
+                data-dismiss="modal"
+              >
+                Tutup
+              </button>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 </template>
 <script>
-import CircleLoader from '../../components/CircleLoader.vue';
+import CircleLoader from "../../components/CircleLoader.vue";
 export default {
-    props: ["id"],
+  props: ["id"],
 
-    data() {
-        return {
-            customer: {},
-            isLoading: false,
+  data() {
+    return {
+      customer: {},
+      isLoading: false,
+    };
+  },
 
-        };
+  watch: {
+    id(newVal) {
+      this.getCustomer();
     },
-
-    watch : {
-        id(newVal){
-            this.getCustomer();
-        }
+  },
+  methods: {
+    showKavlings(kavlings) {
+      if (kavlings) {
+        return kavlings
+          .map((kavling) => {
+            return (
+              kavling.kavling.block + " / " + kavling.kavling.numberKavling
+            );
+          })
+          .join(", ");
+      } else {
+        return "-";
+      }
     },
-    methods: {
-        showKavlings(kavlings) {
-            if (kavlings) {
-                return kavlings
-                    .map((kavling) => {
-                    return (kavling.kavling.block + " / " + kavling.kavling.numberKavling);
-                })
-                    .join(", ");
-            }
-            else {
-                return "-";
-            }
-        },
-        downloadDoc(doc) {
-            const self = this;
-        },
-        getCustomer() {
-            this.isLoading = true;
-            const self = this;
-            self.$store.dispatch("showData", ["customer/" +self.id]).then(function (result) {
-
-                self.customer = result.data;
-                self.isLoading = false;
-            });
-        },
+    downloadDoc(doc) {
+      const self = this;
     },
-    components: { CircleLoader }
+    getCustomer() {
+      this.isLoading = true;
+      const self = this;
+      self.$store
+        .dispatch("showData", ["customer/" + self.id])
+        .then(function (result) {
+          self.customer = result.data;
+          self.isLoading = false;
+        });
+    },
+  },
+  components: { CircleLoader },
 };
 </script>
 <style >
-    .list-group .list-group-item{
-
-          padding: 5px;
-          margin-top: 2px;
-          color: #000;
-
-    }
-    .custom-avatar{
-           width: 60px;
-    height: 60px;
-    -webkit-border-radius: 60px;
-    -webkit-background-clip: padding-box;
-    -moz-border-radius: 60px;
-    -moz-background-clip: padding;
-    border-radius: 60px;
-    background-clip: padding-box;
-    margin: 7px 0 0 5px;
-    float: left;
-    background-size: cover;
-    background-position: center center;
-    }
-
+.list-group .list-group-item {
+  padding: 5px;
+  margin-top: 2px;
+  color: #000;
+}
+.custom-avatar {
+  width: 60px;
+  height: 60px;
+  -webkit-border-radius: 60px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 60px;
+  -moz-background-clip: padding;
+  border-radius: 60px;
+  background-clip: padding-box;
+  margin: 7px 0 0 5px;
+  float: left;
+  background-size: cover;
+  background-position: center center;
+}
 </style>

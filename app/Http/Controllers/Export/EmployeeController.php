@@ -24,7 +24,8 @@ class EmployeeController extends Controller
     public function print()
     {
         $data = [
-            'employees' => Employee::all()
+            'employees' => Employee::all(),
+            'title' => "PEGAWAI"
         ];
 
         return view('exports.employees.excel', $data);

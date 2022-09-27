@@ -7,7 +7,10 @@ use App\Http\Repositories\Contracts\WholeJobContract;
 use App\Http\Requests\wholeJob\CreateWholeJobRequest;
 use App\Http\Resources\wholeJob\WholeJobCollection;
 use App\Http\Resources\wholeJob\WholeJobDetail;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class WholeJobController extends Controller
 {
@@ -68,6 +71,31 @@ class WholeJobController extends Controller
     {
         $result = $this->wholeJobRepository->find($id);
         $this->wholeJobRepository->delete($result);
+
+        return new WholeJobDetail($result);
+    }
+
+    public function payment($id, Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'price' => 'required',
+        ], [
+            'price.require' => 'nominal harap diisi!'
+        ]);
+
+        if ($validate->fails()) {
+            $response = new JsonResponse([
+                'meta' => [
+                    'message' => $validate->errors(),
+                    'status_code' => 400
+                ]
+            ], 400);
+
+            throw new ValidationException($validate, $response);
+        }
+
+        $result = $this->wholeJobRepository->find($id);
+        $this->wholeJobRepository->payment($result, $request->all());
 
         return new WholeJobDetail($result);
     }

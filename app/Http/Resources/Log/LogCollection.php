@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Log;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class LogCollection extends ResourceCollection
@@ -17,13 +18,15 @@ class LogCollection extends ResourceCollection
         $result = [];
 
         foreach ($this as $item) {
+            $item->user->image;
             $result[] = [
                 "id" => $item->id,
                 "user_id" => $item->user_id,
                 "description" => $item->description,
+                "created_at_id" => Carbon::createFromFormat('Y-m-d H:i:s', $item->created_at)->diffForHumans(),
                 "created_at" => $item->created_at,
                 "updated_at" => $item->updated_at,
-                "user" => $item->user
+                "user" => $item->user,
             ];
         }
 

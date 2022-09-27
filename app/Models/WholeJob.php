@@ -25,6 +25,11 @@ class WholeJob extends Model
         return $this->morphMany(Document::class, 'documentable');
     }
 
+    public function wholeJobPrice()
+    {
+        return $this->hasMany(WholeJobPrice::class);
+    }
+
     public function customer()
     {
         return $this->hasOne(Customer::class, 'id', 'customer_id');

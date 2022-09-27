@@ -1,6 +1,7 @@
-<template >
+<template>
   <div class="card h-100">
-    <div class="card-body">
+    <div class="card-body position-relative">
+      <LoadingComponent v-if="loadingGraph" />
       <apexchart
         type="line"
         :options="chartOptions"
@@ -11,33 +12,31 @@
 </template>
 <script>
 import VueApexCharts from "vue3-apexcharts";
+import Utils from "../../store/services/utils";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 export default {
   components: {
     apexchart: VueApexCharts,
+    LoadingComponent,
   },
   data() {
     return {
+      loadingGraph: false,
       series: [
         {
           name: "Pengeluaran",
-          data: [
-            2000000, 4000000, 5000000, 6000000, 7000000, 8000000, 9000000,
-            10000000, 11000000, 3000000, 12000000, 13000000,
-          ],
+          data: [],
         },
         {
           name: "Pemasukan",
-          data: [
-            //make 12 random data min 1000000 max 10000000
-            2000000, 3000000, 13000000, 4000000, 5000000, 6000000,
-            7000000, 8000000, 9000000, 10000000, 11000000,12000000,
-          ],
+          data: [],
         },
       ],
       chartOptions: {
         chart: {
           height: 450,
           type: "line",
+
           dropShadow: {
             enabled: true,
             color: "#000",
@@ -76,7 +75,7 @@ export default {
         //   },
         // },
         markers: {
-          size: 1,
+          size: 5,
         },
         xaxis: {
           categories: [
@@ -99,12 +98,17 @@ export default {
         },
         yaxis: {
           title: {
-            text: "Temperature",
+            // text: "Rate",
+          },
+          labels: {
+            formatter: function (val) {
+              return Utils.formatRupiah(val, "Rp. ");
+            },
           },
         },
         legend: {
           position: "top",
-          horizontalAlign: "right",
+          horizontalAlign: "center",
           floating: true,
           offsetY: -25,
           offsetX: -5,
@@ -121,7 +125,29 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.getGraph();
+  },
+  methods: {
+    getGraph() {
+      const self = this;
+      this.loadingGraph = true;
+      const params = [].join("&");
+      self.$store
+        .dispatch("getData", ["dashboard/graph", params])
+        .then((response) => {
+          this.loadingGraph = false;
+          for (let i = 0; i < 12; i++) {
+            let month = i < 9 ? "0" + (i + 1) : i + 1;
+            this.series[1].data.push(response.data[month].income);
+            this.series[0].data.push(response.data[month].expense);
+          }
+        })
+        .catch((err) => {
+          this.loadingGraph = false;
+        });
+    },
+  },
 };
 </script>
-<style >
-</style>
+<style></style>
