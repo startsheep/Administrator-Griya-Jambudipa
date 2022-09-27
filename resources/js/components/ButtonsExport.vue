@@ -6,13 +6,13 @@
       class="btn btn-icon icon-rigth btn-primary mr-2"
         @click="exportPdf"
     >
-      EXPORT PDF <i class="fa-solid fa-file-pdf"></i>
+   }{{ labelExportPdf }} <i class="fa-solid fa-file-pdf"></i>
     </button>
     <button type="button" class="btn btn-icon icon-rigth btn-primary mr-2" @click="exportExcel">
-      EXPORT EXCEL <i class="fa-solid fa-file-excel"></i>
+      {{ labelExportExcel }} <i class="fa-solid fa-file-excel"></i>
     </button>
     <button v-if="printData" @click="print" type="button" class="btn btn-icon icon-rigth btn-primary mr-2">
-      PRINT DATA <i class="fa-solid fa-print"></i>
+      {{ labelPrint }} <i class="fa-solid fa-print"></i>
     </button>
   </div>
 </template>
@@ -26,7 +26,19 @@ export default {
         size: {
             type: String,
             default: 'sm'
-        }
+        },
+        labelExportPdf: {
+            type: String,
+            default: 'Export PDF'
+        },
+        labelExportExcel: {
+            type: String,
+            default: 'Export Excel'
+        },
+        labelPrint: {
+            type: String,
+            default: 'Print'
+        },
     },
     methods:{
         print(){
