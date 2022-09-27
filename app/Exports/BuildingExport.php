@@ -13,27 +13,15 @@ use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class BuildingExport implements FromView, ShouldAutoSize, WithStyles
+class BuildingExport implements FromView, ShouldAutoSize
 {
     public function view(): View
     {
         $data = [
             'buildings' => BasicPriceCategory::where('section', 'LIKE', '%Bangunan%')->get(),
-            'title' => "HARG"
+            'title' => "HARGA"
         ];
 
         return view('exports.buildings.excel', $data);
-    }
-
-    public function styles(Worksheet $sheet)
-    {
-        return [
-            1 => [
-                'fill' => [
-                    'fillType'   => Fill::FILL_SOLID,
-                    'startColor' => ['argb' => Color::COLOR_BLUE],
-                ]
-            ]
-        ];
     }
 }
