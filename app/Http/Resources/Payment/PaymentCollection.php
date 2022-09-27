@@ -17,11 +17,9 @@ class PaymentCollection extends ResourceCollection
         $result = [];
 
         foreach ($this as $item) {
-            $block = $this->cekBlock($item->customer->customerKavling, $item->houseType->id);
-            $reminderPrice = (string) $this->reminderPrice($item->houseType->price, $item->paymentPrice);
+            $block = $this->cekBlock($item->customer->customerKavling, $item->kavling->id);
+            $reminderPrice = (string) $this->reminderPrice($item->kavling->houseType->price, $item->paymentPrice);
             $cekData = $item->customer()
-                ->whereMonth('created_at', date('m'))
-                ->whereYear('created_at', date('Y'))
                 ->first();
 
             if ($cekData) {
@@ -29,10 +27,10 @@ class PaymentCollection extends ResourceCollection
                     $result[] = [
                         "id" => $item->id,
                         "reminder_payment" => $reminderPrice,
-                        "house_type" => $item->houseType,
                         "type" => $item->type,
-                        "block" => $block,
+                        "block" => $item->kavling,
                         "customer" => $item->customer,
+                        "documents" => $item->document,
                         "created_at" => $item->created_at,
                         "updated_at" => $item->updated_at,
                     ];
@@ -59,7 +57,7 @@ class PaymentCollection extends ResourceCollection
     protected function cekBlock($result, $id)
     {
         foreach ($result as $item) {
-            if ($item->kavling->house_type_id == $id) {
+            if ($item->kavling_id == $id) {
                 return $item->kavling;
             }
         }

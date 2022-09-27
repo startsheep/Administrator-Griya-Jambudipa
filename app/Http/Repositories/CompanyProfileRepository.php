@@ -5,6 +5,8 @@ namespace App\Http\Repositories;
 use App\Http\Repositories\Contracts\CompanyProfileContract;
 use App\Http\Repositories\BaseRepository;
 use App\Models\CompanyProfile;
+use App\Models\Log;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 class CompanyProfileRepository implements CompanyProfileContract
@@ -39,6 +41,12 @@ class CompanyProfileRepository implements CompanyProfileContract
         }
 
         $result->update($attributes);
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan perubahan pada profil perusahaan',
+        ]);
 
         return collect([
             'message' => "success",

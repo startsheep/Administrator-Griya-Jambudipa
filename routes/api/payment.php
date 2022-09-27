@@ -8,6 +8,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('payment')->group(function () {
         Route::get('/', [PaymentController::class, 'index'])->name('api.payment.index');
         Route::post('/', [PaymentController::class, 'store'])->name('api.payment.store');
+        Route::get('/customer', [PaymentController::class, 'customer'])->name('api.payment.customer');
         Route::get('/{id}', [PaymentController::class, 'show'])->name('api.payment.show');
     });
 

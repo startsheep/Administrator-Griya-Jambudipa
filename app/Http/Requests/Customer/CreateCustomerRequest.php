@@ -33,7 +33,7 @@ class CreateCustomerRequest extends FormRequest
             'phone' => 'required|numeric',
             'profession' => 'required',
             'gender' => 'required',
-            'image' => 'required|image|mimes:png,jpg,jpeg',
+            'image' => 'required|image|mimes:png,jpg,jpeg|max:5000',
             'address' => 'required',
         ];
     }
@@ -53,6 +53,7 @@ class CreateCustomerRequest extends FormRequest
             'image.required' => "gambar harap diisi!",
             'image.image' => "harap masukan tipe data gambar!",
             'image.mimes' => "harap masukan tipe data png, jpg, jpeg!",
+            'image.max' => "ukuran file maksimal :max MB"
         ];
     }
 

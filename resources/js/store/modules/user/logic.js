@@ -4,16 +4,16 @@ import Pagination from "../../../components/Pagination.vue";
 import CircleLoader from "../../../components/CircleLoader.vue";
 import ModalForm from "../../../pages/users/CreateEditUsers.vue";
 import ChangePasswordModal from "../../../pages/users/ChangePassword.vue";
-import DetailUser from './../../../pages/users/DetailUser.vue'
+import DetailUser from "./../../../pages/users/DetailUser.vue";
+import LoadingComponent from "../../../components/LoadingComponent.vue";
 import Cookies from "js-cookie";
-
 
 export default {
     data() {
         return {
-            session: Cookies.get("user"),
+            session: JSON.parse(Cookies.get("user")),
             user: {},
-            userId : '',
+            userId: "",
             users: [],
             status: 0,
             // edit
@@ -37,7 +37,7 @@ export default {
     },
     computed: {},
     methods: {
-        sendId(id){
+        sendId(id) {
             this.userId = id;
         },
         showLogUpdate(date) {
@@ -83,6 +83,8 @@ export default {
                     active: status,
                 },
             ];
+
+            this.isLoading = true;
             this.$store.dispatch(type, url).then((response) => {
                 if (response.type == "success") {
                     iziToast.success({
@@ -90,6 +92,7 @@ export default {
                         message: "Status " + desc,
                         position: "topRight",
                     });
+                    this.isLoading = false;
                     this.getUsers();
                 }
             });
@@ -106,6 +109,7 @@ export default {
                 })
                 .then((result) => {
                     if (result.isConfirmed) {
+                        this.isLoading = true;
                         this.$store
                             .dispatch("deleteData", ["user", id])
                             .then((response) => {
@@ -114,8 +118,52 @@ export default {
                                     message: "Data berhasil dihapus",
                                     position: "topRight",
                                 });
+                                this.isLoading = false;
                                 this.getUsers();
                             });
+                    }
+                });
+        },
+        resetPassword(user) {
+            const url = [
+                "auth/reset-password",
+                {
+                    email: user.email,
+                },
+            ];
+            this.isLoading = true;
+            this.$swal
+                .fire({
+                    title: "Yakin ?",
+                    text: "Password akan direset",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Reset!",
+                    cancelButtonText: "Batal",
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        this.$store.dispatch("postData", url).then((res) => {
+                            this.isLoading = false;
+                            if (res.meta) {
+                                if (res.meta.statusCode == 400) {
+                                    this.$swal.fire({
+                                        title: "Perhatian",
+                                        text: res.meta.message.email[0],
+                                        icon: "warning",
+                                        confirmButtonText: "Coba Lagi",
+                                    });
+                                }
+                            } else {
+                                iziToast.success({
+                                    title: "Success",
+                                    message:
+                                        "Cek e-mail untuk merubah password",
+                                    position: "topRight",
+                                });
+                                this.getUsers();
+                            }
+                        });
                     }
                 });
         },
@@ -123,7 +171,6 @@ export default {
             this.user = user;
         },
         onSort() {
-            console.log("OK");
             this.getUsers();
         },
         onSuccess() {
@@ -137,5 +184,12 @@ export default {
             this.getUsers();
         },
     },
-    components: { Pagination, CircleLoader, ModalForm, ChangePasswordModal , DetailUser},
+    components: {
+        Pagination,
+        CircleLoader,
+        ModalForm,
+        ChangePasswordModal,
+        DetailUser,
+        LoadingComponent,
+    },
 };

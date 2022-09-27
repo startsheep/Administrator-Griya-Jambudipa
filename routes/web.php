@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('email', function () {
+//     $token = "Ok";
+//     return view('emails.activation', compact('token'));
+// })->name('email');
+
 includeRouteFiles(__DIR__ . '/web');
 
 Route::get('/{any}', [PageController::class, 'index'])->where('any', '^(?!auth|export).*$');

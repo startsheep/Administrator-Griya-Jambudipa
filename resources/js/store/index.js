@@ -7,7 +7,8 @@ import companyProfile from "./modules/company_profile/company_profile";
 import house from "./modules/type-house/typeHoues";
 import user from "./modules/user/user";
 import contractor from "./modules/contractor/contractor"
-
+import wholeJob from "./modules/whole_jobs/wholeJobs"
+import payment from "./modules/payment/payment"
 const store = createStore({
     modules: {
         action,
@@ -18,6 +19,9 @@ const store = createStore({
         house,
         user,
         contractor,
+        wholeJob,
+        payment,
+
     },
 });
 

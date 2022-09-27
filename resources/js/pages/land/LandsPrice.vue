@@ -18,7 +18,7 @@
                       type="text"
                       v-model="categoryLand.category"
                       class="form-control"
-                      placeholder="Masukan RIncian"
+                      placeholder="Masukan Rincian"
                     />
                     <div class="input-group-append">
                       <button
@@ -31,7 +31,7 @@
                         :disabled="categoryLand.category == ''"
                         type="button"
                       >
-                        {{ !isCreateCategories ? "Edit" : "Tambah" }}
+                        {{ !isCreateCategories ? "Simpan" : "Tambah" }}
                       </button>
                       <button
                         @click="
@@ -95,15 +95,15 @@
                   <tr>
                     <th class="text-center" width="5%">No</th>
                     <th width="25%">Uraian</th>
-                    <th>Volume</th>
-                    <th>Satuan</th>
-                    <th>Harga</th>
-                    <th>Jumlah</th>
-                    <th>Total</th>
+                    <th width="10%">Volume</th>
+                    <th width="5%">Satuan</th>
+                    <th width="15%">Harga</th>
+                    <th width="5%">Jumlah</th>
+                    <th width="18%">Total</th>
                     <th width="5%">Aksi</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody style="font-size: 12px">
                   <tr
                     v-for="(categories, index) in landCategories"
                     :key="categories"
@@ -112,7 +112,7 @@
                       {{ formatRoman(iteration(index)) }}
                     </td>
                     <td colspan="6" class="align-middle">
-                      <Media class="col-3">
+                      <Media class="col-3 my-2">
                         <template
                           v-slot:left
                           v-if="categories.basicPrice.length > 0"
@@ -139,20 +139,28 @@
                           v-for="(child, index) in categories.basicPrice"
                           :key="child"
                         >
-                          <div class="row ml-3 d-flex justify-content-between align-items-center">
+                          <div
+                            class="
+                              row
+                              ml-3
+                              d-flex
+                              justify-content-between
+                              align-items-center
+                              my-2
+                            "
+                          >
                             <div class="col-3">
                               <Media>
-                                <template v-slot:left>
-                                  <span class="mr-3">{{ index + 1 }}</span>
-                                </template>
+                                <template v-slot:left> </template>
                                 <template v-slot:mediaTittle>
-                                  <span>{{ child.description }}</span>
+                                  <span class="mr-1">{{ index + 1 }}.</span
+                                  ><span>{{ child.description }}</span>
                                 </template>
                                 <template v-slot:right>
                                   <i
                                     data-toggle="collapse"
                                     :data-target="
-                                      '#formChild' + child.description
+                                      '#formChild' + child.id + 'children'
                                     "
                                     class="
                                       btn
@@ -162,23 +170,48 @@
                                       mr-1
                                     "
                                   ></i>
+                                  <!-- <i class="fas fa-pencil"></i>
+                                    <i class="fas fa-pencil"></i> -->
                                 </template>
                               </Media>
                             </div>
-                            <div class="col  mr-5"><span class="ml-3">{{ child.volume }}</span></div>
-                            <div class="col  mr-2" ><span>{{ child.unit }}</span> </div>
-                            <div class="col  mr-2"><span>{{ child.price }}</span></div>
-                            <div class="col "><span>{{ child.amount }}</span></div>
-                            <div class="col"><span class="ml-3"> {{ child.total }}</span></div>
+                            <div class="col">
+                              <span class="ml-3">{{ child.volume }}</span>
+                            </div>
+                            <div class="col">
+                              <span class="ml-3">{{ child.unit }}</span>
+                            </div>
+                            <div class="col-2">
+                              <span>{{ formatRupiah(child.price) }}</span>
+                            </div>
+                            <div class="col">
+                              <span class="ml-2">{{ child.amount }}</span>
+                            </div>
+                            <div class="col mr-3">
+                              <span class="">
+                                {{ formatRupiah(child.total) }}</span
+                              >
+                            </div>
+                            <Actions
+                              :showDetail="false"
+                              toggleEdit="collapse"
+                              @update="sendEditLand(child)"
+                              :targetEdit="'#formChild' + categories.id"
+
+                              @delete="deleteLand(child.id)"
+                            />
                             <FormChild
-                              @onSubmit="
-                                createChild($event,child.id)
-                              "
-                              :idForm="child.description"
+                              @onSubmit=" isEditLand ?  updateLand($event) : createChild($event, child.id)"
+                              :idForm="child.id + 'children'"
+                              :basicPrice="landPrice"
                             />
                           </div>
-                          <div class="row ml-3" v-for="children in child.child" :key="children">
-                            <div class="col-3 " >
+                          <div
+                            class="row ml-3 my-1"
+                            v-for="children in child.child"
+                            :key="children"
+                          >
+                            <div class="col-3">
                               <Media>
                                 <template v-slot:left>
                                   <span class="mr-3">-</span>
@@ -188,16 +221,38 @@
                                 </template>
                               </Media>
                             </div>
-                           <div class="col  mr-5"><span class="ml-3">{{ children.volume }}</span></div>
-                            <div class="col  mr-2" ><span>{{ children.unit }}</span> </div>
-                            <div class="col  mr-2"><span>{{ children.price }}</span></div>
-                            <div class="col "><span>{{ children.amount }}</span></div>
-                            <div class="col"><span class="ml-3"> {{ children.total }}</span></div>
+                            <div class="col">
+                              <span class="ml-3">{{ children.volume }}</span>
+                            </div>
+                            <div class="col">
+                              <span class="ml-3">{{ children.unit }}</span>
+                            </div>
+                            <div class="col-2">
+                              <span class="ml-3">{{
+                                formatRupiah(children.price)
+                              }}</span>
+                            </div>
+                            <div class="col">
+                              <span class="ml-3">{{ children.amount }}</span>
+                            </div>
+                            <div class="col mr-4">
+                              <span class="">
+                                {{ formatRupiah(children.total) }}</span
+                              >
+                            </div>
+                            <Actions
+                              :showDetail="false"
+                              toggleEdit="collapse"
+                              @update="sendEditLand(children)"
+                             :targetEdit="'#formChild' + categories.id"
+                              @delete="deleteLand(children.id)"
+                            />
                           </div>
                         </div>
                       </div>
                       <FormChild
-                        @onSubmit="createLandPrice($event, categories.id)"
+                        :basicPrice="landPrice"
+                        @onSubmit="isEditLand ?  updateLand($event) :createLandPrice($event, categories.id)"
                         :idForm="categories.id"
                       />
                     </td>
@@ -206,11 +261,18 @@
                         :showDetail="false"
                         @update="sendEdit(categories)"
                         @delete="deleteCategory(categories.id)"
+                        :showDelete="categories.id != 1"
                       />
                     </td>
                   </tr>
                 </tbody>
               </table>
+                <Pagination
+                :currentPage="pagination.currentPage"
+                :rowsTotal="pagination.total"
+                :lastPage="pagination.lastPage"
+                @onPageChange="onPageChange($event)"
+            />
             </div>
           </div>
         </div>
@@ -224,6 +286,7 @@ import Actions from "../../components/Actions.vue";
 import iziToast from "izitoast";
 import Utils from "../../store/services/utils";
 import FormChild from "./FormChild.vue";
+import Pagination from "../../components/Pagination.vue";
 export default {
   data() {
     return {
@@ -232,7 +295,7 @@ export default {
         id: "",
       },
       landCategories: [],
-      LandPrice: {
+      landPrice: {
         id: "",
         categoryId: "",
         description: "",
@@ -272,6 +335,10 @@ export default {
         (this.pagination.currentPage - 1) * this.pagination.perPage + index + 1
       );
     },
+    formatRupiah(number) {
+      // return 'Rp.'
+      return number ? Utils.formatRupiah(number, "Rp. ") : "-";
+    },
     formatRoman(num) {
       return Utils.formatNumberToRoman(num);
     },
@@ -290,7 +357,7 @@ export default {
         self.isLoading = false;
         self.isCreateCategories = false;
         iziToast.success({
-          title: "Success",
+          title: "Berhasil",
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
@@ -312,13 +379,41 @@ export default {
         self.isLoading = false;
         self.isEditCategories = false;
         iziToast.success({
-          title: "Success",
+          title: "Berhasil",
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
         self.getLandCategories();
         self.reset();
       });
+    },
+    updateLand(event){
+        this.isLoading = true;
+        const self = this;
+        const url = [
+            "basic-price",
+            event.id,
+            {
+            description: event.description,
+            volume: event.volume,
+            unit: event.unit,
+            price: event.price,
+            amount: event.amount,
+            total: event.total,
+            },
+        ];
+        self.$store.dispatch("updateData", url).then(() => {
+            self.isLoading = false;
+            self.isEditLand = false;
+            iziToast.success({
+            title: "Berhasil",
+            message: "Data Berhasil Disimpan",
+            position: "topRight",
+            });
+            self.getLandCategories();
+            self.reset();
+        });
+
     },
     deleteCategory(id) {
       this.isLoading = true;
@@ -339,7 +434,7 @@ export default {
               .then(() => {
                 self.isLoading = false;
                 iziToast.success({
-                  title: "Success",
+                  title: "Berhasil",
                   message: "Data Berhasil Dihapus",
                   position: "topRight",
                 });
@@ -349,9 +444,47 @@ export default {
           }
         });
     },
+    deleteLand(id) {
+      this.isLoading = true;
+      const self = this;
+      this.$swal
+        .fire({
+          title: "Yakin ?",
+          text: "Data akan dihapus",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Hapus!",
+          cancelButtonText: "Batal",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            self.$store.dispatch("deleteData", ["basic-price", id]).then(() => {
+              self.isLoading = false;
+              iziToast.success({
+                title: "Berhasil",
+                message: "Data Berhasil Dihapus",
+                position: "topRight",
+              });
+              self.getLandCategories();
+              self.reset();
+            });
+          }
+        });
+    },
     sendEdit(categories) {
       this.categoryLand = categories;
       this.isEditCategories = true;
+    },
+    sendEditLand(land) {
+        this.landPrice.id = land.id;
+        this.landPrice.description = land.description;
+        this.landPrice.volume = land.volume;
+        this.landPrice.unit = land.unit;
+        this.landPrice.price = land.price;
+        this.landPrice.amount = land.amount;
+        this.landPrice.total = land.total;
+
+      this.isEditLand = true;
     },
     getLandCategories() {
       const self = this;
@@ -373,7 +506,7 @@ export default {
           this.isLoading = false;
         });
     },
-    createLandPrice(event,  parent) {
+    createLandPrice(event, parent) {
       this.isLoading = true;
       const self = this;
       const url = [
@@ -392,7 +525,7 @@ export default {
         self.isLoading = false;
         self.isCreateCategories = false;
         iziToast.success({
-          title: "Success",
+          title: "Berhasil",
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
@@ -400,7 +533,7 @@ export default {
         self.reset();
       });
     },
-    createChild(event,  parent) {
+    createChild(event, parent) {
       this.isLoading = true;
       const self = this;
       const url = [
@@ -419,7 +552,7 @@ export default {
         self.isLoading = false;
         self.isCreateCategories = false;
         iziToast.success({
-          title: "Success",
+          title: "Berhasil",
           message: "Data Berhasil Disimpan",
           position: "topRight",
         });
@@ -427,6 +560,11 @@ export default {
         self.reset();
       });
     },
+    onPageChange(page){
+        this.pagination.currentPage = page;
+        this.getLandCategories();
+        },
+
     reset() {
       this.categoryLand = {
         category: "",
@@ -434,7 +572,7 @@ export default {
       };
     },
   },
-  components: { Media, Actions, FormChild },
+  components: { Media, Actions, FormChild, Pagination },
 };
 </script>
 <style>

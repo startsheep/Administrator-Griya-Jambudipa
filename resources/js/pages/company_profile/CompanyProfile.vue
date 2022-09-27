@@ -1,70 +1,72 @@
 <template>
-    <CircleLoader v-if="isLoading" />
-    <div class="card">
-        <div class="card-header d-flex justify-content-end">
-            <button
-                class="btn btn-success"
-                data-toggle="modal"
-                data-target="#editCompanyModal"
-            >
-                Ubah
-            </button>
-        </div>
-        <div class="card-body">
-            <div class="d-flex justify-content-center">
-                <div class="hero-head">
-                    <div class="logo">
-                        <LightBox
-                            :image="
-                                profile.logo
-                                    ? 'storage/' + profile.logo
-                                    : '/assets/images/logo.png'
-                            "
-                        >
-                        </LightBox>
-                        <img
-                            data-toggle="modal"
-                            data-target="#detailImage"
-                            :src="
-                                profile.logo
-                                    ? 'storage/' + profile.logo
-                                    : '/assets/images/logo.png'
-                            "
-                            alt=""
-                            style="width: 100%"
-                            height="284"
-                        />
-                    </div>
-                    <h2 class="text-center text-dark my-3 text-uppercase">
-                        {{ profile.name }}
-                    </h2>
-                    <div class="link text-center">
-                        <p>{{ profile.url }}</p>
+    <section class="section">
+        <div class="section-header"></div>
+        <div class="card">
+            <LoadingComponent v-if="isLoading" />
+            <div class="card-profil-header"></div>
+            <div class="card-header d-flex justify-content-end">
+                <button
+                    class="btn btn-success"
+                    data-toggle="modal"
+                    data-target="#editCompanyModal"
+                    @click="getProfile"
+                >
+                    Ubah
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                    <div class="hero-head">
+                        <div class="logo">
+                            <img
+                                data-toggle="modal"
+                                data-target="#detailImage"
+                                :src="
+                                    profile.logo
+                                        ? 'storage/' + profile.logo
+                                        : '/assets/images/logo.png'
+                                "
+                                alt=""
+                                style="width: 100%"
+                                height="284"
+                            />
+                        </div>
+                        <h2 class="text-center text-dark my-3 text-uppercase">
+                            {{ profile.name }}
+                        </h2>
+                        <div class="link text-center">
+                            <p>{{ profile.url }}</p>
+                        </div>
                     </div>
                 </div>
+                <table
+                    class="table d-flex justify-content-around flex-column flex-sm-row"
+                    style="width: 100%"
+                >
+                    <tr>
+                        <th>Email</th>
+                        <th>:</th>
+                        <th>{{ profile.email }}</th>
+                    </tr>
+                    <tr>
+                        <th>No Telp</th>
+                        <th>:</th>
+                        <th>{{ profile.phone }}</th>
+                    </tr>
+                </table>
+                <div class="text-center mt-5">
+                    {{ profile.address }}
+                </div>
             </div>
-            <table
-                class="table d-flex justify-content-around flex-column flex-sm-row"
-                style="width: 100%"
-            >
-                <tr>
-                    <th>Email</th>
-                    <th>:</th>
-                    <th>{{ profile.email }}</th>
-                </tr>
-                <tr>
-                    <th>No Telp</th>
-                    <th>:</th>
-                    <th>{{ profile.phone }}</th>
-                </tr>
-            </table>
-            <div class="text-center mt-5">
-                {{ profile.address }}
-            </div>
+            <div class="card-footer"></div>
         </div>
-        <div class="card-footer"></div>
-    </div>
-
+    </section>
+    <LightBox
+        :image="
+            profile.logo ? 'storage/' + profile.logo : '/assets/images/logo.png'
+        "
+    >
+    </LightBox>
     <div
         class="modal fade"
         id="editCompanyModal"
@@ -153,10 +155,15 @@
                             type="button"
                             class="btn btn-secondary"
                             data-dismiss="modal"
+                            :disabled="isSubmit ?? false"
                         >
                             Kembali
                         </button>
-                        <button type="submit" class="btn btn-primary">
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            :class="{ 'disabled btn-progress': isSubmit }"
+                        >
                             Simpan
                         </button>
                     </div>
@@ -173,7 +180,7 @@ export default Logic;
 </script>
 
 <style>
-.modal-backdrop {
+/* .modal-backdrop {
     position: fixed;
     height: 100vh;
     width: 100vw;
@@ -191,5 +198,21 @@ export default Logic;
 .modal-backdrop.show {
     opacity: 0.5;
     display: none;
-}
+} */
+
+/* .main-wrapper-1 .card .card-profil-header {
+    margin-left: -30px;
+    margin-right: -30px;
+    margin-top: -10px;
+    border-radius: 0;
+    border-top: 1px solid #f9f9f9;
+    padding-left: 35px;
+    padding-right: 35px;
+} */
+
+/* .card-header {
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    margin-top: 10px;
+} */
 </style>

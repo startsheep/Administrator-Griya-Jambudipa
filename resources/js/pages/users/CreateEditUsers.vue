@@ -73,10 +73,15 @@
                             class="btn btn-secondary"
                             data-dismiss="modal"
                             @click="emptyForm()"
+                            :class="{ disabled: isSubmit }"
                         >
                             Kembali
                         </button>
-                        <button type="submit" class="btn btn-primary">
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            :class="{ 'disabled btn-progress': isSubmit }"
+                        >
                             Simpan
                         </button>
                     </div>
@@ -110,6 +115,7 @@ export default {
             },
             previewImage: null,
             isLoading: false,
+            isSubmit: false,
         };
     },
     watch: {
@@ -128,10 +134,6 @@ export default {
             fieldData.append("name", this.form.name);
             fieldData.append("email", this.form.email);
             fieldData.append("phone", this.form.phone);
-
-            if (this.form.image) {
-                fieldData.append("image", this.form.image);
-            }
 
             if (this.user && this.id) {
                 fieldData.append("_method", "PUT");
@@ -152,48 +154,55 @@ export default {
         handleSubmit() {
             let fieldData = this.formData;
             this.isLoading = true;
+            this.isSubmit = true;
+
+            if (this.form.image) {
+                fieldData.append("image", this.form.image);
+            }
+
             if (this.user && this.id) {
-                console.log("Ada Data");
                 this.$store
                     .dispatch("updateDataUploadUser", fieldData, [
                         "user/" + this.id,
                     ])
                     .then((result) => {
                         this.isLoading = false;
+                        this.isSubmit = false;
 
                         this.deleteModal();
                         this.emptyForm();
                         this.$emit("onSuccess", result);
                         iziToast.success({
-                            title: "Success",
+                            title: "Berhasil",
                             message: "Data berhasil diubah",
                             position: "topRight",
                         });
                     })
                     .catch((err) => {
+                        this.isLoading = false;
                         this.isSubmit = false;
                         let meta = err.response.data.meta;
                         let messages = err.response.data.meta.message;
                         Object.entries(messages).forEach(([key, value]) => {
                             iziToast.warning({
-                                title: "Warning",
+                                title: "Peringatn",
                                 message: value,
                                 position: "topRight",
                             });
                         });
                     });
             } else {
-                console.log("Nggk Ada Data");
                 this.$store
                     .dispatch("postDataUploadUser", fieldData, "user")
                     .then((result) => {
                         this.isLoading = false;
+                        this.isSubmit = false;
 
                         this.deleteModal();
                         this.emptyForm();
 
                         iziToast.success({
-                            title: "Success",
+                            title: "Berhasil",
                             message: "Data berhasil ditambah",
                             position: "topRight",
                         });
@@ -201,12 +210,13 @@ export default {
                         this.$emit("onSuccess", this);
                     })
                     .catch((err) => {
+                        this.isLoading = false;
                         this.isSubmit = false;
                         let meta = err.response.data.meta;
                         let messages = err.response.data.meta.message;
                         Object.entries(messages).forEach(([key, value]) => {
                             iziToast.warning({
-                                title: "Warning",
+                                title: "Peringatan",
                                 message: value,
                                 position: "topRight",
                             });

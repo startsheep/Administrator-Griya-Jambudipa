@@ -27,18 +27,22 @@ class ChangePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'password' => 'required|same:confirm_password|min:8|max:255',
-            'confirm_password' => 'required|same:password|min:8|max:255',
+            'old_password' => 'required|min:8|max:255',
+            'new_password' => 'required|same:confirm_password|min:8|max:255',
+            'confirm_password' => 'required|same:new_password|min:8|max:255',
         ];
     }
 
     public function messages()
     {
         return [
-            'password.required' => ":attribute harap diisi!",
-            'password.min' => ":attribute minimal :min!",
-            'password.max' => ":attribute maksimal :max!",
-            'password.same' => "password harus sama dengan konfirmasi password!",
+            'old_password.required' => "password harap diisi!",
+            'old_password.min' => "password minimal :min!",
+            'old_password.max' => "password maksimal :max!",
+            'new_password.required' => "password baru harap diisi!",
+            'new_password.min' => "password baru minimal :min!",
+            'new_password.max' => "password baru maksimal :max!",
+            'new_password.same' => "password harus sama dengan konfirmasi password!",
             'confirm_password.required' => "konfirmasi password harap diisi!",
             'confirm_password.min' => "konfirmasi password minimal :min!",
             'confirm_password.max' => "konfirmasi password maksimal :max!",

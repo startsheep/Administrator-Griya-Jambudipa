@@ -1,6 +1,6 @@
 import auth from "./services/auth";
 import employee from "./modules/employees";
-import Dashboard from "../pages/Dashboard.vue";
+import dashboard from "./modules/dashboard";
 import customer from "./modules/customer";
 import companyProfile from "./modules/company_profile";
 import house from "./modules/type-house";
@@ -8,9 +8,10 @@ import user from "./modules/users";
 import kavling from "./modules/kavling";
 import contractor from "./modules/contractor";
 import payment from "./modules/payment";
-import building from "./modules/building";
 import transaction from "./modules/transaction";
-import land from "./modules/land";
+import BasicPrice from "./modules/basic_price";
+import jobs from "./modules/job";
+import profile from "./modules/profile";
 
 const routes = [
     ...auth,
@@ -22,17 +23,14 @@ const routes = [
     ...user,
     ...contractor,
     ...payment,
-    ...building,
     ...transaction,
-    ...land,
+    ...BasicPrice,
+    ...dashboard,
+    ...jobs,
+    ...profile,
     {
         path: "/",
-        name: "Dashboard",
-        component: Dashboard,
-        meta: {
-            title: "Dashboard",
-            middleware: "auth",
-        },
+        component: () => import("../pages/dashboard/Dashboard.vue"),
     },
 ];
 

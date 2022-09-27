@@ -5,9 +5,13 @@ namespace App\Http\Repositories;
 use App\Http\Repositories\Contracts\PaymentContract;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\PaymentSearch;
+use App\Models\Customer;
+use App\Models\Log;
 use App\Models\Payment;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PaymentRepository implements PaymentContract
 {
@@ -30,14 +34,10 @@ class PaymentRepository implements PaymentContract
     public function store(array $attributes)
     {
         $cekData = $this->payment->where('customer_id', $attributes['customer_id'])
-            ->where('house_type_id', $attributes['house_type_id'])
-            ->whereMonth('created_at', date('m'))
-            ->whereYear('created_at', date('Y'))
+            ->where('kavling_id', $attributes['kavling_id'])
             ->first();
 
-
-
-            if ($cekData) {
+        if ($cekData) {
             $cekTotalPrice = $this->cekTotalPrice($cekData, $attributes['price']);
             if (!$cekTotalPrice) {
                 return collect([
@@ -53,12 +53,36 @@ class PaymentRepository implements PaymentContract
             $cekData->paymentPrice()->create([
                 'price' => $attributes['price'],
             ]);
+
+            if (isset($attributes['documents'])) {
+                if (isset($attributes['documents']) && $attributes['documents']) {
+                    $this->multipleUpload($attributes['documents'], $result);
+                }
+            }
         } else {
             $result = $this->payment->create($attributes);
             $result->paymentPrice()->create([
                 'price' => $attributes['price'],
             ]);
+
+            if (isset($attributes['documents'])) {
+                if (isset($attributes['documents']) && $attributes['documents']) {
+                    if ($result->document) {
+                        foreach ($result->document as $document) {
+                            Storage::delete($document->document_path);
+                            $result->document()->delete();
+                        }
+                    }
+                    $this->multipleUpload($attributes['documents'], $result);
+                }
+            }
         }
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penambahan data pada pembayaran'
+        ]);
 
         return collect([
             'message' => "success",
@@ -73,13 +97,54 @@ class PaymentRepository implements PaymentContract
         return $this->payment->findOrFail($id);
     }
 
-    protected function cekHouseType($result, $id)
+    public function customer()
     {
-        if ($result == $id) {
-            return true;
+        $data = [];
+        $customers = Customer::all();
+
+        foreach ($customers as $customer) {
+            $countPayment = $this->payment->where('customer_id', $customer->id)->count();
+            $countKavling = $customer->customerKavling->count();
+
+            if ($countKavling != $countPayment) {
+                $data[] = $customer;
+            }
         }
 
-        return false;
+        return $data;
+    }
+
+    protected function cekHouseType($payments, $customer)
+    {
+        $cek = false;
+
+        foreach ($payments as $payment) {
+            if ($payment->customer_id == $customer->id) {
+                $cek = $this->finishingPayment($payment, $customer);
+            }
+        }
+
+        return $cek;
+    }
+
+    protected function finishingPayment($payment, $customer)
+    {
+        $cek = false;
+        $data = 0;
+
+        foreach ($payment->paymentPrice as $price) {
+            foreach ($customer->customerKavling as $kavling) {
+                if ($payment->kavling->houseType->id == $kavling->kavling->houseType->id) {
+                    $data = $price->price - $kavling->kavling->houseType->price;
+                }
+            }
+        }
+
+        if ($data == 0) {
+            $cek = true;
+        }
+
+        return $cek;
     }
 
     protected function cekTotalPrice($result, $price)
@@ -91,10 +156,26 @@ class PaymentRepository implements PaymentContract
 
         $total += $price;
 
-        if ((string) $total >= $result->houseType->price + 1) {
+        if ((string) $total >= $result->kavling->houseType->price + 1) {
             return false;
         }
 
         return true;
+    }
+
+    protected function storageFile($file, $folder)
+    {
+        $path = $file->store($folder);
+        return $path;
+    }
+
+    protected function multipleUpload($files, $model)
+    {
+        foreach ($files as $file) {
+            $document = $this->storageFile($file, 'payment');
+            $request['document_path'] = $document;
+            $request['document_name'] = $file->getClientOriginalName();
+            $model->document()->create($request);
+        }
     }
 }
