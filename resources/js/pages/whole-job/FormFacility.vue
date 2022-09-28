@@ -3,7 +3,7 @@
     idModal="FormFacility"
     :tittle="id ? 'Edit Borongan Fasilitas' : 'Formulir Borongan Fasilitas'"
     size="modal-lg"
-    @onConfirm="createJobHouse()"
+    @onConfirm="createJob"
     :loading="isLoading"
     data-backdrop="static"
     data-keyboard="false"
@@ -137,7 +137,7 @@ export default {
     id(newVal) {
       if (newVal != null) {
         this.getContract(newVal);
-      }else{
+      } else {
         this.reset();
       }
     },
@@ -157,11 +157,10 @@ export default {
         formData.append("_method", "PUT");
       }
       formData.append("contractor_id", this.contract.contractor_id);
-      formData.append("customer_id", this.contract.customer_id);
-      formData.append("house_type_id", this.contract.house_type_id);
       formData.append("description", this.contract.description);
       formData.append("start_date", this.contract.start_date);
       formData.append("end_date", this.contract.end_date);
+      formData.append("type", 'umum');
       formData.append(
         "total_cost",
         Utils.currencyToNumber(this.contract.budget)
@@ -179,17 +178,17 @@ export default {
       this.contract.documents.splice(this.contract.documents.indexOf(doc), 1);
     },
     removeOldDocument(doc) {
-        this.contract.oldDocuments.splice(
-            this.contract.oldDocuments.indexOf(doc),
-            1
-        );
+      this.contract.oldDocuments.splice(
+        this.contract.oldDocuments.indexOf(doc),
+        1
+      );
     },
     getContract(id) {
       this.isLoading = true;
       this.contract.documents = [];
       this.$store.dispatch("showData", ["whole-job/" + id]).then((res) => {
         this.contract.contractor_id = res.data.contractor.id;
-        this.contract.customer_id = res.data.customer.id;
+
         this.contract.payment_type = res.data.paymentType;
         this.selectedCustomer = this.customers.find(
           (c) => c.id === res.data.customer.id
@@ -240,17 +239,8 @@ export default {
       }
     },
     hideModal() {
-      $("#FormHouse").hide("modal");
+      $("#FormFacility").hide("modal");
       $("div").removeClass("modal-backdrop");
-    },
-    pickCustomer(customer) {
-      // find customer by id in customers
-
-      this.selectedCustomer = this.customers.find(
-        (c) => c.id === customer.contract.customer_id
-      );
-      this.kavlings = this.selectedCustomer.customerKavling;
-      // console.log('selectedCustomer=>',this.selectedCustomer)
     },
     getContractors() {
       const self = this;
@@ -258,7 +248,7 @@ export default {
         self.contractors = response.data;
       });
     },
-   teJobHouse() {
+    createJob() {
       const self = this;
       const type = this.id ? "updateDataUploadJob" : "postDataUploadJob";
       const formData = self.formData;
