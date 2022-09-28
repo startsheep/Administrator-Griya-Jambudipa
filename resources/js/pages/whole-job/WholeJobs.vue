@@ -1,13 +1,15 @@
 <template>
   <section class="section">
-    <div class="section-header"></div>
+    <div class="section-header">
+      <h1>Borongan {{ isJobHouse ? "Rumah" : "Fasilitas Umum" }}</h1>
+    </div>
     <div class="row m-auto">
       <div class="col">
         <div class="card">
           <div class="card-header">
             <button
               data-toggle="modal"
-              data-target="#FormHouse"
+              :data-target="isJobHouse ? '#FormHouse' : '#FormFacility'"
               class="btn btn-primary"
               @click="idForEdit = null"
             >
@@ -15,9 +17,56 @@
             </button>
           </div>
           <div class="card-body">
-            <div class="row mb-3">
+            <div class="row mb-3 d-flex justify-content-between">
               <div class="col-lg-4">
                 <ButtonsExport :printData="false" />
+              </div>
+              <div class="col-lg-6">
+                <!-- <div class="form-inline"> -->
+                    <div class="input-group mr-3">
+                    <!-- <input
+                        v-on:keyup="search"
+                        class="form-control"
+                        placeholder="Search"
+                      /> -->
+                  <select
+                    @change="onSearch"
+                    class="form-control mr-2"
+                    v-model="pagination.perPage"
+                  >
+                    <option selected value="">Tampilkan Semua</option>
+                    <option
+                      v-for="limit in limits"
+                      :key="limit"
+                      :value="limit.value"
+                    >
+                      {{ limit.text }}
+                    </option>
+                  </select>
+                  <select
+                    @change="onSearch"
+                    class="form-control"
+                    v-model="orderDirection"
+                  >
+                    <option selected disabled value="">
+                      Filter Blok Kavling
+                    </option>
+                    <option
+                    value="asc"
+                    >
+                      Data Baru
+                    </option>
+                    <option
+                    value="desc"
+                    >
+                      Data Lama
+                    </option>
+                  </select>
+                  <button @click="reset()" class="btn btn-success">
+                    <i class="fas fa-arrows-rotate"></i>
+                  </button>
+                </div>
+                <!-- </div> -->
               </div>
             </div>
             <div class="table-responsive">
@@ -26,7 +75,7 @@
                   <tr>
                     <!-- <th class="text-center" scope="col">No</th> -->
                     <th scope="col">Nama PIC/Perusahaan</th>
-                    <th s cope="col">Customer</th>
+                    <th v-if="isJobHouse" scope="col">Customer</th>
                     <!-- <th scope="col">Deskripsi Borongan</th> -->
                     <th scope="col">Tanggal Pengerjaan</th>
                     <th scope="col">Total Biaya</th>
@@ -47,7 +96,7 @@
                         job.contractor.companyName
                       }}</span>
                     </td>
-                    <td>
+                    <td v-if="isJobHouse && job">
                       <strong class="d-block">{{ job.customer.name }}</strong>
                       <span>Tipe Rumah: {{ job.houseType.houseType }}</span>
                     </td>
@@ -76,7 +125,6 @@
                         @detail="detailJob(job.id)"
                         :showCustom="true"
                         labelCustom="Bayar"
-
                       />
                     </td>
                   </tr>
@@ -104,6 +152,7 @@
     </div>
   </section>
   <FormHouse @onSuccess="onSuccess" :id="idForEdit" />
+  <FormFacility @onSuccess="onSuccess" :id="idForEdit" />
 </template>
 <script>
 import Utils from "../../store/services/utils";
@@ -116,6 +165,7 @@ import EmptyData from "../../components/EmptyData.vue";
 import CircleLoader from "../../components/CircleLoader.vue";
 import iziToast from "izitoast";
 import LoadingComponent from "../../components/LoadingComponent.vue";
+import FormFacility from "./FormFacility.vue";
 
 // create action when hide when click outside modal clear all value in input
 
@@ -128,6 +178,7 @@ export default {
     EmptyData,
     CircleLoader,
     LoadingComponent,
+    FormFacility,
   },
   computed: {
     dateNow() {
@@ -136,8 +187,18 @@ export default {
   },
   watch: {
     idForEdit() {},
+    $route(to, from) {
+      this.getJobs();
+    },
   },
-
+  computed: {
+    isJobHouse() {
+      return this.$route.name === "Job House";
+    },
+    currentRouteName() {
+      return this.$route.name;
+    },
+  },
   mounted() {
     this.getJobs();
   },
@@ -145,6 +206,15 @@ export default {
     jobs: [],
     idForEdit: "",
     isLoading: false,
+    limits: [
+      { text: "5", value: 5 },
+      { text: "10", value: 10 },
+      { text: "20", value: 20 },
+      { text: "30", value: 30 },
+      { text: "40", value: 40 },
+      { text: "50", value: 50 },
+    ],
+    orderDirection: "desc",
     pagination: {
       total: 0,
       perPage: 5,
@@ -154,8 +224,8 @@ export default {
     },
   }),
   methods: {
-    detailJob(id){
-        this.$router.push(`/job/${id}/detail`)
+    detailJob(id) {
+      this.$router.push(`/job/${id}/detail`);
     },
     sendId(id) {
       this.idForEdit = id;
@@ -183,6 +253,8 @@ export default {
       const params = [
         `&page=${this.pagination.currentPage}`,
         `&per_page=${this.pagination.perPage}`,
+        `order_direction=${this.orderDirection}`,
+        `type=${this.isJobHouse ? "rumah" : "umum"}`,
       ].join("&");
       this.isLoading = true;
       self.$store.dispatch("getData", ["whole-job", params]).then((res) => {
@@ -228,6 +300,9 @@ export default {
     },
     onPageChange(page) {
       this.pagination.currentPage = page;
+      this.getJobs();
+    },
+    onSearch() {
       this.getJobs();
     },
   },

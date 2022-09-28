@@ -18,6 +18,7 @@ class WholeJob extends Model
         'total_cost',
         'start_date',
         'end_date',
+        'type'
     ];
 
     public function document()
