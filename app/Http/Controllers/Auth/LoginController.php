@@ -41,7 +41,7 @@ class LoginController extends Controller
             ], 400);
         }
 
-        $role = str_replace(' ', '_', strtolower('Auth'));
+        $role = $user->roles->pluck('name');
 
         $token = $user->createToken('api', [$role]);
 
@@ -75,8 +75,20 @@ class LoginController extends Controller
                     'image' => $image,
                     'role' => $role
                 ],
+                'permission' => $this->permissionGenerate($user),
                 'token' => $token->plainTextToken
             ]
         ]);
+    }
+
+    public function permissionGenerate($user)
+    {
+        $permission = [];
+        $perm = $user->getAllPermissions()->pluck('name');
+        foreach ($perm as $item) {
+            $var = explode('.', $item);
+            $permission[$var[0]][] = $var[1];
+        }
+        return $permission;
     }
 }

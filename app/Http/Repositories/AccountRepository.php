@@ -8,21 +8,35 @@ use App\Http\Services\Searches\AccountSearch;
 use App\Http\Services\Traits\SendEmail;
 use App\Models\Account;
 use App\Models\Log;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
 
 class AccountRepository implements AccountContract
 {
     use SendEmail;
 
-    /** @var Account */
+    /** @var User */
     protected $account;
 
-    public function __construct(Account $account)
+    protected $ROLE_ID_USER;
+
+    protected $STATUS_USER_ACTIVE;
+
+    protected $STATUS_USER_NO_ACTIVE;
+
+    protected $DOCUMENTABLE_TYPE;
+
+    public function __construct(User $account)
     {
         $this->account = $account;
+        $this->ROLE_ID_USER = 2;
+        $this->STATUS_USER_ACTIVE = 1;
+        $this->STATUS_USER_NO_ACTIVE = 0;
+        $this->DOCUMENTABLE_TYPE = "App\Models\Account";
     }
 
     public function all($request)
@@ -33,12 +47,22 @@ class AccountRepository implements AccountContract
         return $accounts;
     }
 
-    public function store(array $attributes): Account
+    public function store(array $attributes): User
     {
+        $roleId = $this->ROLE_ID_USER;
+
         $attributes['password'] = Str::random(8);
-        $attributes['is_active'] = 1;
+        $attributes['is_active'] = $this->STATUS_USER_NO_ACTIVE;
         $attributes['email_verified_at'] = now();
+
+        if (isset($attributes['role_id'])) {
+            $roleId = $attributes['role_id'];
+        }
+
+        $role = Role::find($roleId);
+
         $result = $this->account->create($attributes);
+        $result->syncRoles($role);
 
         if (isset($attributes['image'])) {
             if (isset($attributes['image']) && $attributes['image']) {
@@ -53,6 +77,7 @@ class AccountRepository implements AccountContract
             $this->sendEmail($attributes['email'], $attributes['password']);
         }
 
+
         Log::create([
             'id' => Str::uuid(),
             'user_id' => auth()->user()->id,
@@ -62,12 +87,12 @@ class AccountRepository implements AccountContract
         return $result;
     }
 
-    public function find($id): Account
+    public function find($id): User
     {
         return $this->account->with('document')->findOrFail($id);
     }
 
-    public function findByCriteria(array $criteria): Account
+    public function findByCriteria(array $criteria): User
     {
         return $this->account
             ->where($criteria)->with('image')
@@ -76,7 +101,10 @@ class AccountRepository implements AccountContract
 
     public function update(array $attributes, $result)
     {
+        $roleId = $this->ROLE_ID_USER;
+
         $result->update($attributes);
+
         if (isset($attributes['image'])) {
             if (isset($attributes['image']) && $attributes['image']) {
                 if ($result->image) {
@@ -90,12 +118,19 @@ class AccountRepository implements AccountContract
 
                 $result->document()->create([
                     'documentable_id' => $result->id,
-                    'documentable_type' => 'App\Models\Account',
+                    'documentable_type' => $this->DOCUMENTABLE_TYPE,
                     'document_path' => $path,
                     'document_name' => $name
                 ]);
             }
         }
+
+        if (isset($attributes['role_id'])) {
+            $roleId = $attributes['role_id'];
+        }
+
+        $role = Role::find($roleId);
+        $result->syncRoles($role);
 
         Log::create([
             'id' => Str::uuid(),
@@ -163,7 +198,7 @@ class AccountRepository implements AccountContract
 
     public function changeStatus(array $attributes, $result)
     {
-        $result->is_active = $attributes['active'] ? 1 : 2;
+        $result->is_active = $attributes['active'] ? $this->STATUS_USER_ACTIVE : $this->STATUS_USER_NO_ACTIVE;
         $result->save();
 
         Log::create([
