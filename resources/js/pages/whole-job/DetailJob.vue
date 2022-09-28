@@ -21,15 +21,15 @@
                       {{ contract.contractor.companyName }}</span
                     >
                   </div>
-                  <div class="area-tittle mr-3">
-                    <strong class="d-block">Nama Customer</strong>
-                    <span v-if="contract != null">{{
+                  <div v-if="contract != null && contract.customer" class="area-tittle mr-3">
+                    <strong  class="d-block">Nama Customer</strong>
+                    <span >{{
                       contract.customer.name
                     }}</span>
                   </div>
                   <div class="area-tittle mr-3">
                     <strong class="d-block">Nama Borongan</strong>
-                    <span v-if="contract != null"
+                    <span v-if="contract != null && contract.customer"
                       >Rumah TIpe {{ contract.houseType.houseType }}</span
                     >
                   </div>
@@ -219,7 +219,6 @@
             </div>
           </div>
           <div class="card-footer">
-            <!-- btn -->
             <button class="btn-block btn btn-primary" @click="$router.back">
               Kembali
             </button>
