@@ -197,6 +197,7 @@ export default {
       formData.append("description", this.contract.description);
       formData.append("start_date", this.contract.start_date);
       formData.append("end_date", this.contract.end_date);
+      formData.append("type", 'rumah');
       formData.append(
         "total_cost",
         Utils.currencyToNumber(this.contract.budget)
