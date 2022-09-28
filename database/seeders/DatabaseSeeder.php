@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             EmployeeSeeder::class,
             CompanyProfileSeeder::class,
-            // buildingPriceCategorySeeder::class
+            RoleSeeder::class
         ]);
 
         User::factory()->create([
