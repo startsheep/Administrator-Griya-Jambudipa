@@ -21,15 +21,15 @@
                       {{ contract.contractor.companyName }}</span
                     >
                   </div>
-                  <div class="area-tittle mr-3">
-                    <strong class="d-block">Nama Customer</strong>
-                    <span v-if="contract != null">{{
+                  <div v-if="contract != null && contract.customer" class="area-tittle mr-3">
+                    <strong  class="d-block">Nama Customer</strong>
+                    <span >{{
                       contract.customer.name
                     }}</span>
                   </div>
                   <div class="area-tittle mr-3">
                     <strong class="d-block">Nama Borongan</strong>
-                    <span v-if="contract != null"
+                    <span v-if="contract != null && contract.customer"
                       >Rumah TIpe {{ contract.houseType.houseType }}</span
                     >
                   </div>
@@ -49,47 +49,130 @@
                 </div>
               </div>
 
-              <div class="col-lg-8">
-                <div class="area-body pt-0 mt-3">
+              <div v-if="contract" class="col-lg-8">
+                <div
+                  class="area-body pt-0 mt-2"
+                >
                   <div class="area-tittle">
                     <h4>Total Biaya</h4>
-                    <h6 v-if="contract">{{ cost }}</h6>
+                    <h5 v-if="contract">{{ cost }}</h5>
                   </div>
-                  <div>
+                  <div v-if="contract.paymentType == 'Termin'">
                     <div class="boxes">
                       <strong>Uang Muka : </strong>
                       <span>20%</span>
                       <span>{{ calcPercentage(20) }}</span>
-                      <i class="fas fa-check-circle text-success fa-lg"></i>
-                      <span>Lihat Bukti Pembayaran</span>
+                      <div v-if="true">
+                        <i class="fa-solid fa-check-circle text-success fa-lg mr-2"></i>
+                        <strong class="cursor">Lihat Bukti</strong>
+                      </div>
+                      <div v-else>
+                        <i class="fa-solid fa-times-circle text-danger fa-lg mr-2"></i>
+                        <span>Belum di bayar</span>
+                      </div>
                     </div>
                     <div class="boxes">
                       <strong>Progress 50% : </strong>
                       <span>40%</span>
                       <span>{{ calcPercentage(40) }}</span>
-                      <i class="fas fa-check-circle text-success fa-lg"></i>
-                      <span>Lihat Bukti Pembayaran</span>
+                      <div v-if="true">
+                        <i class="fa-solid fa-check-circle text-success fa-lg mr-2"></i>
+                        <strong class="cursor">Lihat Bukti</strong>
+                      </div>
+                      <div v-else>
+                        <i class="fa-solid fa-times-circle text-danger fa-lg mr-2"></i>
+                        <span>Belum di bayar</span>
+                      </div>
                     </div>
                     <div class="boxes">
                       <strong>Progress 50% : </strong>
                       <span>40%</span>
                       <span>{{ calcPercentage(40) }}</span>
-                      <i class="fas fa-check-circle text-success fa-lg"></i>
-                      <span>Lihat Bukti Pembayaran</span>
+                     <div v-if="false">
+                        <i class="fa-solid fa-check-circle text-success fa-lg mr-2"></i>
+                        <strong class="cursor">Lihat Bukti</strong>
+                      </div>
+                      <div v-else>
+                        <i class="fa-solid fa-times-circle text-danger fa-lg mr-2"></i>
+                        <span>Belum di bayar</span>
+                      </div>
                     </div>
                     <div class="boxes">
-                        <strong>Progress 100% : </strong>
-                        <span>20%</span>
-                        <span>{{ calcPercentage(20) }}</span>
-                      <i class="fas fa-check-circle text-success fa-lg"></i>
-                      <span>Lihat Bukti Pembayaran</span>
+                      <strong>Progress 100% : </strong>
+                      <span>20%</span>
+                      <span>{{ calcPercentage(20) }}</span>
+                      <div v-if="false">
+                        <i class="fa-solid fa-check-circle text-success fa-lg mr-2"></i>
+                        <strong class="cursor">Lihat Bukti</strong>
+                      </div>
+                      <div v-else>
+                        <i class="fa-solid fa-times-circle text-danger fa-lg mr-2"></i>
+                        <span>Belum di bayar</span>
+                      </div>
                     </div>
                     <div class="boxes">
-                        <strong>Retensi : </strong>
-                        <span>10%</span>
-                        <span>{{ calcPercentage(10) }}</span>
-                      <i class="fas fa-check-circle text-success fa-lg"></i>
-                      <span>Lihat Bukti Pembayaran</span>
+                      <strong>Retensi : </strong>
+                      <span>10%</span>
+                      <span>{{ calcPercentage(10) }}</span>
+                      <div v-if="false">
+                        <i class="fa-solid fa-check-circle text-success fa-lg mr-2"></i>
+                        <strong class="cursor">Lihat Bukti</strong>
+                      </div>
+                      <div v-else>
+                        <i class="fa-solid fa-times-circle text-danger fa-lg mr-2"></i>
+                        <span>Belum di bayar</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Upah -->
+                  <div  v-if="contract.paymentType == 'Upah Kerja'">
+                    <div class="boxes">
+                      <strong>Minggu Ke 1 : </strong>
+                      <!-- <span>20%</span> -->
+                      <span>Rp. 21.100.000</span>
+                      <div v-if="true">
+                        <i class="fa-solid fa-check-circle text-success fa-lg mr-2"></i>
+                        <strong class="cursor">Lihat Bukti</strong>
+                      </div>
+                      <div v-else>
+                        <i class="fa-solid fa-times-circle text-danger fa-lg mr-2"></i>
+                        <span>Belum di bayar</span>
+                      </div>
+                    </div>
+                    <div class="boxes">
+                      <strong>Minggu Ke 2 : </strong>
+                      <!-- <span>20%</span> -->
+                      <span>Rp. 20.100.000</span>
+                      <div v-if="false">
+                        <i class="fa-solid fa-check-circle text-success fa-lg mr-2"></i>
+                        <strong class="cursor">Lihat Bukti</strong>
+                      </div>
+                      <div v-else>
+                        <i class="fa-solid fa-times-circle text-danger fa-lg mr-2"></i>
+                        <span>Belum di bayar</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- full finance -->
+                   <div v-if="contract.paymentType == 'Bayar Setelah Kerja'">
+                    <div class="boxes">
+                      <!-- <strong>Uang Muka : </strong> -->
+                      <div v-if="true">
+                        <div class="mr-2 d-inline">
+                          <Strong class="d-block">Sudah Lunas</Strong>
+                          <span>Pada tanggal </span>
+                        </div>
+                        <i
+                          class="fa-solid fa-check-circle text-success fa-lg"
+                        ></i>
+                        <span class="cursor ml-3">Lihat Bukti</span>
+                      </div>
+                      <div v-else>
+                        <i
+                          class="fa-solid fa-times-circle text-danger fa-lg"
+                        ></i>
+                        <span class="ml-3">Belum Dilakukan Pembayaran</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -103,7 +186,6 @@
                       v-html="contract.description"
                     ></div>
                   </div>
-                  <!-- <div v-html=""></div> -->
                 </div>
               </div>
             </div>
@@ -114,7 +196,9 @@
                     <strong class="d-block">Status</strong>
                     <div v-if="contract != null">
                       <div
-                        v-html="checkStatus(contract.startDate, contract.endDate)"
+                        v-html="
+                          checkStatus(contract.startDate, contract.endDate)
+                        "
                       ></div>
                     </div>
                   </div>
@@ -135,7 +219,6 @@
             </div>
           </div>
           <div class="card-footer">
-            <!-- btn -->
             <button class="btn-block btn btn-primary" @click="$router.back">
               Kembali
             </button>

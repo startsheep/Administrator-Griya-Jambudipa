@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class Account extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     protected $table = 'users';
     /**
@@ -44,6 +45,11 @@ class Account extends Model
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function guardName()
+    {
+        return "api";
+    }
 
     public function setPasswordAttribute($password)
     {

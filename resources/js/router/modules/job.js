@@ -5,11 +5,13 @@ export default [
         children:[
             {
                 path: '/jobs/house/',
-                component: () => import("../../pages/whole-job/JobHouse.vue"),
+                name: 'Job House',
+                component: () => import("../../pages/whole-job/WholeJobs.vue"),
             },
             {
                 path: '/jobs/facility',
-                component: () => import("../../pages/whole-job/JobFacility.vue"),
+                name: 'Job Facility',
+                component: () => import("../../pages/whole-job/WholeJobs.vue"),
             },
         ]
     },
