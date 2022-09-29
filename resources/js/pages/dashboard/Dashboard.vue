@@ -2,6 +2,7 @@
     <section class="section dashboard">
         <div class="section-header">
             <h4>Dashboard</h4>
+            <!-- {{ user }} -->
         </div>
         <div class="row">
             <div class="col-lg-8">
@@ -68,24 +69,25 @@
                             :count="count.transaction"
                         />
                     </div>
-                    <div class="col-lg-12 mb-3">
+                    <div class="col-lg-12 mb-3" v-if="$can('chart','Dashboard')">
                         <Chart />
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4" >
                 <RecentActivity style="position: sticky; top: 0" />
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-8 col-md-12 col-12 col-sm-12"></div>
-        </div>
+        <!-- <div class="row">
+            <div class="col-lg-8 col-md-12 col-12 col-sm-12 bg-primary">p</div>
+        </div> -->
     </section>
 </template>
 <script>
 import CardStatistic from "./CardStatistic.vue";
 import RecentActivity from "./RecentActivity.vue";
 import Chart from "./Chart.vue";
+import Cookie from "js-cookie";
 export default {
     components: { CardStatistic, RecentActivity, Chart },
     data() {
@@ -116,6 +118,13 @@ export default {
     mounted() {
         this.getCount();
     },
+    computed:{
+        user(){
+            // to object
+            return  JSON.parse(Cookie.get('user')).role
+        }
+    },
+
     methods: {
         getCountEmployee() {
             const self = this;

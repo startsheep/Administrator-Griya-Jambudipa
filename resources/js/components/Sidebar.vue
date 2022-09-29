@@ -16,13 +16,14 @@
             <ul class="sidebar-menu">
                 <li class="menu-header">Data Master</li>
 
-                <li class="nav-item">
+                <li  class="nav-item">
                     <router-link to="/dashboard" class="nav-link"
-                        ><i class="fa-solid fa-chart-line"></i
+                    ><i class="fa-solid fa-chart-line"></i
                         ><span>Dashboard</span></router-link
-                    >
-                </li>
+                        >
+                    </li>
 
+                <Can  do="Master Data" on="Menu">
                 <li class="nav-item">
                     <router-link to="/company_profile" class="nav-link"
                         ><i class="fa-solid fa-building"></i
@@ -53,6 +54,7 @@
                         ><span>Tipe Rumah</span></router-link
                     >
                 </li>
+                   </Can>
 
                 <!-- <li class="nav-item">
                     <a href="#" class="nav-link"
@@ -80,7 +82,7 @@
                         ><span>Data Pemborong</span></router-link
                     >
                 </li>
-                <li class="nav-item">
+                <li v-if="$can('Data Users','General Information')" class="nav-item">
                     <router-link to="/users" class="nav-link"
                         ><i class="fa-solid fa-users"></i
                         ><span>Data Pengguna</span></router-link
@@ -133,7 +135,11 @@
     </div>
 </template>
 <script>
+    import {Can} from "@casl/vue";
 export default {
+    components: {
+        Can
+    },
     name: "Sidebar",
 };
 </script>

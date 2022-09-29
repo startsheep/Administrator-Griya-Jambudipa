@@ -6,7 +6,7 @@
       class="btn btn-icon icon-rigth btn-primary mr-2"
         @click="exportPdf"
     >
-   }{{ labelExportPdf }} <i class="fa-solid fa-file-pdf"></i>
+   {{ labelExportPdf }} <i class="fa-solid fa-file-pdf"></i>
     </button>
     <button type="button" class="btn btn-icon icon-rigth btn-primary mr-2" @click="exportExcel">
       {{ labelExportExcel }} <i class="fa-solid fa-file-excel"></i>
