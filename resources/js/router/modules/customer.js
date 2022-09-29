@@ -5,6 +5,7 @@ export default [
         component: () => import("../../pages/customers/Customers.vue"),
         meta: {
             title: "Customers",
+            middleware: "Staff"
         }
     },
     {
@@ -15,5 +16,6 @@ export default [
         path: '/customer/:id/edit/',
         component: () => import('../../pages/customers/CreateEditCustomer.vue'),
         props : true
+
     }
 ]
