@@ -1,6 +1,8 @@
 import { createApp } from "vue";
 import "./bootstrap";
 import Cookie from "js-cookie";
+import { abilitiesPlugin } from "@casl/vue";
+import ability from "./store/services/abilities"
 import App from "./App.vue";
 import Auth from "./Auth.vue";
 import router from "./router";
@@ -21,7 +23,9 @@ if(!Cookie.get("user") && !Cookie.get('token')){
 } else {
 }
 createApp(Auth).use(router).use(store).use(izitoast).use(VueSweetalert2).use(VueApexCharts).mount("#auth");
-createApp(App).use(router).use(store).use(VueSweetalert2).use(CKEditor).mount("#app");
+createApp(App).use(router).use(store).use(VueSweetalert2).use(CKEditor).use(abilitiesPlugin, ability, {
+    useGlobalProperties: true
+}).mount("#app");
 
 
 
