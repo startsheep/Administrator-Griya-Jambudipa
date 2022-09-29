@@ -32,6 +32,7 @@ class KavlingRequest extends FormRequest
             'number_kavling' => 'required',
             'width_kavling' => 'required',
             'length_kavling' => 'required',
+            'second_length_kavling' => 'required',
             'area_kavling' => 'required',
             'area_building' => 'required'
         ];
@@ -45,7 +46,8 @@ class KavlingRequest extends FormRequest
             'block.required' => "blok harap diisi!",
             'number_kavling.required' => "nomor kavling harap diisi!",
             'width_kavling.required' => "lebar kavling harap diisi!",
-            'length_kavling.required' => "panjang_kavling harap diisi!",
+            'length_kavling.required' => "panjang kavling harap diisi!",
+            'second_length_kavling.required' => "panjang kavling ke dua harap diisi!",
             'area_kavling.required' => "luas kavling harap diisi!",
             'area_building.required' => "luas bangunan harap diisi!",
         ];
