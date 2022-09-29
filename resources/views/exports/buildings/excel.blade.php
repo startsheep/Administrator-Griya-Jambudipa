@@ -45,7 +45,7 @@ function changeToRomawi($nomor)
 
 @section('content')
     <table style="font-family: sans-serif">
-        <thead style="text-transform: uppercase; background-color: rgb(60, 60, 194); color: white">
+        <thead style="text-transform: uppercase;">
             <tr>
                 <th>No.</th>
                 <th>Uraian</th>
@@ -59,7 +59,8 @@ function changeToRomawi($nomor)
         <tbody>
             @foreach ($buildings as $building)
                 @if ($building->id != 1)
-                    <tr style="background-color: rgb(255, 238, 206)">
+                    <tr style="background-color:
+            rgb(255, 238, 206)">
                         <th>{{ changeToRomawi($loop->iteration - 1) }}</th>
                         <td colspan="6">
                             <span style="font-weight: bold">{{ $building->category }}</span>
