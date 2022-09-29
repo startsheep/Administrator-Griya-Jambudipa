@@ -15,6 +15,7 @@ class Kavling extends Model
         'number_kavling',
         'width_kavling',
         'length_kavling',
+        'second_length_kavling',
         'area_kavling',
         'area_building'
     ];
