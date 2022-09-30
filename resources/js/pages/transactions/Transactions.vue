@@ -45,7 +45,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-responsive">
                                 <thead>
                                     <tr>
                                         <th>Nama</th>
