@@ -5,6 +5,7 @@ export default [
         component: () => import("../../pages/employees/Employees.vue"),
         meta: {
             title: "Employees",
+
         }
     },
     {

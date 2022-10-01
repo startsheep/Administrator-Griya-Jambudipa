@@ -45,10 +45,12 @@
                     </div>
                     <div class="col-lg-4 counting">
                         <CardStatistic
+                        class="cursor"
                             :isLoading="loadingKavling"
                             tittle="Kavling"
                             icon="fas fa-maximize"
                             :count="count.kavling"
+                            @click="goToKavling"
                         />
                     </div>
                     <div class="col-lg-4 counting">
@@ -151,6 +153,9 @@ export default {
                     this.count.customerInactive =
                         response.data.customerNoActive;
                 });
+        },
+        goToKavling(){
+            this.$router.push({ name: "List Kavling" });
         },
         getCountContractor() {
             const self = this;
