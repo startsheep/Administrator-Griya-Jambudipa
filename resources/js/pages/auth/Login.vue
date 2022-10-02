@@ -5,7 +5,8 @@
             style="height: 100vh"
         >
             <div class="col-lg-4 col-md-4 col-sm-4">
-                <div class="card">
+                <div class="card position-relative">
+                        <LoadingComponent v-if="isLoading"/>
                     <div class="card-body">
                         <img
                             src="../../../../public/assets/images/logo.png"
@@ -90,13 +91,18 @@
 // import cookie
 import Cookie from "js-cookie";
 import iziToast from "izitoast";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 export default {
+    components:{
+      LoadingComponent
+    },
     data() {
         return {
             user: {
                 email: "",
                 password: "",
             },
+            isLoading: false,
             showPassword: false,
             error: [],
             // showPassword: false,
@@ -108,6 +114,7 @@ export default {
             this.showPassword = !this.showPassword;
         },
         login() {
+            this.isLoading=true,
             this.$store
                 .dispatch("postData", ["auth/login", this.user])
                 .then((response) => {
@@ -125,6 +132,7 @@ export default {
                     // this.$router.go()
                 })
                 .catch((error) => {
+                    this.isLoading = false,
                     iziToast.error({
                         title: "Galat",
                         message: "Periksa Email dan Sandi",
