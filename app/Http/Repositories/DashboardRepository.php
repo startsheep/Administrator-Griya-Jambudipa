@@ -133,7 +133,7 @@ class DashboardRepository implements DashboardContract
         foreach ($kavlings as $kavling) {
             $data[] = [
                 "id" => $kavling->id,
-                "house_type_id" => $kavling->house_type_id,
+                "house_type" => $kavling->houseType,
                 "block" => $kavling->block,
                 "number_kavling" => $kavling->number_kavling,
                 "width_kavling" => $kavling->width_kavling,
@@ -143,6 +143,7 @@ class DashboardRepository implements DashboardContract
                 "created_at" => $kavling->created_at,
                 "updated_at" => $kavling->updated_at,
                 "status" => $kavling->customerKavling ? 1 : 0,
+
             ];
         }
 
