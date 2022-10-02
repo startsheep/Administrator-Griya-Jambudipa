@@ -11,7 +11,7 @@ import VueApexCharts from "vue3-apexcharts";
 import izitoast from "izitoast";
 import VueSweetalert2 from 'vue-sweetalert2';
 import  CKEditor from "@ckeditor/ckeditor5-vue";
-import Multiselect from "vue-multiselect";
+import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import "../css/app.css";
 
 
@@ -25,7 +25,7 @@ if(!Cookie.get("user") && !Cookie.get('token')){
 createApp(Auth).use(router).use(store).use(izitoast).use(VueSweetalert2).use(VueApexCharts).mount("#auth");
 createApp(App).use(router).use(store).use(VueSweetalert2).use(CKEditor).use(abilitiesPlugin, ability, {
     useGlobalProperties: true
-}).mount("#app");
+}).use(autoAnimatePlugin).mount("#app");
 
 
 

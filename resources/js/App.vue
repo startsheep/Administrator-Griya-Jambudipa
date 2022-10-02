@@ -2,7 +2,7 @@
     <div class="main-wrapper main-wrapper-1">
         <Navbar />
         <Sidebar />
-        <div class="main-content">
+        <div class="main-content" v-auto-animate>
             <router-view></router-view>
         </div>
         <footer class="main-footer">

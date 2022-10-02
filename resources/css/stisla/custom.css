@@ -151,7 +151,7 @@ root {
     padding-top: 0 !important;
     width: 100%;
     position: relative;
-    min-height: fit-content !important;
+    /* min-height: fit-content !important; */
     /* min-height: fit-content !important; */
     /* max-height: min-content !important; */
 }
