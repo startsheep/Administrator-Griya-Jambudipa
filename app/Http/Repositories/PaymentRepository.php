@@ -94,7 +94,7 @@ class PaymentRepository implements PaymentContract
 
     public function find($id): Payment
     {
-        return $this->payment->findOrFail($id);
+        return $this->payment->with(['customer', 'kavling.houseType', 'employee', 'paymentPrice', 'document'])->findOrFail($id);
     }
 
     public function customer()

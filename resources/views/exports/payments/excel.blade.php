@@ -2,7 +2,7 @@
 
 @section('content')
     <table style="font-family: sans-serif">
-        <thead style="text-transform: uppercase; background-color: rgb(60, 60, 194); color: white">
+        <thead style="text-transform: uppercase;">
             <tr>
                 <th>No.</th>
                 <th>Nama</th>
