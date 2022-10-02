@@ -407,7 +407,7 @@
                                                         categories.id
                                                     )
                                                 "
-                                                :showDelete="categories.id != 1"
+
                                             />
                                         </td>
                                     </tr>
