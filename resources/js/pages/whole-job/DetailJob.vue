@@ -1,5 +1,5 @@
 <template >
-  <section class="section">
+  <section class="section" v-auto-animate>
     <!-- <div class="section-header">
         <h1>Detail {{ id }}</h1>
     </div> -->
