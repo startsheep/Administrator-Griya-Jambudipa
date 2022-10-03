@@ -45,7 +45,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table table-responsive">
+                            <div class="table-responsive">
+                                <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Nama</th>
@@ -53,13 +54,12 @@
                                         <th>Blok / Kavling</th>
                                         <th>Tipe Rumah</th>
                                         <th>Angsuran</th>
-                                        <!-- <th >Sisa Angsuran</th> -->
                                         <th>Tipe Pembayaran</th>
                                         <th>Status</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody class="position-relative">
+                                <tbody class="position-relative" v-auto-animate>
                                     <LoadingComponent v-if="isLoading" />
                                     <tr
                                         v-for="transaction in transactions"
@@ -177,6 +177,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                         <div class="card-footer">
                             <Pagination

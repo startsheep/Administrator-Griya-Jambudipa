@@ -8,14 +8,14 @@
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content bg-primary">
+      <div class="modal-content bg-light">
         <div class="modal-header">
-          <h5 class="modal-title text-white" id="exampleModalLongTitle">
+          <h5 class="modal-title text-dark" id="exampleModalLongTitle">
             Detail user
           </h5>
           <button
             type="button"
-            class="close text-white"
+            class="close text-dark"
             data-dismiss="modal"
             aria-label="Close"
           >
@@ -24,7 +24,7 @@
         </div>
         <div class="modal-body">
             <CircleLoader v-if="isLoading" />
-          <div v-else class="card bg-primary">
+          <div v-else class="card bg-light">
             <div class="card-body">
               <div class="user-item">
                 <img
@@ -42,18 +42,18 @@
                   style="width: 150px"
                 />
                 <div class="user-details">
-                  <div class="user-name text-white">{{ user.name }}</div>
+                  <div class="user-name text-dark">{{ user.name }}</div>
                   <div class="text-job text-muted">{{ }}</div>
                   <div class="row mt-3">
                     <div class="col text-left">
-                      <div class="text-bold">Email</div>
-                      <div class="">
+                      <div class="text-bold text-dark">Email</div>
+                      <div class="text-dark">
                         {{ user.email }}
                       </div>
                     </div>
                     <div class="col text-left">
-                      <div class="">Telepon</div>
-                      <div class="">
+                      <div class="text-dark">Telepon</div>
+                      <div class="text-dark">
                         {{ user.phone }}
                       </div>
                     </div>

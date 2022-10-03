@@ -6,7 +6,7 @@
         <div class="card-body position-relative">
             <LoadingComponent v-if="isLoading" />
             <div class="p-2 overflow-auto" style="height: 700px">
-                <ul class="list-unstyled">
+                <ul class="list-unstyled" v-auto-animate>
                     <li
                         class="media border-bottom mt-2 mb-3"
                         v-for="activity in logs"

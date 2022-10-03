@@ -129,18 +129,11 @@ class DashboardRepository implements DashboardContract
     public function kavling()
     {
         $kavlings = Kavling::all();
-
         $data = array();
-        $status = 0;
-
         foreach ($kavlings as $kavling) {
-            if ($kavling->customerKavling) {
-                $status = 1;
-            }
-
             $data[] = [
                 "id" => $kavling->id,
-                "house_type_id" => $kavling->house_type_id,
+                "house_type" => $kavling->houseType,
                 "block" => $kavling->block,
                 "number_kavling" => $kavling->number_kavling,
                 "width_kavling" => $kavling->width_kavling,
@@ -149,7 +142,8 @@ class DashboardRepository implements DashboardContract
                 "area_building" => $kavling->area_building,
                 "created_at" => $kavling->created_at,
                 "updated_at" => $kavling->updated_at,
-                "status" => $status
+                "status" => $kavling->customerKavling ? 1 : 0,
+
             ];
         }
 

@@ -127,6 +127,7 @@
                                 <tbody
                                     style="font-size: 12px"
                                     class="position-relative"
+                                    v-auto-animate
                                 >
                                     <LoadingComponent v-if="isLoading" />
                                     <tr
@@ -407,7 +408,7 @@
                                                         categories.id
                                                     )
                                                 "
-                                                :showDelete="categories.id != 1"
+
                                             />
                                         </td>
                                     </tr>
