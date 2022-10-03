@@ -210,7 +210,7 @@ export default {
             isLoading: false,
             idTransaction: null,
             filter: {
-                from: moment().format("YYYY-MM"),
+                from: null,
                 to: null,
             },
             pagination: {
@@ -246,10 +246,14 @@ export default {
         getTransactions() {
             this.isLoading = true;
             const self = this;
-            const params = [];
+            let params = [];
             if (this.filter.from && this.filter.to) {
-                params.push(`from=${this.filter.from}`);
-                params.push(`to=${this.filter.to}`);
+                params = [
+                `from=${this.filter.from}-01`,
+                `to=${this.filter.to}-01`
+                ];
+                // params.push(`from=${this.filter.from}`);
+                // params.push(`to=${this.filter.to}`);
             }
 
             self.$store

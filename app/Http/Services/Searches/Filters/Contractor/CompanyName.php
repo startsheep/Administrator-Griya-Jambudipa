@@ -28,9 +28,9 @@ class CompanyName implements FilterContract
         if (!$this->keyword()) {
             return $next($query);
         }
-        $query->where('company_name', 'LIKE', '%' . $this->companyName . '%');
-        $query->orWhere('pic_name', 'LIKE', '%' . $this->companyName . '%');
-        $query->orWhere('address', 'LIKE', '%' . $this->companyName . '%');
+        $query->where('pic_name', 'LIKE', '%' . $this->companyName . '%');
+        $query->orWhere('email', 'LIKE', '%' . $this->companyName . '%');
+        $query->orWhere('phone', 'LIKE', '%' . $this->companyName . '%');
 
         return $next($query);
     }
@@ -46,8 +46,8 @@ class CompanyName implements FilterContract
             return $this->companyName;
         }
 
-        $this->companyName = request('search', null);
+        $this->companyName = request('name', null);
 
-        return request('search');
+        return request('name');
     }
 }

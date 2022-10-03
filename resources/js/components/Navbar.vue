@@ -1,4 +1,5 @@
 <template>
+    <LoadingComponent v-if="isLoading" />
     <div class="navbar bg-white" style="position: sticky; top: 0; z-index: 999">
         <nav class="navbar navbar-expand-lg main-navbar">
             <form class="form-inline mr-auto">
@@ -11,16 +12,11 @@
                             ><i class="fas fa-bars"></i
                         ></a>
                     </li>
-                    <li>
-                        <a
-                            href="#"
-                            data-toggle="search"
-                            class="nav-link nav-link-lg d-sm-none"
-                            ><i class="fas fa-search"></i
-                        ></a>
-                    </li>
                 </ul>
             </form>
+            <div class="mr-3">
+                <button class="btn btn-sm btn-success">Admin Panel</button>
+            </div>
             <ul class="navbar-nav navbar-right">
                 <li class="dropdown">
                     <a
@@ -73,11 +69,14 @@
 </template>
 <script>
 import Cookie from "js-cookie";
+import LoadingComponent from "./LoadingComponent.vue";
+
 export default {
     data() {
         return {
             user: this.userCookie,
             userData: {},
+            isLoading: false,
         };
     },
     computed: {
@@ -105,6 +104,7 @@ export default {
                 });
         },
         logout() {
+            this.isLoading = true;
             axios
                 .post(
                     "/auth/logout",
@@ -116,12 +116,16 @@ export default {
                     }
                 )
                 .then(() => {
+                    this.isLoading = false;
                     Cookie.remove("token");
                     Cookie.remove("user");
                     window.location.replace("/auth/login");
                     // this.$router.push('/admin/login')
                 });
         },
+    },
+    components: {
+        LoadingComponent,
     },
 };
 </script>
