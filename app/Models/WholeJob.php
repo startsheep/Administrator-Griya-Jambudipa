@@ -10,6 +10,7 @@ class WholeJob extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'contractor_id',
         'customer_id',
         'house_type_id',

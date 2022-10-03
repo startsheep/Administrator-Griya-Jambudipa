@@ -1,4 +1,5 @@
 <template>
+    <LoadingComponent v-if="isLoading" />
     <div class="navbar bg-white" style="position: sticky; top: 0; z-index: 999">
         <nav class="navbar navbar-expand-lg main-navbar">
             <form class="form-inline mr-auto">
@@ -73,11 +74,14 @@
 </template>
 <script>
 import Cookie from "js-cookie";
+import LoadingComponent from './LoadingComponent.vue'
+
 export default {
     data() {
         return {
             user: this.userCookie,
             userData: {},
+            isLoading: false
         };
     },
     computed: {
@@ -105,6 +109,7 @@ export default {
                 });
         },
         logout() {
+            this.isLoading= true
             axios
                 .post(
                     "/auth/logout",
@@ -116,6 +121,7 @@ export default {
                     }
                 )
                 .then(() => {
+                    this.isLoading= false
                     Cookie.remove("token");
                     Cookie.remove("user");
                     window.location.replace("/auth/login");
@@ -123,6 +129,9 @@ export default {
                 });
         },
     },
+    components: {
+        LoadingComponent
+    }
 };
 </script>
 <style lang=""></style>

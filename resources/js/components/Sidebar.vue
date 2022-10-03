@@ -3,11 +3,13 @@
         <aside id="sidebar-wrapper">
             <div class="sidebar-brand">
                 <img
-                    src="../../../public/assets/images/logo.png"
+                    src="/assets/images/logo.png"
                     class="img-fluid"
                     alt=""
                     style="width: 30%"
                     id="logo"
+                    onerror="this.onerror = null; this.src
+                        = '/assets/images/logo.png';"
                 />
             </div>
             <div class="sidebar-brand sidebar-brand-sm">

@@ -41,9 +41,10 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <input
-                                        v-on:keyup="search"
+                                        @keyup="onSearch"
                                         class="form-control"
                                         placeholder="Search"
+                                        v-model="search"
                                     />
                                 </div>
                             </div>
@@ -244,6 +245,7 @@ export default {
             },
             idPayment: null,
             house: null,
+            search: "",
             //   customer: null,
             payments: [
                 //  make same data with deferent value
@@ -354,10 +356,9 @@ export default {
         getPayments() {
             const self = this;
             this.isLoading = true;
-            console.log("getPayments");
             const params = [
                 //   `name=${this.name}`,
-                // `position=${this.name}`,
+                `search=${this.search}`,
                 `order_direction=${this.order_direction}`,
                 `page=${this.pagination.page}`,
                 `per_page=${this.pagination.perPage}`,
@@ -383,6 +384,9 @@ export default {
             });
             this.getPayments();
             this.reset();
+        },
+        onSearch() {
+            this.getPayments();
         },
         getCustomers() {
             const self = this;

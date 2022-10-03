@@ -93,7 +93,7 @@
                                                 class="form-control border-end-0 border"
                                                 type="text"
                                                 v-model="filter.search"
-                                                @keyup="search()"
+                                                @keyup="onSearch()"
                                             />
                                             <span class="input-group-append">
                                                 <button
@@ -660,6 +660,7 @@ export default {
                 `per_page=${self.pagination.perPage}`,
                 `page=${self.pagination.currentPage}`,
                 `order_direction=${this.orderDirection}`,
+                `search=${this.filter.search}`,
                 `section=${this.isBuilding ? "bangunan" : "tanah"}`,
             ].join("&");
             self.$store
@@ -729,6 +730,9 @@ export default {
         onPageChange(page) {
             this.pagination.currentPage = page;
             this.getBasicPriceCategories();
+        },
+        onSearch() {
+            this.getBasicPriceCategories()
         },
 
         reset() {
