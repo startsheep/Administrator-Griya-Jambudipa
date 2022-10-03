@@ -56,9 +56,6 @@
           <div class="card-header pb-0">
             <h4 class="card-title d-block">Kavling blok {{ kavling.block }}</h4>
             <!-- actions header -->
-                <div class="actions-header">
-                    l
-                </div>
           </div>
           <div class="card-body pt-0">
             <div class="row">
