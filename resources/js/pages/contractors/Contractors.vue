@@ -40,7 +40,7 @@
                     <th class="text-center">Aksi</th>
                   </tr>
                 </thead>
-                <tbody class="position-relative">
+                <tbody class="position-relative" v-auto-animate>
                   <LoadingComponent v-if="isLoading" />
                   <tr v-for="contractor in contractors" :key="contractor.id">
                     <td width="30%" class="align-middle">
