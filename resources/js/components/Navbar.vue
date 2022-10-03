@@ -12,16 +12,11 @@
                             ><i class="fas fa-bars"></i
                         ></a>
                     </li>
-                    <li>
-                        <a
-                            href="#"
-                            data-toggle="search"
-                            class="nav-link nav-link-lg d-sm-none"
-                            ><i class="fas fa-search"></i
-                        ></a>
-                    </li>
                 </ul>
             </form>
+            <div class="mr-3">
+                <button class="btn btn-sm btn-success">Admin Panel</button>
+            </div>
             <ul class="navbar-nav navbar-right">
                 <li class="dropdown">
                     <a
@@ -74,14 +69,14 @@
 </template>
 <script>
 import Cookie from "js-cookie";
-import LoadingComponent from './LoadingComponent.vue'
+import LoadingComponent from "./LoadingComponent.vue";
 
 export default {
     data() {
         return {
             user: this.userCookie,
             userData: {},
-            isLoading: false
+            isLoading: false,
         };
     },
     computed: {
@@ -109,7 +104,7 @@ export default {
                 });
         },
         logout() {
-            this.isLoading= true
+            this.isLoading = true;
             axios
                 .post(
                     "/auth/logout",
@@ -121,7 +116,7 @@ export default {
                     }
                 )
                 .then(() => {
-                    this.isLoading= false
+                    this.isLoading = false;
                     Cookie.remove("token");
                     Cookie.remove("user");
                     window.location.replace("/auth/login");
@@ -130,8 +125,8 @@ export default {
         },
     },
     components: {
-        LoadingComponent
-    }
+        LoadingComponent,
+    },
 };
 </script>
 <style lang=""></style>
