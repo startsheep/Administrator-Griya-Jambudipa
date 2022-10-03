@@ -69,7 +69,7 @@
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody class="position-relative">
+                                <tbody class="position-relative"  v-auto-animate>
                                     <LoadingComponent v-if="isLoading" />
                                     <tr
                                         v-for="employee in employees"

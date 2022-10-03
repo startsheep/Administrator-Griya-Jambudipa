@@ -31,10 +31,6 @@ router.beforeEach(async (to, from, next) => {
             next();
         }
     }
-    if(checkIsStaff(to)){
-        next(from)
-    }
-
     if (to.meta.middleware === "guest") {
         if (token) {
             next(

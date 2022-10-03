@@ -14,14 +14,13 @@ class PaymentDetail extends JsonResource
      */
     public function toArray($request)
     {
+
         $block = $this->cekBlock($this->customer->customerKavling, $this->kavling->id);
         $reminderPrice = (string) $this->reminderPrice($this->kavling->houseType->price, $this->paymentPrice);
-        $cekData = $this->customer()
-            ->whereMonth('created_at', date('m'))
-            ->whereYear('created_at', date('Y'))
-            ->first();
+        $cekData = $this->customer()->first();
 
         if ($cekData) {
+            // dd('sa');
             if ($reminderPrice != 0) {
                 $result  = [
                     "id" => $this->id,

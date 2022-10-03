@@ -84,7 +84,7 @@
                     <th class="text-center" scope="col">Aksi</th>
                   </tr>
                 </thead>
-                <tbody class="position-relative">
+                <tbody class="position-relative" v-auto-animate>
                   <LoadingComponent v-if="isLoading" />
                   <tr v-for="job in jobs" :key="job">
                     <!-- <th class="text-center" scope="row">1</th> -->
