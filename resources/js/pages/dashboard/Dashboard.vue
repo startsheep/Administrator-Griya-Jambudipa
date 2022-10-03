@@ -6,7 +6,7 @@
         </div>
         <div class="row">
             <div class="col-lg-8">
-                <div class="row">
+                <div class="row" v-auto-animate>
                     <div class="col-lg-6 counting">
                         <CardStatistic
                             :isLoading="loadingEmployee"
