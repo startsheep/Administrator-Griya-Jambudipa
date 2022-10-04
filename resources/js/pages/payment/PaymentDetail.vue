@@ -1,144 +1,149 @@
 <template>
-    <div
-      class="modal fade"
-      id="detailPayment"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalCenterTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content bg-primary">
-          <div class="modal-header">
-            <h5 class="modal-title text-white" id="exampleModalLongTitle">
-              Detail Pembayaran
-            </h5>
-            <button
-              type="button"
-              class="close text-white"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-              <CircleLoader v-if="isLoading" />
-            <div v-else class="card bg-primary">
-            <div class=" card-body-left">
-                <div class="user-item">
-                    <div class="row mt-1">
-                        <div class="col text-middle">
-                <img
-                  alt="image"
-                  src="../../../../public/assets/images/avatar/avatar-1.png"
-                  class="img-fluid"
-                  style="width: 150px"/>
-                  <div class="user-details">
-                            <div class="col text-left">
-                                <div class="user-name text-white">Nama</div>
-                            </div>
-                            <div class="col text-left">
-                                <div class="">No Telp</div>
-                            </div>
-                            <div class="col text-left">
-                                <div class="">Blok</div>
-                            </div>
-                            <div class="col text-left">
-                                <div class="">Tipe Rumah</div>
-                            </div>
-                            <div class="col text-left">
-                                <div class="">Jenis Pembayaran</div>
-                            </div>
-                            <div class="col text-left">
-                                <div class="">Referal</div>
-                            </div>
-                            <div class="col text-left">
-                                <div class="">Komisi</div>
-                            </div>
-                            <div class="col text-left">
-                                <div class="">Sisa Pembayaran</div>
-                            </div>
-                            <div class="col text-left">
-                                <div class="">Pembayaran Cicilan</div>
-                            </div>
-                    </div>
-                    </div>
-
-
+  <Modal
+    tittle="Detail Transaksi"
+    idModal="detailPayment"
+    :confirmBtn="false"
+    displayBtn="btn-block"
+  >
+    <template v-slot:body>
+      <!-- <div class="alert alert-primary alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>×</span>
+                    </button>
+                    <b>Info!</b> Dibawah ini merupakan hasil rekapitulasi
+                    pembayaran
                 </div>
+            </div> -->
+      <div class="card" v-if="transaction != null">
+        <LoadingComponent v-if="isLoading" />
+        <div class="card-body" >
+          <div class="summary">
+            <div  class="summary-info bg-white " v-if="transaction.customer != null">
+                <div  class="my-2">
+                    <img :src="'storage/'+transaction.customer.image" alt="" class="avatar avatar-lg">
                 </div>
-                </div>
+                <h5>{{ transaction.customer.name }}</h5>
+              <strong class="d-block">Tipe Pembayaran {{ transaction.type }}</strong>
+              <strong >Kavling Block {{ transaction.kavling.block }}, Nomor {{ transaction.kavling.numberKavling }}</strong>
+              <strong class="d-block">Tipe Rumah {{ transaction.kavling.houseType.houseType }}</strong>
             </div>
-              <div class="card-footer">
-                   <button
-                      style="width: 100%;"
-                   type="button" class="btn btn-danger" data-dismiss="modal">
-              Tutup
-            </button>
-              </div>
+            <div class="summary-item">
+              <h6>
+                Total
+                <span v-if="transaction.paymentPrice != null" class="text-muted"
+                  >({{ transaction.paymentPrice.length }} Transaksi)</span
+                >
+              </h6>
+
+              <ul class="list-unstyled list-unstyled-border">
+                    <div class="overflow-auto " style="height: 150px">
+                  <li
+                    class="media"
+                    v-for="(history, index) in transaction.paymentPrice"
+                  >
+                    <a href="#">
+                      <div class="numeric-counter mr-2">
+                        {{ index + 1 }}
+                      </div>
+                    </a>
+                    <div class="media-body">
+                      <div class="media-right"><i @click="toDoc(filterDocByDate(history.createdAt)[0].documentPath)" class="fa-solid fa-info-circle fa-lg cursor"></i>
+                    </div>
+                      <div class="media-title">
+                        {{ formatRupiah(history.price) }}
+                      </div>
+                      <div class="text-muted text-small">
+                        {{ formatDateTime(history.createdAt) }}
+                      </div>
+                    </div>
+                  </li>
+                </div>
+                </ul>
             </div>
           </div>
-
         </div>
       </div>
-  </template>
-  <script>
-  import CircleLoader from '../../components/CircleLoader.vue';
-  export default {
-      props: ["id"],
-
-      data() {
-          return {
-              payment: {},
-              isLoading: false,
-          };
-      },
-
-      watch : {
-          id(newVal){
-              this.getPayment();
-          }
-      },
-      computed : {
-
-      },
-      methods: {
-
-          getPayment() {
-              this.isLoading = true;
-              const self = this;
-              self.$store.dispatch("showData", ["payment/" +self.id]).then(function (result) {
-                console.log(result)
-                  self.isLoading = false;
-              }).catch(error=>{
-                  this.isLoading = false;
-              })
-              ;
-          },
-      },
-      components: { CircleLoader }
-  };
-  </script>
-  <style >
-      .list-group .list-group-item{
-
-            padding: 5px;
-            margin-top: 2px;
-            color: #000;
-      }
-      .custom-avatar{
-           width: 60px;
-    height: 60px;
-    -webkit-border-radius: 60px;
-    -webkit-background-clip: padding-box;
-    -moz-border-radius: 60px;
-    -moz-background-clip: padding;
-    border-radius: 60px;
-    background-clip: padding-box;
-    margin: 7px 0 0 5px;
-    float: left;
-    background-size: cover;
-    background-position: center center;
-    }
-  </style>
+    </template>
+  </Modal>
+</template>
+<script>
+import Modal from "../../components/Modal.vue";
+import Axios from "axios";
+import Utils from "../../store/services/utils";
+import LoadingComponent from "../../components/LoadingComponent.vue";
+export default {
+  props: ["id"],
+  data() {
+    return {
+      transaction: null,
+      isLoading: false,
+    };
+  },
+  watch: {
+    id: function (val) {
+      this.getTransaction();
+    },
+  },
+  mounted() {
+    this.getTransaction();
+  },
+  methods: {
+    filterDocByDate(date){
+        return this.transaction.document.filter((item) => {
+            return item.createdAt == date
+        })
+    },
+    toDoc(path){
+        console.log(path)
+        // this.$router.push('storage/'+path)
+        // to blank page with tag a
+        window.open('storage/'+path, '_blank');
+    },
+    randomColor() {
+      // create and calculate random color
+      let r = Math.floor(Math.random() * 255);
+      let g = Math.floor(Math.random() * 255);
+      let b = Math.floor(Math.random() * 255);
+      let a = 0.5;
+      return `rgba(${r},${g},${b},${a})`;
+    },
+    formatDateTime(date) {
+      return Utils.formateDateTimeLocale(date);
+    },
+    formatRupiah(number) {
+      return Utils.formatRupiah(number, "Rp. ");
+    },
+    getTransaction() {
+      this.isLoading = true;
+      this.$store
+        .dispatch("getData", ["transaction/" + this.id])
+        .then((response) => {
+          this.transaction = response.data;
+          this.isLoading = false;
+        });
+    },
+  },
+  components: { Modal, LoadingComponent },
+};
+</script>
+<style>
+.numeric-counter {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: black;
+  /* border radius circle */
+  border-radius: 50%;
+  /* border */
+  border: 1px solid #ccc;
+  /* font size */
+  font-size: 20px;
+  /* font weight */
+  font-weight: bold;
+  background-color: rgb(236, 236, 236);
+}
+</style>
