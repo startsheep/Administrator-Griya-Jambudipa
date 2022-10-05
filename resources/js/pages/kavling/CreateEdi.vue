@@ -109,7 +109,7 @@
                         <div class="form-group col-lg-6">
                             <label>Panjang Kavling 2 (M)</label>
                             <input
-                                v-model="kavling.lengthKavling"
+                                v-model="kavling.secondLengthKavling"
                                 ref="formkavling"
                                 type="text"
                                 class="form-control"
@@ -199,6 +199,7 @@ export default {
                 numberKavling: "",
                 widthKavling: "",
                 lengthKavling: "",
+                secondLengthKavling: "",
                 areaKavling: "",
                 areaBuilding: "",
             },
@@ -241,6 +242,7 @@ export default {
                 numberKavling: "",
                 widthKavling: "",
                 lengthKavling: "",
+                secondLengthKavling: "",
                 areaKavling: "",
                 areaBuilding: "",
             };
@@ -266,6 +268,7 @@ export default {
                     number_kavling: this.kavling.numberKavling,
                     width_kavling: this.kavling.widthKavling,
                     length_kavling: this.kavling.lengthKavling,
+                    second_length_kavling: this.kavling.secondLengthKavling,
                     areaKavling: this.kavling.areaKavling,
                     areaBuilding: this.kavling.areaBuilding,
                 },
@@ -302,6 +305,7 @@ export default {
                     number_kavling: this.kavling.numberKavling,
                     width_kavling: this.kavling.widthKavling,
                     length_kavling: this.kavling.lengthKavling,
+                    second_length_kavling: this.kavling.secondLengthKavling,
                     areaKavling: this.kavling.areaKavling,
                     areaBuilding: this.kavling.areaBuilding,
                 },
