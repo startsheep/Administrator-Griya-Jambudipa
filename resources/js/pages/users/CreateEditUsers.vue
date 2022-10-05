@@ -58,9 +58,8 @@
                                 <select
                                     class="form-control form-control"
                                 >
-                                    <option value="L">Administrator</option>
-
-                                    <option value="P">Staff</option>
+                                    <option value="Administrator">Administrator</option>
+                                    <option value="Staff">Staff</option>
                                 </select>
                             </div>
 
