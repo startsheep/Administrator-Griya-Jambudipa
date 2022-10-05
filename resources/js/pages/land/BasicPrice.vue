@@ -71,6 +71,10 @@
                                 >
                                     Tambah Perincian
                                 </button>
+                                
+    <button type="button" class="btn btn-icon icon-rigth btn-success mr-2 ml-4" data-toggle="modal" data-target="#importExcel" @click="importExcel">
+      {{ labelImportExcel }} <span class="mr-1">Import Excel</span> <i class="fa-solid fa-save ml-3"> </i>
+    </button>
                             </div>
                             <div class="col">
                                 <div class="mb-3 d-flex justify-content-end">
@@ -426,6 +430,7 @@
             </div>
         </div>
     </section>
+    <ModalImport/>
 </template>
 <script>
 import Media from "../../components/Media.vue";
@@ -436,6 +441,7 @@ import FormChild from "./FormChild.vue";
 import Pagination from "../../components/Pagination.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import LoadingComponent from "../../components/LoadingComponent.vue";
+import ModalImport from "./ModalImport.vue";
 export default {
     data() {
         return {
@@ -750,6 +756,7 @@ export default {
         Pagination,
         ButtonsExport,
         LoadingComponent,
+        ModalImport
     },
 };
 </script>
