@@ -52,6 +52,19 @@
                                 id="phone"
                             />
                         </div>
+  
+                        <div class="form-group col-lg-6">
+                                <label>Pilih Role Akun</label>
+                                <select
+                                    class="form-control form-control"
+                                >
+                                    <option value="Administrator">Administrator</option>
+
+                                    <option value="Staff">Staff</option>
+                                </select>
+                            </div>
+
+
                         <div class="form-group" v-if="previewImage">
                             <img :src="previewImage" style="width: 100%" />
                         </div>
