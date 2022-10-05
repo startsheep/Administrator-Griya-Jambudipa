@@ -15,6 +15,10 @@
                         >
                             Tambah Kavling
                         </Button>
+                                                   
+    <button type="button" class="btn btn-icon icon-rigth btn-success mr-2 ml-4" data-toggle="modal" data-target="#importExcel" @click="importExcel">
+      {{ labelImportExcel }} <span class="mr-1">Import Excel</span> <i class="fa-solid fa-save ml-3"> </i>
+    </button>
                     </div>
                     <div class="card-body">
                         <div class="row mb-3 d-flex justify-content-between">
@@ -171,6 +175,7 @@
             </div>
         </div>
     </section>
+    <ModalImport/>
     <CreateEdit @onSuccess="onSuccess()" :kav="kavling" />
 </template>
 <script>
@@ -179,6 +184,7 @@ import iziToast from "izitoast";
 import Pagination from "../../components/Pagination.vue";
 import LoadingComponent from "../../components/LoadingComponent.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
+import ModalImport from "../land/ModalImport.vue";
 
 export default {
     components: {
@@ -186,6 +192,7 @@ export default {
         Pagination,
         LoadingComponent,
         ButtonsExport,
+        ModalImport
     },
     data() {
         return {
