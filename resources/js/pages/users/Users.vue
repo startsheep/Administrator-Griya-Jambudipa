@@ -48,6 +48,7 @@
                                         <th>Nama</th>
                                         <th>Email</th>
                                         <th>Nomor Telepon</th>
+                                        <th>Hak Akses</th>
                                         <th>Status</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
@@ -58,6 +59,7 @@
                                         <td>{{ user.name }}</td>
                                         <td>{{ user.email }}</td>
                                         <td>{{ user.phone ?? "-" }}</td>
+                                        <td>{{ user.roleId == 1 ? 'Administrator' : 'Staff'}}</td>
                                         <td>
                                             <label class="" v-if="user.id != 1">
                                                 <input
