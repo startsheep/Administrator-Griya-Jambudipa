@@ -61,6 +61,7 @@
                                 >
                                     <option value="1">Administrator</option>
                                     <option value="2">Staff</option>
+
                                 </select>
                             </div>
 
