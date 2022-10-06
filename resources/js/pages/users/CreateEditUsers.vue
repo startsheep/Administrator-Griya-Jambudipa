@@ -57,10 +57,10 @@
                                 <label>Pilih Role Akun</label>
                                 <select
                                     class="form-control form-control"
+                                    v-model="form.role_id"
                                 >
-                                    <option value="Administrator">Administrator</option>
-
-                                    <option value="Staff">Staff</option>
+                                    <option value="1">Administrator</option>
+                                    <option value="2">Staff</option>
                                 </select>
                             </div>
 
@@ -125,6 +125,7 @@ export default {
                 name: "",
                 email: "",
                 phone: "",
+                role_id: "",
             },
             previewImage: null,
             isLoading: false,
@@ -138,7 +139,7 @@ export default {
             });
             this.form.name = user.name;
             this.form.email = user.email;
-            this.form.phone = user.phone;
+            this.form.role_id = user.role_id;
         },
     },
     computed: {
@@ -147,6 +148,7 @@ export default {
             fieldData.append("name", this.form.name);
             fieldData.append("email", this.form.email);
             fieldData.append("phone", this.form.phone);
+            fieldData.append("role_id", this.form.role_id);
 
             if (this.user && this.id) {
                 fieldData.append("_method", "PUT");
