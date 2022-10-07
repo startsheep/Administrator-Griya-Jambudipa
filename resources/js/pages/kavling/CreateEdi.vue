@@ -183,12 +183,7 @@
 import iziToast from "izitoast";
 
 export default {
-    props: {
-        kav: {
-            type: Object,
-            default: null,
-        },
-    },
+    props:['kav'],
     data() {
         return {
             houses: [],
@@ -210,6 +205,18 @@ export default {
         kav(newVal, oldVal) {
             if (newVal != null) {
                 this.kavling = newVal;
+            }else{
+                this.kavling = {
+                    id: "",
+                    block: "",
+                    houseType: "",
+                    numberKavling: "",
+                    widthKavling: "",
+                    lengthKavling: "",
+                    secondLengthKavling: "",
+                    areaKavling: "",
+                    areaBuilding: "",
+                };
             }
         },
     },
