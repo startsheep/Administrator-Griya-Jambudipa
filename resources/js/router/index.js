@@ -1,30 +1,43 @@
 import routes from "./routes";
+import Cookies from "js-cookie";
 import {
     createRouter,
     createWebHistory
 } from "vue-router";
-import Cookies from "js-cookie";
+
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
     linkActiveClass: "text-warning",
 });
+function checkIsStaff(to){
+    // const user = JSON.parse(Cookies.get('user'));
+    // if(user.role.includes('Admin')){
+    //     if(to.name === "Customers"){
+    //         return false;
+    //     }
+    // }
+}
 
 router.beforeEach(async (to, from, next) => {
     const token = Cookies.get("token");
     if (to.meta.middleware === "auth") {
         if (!token) {
-            window.location.replace('/auth/login')
-            // next("/auth/login");
+            next({
+                name: "Login",
+            });
         } else {
             next();
         }
     }
-
     if (to.meta.middleware === "guest") {
         if (token) {
-            window.location.replace('/')
+            next(
+                {
+                    name: "Dashboard",
+                }
+            )
         } else {
             next();
         }

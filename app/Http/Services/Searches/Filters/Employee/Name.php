@@ -28,7 +28,13 @@ class Name implements FilterContract
         if (!$this->keyword()) {
             return $next($query);
         }
-        $query->where('name', 'LIKE', '%' . $this->name . '%');
+
+        $name = $this->name;
+
+        $query->where('name', 'LIKE', '%' . $name . '%')
+            ->orWhereHas('position', function ($q) use ($name) {
+                $q->where('name', 'LIKE', '%' . $name . '%');
+            });
 
         return $next($query);
     }

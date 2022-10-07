@@ -71,6 +71,10 @@
                                 >
                                     Tambah Perincian
                                 </button>
+                                
+    <button type="button" class="btn btn-icon icon-rigth btn-success mr-2 ml-4" data-toggle="modal" data-target="#importExcel" @click="importExcel">
+      {{ labelImportExcel }} <span class="mr-1">Import Excel</span> <i class="fa-solid fa-save ml-3"> </i>
+    </button>
                             </div>
                             <div class="col">
                                 <div class="mb-3 d-flex justify-content-end">
@@ -93,7 +97,7 @@
                                                 class="form-control border-end-0 border"
                                                 type="text"
                                                 v-model="filter.search"
-                                                @keyup="search()"
+                                                @keyup="onSearch()"
                                             />
                                             <span class="input-group-append">
                                                 <button
@@ -127,6 +131,7 @@
                                 <tbody
                                     style="font-size: 12px"
                                     class="position-relative"
+                                    v-auto-animate
                                 >
                                     <LoadingComponent v-if="isLoading" />
                                     <tr
@@ -407,7 +412,7 @@
                                                         categories.id
                                                     )
                                                 "
-                                                :showDelete="categories.id != 1"
+
                                             />
                                         </td>
                                     </tr>
@@ -425,6 +430,7 @@
             </div>
         </div>
     </section>
+    <ModalImport/>
 </template>
 <script>
 import Media from "../../components/Media.vue";
@@ -435,6 +441,7 @@ import FormChild from "./FormChild.vue";
 import Pagination from "../../components/Pagination.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import LoadingComponent from "../../components/LoadingComponent.vue";
+import ModalImport from "./ModalImport.vue";
 export default {
     data() {
         return {
@@ -660,6 +667,7 @@ export default {
                 `per_page=${self.pagination.perPage}`,
                 `page=${self.pagination.currentPage}`,
                 `order_direction=${this.orderDirection}`,
+                `search=${this.filter.search}`,
                 `section=${this.isBuilding ? "bangunan" : "tanah"}`,
             ].join("&");
             self.$store
@@ -730,6 +738,9 @@ export default {
             this.pagination.currentPage = page;
             this.getBasicPriceCategories();
         },
+        onSearch() {
+            this.getBasicPriceCategories()
+        },
 
         reset() {
             this.categoryLand = {
@@ -745,6 +756,7 @@ export default {
         Pagination,
         ButtonsExport,
         LoadingComponent,
+        ModalImport
     },
 };
 </script>

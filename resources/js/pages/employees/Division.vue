@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" v-auto-animate>
                             <thead>
                                 <tr>
                                     <th width="40%">Jabatan</th>
@@ -25,11 +25,12 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody class="position-relative">
+                            <tbody class="position-relative"  >
                                 <LoadingComponent v-if="isLoading" />
                                 <tr
                                     v-for="division in divisions"
                                     :key="division.id"
+
                                 >
                                     <td>
                                         <div class="media">

@@ -45,7 +45,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table table-bordered">
+                            <div class="table-responsive">
+                                <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Nama</th>
@@ -53,13 +54,12 @@
                                         <th>Blok / Kavling</th>
                                         <th>Tipe Rumah</th>
                                         <th>Angsuran</th>
-                                        <!-- <th >Sisa Angsuran</th> -->
                                         <th>Tipe Pembayaran</th>
                                         <th>Status</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody class="position-relative">
+                                <tbody class="position-relative" v-auto-animate>
                                     <LoadingComponent v-if="isLoading" />
                                     <tr
                                         v-for="transaction in transactions"
@@ -177,6 +177,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                         <div class="card-footer">
                             <Pagination
@@ -209,7 +210,7 @@ export default {
             isLoading: false,
             idTransaction: null,
             filter: {
-                from: moment().format("YYYY-MM"),
+                from: null,
                 to: null,
             },
             pagination: {
@@ -245,10 +246,14 @@ export default {
         getTransactions() {
             this.isLoading = true;
             const self = this;
-            const params = [];
+            let params = [];
             if (this.filter.from && this.filter.to) {
-                params.push(`from=${this.filter.from}`);
-                params.push(`to=${this.filter.to}`);
+                params = [
+                `from=${this.filter.from}-01`,
+                `to=${this.filter.to}-01`
+                ];
+                // params.push(`from=${this.filter.from}`);
+                // params.push(`to=${this.filter.to}`);
             }
 
             self.$store

@@ -16,6 +16,7 @@
                                     data-target="#formUserModal"
                                     data-backdrop="static"
                                     data-keyboard="false"
+                                    @click="userId = null"
                                 >
                                     Tambah Data
                                 </Button>
@@ -48,16 +49,18 @@
                                         <th>Nama</th>
                                         <th>Email</th>
                                         <th>Nomor Telepon</th>
+                                        <th>Hak Akses</th>
                                         <th>Status</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody class="position-relative">
+                                <tbody class="position-relative" v-auto-animate>
                                     <LoadingComponent v-if="isLoading" />
                                     <tr v-for="user in users">
                                         <td>{{ user.name }}</td>
                                         <td>{{ user.email }}</td>
                                         <td>{{ user.phone ?? "-" }}</td>
+                                        <td>{{ user.roleId === 1 ? 'Administrator' : 'Staff'}}</td>
                                         <td>
                                             <label class="" v-if="user.id != 1">
                                                 <input
@@ -99,7 +102,7 @@
                                                         data-target="#formUserModal"
                                                         data-backdrop="static"
                                                         data-keyboard="false"
-                                                        @click="showModal(user)"
+                                                        @click="sendId(user.id)"
                                                     >
                                                         Edit
                                                     </button>
@@ -176,7 +179,7 @@
         </div>
     </section>
     <detailUser :id="userId" />
-    <ModalForm :user="user" :id="user.id" @onSuccess="onSuccess()" />
+    <ModalForm :id="userId" @onSuccess="onSuccess()" />
     <ChangePasswordModal
         :id="user.id"
         :name="user.name"

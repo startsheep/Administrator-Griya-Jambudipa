@@ -6,17 +6,17 @@
         <div class="card-body position-relative">
             <LoadingComponent v-if="isLoading" />
             <div class="p-2 overflow-auto" style="height: 700px">
-                <ul class="list-unstyled">
+                <ul class="list-unstyled" v-auto-animate>
                     <li
                         class="media border-bottom mt-2 mb-3"
                         v-for="activity in logs"
                         :key="activity"
                     >
                         <img
-                            class="mr-3 rounded-circle"
-                            width="50"
-                            src="https://robohash.org/stefan-oneapi.lorem.space/image/face?w=150&h=150"
-                            alt="avatar"
+                            class="rounded-circle mr-3 mt-1"
+                            style="width:50px; height:50px"
+                            :src="'storage/' + activity.user.image.documentPath"
+                            alt=""
                         />
                         <div class="media-body">
                             <div class="float-right text-primary">

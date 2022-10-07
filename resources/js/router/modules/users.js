@@ -14,6 +14,7 @@ export default [
         props: true,
         meta: {
             title: "User Activity",
+
         },
     },
 ];

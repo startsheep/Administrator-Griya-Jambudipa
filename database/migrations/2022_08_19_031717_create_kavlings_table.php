@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('number_kavling')->nullable();
             $table->string('width_kavling', 10)->nullable();
             $table->string('length_kavling', 10)->nullable();
+            $table->string('second_length_kavling', 10)->nullable();
             $table->string('area_kavling', 10)->nullable();
             $table->string('area_building', 10)->nullable();
             $table->timestamps();

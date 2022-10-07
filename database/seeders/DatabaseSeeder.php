@@ -18,17 +18,17 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+
+        User::factory()->create([
+            'email' => 'admin@example.com',
+            'is_active' => 1,
+        ]);
         $this->call([
             PositionSeeder::class,
             CustomerSeeder::class,
             EmployeeSeeder::class,
             CompanyProfileSeeder::class,
             RoleSeeder::class
-        ]);
-
-        User::factory()->create([
-            'email' => 'admin@example.com',
-            'is_active' => 1,
         ]);
     }
 }

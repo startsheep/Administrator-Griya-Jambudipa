@@ -6,7 +6,7 @@
       class="btn btn-icon icon-rigth btn-primary mr-2"
         @click="exportPdf"
     >
-   }{{ labelExportPdf }} <i class="fa-solid fa-file-pdf"></i>
+   {{ labelExportPdf }} <i class="fa-solid fa-file-pdf"></i>
     </button>
     <button type="button" class="btn btn-icon icon-rigth btn-primary mr-2" @click="exportExcel">
       {{ labelExportExcel }} <i class="fa-solid fa-file-excel"></i>
@@ -14,6 +14,7 @@
     <button v-if="printData" @click="print" type="button" class="btn btn-icon icon-rigth btn-primary mr-2">
       {{ labelPrint }} <i class="fa-solid fa-print"></i>
     </button>
+
   </div>
 </template>
 <script>
@@ -39,6 +40,10 @@ export default {
             type: String,
             default: 'Print'
         },
+        labelImportExcel: {
+            type: String,
+            default: 'Import Excel'
+        },
     },
     methods:{
         print(){
@@ -49,6 +54,9 @@ export default {
         },
         exportExcel(){
             this.$emit('exportExcel')
+        },
+        importExcel(){
+            this.$emit('importExcel')
         }
     }
 };

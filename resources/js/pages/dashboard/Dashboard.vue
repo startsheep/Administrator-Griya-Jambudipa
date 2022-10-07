@@ -2,10 +2,11 @@
     <section class="section dashboard">
         <div class="section-header">
             <h4>Dashboard</h4>
+            <!-- {{ user }} -->
         </div>
         <div class="row">
             <div class="col-lg-8">
-                <div class="row">
+                <div class="row" v-auto-animate>
                     <div class="col-lg-6 counting">
                         <CardStatistic
                             :isLoading="loadingEmployee"
@@ -44,10 +45,12 @@
                     </div>
                     <div class="col-lg-4 counting">
                         <CardStatistic
+                        class="cursor"
                             :isLoading="loadingKavling"
                             tittle="Kavling"
                             icon="fas fa-maximize"
                             :count="count.kavling"
+                            @click="goToKavling"
                         />
                     </div>
                     <div class="col-lg-4 counting">
@@ -68,24 +71,25 @@
                             :count="count.transaction"
                         />
                     </div>
-                    <div class="col-lg-12 mb-3">
+                    <div class="col-lg-12 mb-3" v-if="$can('chart','Dashboard')">
                         <Chart />
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4" >
                 <RecentActivity style="position: sticky; top: 0" />
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-8 col-md-12 col-12 col-sm-12"></div>
-        </div>
+        <!-- <div class="row">
+            <div class="col-lg-8 col-md-12 col-12 col-sm-12 bg-primary">p</div>
+        </div> -->
     </section>
 </template>
 <script>
 import CardStatistic from "./CardStatistic.vue";
 import RecentActivity from "./RecentActivity.vue";
 import Chart from "./Chart.vue";
+import Cookie from "js-cookie";
 export default {
     components: { CardStatistic, RecentActivity, Chart },
     data() {
@@ -116,6 +120,13 @@ export default {
     mounted() {
         this.getCount();
     },
+    computed:{
+        user(){
+            // to object
+            return  JSON.parse(Cookie.get('user')).role
+        }
+    },
+
     methods: {
         getCountEmployee() {
             const self = this;
@@ -142,6 +153,9 @@ export default {
                     this.count.customerInactive =
                         response.data.customerNoActive;
                 });
+        },
+        goToKavling(){
+            this.$router.push({ name: "List Kavling" });
         },
         getCountContractor() {
             const self = this;

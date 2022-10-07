@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Searches;
 
+use App\Http\Services\Searches\Filters\BasicPriceCategory\Search;
 use App\Http\Services\Searches\Filters\BasicPriceCategory\Section;
 use App\Http\Services\Searches\HttpSearch;
 use App\Models\BasicPriceCategory;
@@ -18,6 +19,7 @@ class BasicPriceCategorySearch extends HttpSearch
     protected function filters(): array
     {
         return [
+            Search::class,
             Section::class
         ];
     }
