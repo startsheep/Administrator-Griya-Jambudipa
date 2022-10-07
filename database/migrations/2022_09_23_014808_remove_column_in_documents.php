@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::table('documents', function (Blueprint $table) {
             $table->dropColumn('id');
-            $table->index('created_at');
         });
     }
 
