@@ -37,7 +37,7 @@ export default {
     },
     watch:{
     //
-      userId(){}
+
     },
     computed: {},
     methods: {
