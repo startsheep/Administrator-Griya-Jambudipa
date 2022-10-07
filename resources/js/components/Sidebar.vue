@@ -3,7 +3,7 @@
         <aside id="sidebar-wrapper">
             <div class="sidebar-brand">
                 <img
-                    src="/assets/images/logo.png"
+                    src="../../../public/assets/images/logo.png"
                     class="img-fluid"
                     alt=""
                     style="width: 30%"
