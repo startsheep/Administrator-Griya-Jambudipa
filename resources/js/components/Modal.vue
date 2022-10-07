@@ -112,6 +112,7 @@ export default {
     confirm() {
       this.$emit("onConfirm");
     },
+
   },
   components: { LoadingComponent },
 };
