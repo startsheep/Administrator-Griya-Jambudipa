@@ -59,6 +59,7 @@ class AccountRepository implements AccountContract
             $roleId = $attributes['role_id'];
         }
 
+
         $role = Role::find($roleId);
 
         $result = $this->account->create($attributes);

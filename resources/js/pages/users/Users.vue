@@ -16,6 +16,7 @@
                                     data-target="#formUserModal"
                                     data-backdrop="static"
                                     data-keyboard="false"
+                                    @click="userId = null"
                                 >
                                     Tambah Data
                                 </Button>
@@ -59,7 +60,7 @@
                                         <td>{{ user.name }}</td>
                                         <td>{{ user.email }}</td>
                                         <td>{{ user.phone ?? "-" }}</td>
-                                        <td>{{ user.roleId == 1 ? 'Administrator' : 'Staff'}}</td>
+                                        <td>{{ user.roleId === 1 ? 'Administrator' : 'Staff'}}</td>
                                         <td>
                                             <label class="" v-if="user.id != 1">
                                                 <input
@@ -101,7 +102,7 @@
                                                         data-target="#formUserModal"
                                                         data-backdrop="static"
                                                         data-keyboard="false"
-                                                        @click="showModal(user)"
+                                                        @click="sendId(user.id)"
                                                     >
                                                         Edit
                                                     </button>
@@ -178,7 +179,7 @@
         </div>
     </section>
     <detailUser :id="userId" />
-    <ModalForm :user="user" :id="user.id" @onSuccess="onSuccess()" />
+    <ModalForm :id="userId" @onSuccess="onSuccess()" />
     <ChangePasswordModal
         :id="user.id"
         :name="user.name"

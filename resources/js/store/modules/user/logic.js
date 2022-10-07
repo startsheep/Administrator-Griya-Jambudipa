@@ -35,6 +35,10 @@ export default {
     mounted() {
         this.getUsers();
     },
+    watch:{
+    //
+
+    },
     computed: {},
     methods: {
         sendId(id) {
@@ -167,8 +171,8 @@ export default {
                     }
                 });
         },
-        showModal(user) {
-            this.user = user;
+        showModal(id) {
+            this.userId = id;
         },
         onSort() {
             this.getUsers();
