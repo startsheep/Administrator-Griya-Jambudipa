@@ -18,10 +18,8 @@ class TransactionCollection extends ResourceCollection
 
         foreach ($this as $item) {
             $block = $this->cekBlock($item->customer->customerKavling, $item->kavling->houseType->id);
-            $reminderPrice = (string) $this->reminderPrice($item->kavling->houseType->price, $item->paymentPrice);
+            $reminderPrice = (string) $this->reminderPrice($item->kavling->houseType->price, $item);
             $cekData = $item->customer()
-                // ->whereMonth('created_at', date('M'))
-                ->whereYear('created_at', date('Y'))
                 ->first();
 
             if ($cekData) {
@@ -57,10 +55,14 @@ class TransactionCollection extends ResourceCollection
     protected function reminderPrice($price, $result)
     {
         $total = 0;
-        foreach ($result as $item) {
+        foreach ($result->paymentPrice as $item) {
             $total += $item->price;
         }
 
+        $price += $result->otherDevelop->develop_price;
+        if ($result->discount != null) {
+            $price = ($result->discount / 100) * $price;
+        }
         $price -= $total;
 
         return $price;

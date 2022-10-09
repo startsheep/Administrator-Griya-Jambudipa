@@ -28,7 +28,7 @@ class TransactionController extends Controller
 
     public function show($id)
     {
-        $result = $this->paymentRepository->with(['customer', 'kavling.houseType', 'employee', 'paymentPrice', 'document'])->find($id);
+        $result = $this->paymentRepository->with(['customer', 'kavling.houseType', 'employee', 'paymentPrice', 'document', 'otherDevelop'])->find($id);
 
         return new TransactionDetail($result);
     }

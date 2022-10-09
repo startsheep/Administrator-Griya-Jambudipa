@@ -14,13 +14,12 @@ class PaymentDetail extends JsonResource
      */
     public function toArray($request)
     {
-
+        $result = [];
         $block = $this->cekBlock($this->customer->customerKavling, $this->kavling->id);
-        $reminderPrice = (string) $this->reminderPrice($this->kavling->houseType->price, $this->paymentPrice);
+        $reminderPrice = (string) $this->reminderPrice($this->kavling->houseType->price, $this);
         $cekData = $this->customer()->first();
 
         if ($cekData) {
-            // dd('sa');
             if ($reminderPrice != 0) {
                 $result  = [
                     "id" => $this->id,
@@ -28,6 +27,7 @@ class PaymentDetail extends JsonResource
                     "type" => $this->type,
                     "block" => $this->kavling,
                     "customer" => $this->customer,
+                    "other_develop" => $this->otherDevelop,
                     "created_at" => $this->created_at,
                     "updated_at" => $this->updated_at,
                 ];
@@ -51,10 +51,14 @@ class PaymentDetail extends JsonResource
     protected function reminderPrice($price, $result)
     {
         $total = 0;
-        foreach ($result as $item) {
+        foreach ($result->paymentPrice as $item) {
             $total += $item->price;
         }
 
+        $price += $result->otherDevelop->develop_price;
+        if ($result->discount != null) {
+            $price = ($result->discount / 100) * $price;
+        }
         $price -= $total;
 
         return $price;

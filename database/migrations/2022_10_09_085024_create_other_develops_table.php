@@ -1,0 +1,35 @@
+<?php
+
+use App\Models\Payment;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('other_develops', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Payment::class)->nullable();
+            $table->string('develop_name')->nullable();
+            $table->string('develop_price')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('other_develops');
+    }
+};
