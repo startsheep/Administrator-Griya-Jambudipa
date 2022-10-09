@@ -31,6 +31,11 @@ class Payment extends Model
         return $this->hasOne(Kavling::class, 'id', 'kavling_id');
     }
 
+    public function otherDevelop()
+    {
+        return $this->hasOne(OtherDevelop::class, 'payment_id', 'id');
+    }
+
     public function document()
     {
         return $this->morphMany(Document::class, 'documentable');

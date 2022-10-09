@@ -18,7 +18,7 @@ class PaymentCollection extends ResourceCollection
 
         foreach ($this as $item) {
             $block = $this->cekBlock($item->customer->customerKavling, $item->kavling->id);
-            $reminderPrice = (string) $this->reminderPrice($item->kavling->houseType->price, $item->paymentPrice);
+            $reminderPrice = (string) $this->reminderPrice($item->kavling->houseType->price, $item);
             $cekData = $item->customer()
                 ->first();
 
@@ -31,6 +31,7 @@ class PaymentCollection extends ResourceCollection
                         "block" => $item->kavling,
                         "customer" => $item->customer,
                         "documents" => $item->document,
+                        "other_develop" => $item->otherDevelop,
                         "created_at" => $item->created_at,
                         "updated_at" => $item->updated_at,
                     ];
@@ -39,16 +40,20 @@ class PaymentCollection extends ResourceCollection
         }
 
         return $result;
-        // return parent::toArray($request);
     }
 
     protected function reminderPrice($price, $result)
     {
         $total = 0;
-        foreach ($result as $item) {
+
+        foreach ($result->paymentPrice as $item) {
             $total += $item->price;
         }
 
+        $price += $result->otherDevelop->develop_price;
+        if ($result->discount != null) {
+            $price = ($result->discount / 100) * $price;
+        }
         $price -= $total;
 
         return $price;

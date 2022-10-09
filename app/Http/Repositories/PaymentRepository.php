@@ -65,6 +65,14 @@ class PaymentRepository implements PaymentContract
                 'price' => $attributes['price'],
             ]);
 
+            if (isset($attributes['develop_name']) && isset($attributes['develop_price'])) {
+                $result->otherDevelop()->create([
+                    'payment_id' => $result->id,
+                    'develop_name' => $attributes['develop_name'],
+                    'develop_price' => $attributes['develop_price'],
+                ]);
+            }
+
             if (isset($attributes['documents'])) {
                 if (isset($attributes['documents']) && $attributes['documents']) {
                     if ($result->document) {
