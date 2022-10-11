@@ -1,17 +1,17 @@
 <template>
   <div class="" :class="'btn-group-'+size">
     <button
-
+    v-if="showBtnPdf"
       type="button"
       class="btn btn-icon icon-rigth btn-primary mr-2"
         @click="exportPdf"
     >
    {{ labelExportPdf }} <i class="fa-solid fa-file-pdf"></i>
     </button>
-    <button type="button" class="btn btn-icon icon-rigth btn-primary mr-2" @click="exportExcel">
+    <button v-if="showBtnExcel" type="button" class="btn btn-icon icon-rigth btn-primary mr-2" @click="exportExcel">
       {{ labelExportExcel }} <i class="fa-solid fa-file-excel"></i>
     </button>
-    <button v-if="printData" @click="print" type="button" class="btn btn-icon icon-rigth btn-primary mr-2">
+    <button v-if="showBtnPrint" @click="print" type="button" class="btn btn-icon icon-rigth btn-primary mr-2">
       {{ labelPrint }} <i class="fa-solid fa-print"></i>
     </button>
 
@@ -44,6 +44,19 @@ export default {
             type: String,
             default: 'Import Excel'
         },
+        showBtnExcel:{
+            type: Boolean,
+            default: true
+        },
+        showBtnPdf:{
+            type: Boolean,
+            default: true
+        },
+        showBtnPrint:{
+            type: Boolean,
+            default: true
+        },
+
     },
     methods:{
         print(){
