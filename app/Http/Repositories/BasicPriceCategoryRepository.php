@@ -46,10 +46,10 @@ class BasicPriceCategoryRepository implements BasicPriceCategoryContract
 
     public function delete($result)
     {
-        if ($result->id != 1) {
-            $result->basicPrice()?->update(['basic_price_category_id' => 1]);
-
-            return $result->delete();
+        foreach ($result->basicPrice as $basicPrice) {
+            $basicPrice->child()->delete();
         }
+        $result->basicPrice()->delete();
+        return $result->delete();
     }
 }
