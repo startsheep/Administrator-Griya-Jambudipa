@@ -18,13 +18,18 @@
           </div>
           <div class="card-body">
             <div class="row mb-3 d-flex justify-content-between">
-              <div class="col-lg-4">
-                <ButtonsExport :printData="false" />
+              <div class="col">
+                <div class="card-header-action">
+                    <ButtonsExport
+                    :showBtnPdf="false"
+                    @exportExcel="exportExcel()"
+                    @print="printData()"/>
+            </div>
               </div>
               <div class="col-lg-6">
                 <!-- <div class="form-inline"> -->
-                    <div class="input-group mr-3">
-                    <!-- <input
+                <div class="input-group mr-3">
+                  <!-- <input
                         v-on:keyup="search"
                         class="form-control"
                         placeholder="Search"
@@ -51,16 +56,8 @@
                     <option selected disabled value="">
                       Filter Blok Kavling
                     </option>
-                    <option
-                    value="asc"
-                    >
-                      Data Baru
-                    </option>
-                    <option
-                    value="desc"
-                    >
-                      Data Lama
-                    </option>
+                    <option value="asc">Data Baru</option>
+                    <option value="desc">Data Lama</option>
                   </select>
                   <button @click="reset()" class="btn btn-success">
                     <i class="fas fa-arrows-rotate"></i>
@@ -222,8 +219,34 @@ export default {
       lastPage: 0,
       page: 0,
     },
+
+    //Link export
+    links: {
+      jobHouse: {
+        excel: "/export/job-house/excel",
+        pdf: "/export/job-house/pdf",
+        print: "/export/job-house/print",
+      },
+      jobOther: {
+        excel: "/export/job-other/excel",
+        pdf: "/export/job-other/pdf",
+        print: "/export/job-other/print",
+      },
+    },
   }),
   methods: {
+    exportExcel() {
+      window.open(
+        this.isJobHouse ? this.links.jobHouse.excel : this.links.jobOther.excel,
+        "_parent"
+      );
+    },
+    printData() {
+      window.open(
+        this.isJobHouse ? this.links.jobHouse.print : this.links.jobOther.print,
+        "_blank"
+      );
+    },
     detailJob(id) {
       this.$router.push(`/job/${id}/detail`);
     },

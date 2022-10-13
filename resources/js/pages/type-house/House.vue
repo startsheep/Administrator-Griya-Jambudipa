@@ -99,9 +99,8 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-8">
-                                <ButtonsExport :printData="false" />
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 mb-2">
                                 <input
                                     v-on:keyup="search"
                                     v-model="name"
