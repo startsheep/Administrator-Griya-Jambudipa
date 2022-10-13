@@ -95,10 +95,15 @@
                           v-for="kavlings in customer.customerKavling"
                           :key="kavlings"
                         >
-                          {{ kavlings.kavling.block }}
+                          <span v-if="kavlings.kavling != null">
+                            {{ kavlings.kavling.block }}
                           |
                           {{ kavlings.kavling.numberKavling }}
                           ,
+                        </span>
+                        <span v-else>
+                            Belum terdaftar
+                        </span>
                         </span>
                       </div>
                       <div
