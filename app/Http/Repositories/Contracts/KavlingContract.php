@@ -10,6 +10,8 @@ interface KavlingContract
 
     public function store(array $attributes): ?Model;
 
+    public function import(array $attributes);
+
     public function find($id): Model;
 
     public function paymentCheck($customer_id);
