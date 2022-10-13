@@ -18,7 +18,24 @@
           <div class="card-body">
             <div class="row mb-3">
               <div class="col-lg-6">
-                <ButtonsExport />
+                <div class="" :class="'btn-group-sm'">
+                                    <a
+                                        :href="links.excel"
+                                        target="_parent"
+                                        class="btn btn-icon icon-rigth btn-primary mr-2"
+                                    >
+                                        Export Data
+                                        <i class="fa-solid fa-file-excel"></i>
+                                    </a>
+                                    <a
+                                        :href="links.print"
+                                        target="_blank"
+                                        class="btn btn-icon icon-rigth btn-primary mr-2"
+                                    >
+                                        Print Data
+                                        <i class="fa-solid fa-print"></i>
+                                    </a>
+                                </div>
               </div>
               <div class="col-lg-6">
                 <input
@@ -155,6 +172,12 @@ export default {
         lastPage: 0,
         page: 0,
       },
+      //Link export
+      links: {
+                excel: 'export/contractor/excel',
+                pdf: 'export/contractor/pdf',
+                print: 'export/contractor/print'
+            },
     };
   },
   mounted() {
