@@ -11,6 +11,7 @@
               <ButtonsExport
                 :showBtnPdf="false"
                 @exportExcel="exportExcel()"
+                labelExportExcel='Export Data'
                 @print="printData()"
               />
             </div>

@@ -22,6 +22,7 @@
                 <div class="card-header-action">
                     <ButtonsExport
                     :showBtnPdf="false"
+                    labelExportExcel='Export Data'
                     @exportExcel="exportExcel()"
                     @print="printData()"/>
             </div>

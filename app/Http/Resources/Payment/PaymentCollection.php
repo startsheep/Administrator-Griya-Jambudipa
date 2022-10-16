@@ -19,14 +19,15 @@ class PaymentCollection extends ResourceCollection
         foreach ($this as $item) {
             $block = $this->cekBlock($item->customer->customerKavling, $item->kavling->id);
             $reminderPrice = (string) $this->reminderPrice($item->kavling->houseType->price, $item);
-            $cekData = $item->customer()
-                ->first();
+            $totalCost = (string) $this->totalCost($item->kavling->houseType->price, $item);
+            $cekData = $item->customer()->first();
 
             if ($cekData) {
                 if ($reminderPrice != 0) {
                     $result[] = [
                         "id" => $item->id,
                         "reminder_payment" => $reminderPrice,
+                        "total_cost" => $totalCost,
                         "type" => $item->type,
                         "block" => $item->kavling,
                         "customer" => $item->customer,
@@ -42,6 +43,22 @@ class PaymentCollection extends ResourceCollection
         return $result;
     }
 
+    protected function totalCost($priceHouse, $result)
+    {
+        $discount = 0;
+        $total = $priceHouse;
+        if ($result->otherDevelop) {
+            // dd($result->otherDevelop);
+            $total += $result->otherDevelop?->develop_price;
+        }
+
+        if ($result->discount != null) {
+            $discount = ($result->discount / 100) * $total;
+        }
+        $total -= $discount;
+        return $total;
+    }
+
     protected function reminderPrice($price, $result)
     {
         $total = 0;
@@ -49,12 +66,15 @@ class PaymentCollection extends ResourceCollection
         foreach ($result->paymentPrice as $item) {
             $total += $item->price;
         }
-
-        $price += $result->otherDevelop->develop_price;
-        if ($result->discount != null) {
-            $price = ($result->discount / 100) * $price;
+        
+        if ($result->otherDevelop) {
+            $price += $result->otherDevelop->develop_price;
         }
-        $price -= $total;
+        $discount = 0;
+        if ($result->discount != null) {
+            $discount = ($result->discount / 100) * $price;
+        }
+        $price -= $total + $discount;
 
         return $price;
     }
