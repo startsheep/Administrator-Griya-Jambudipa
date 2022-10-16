@@ -55,7 +55,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-4">
+              <div class="col-lg-4 pl-0">
                 <input
                   @keyup="onSearch"
                   class="form-control"
@@ -64,15 +64,16 @@
                 />
               </div>
             </div>
-            <div class="table-responsive">
-              <table class="table table-striped" style="font-size: 12px">
+            <div class="table-card">
+                <div class="table-responsive">
+              <table class="table table-striped" style="font-size: 12px;">
                 <thead>
                   <tr>
                     <th>Nama</th>
                     <th>Nomor Telepon</th>
                     <th>Blok / Kavling</th>
                     <th>Tipe Rumah</th>
-                    <th>Harga Rumah</th>
+                    <th>Total Angsuran</th>
                     <th>Sisa Angsuran</th>
                     <th>Tipe Pembayaran</th>
                     <th class="text-center">Aksi</th>
@@ -117,7 +118,7 @@
                       {{ payment.block.houseType.houseType }}
                     </td>
                     <td>
-                      {{ formatRupiah(payment.block.houseType.price) }}
+                      {{ formatRupiah(payment.totalCost) }}
                     </td>
                     <td>
                       {{ formatRupiah(payment.reminderPayment) }}
@@ -151,8 +152,7 @@
                 </tbody>
               </table>
             </div>
-          </div>
-          <div class="card-footer">
+            <div class="card-footer">
             <Pagination
               :currentPage="pagination.currentPage"
               :rowsTotal="pagination.total"
@@ -160,6 +160,16 @@
               @onPageChange="onPageChange($event)"
             />
           </div>
+        </div>
+          </div>
+          <!-- <div class="card-footer">
+            <Pagination
+              :currentPage="pagination.currentPage"
+              :rowsTotal="pagination.total"
+              :lastPage="pagination.lastPage"
+              @onPageChange="onPageChange($event)"
+            />
+          </div> -->
         </div>
       </div>
     </div>
@@ -199,7 +209,7 @@ export default {
         id: "",
         customerId: "",
         employeeId: "",
-
+        discount: "",
         type: "",
         price: "",
       },
@@ -306,6 +316,10 @@ export default {
     formatRupiah(number) {
       return Utils.formatRupiah(number, "Rp. ");
     },
+    formatPercent(number) {
+          var percent = number *100 /100 + "%";
+          return percent;
+      },
     calcReferral(percent, number) {
       return Utils.calcReferral(percent, number);
     },
@@ -431,6 +445,11 @@ export default {
 };
 </script>
 <style>
+.card .table-card{
+    padding-left:20px;
+    padding-right:20px;
+    width:100%;
+}
 table th {
   padding: 0 15px !important;
   height: 60px;
