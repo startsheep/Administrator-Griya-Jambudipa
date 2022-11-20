@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-git pull origin develop
+git pull origin Develop
 
 php artisan migrate
 php artisan optimize
