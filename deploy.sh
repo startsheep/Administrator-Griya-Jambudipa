@@ -5,4 +5,7 @@ git pull origin Develop
 
 php artisan migrate
 php artisan optimize
-php artisan config:clear
+
+cd public
+rm -rf build
+unzip build.php
