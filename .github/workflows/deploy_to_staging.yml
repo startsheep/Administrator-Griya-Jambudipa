@@ -36,7 +36,7 @@ jobs:
         run: |
           cd public/
           rm -rf build
-          zip -r -q build.zip build
+          zip build.zip build
       - uses: EndBug/add-and-commit@v9
         with:
           pull: "--rebase --autostash"
