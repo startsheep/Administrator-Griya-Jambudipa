@@ -28,7 +28,8 @@ jobs:
           mkdir -p database
           touch database/database.sqlite
       - uses: actions/setup-node@master
-        - run: |
+      - name: Build vue js
+        run: |
           npm install
           npm run build
       - name: Deploy to staging
