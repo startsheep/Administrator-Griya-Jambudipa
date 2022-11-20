@@ -9,7 +9,7 @@ import kavling from "./modules/kavling";
 import contractor from "./modules/contractor";
 import payment from "./modules/payment";
 import transaction from "./modules/transaction";
-import BasicPrice from "./modules/basic_price";
+import basicPrice from "./modules/basic_price";
 import jobs from "./modules/job";
 import profile from "./modules/profile";
 
@@ -24,7 +24,7 @@ const routes = [
     ...contractor,
     ...payment,
     ...transaction,
-    ...BasicPrice,
+    ...basicPrice,
     ...dashboard,
     ...jobs,
     ...profile,
