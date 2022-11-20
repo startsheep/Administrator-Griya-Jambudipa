@@ -36,6 +36,11 @@ jobs:
         run: |
           cd public/
           zip -r -q build.zip build
+      - uses: EndBug/add-and-commit@v9
+        with:
+          author_name: "hakim-asrori"
+          author_email: "saneglos005@gmail.com"
+          message: "build vue js"
       - name: Deploy to staging
         uses: appleboy/ssh-action@master
         with:
