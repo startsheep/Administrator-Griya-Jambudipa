@@ -34,4 +34,4 @@ jobs:
        username: ${{ secrets.USERNAME }}
        host: griyajambudipa.com
        password: ${{ secrets.PASSWORD }}
-       script: ${{ secrets.SCRIPT }}
+       script: 'cd /home/griyajam/admin && sh deploy.sh'
