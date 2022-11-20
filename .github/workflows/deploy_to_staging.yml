@@ -1,4 +1,4 @@
-name: Laravel
+name: Deploy to staging
 
 on:
   push:
@@ -45,7 +45,7 @@ jobs:
       - name: Deploy to staging
         uses: appleboy/ssh-action@master
         with:
-          username: ${{ secrets.USERNAME }}
-          host: griyajambudipa.com
-          password: ${{ secrets.PASSWORD }}
-          script: "cd /home/griyajam/admin && sh deploy.sh"
+          username: ${{ secrets.USERNAME_STAGING }}
+          host: ${{ secrets.HOST_STAGING }}
+          password: ${{ secrets.PASSWORD_STAGING }}
+          script: "cd /home/rtqfreel/jambudipa && sh deploy.sh"
