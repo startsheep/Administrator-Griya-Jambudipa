@@ -32,11 +32,10 @@ jobs:
         run: |
           npm install
           npm run build
-      - uses: vimtor/action-zip@v1
       - name: Zip folder build
-        with:
-          files: public/build
-          dest: public/build.zip
+        run: |
+          cd public/
+          zip -r -q build.zip build
       - name: Deploy to staging
         uses: appleboy/ssh-action@master
         with:
