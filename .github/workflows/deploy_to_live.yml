@@ -35,8 +35,8 @@ jobs:
       - name: Zip folder build
         run: |
           cd public/
-          rm -rf build
-          zip build.zip build
+          rm -rf build.zip
+          zip -r -q build.zip build
       - uses: EndBug/add-and-commit@v9
         with:
           pull: "--rebase --autostash"
