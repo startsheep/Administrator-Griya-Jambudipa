@@ -1,11 +1,11 @@
 export default [
     {
-        path: "/Basic-price-building",
+        path: "/basic-price-building",
         name: "Building",
         component: () => import("../../pages/land/BasicPrice.vue"),
     },
     {
-        path: "/Basic-price-land",
+        path: "/basic-price-land",
         name: "Land",
         component: () => import("../../pages/land/BasicPrice.vue"),
     },
