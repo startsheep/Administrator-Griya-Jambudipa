@@ -32,6 +32,7 @@ jobs:
         run: |
           npm install
           npm run build
+        working-directory: public
       - name: Deploy to staging
         uses: appleboy/ssh-action@master
         with:
