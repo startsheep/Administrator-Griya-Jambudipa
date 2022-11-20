@@ -8,4 +8,5 @@ php artisan optimize
 
 cd public
 rm -rf build
-unzip build.php
+unzip build.zip
+rm build.zip
