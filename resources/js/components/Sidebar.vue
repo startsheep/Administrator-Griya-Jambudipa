@@ -1,7 +1,7 @@
 <template>
     <div class="main-sidebar sidebar-style-2" style="z-index: 999">
         <aside id="sidebar-wrapper">
-            <div class="sidebar-brand">
+            <div class="sidebar-brand my-4">
                 <img
                     src="../../../public/assets/images/logo.png"
                     class="img-fluid"
