@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Contracts\BasicPriceCategoryContract;
 use App\Http\Requests\BasicPriceCategory\BasicPriceCategoryRequest;
+use App\Http\Requests\ImportRequest;
 use App\Http\Resources\BasicPriceCategory\BasicPriceCategoryCollection;
 use App\Http\Resources\BasicPriceCategory\BasicPriceCategoryDetail;
 use Illuminate\Http\Request;
@@ -28,6 +29,13 @@ class BasicPriceCategoryController extends Controller
     public function store(BasicPriceCategoryRequest $request)
     {
         $result = $this->buildingPrice->store($request->all());
+
+        return $result;
+    }
+
+    public function import(ImportRequest $request)
+    {
+        $result = $this->buildingPrice->import($request->all());
 
         return $result;
     }

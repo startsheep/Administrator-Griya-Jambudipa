@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             EmployeeSeeder::class,
             CompanyProfileSeeder::class,
-            RoleSeeder::class
+            RoleSeeder::class,
+            HouseTypeSeeder::class
         ]);
     }
 }
