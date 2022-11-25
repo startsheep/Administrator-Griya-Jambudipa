@@ -24,8 +24,7 @@
                                 >
                             </div>
         <br/>
-      <button class="btn btn-primary fa-add mr-3"> Tambah Data</button>
-      <button class="btn btn-info fa-add"> Unduh Format (pengganti tombol simpan)</button>
+      <button class="btn btn-info fa-add"> Unduh Format Excel</button>
       </template>
     </Modal>
   </template>

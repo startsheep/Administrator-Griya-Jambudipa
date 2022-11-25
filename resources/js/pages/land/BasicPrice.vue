@@ -65,7 +65,7 @@
                   Tambah Perincian
                 </button>
 
-                <button
+                <!-- <button
                   type="button"
                   class="btn btn-icon icon-rigth btn-success mr-2 ml-4"
                   data-toggle="modal"
@@ -74,7 +74,7 @@
                 >
                   {{ labelImportExcel }} <span class="mr-1">Import Excel</span>
                   <i class="fa-solid fa-save ml-3"> </i>
-                </button>
+                </button> -->
               </div>
               <div class="col">
                 <div class="mb-3 d-flex justify-content-end">
