@@ -19,8 +19,14 @@ class KavlingImport implements ToCollection, WithHeadingRow
     {
         foreach ($collection as $collect) {
             $type = HouseType::where('house_type', 'like', '%' . $collect['tipe_rumah'] . '%')->first();
+            if (!$type) {
+                $typeId = 1;
+            } else {
+                $typeId = $type->id;
+            }
+
             Kavling::create([
-                'house_type_id' => $type->id,
+                'house_type_id' => $typeId,
                 'block' => $collect['blok'],
                 'number_kavling' => $collect['nomer_kavling'],
                 'width_kavling' => $collect['lebar_muka_kavling'],
