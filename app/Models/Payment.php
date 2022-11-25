@@ -9,7 +9,7 @@ class Payment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['employee_id', 'customer_id', 'type', 'kavling_id', 'commission'];
+    protected $fillable = ['employee_id', 'customer_id', 'type', 'kavling_id', 'commission'  , "discount"];
 
     public function customer()
     {
@@ -29,6 +29,11 @@ class Payment extends Model
     public function kavling()
     {
         return $this->hasOne(Kavling::class, 'id', 'kavling_id');
+    }
+
+    public function otherDevelop()
+    {
+        return $this->hasOne(OtherDevelop::class, 'payment_id', 'id');
     }
 
     public function document()

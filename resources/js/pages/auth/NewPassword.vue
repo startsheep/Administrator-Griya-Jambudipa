@@ -6,6 +6,7 @@
         >
             <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="card">
+                    <LoadingComponent v-if="isLoading" />
                     <div class="card-body">
                         <img
                             src="../../../../public/assets/images/logo.png"
@@ -86,6 +87,7 @@
 </template>
 <script>
 import InputPassword from "../../components/InputPassword.vue";
+import LoadingComponent from "../../components/LoadingComponent.vue";
 import iziToast from "izitoast";
 export default {
     data() {
@@ -162,30 +164,31 @@ export default {
                         message: "Password berhasil diubah",
                         position: "topRight",
                         onOpened: () => {
-                            this.$router.push("/auth/login");
                         },
                     });
+                    window.location.href = "/auth/login";
                     this.isLoading = false;
                 })
                 .catch((err) => {
+                    this.isLoading = false;
                     this.$swal
                         .fire({
                             icon: "warning",
                             title: "Coba Lagi",
                             text: "token kadaluarsa, coba kirim email kembali",
                             confirmButtonText: "Kirim Ulang",
-                        })
-                        .then(() => {
-                            this.$router.push("/auth/reset-password");
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "/auth/reset-password";
+                                // this.$router.push("/auth/reset-password");
+                            }
                         });
+
                 });
 
-            setTimeout(() => {
-                this.isLoading = false;
-            }, 1);
         },
     },
-    components: { InputPassword },
+    components: { InputPassword , LoadingComponent },
 };
 </script>
 <style></style>

@@ -5,11 +5,13 @@ namespace App\Http\Repositories;
 use App\Http\Repositories\Contracts\KavlingContract;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\KavlingSearch;
+use App\Imports\KavlingImport;
 use App\Models\CustomerKavling;
 use App\Models\Kavling;
 use App\Models\Log;
 use App\Models\Payment;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KavlingRepository implements KavlingContract
 {
@@ -38,6 +40,19 @@ class KavlingRepository implements KavlingContract
         ]);
 
         return $this->kavling->create($attributes);
+    }
+
+    public function import(array $attributes)
+    {
+        $result = Excel::import(new KavlingImport, $attributes['file']);
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan import data excel pada kavling'
+        ]);
+
+        return $result;
     }
 
     public function find($id): Kavling

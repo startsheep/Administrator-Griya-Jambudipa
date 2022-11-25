@@ -30,7 +30,13 @@
           <div class="card-body">
             <div class="row mb-3 d-flex justify-content-between">
               <div class="col-lg-4">
-                <ButtonsExport :printData="false" />
+                <div class="card-header-action">
+                    <ButtonsExport
+                    :showBtnPdf="false"
+                    @exportExcel="exportExcel()"
+                    labelExportExcel='Export Data'
+                    @print="printData()"/>
+                </div>
               </div>
               <div class="col-lg-3">
                 <!-- <div class="form-inline"> -->
@@ -198,7 +204,7 @@ export default {
       filter: {
         search: "",
         orderDirection: "asc",
-        block: "",
+        block: null,
         limit: 10,
       },
       blocks: [
@@ -246,6 +252,12 @@ export default {
         lastPage: 0,
         page: 0,
       },
+
+      links: {
+        excel: "/export/kavling/excel",
+        pdf: "/export/kavling/pdf",
+        print: "/export/kavling/print",
+      },
     };
   },
   mounted() {
@@ -259,6 +271,27 @@ export default {
   },
 
   methods: {
+    exportExcel() {
+    //   window.open(this.links.excel + '/' + this.filter.block, "_parent")
+      if (this.filter.block == null) {
+        iziToast.warning({
+            title: "Peringatan",
+            message: "Silahkan Pilih Blok Lebih Dulu",
+            position: "topRight",
+          });
+        } else {
+            window.open(this.links.excel + '/' + this.filter.block, "_parent")
+    }},
+    printData() {
+        if (this.filter.block == null) {
+        iziToast.warning({
+            title: "Peringatan",
+            message: "Silahkan Pilih Blok Lebih Dulu",
+            position: "topRight",
+          });
+        } else {
+            window.open(this.links.print + '/' + this.filter.block, "_blank")
+    }},
     sendEdit(kavling) {
       this.kavling = kavling;
     },
@@ -271,7 +304,8 @@ export default {
       const params = [
         //   `name=${this.name}`,
         // `position=${this.name}`,
-        `block=${this.filter.block}`,
+        // `block=${this.filter.block}`,
+        `block=${this.filter.block==null ? "" : this.filter.block}`,
         `order_by=positions.id`,
         `order_direction=${this.order_direction}`,
         `page=${this.pagination.page}`,

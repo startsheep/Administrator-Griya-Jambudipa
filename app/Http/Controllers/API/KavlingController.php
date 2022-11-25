@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Contracts\KavlingContract;
+use App\Http\Requests\ImportRequest;
 use App\Http\Requests\KavlingRequest;
 use App\Http\Resources\Kavling\KavlingCollection;
 use App\Http\Resources\Kavling\KavlingDetail;
@@ -28,6 +29,16 @@ class KavlingController extends Controller
     public function store(KavlingRequest $request)
     {
         $result = $this->kavling->store($request->all());
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $result
+        ]);
+    }
+
+    public function import(ImportRequest $request)
+    {
+        $result = $this->kavling->import($request->all());
 
         return response()->json([
             'message' => 'success',

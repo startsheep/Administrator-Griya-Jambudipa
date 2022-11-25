@@ -18,19 +18,21 @@ class PaymentCollection extends ResourceCollection
 
         foreach ($this as $item) {
             $block = $this->cekBlock($item->customer->customerKavling, $item->kavling->id);
-            $reminderPrice = (string) $this->reminderPrice($item->kavling->houseType->price, $item->paymentPrice);
-            $cekData = $item->customer()
-                ->first();
+            $reminderPrice = (string) $this->reminderPrice($item->kavling->houseType->price, $item);
+            $totalCost = (string) $this->totalCost($item->kavling->houseType->price, $item);
+            $cekData = $item->customer()->first();
 
             if ($cekData) {
                 if ($reminderPrice != 0) {
                     $result[] = [
                         "id" => $item->id,
                         "reminder_payment" => $reminderPrice,
+                        "total_cost" => $totalCost,
                         "type" => $item->type,
                         "block" => $item->kavling,
                         "customer" => $item->customer,
                         "documents" => $item->document,
+                        "other_develop" => $item->otherDevelop,
                         "created_at" => $item->created_at,
                         "updated_at" => $item->updated_at,
                     ];
@@ -39,17 +41,40 @@ class PaymentCollection extends ResourceCollection
         }
 
         return $result;
-        // return parent::toArray($request);
+    }
+
+    protected function totalCost($priceHouse, $result)
+    {
+        $discount = 0;
+        $total = $priceHouse;
+        if ($result->otherDevelop) {
+            // dd($result->otherDevelop);
+            $total += $result->otherDevelop?->develop_price;
+        }
+
+        if ($result->discount != null) {
+            $discount = ($result->discount / 100) * $total;
+        }
+        $total -= $discount;
+        return $total;
     }
 
     protected function reminderPrice($price, $result)
     {
         $total = 0;
-        foreach ($result as $item) {
+
+        foreach ($result->paymentPrice as $item) {
             $total += $item->price;
         }
-
-        $price -= $total;
+        
+        if ($result->otherDevelop) {
+            $price += $result->otherDevelop->develop_price;
+        }
+        $discount = 0;
+        if ($result->discount != null) {
+            $discount = ($result->discount / 100) * $price;
+        }
+        $price -= $total + $discount;
 
         return $price;
     }

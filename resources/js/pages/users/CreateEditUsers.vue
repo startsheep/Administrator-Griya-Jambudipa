@@ -95,6 +95,12 @@ export default {
         this.resetForm();
       }
     },
+
+  },
+  mounted() {
+    if (this.id != null) {
+      this.getUser(this.id);
+    }
   },
   computed: {
     formData() {
@@ -141,7 +147,7 @@ export default {
             this.isLoading = false;
             this.isSubmit = false;
             this.deleteModal();
-            this.resetForm();
+            // this.resetForm();
             this.$emit("onSuccess");
             iziToast.success({
               title: "Berhasil",
@@ -204,6 +210,7 @@ export default {
         phone: "",
         role_id: "",
       };
+      this.id = null;
       this.previewImage = null;
       $(".custom-file-label").addClass("selected").html("Pilih gambar");
     },
