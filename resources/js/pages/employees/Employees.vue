@@ -81,11 +81,11 @@
                       </div>
                     </td>
                     <td width="20%" class="align-middle">
-                      <span>{{ employee.position.name }}</span>
+                      <span>{{ checkName(employee.position) }}</span>
                     </td>
 
                     <td width="20%" class="align-middle">
-                      <span>{{ formatRupiah(employee.position.salary) }}</span>
+                      <span>{{ formatRupiah(employee.position) }}</span>
                     </td>
                     <td>
                       <label class="">
@@ -206,9 +206,19 @@ export default {
     showLogUpdate(date) {
       return moment(date).fromNow();
     },
-    formatRupiah(number) {
-      // console.log(Utils.parseRupiah(Utils.formatRupiah(number,"Rp. ")))
-      return Utils.formatRupiah(number, "Rp. ");
+    formatRupiah(position) {
+      if (!position) {
+        return Utils.formatRupiah(0, "Rp. ");
+      }
+
+      return Utils.formatRupiah(position.salary, "Rp. ");
+    },
+    checkName(position) {
+        if (!position) {
+            return '-';
+        }
+
+        return position.name
     },
     search() {
       this.getEmployees();

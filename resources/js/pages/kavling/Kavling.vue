@@ -108,7 +108,7 @@
                     <td>{{ kavling.secondLengthKavling }}</td>
                     <td>{{ kavling.areaKavling }}</td>
                     <td>
-                      {{ kavling.houseType.houseType }}
+                      {{ checkHouseType(kavling.houseType) }}
                     </td>
                     <td>{{ kavling.areaBuilding }}</td>
                     <td class="align-middle text-center">
@@ -271,6 +271,13 @@ export default {
   },
 
   methods: {
+    checkHouseType(houseType) {
+        if (!houseType) {
+            return '-'
+        }
+
+        return houseType.houseType
+    },
     exportExcel() {
     //   window.open(this.links.excel + '/' + this.filter.block, "_parent")
       if (this.filter.block == null) {
