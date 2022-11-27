@@ -3,8 +3,6 @@ name: Deploy to staging
 on:
   push:
     branches: ["Develop"]
-  pull_request:
-    branches: ["Develop"]
 
 jobs:
   laravel-tests:

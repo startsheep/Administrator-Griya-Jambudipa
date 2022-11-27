@@ -17,7 +17,6 @@ class TransactionCollection extends ResourceCollection
         $result = [];
 
         foreach ($this as $item) {
-            $block = $this->cekBlock($item->customer->customerKavling, $item->kavling->houseType->id);
             $reminderPrice = (string) $this->reminderPrice($item->kavling->houseType->price, $item);
             $cekData = $item->customer()
                 ->first();
@@ -59,7 +58,7 @@ class TransactionCollection extends ResourceCollection
             $total += $item->price;
         }
 
-        $price += $result->otherDevelop->develop_price;
+        $price += $result->otherDevelop?->develop_price;
         if ($result->discount != null) {
             $price = ($result->discount / 100) * $price;
         }
