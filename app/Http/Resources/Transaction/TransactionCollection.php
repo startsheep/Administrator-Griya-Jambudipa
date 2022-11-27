@@ -58,7 +58,7 @@ class TransactionCollection extends ResourceCollection
             $total += $item->price;
         }
 
-        $price += $result->otherDevelop->develop_price;
+        $price += $result->otherDevelop?->develop_price;
         if ($result->discount != null) {
             $price = ($result->discount / 100) * $price;
         }
