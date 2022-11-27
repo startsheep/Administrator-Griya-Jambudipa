@@ -5,7 +5,11 @@ namespace App\Http\Repositories;
 use App\Http\Repositories\Contracts\BasicPriceCategoryContract;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Services\Searches\BasicPriceCategorySearch;
+use App\Imports\BasicCategoryPriceImport;
 use App\Models\BasicPriceCategory;
+use App\Models\Log;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BasicPriceCategoryRepository implements BasicPriceCategoryContract
 {
@@ -29,6 +33,25 @@ class BasicPriceCategoryRepository implements BasicPriceCategoryContract
     {
         $result = $this->category->create($attributes);
 
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan penambahan data pada harga dasar ' . request('section')
+        ]);
+
+        return $result;
+    }
+
+    public function import(array $attributes)
+    {
+        $result = Excel::import(new BasicCategoryPriceImport, $attributes['file']);
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan import data excel pada harga dasar ' . request('section')
+        ]);
+
         return $result;
     }
 
@@ -40,6 +63,12 @@ class BasicPriceCategoryRepository implements BasicPriceCategoryContract
     public function update(array $attributes, $result)
     {
         $result->update($attributes);
+
+        Log::create([
+            'id' => Str::uuid(),
+            'user_id' => auth()->user()->id,
+            'description' => auth()->user()->name . ' melakukan perubahan data pada harga dasar ' . $result->section
+        ]);
 
         return $result;
     }

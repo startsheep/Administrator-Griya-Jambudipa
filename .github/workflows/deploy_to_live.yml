@@ -39,7 +39,7 @@ jobs:
           zip -r -q build.zip build
       - uses: EndBug/add-and-commit@v9
         with:
-          pull: "--rebase --autostash"
+#           pull: "--rebase --autostash"
           author_name: "hakim-asrori"
           author_email: "saneglos005@gmail.com"
           message: "build vue js"

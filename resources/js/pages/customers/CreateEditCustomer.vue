@@ -215,6 +215,7 @@ export default {
             previewImage: "",
             kavlings: [],
             isSubmit: false,
+            search: "",
         };
     },
     mounted() {
@@ -331,7 +332,11 @@ export default {
 
         getKavlings() {
             const self = this;
-            self.$store.dispatch("getData", ["kavling"]).then((response) => {
+            const params = [
+                'per_page=5',
+                'search=D 1'
+            ].join("&");
+            self.$store.dispatch("getData", ["kavling" , params]).then((response) => {
                 response.data.forEach((elm) => {
                     // console.log(elm)
                     this.kavlings.push({

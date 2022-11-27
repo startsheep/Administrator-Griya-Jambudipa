@@ -60,7 +60,7 @@
                                         <td>{{ user.name }}</td>
                                         <td>{{ user.email }}</td>
                                         <td>{{ user.phone ?? "-" }}</td>
-                                        <td>{{ user.roleId === 1 ? 'Administrator' : 'Staff'}}</td>
+                                        <td>{{ user.roleId == 1 ? 'Administrator' : 'Staff'}}</td>
                                         <td>
                                             <label class="" v-if="user.id != 1">
                                                 <input

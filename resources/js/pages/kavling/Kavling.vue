@@ -175,7 +175,7 @@
       </div>
     </div>
   </section>
-  <ModalImport />
+  <ModalImport @onSuccess="onSuccessImport()" />
   <CreateEdit @onSuccess="onSuccess()" :kav="kavling" />
 </template>
 <script>
@@ -332,6 +332,16 @@ export default {
     },
     onSuccess() {
       this.getKavlings();
+    },
+    onSuccessImport() {
+        // swall alert
+        iziToast.success({
+            title: "Sukses",
+            message: "Data Berhasil Di Import",
+            position: "topRight",
+          });
+      this.getKavlings();
+    //   this.$refs.modalImport.hide();
     },
     deleteKavling(id) {
       const self = this;
