@@ -5,6 +5,7 @@ namespace App\Http\Requests\Account;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class AccountUpdateRequest extends FormRequest
@@ -29,7 +30,11 @@ class AccountUpdateRequest extends FormRequest
         if (empty(request()->image)) {
             $request = [
                 'name' => 'required',
-                'email' => 'email',
+                'email' => [
+                    'email',
+                    'required',
+                    Rule::unique('users')->ignore(request('id'))
+                ],
                 'phone' => 'required|numeric',
             ];
         }
