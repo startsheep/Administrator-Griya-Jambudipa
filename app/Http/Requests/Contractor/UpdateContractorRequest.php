@@ -5,6 +5,7 @@ namespace App\Http\Requests\Contractor;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class UpdateContractorRequest extends FormRequest
@@ -28,8 +29,8 @@ class UpdateContractorRequest extends FormRequest
     {
         $data = [
             'company_name' => 'required',
-            'phone' => 'required|numeric',
-            'email' => 'required|email',
+            'phone' => ['required', 'numeric', Rule::unique('contractors')->ignore(request('id'))],
+            'email' => ['required', 'email', Rule::unique('contractors')->ignore(request('id'))],
             'address' => 'required',
             'pic_name' => 'required',
             'image' => 'image|mimes:png,jpg,jpeg|max:5000',
@@ -46,6 +47,7 @@ class UpdateContractorRequest extends FormRequest
             'phone.numeric' => "no telepon harap diisi dengan angka!",
             'email.required' => ":attribute harap diisi!",
             'email.email' => "harap masukan :attribute valid!",
+            'email.unique' => ":attribute sudah terdaftar!",
             'address.required' => "alamat harap diisi!",
             'pic_name.required' => "nama pic harap diisi!",
             'image.image' => "harap masukan tipe data gambar!",

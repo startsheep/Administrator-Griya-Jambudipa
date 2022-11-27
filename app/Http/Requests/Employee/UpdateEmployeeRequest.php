@@ -41,7 +41,8 @@ class UpdateEmployeeRequest extends FormRequest
             ],
             'phone' => [
                 'required',
-                'numeric'
+                'numeric',
+                Rule::unique('employees')->ignore(request('id'))
             ],
             'gender' => [
                 'required'
