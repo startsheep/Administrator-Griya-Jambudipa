@@ -17,7 +17,6 @@ class TransactionCollection extends ResourceCollection
         $result = [];
 
         foreach ($this as $item) {
-            $block = $this->cekBlock($item->customer->customerKavling, $item->kavling->houseType->id);
             $reminderPrice = (string) $this->reminderPrice($item->kavling->houseType->price, $item);
             $cekData = $item->customer()
                 ->first();
