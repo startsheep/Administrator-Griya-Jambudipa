@@ -14,7 +14,7 @@
     "dependencies": {
         "@casl/ability": "^6.3.0",
         "@casl/vue": "^2.2.0",
-        "@ckeditor/ckeditor5-build-classic": "^35.0.1",
+        "@ckeditor/ckeditor5-build-classic": "^35.3.2",
         "@ckeditor/ckeditor5-vue": "^4.0.1",
         "@formkit/auto-animate": "^1.0.0-beta.3",
         "@vitejs/plugin-vue": "^3.0.3",
