@@ -158,13 +158,14 @@ class PaymentRepository implements PaymentContract
     protected function cekTotalPrice($result, $price)
     {
         $total = 0;
-        foreach ($result->paymentPrice as $item) {
-            $total += $item->price;
+
+        $total += $result->otherDevelop?->develop_price;
+        if ($result->discount != null) {
+            $total = ($result->discount / 100) * $total;
         }
+        $total +=  $result->kavling->houseType->price;
 
-        $total += $price;
-
-        if ((string) $total >= $result->kavling->houseType->price + 1) {
+        if ($price >= $total) {
             return false;
         }
 

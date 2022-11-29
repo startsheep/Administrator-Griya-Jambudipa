@@ -17,7 +17,6 @@ class PaymentCollection extends ResourceCollection
         $result = [];
 
         foreach ($this as $item) {
-            $block = $this->cekBlock($item->customer->customerKavling, $item->kavling->id);
             $reminderPrice = (string) $this->reminderPrice($item->kavling->houseType->price, $item);
             $totalCost = (string) $this->totalCost($item->kavling->houseType->price, $item);
             $cekData = $item->customer()->first();
@@ -66,7 +65,7 @@ class PaymentCollection extends ResourceCollection
         foreach ($result->paymentPrice as $item) {
             $total += $item->price;
         }
-        
+
         if ($result->otherDevelop) {
             $price += $result->otherDevelop->develop_price;
         }
