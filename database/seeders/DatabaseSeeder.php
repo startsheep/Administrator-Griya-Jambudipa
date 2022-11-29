@@ -24,12 +24,12 @@ class DatabaseSeeder extends Seeder
             'is_active' => 1,
         ]);
         $this->call([
-            PositionSeeder::class,
-            CustomerSeeder::class,
-            EmployeeSeeder::class,
+//             PositionSeeder::class,
+//             CustomerSeeder::class,
+//             EmployeeSeeder::class,
             CompanyProfileSeeder::class,
             RoleSeeder::class,
-            HouseTypeSeeder::class
+//             HouseTypeSeeder::class
         ]);
     }
 }
