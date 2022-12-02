@@ -27,6 +27,6 @@ class Kavling extends Model
 
     public function houseType()
     {
-        return $this->belongsTo(HouseType::class, 'id', 'kavling_id');
+        return $this->hasOne(HouseType::class, 'kavling_id');
     }
 }

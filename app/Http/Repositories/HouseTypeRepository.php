@@ -63,7 +63,7 @@ class HouseTypeRepository implements HouseTypeContract
             foreach ($dataCek as $file) {
                 if ($file->document_path) {
                     Storage::delete($file->document_path);
-                    $result->document()->delete();
+
                 }
             }
             $dataFile->delete();

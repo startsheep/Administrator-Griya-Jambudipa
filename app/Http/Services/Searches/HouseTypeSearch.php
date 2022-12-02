@@ -12,7 +12,7 @@ class HouseTypeSearch extends HttpSearch
 
     protected function passable()
     {
-        return HouseType::query();
+        return HouseType::with(['kavling']);
     }
 
     protected function filters(): array
