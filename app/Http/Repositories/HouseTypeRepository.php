@@ -54,15 +54,29 @@ class HouseTypeRepository implements HouseTypeContract
 
     public function update(array $attributes, $result)
     {
-        if (isset($attributes['images'])) {
-            if (isset($attributes['images']) && $attributes['images']) {
-                foreach ($result->document as $document) {
-                    Storage::delete($document->document_path);
+        if ($result->document) {
+            $dataFile = $result->document();
+            if (isset($attributes['old_images'])) {
+                $dataFile = $result->uploads()->whereNotIn('id', $attributes['old_images']);
+            }
+            $dataCek = $dataFile->get();
+            foreach ($dataCek as $file) {
+                if ($file->document_path) {
+                    Storage::delete($file->document_path);
                     $result->document()->delete();
                 }
-                $this->multipleUpload($attributes['images'], $result);
             }
+            $dataFile->delete();
         }
+
+        if (isset($attributes['images']) && $attributes['images']) {
+            $this->multipleUpload($attributes['images'], $result);
+        }
+
+        if (isset($attributes['old_images'])) {
+            unset($attributes['old_images']);
+        }
+
 
         $result->update($attributes);
 
