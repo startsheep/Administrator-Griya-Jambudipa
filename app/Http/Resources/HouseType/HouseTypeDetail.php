@@ -14,6 +14,7 @@ class HouseTypeDetail extends JsonResource
      */
     public function toArray($request)
     {
+        $this->load('kavling');
         return parent::toArray($request);
     }
 }

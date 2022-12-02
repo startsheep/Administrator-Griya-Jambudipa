@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class HouseTypeRequest extends FormRequest
@@ -26,9 +27,16 @@ class HouseTypeRequest extends FormRequest
      */
     public function rules()
     {
+        $id = 0;
+        if(request()->id){
+            $id = request()->id;
+        }
         $request = [
-            'kavling_id' => 'required|exists:kavlings,id',
-            'house_type' => 'required',
+            'kavling_id' => [
+                'required',
+                'exists:kavlings,id',
+                Rule::unique('house_types')->ignore($id)
+            ],
             'description' => 'required',
             'price' => 'required'
         ];
@@ -43,7 +51,8 @@ class HouseTypeRequest extends FormRequest
     public function messages()
     {
         return [
-            'house_type.required' => "tipe rumah harap diisi!",
+            'kavling_id.required' => 'Kavling harus diisi',
+            'kavling_id.unique' => 'Kavling sudah terdaftar',
             'description.required' => "keterangan harap diisi!",
             'price.required' => "harga harap diisi!",
             'images.max' => "ukuran file maksimal :max MB"
