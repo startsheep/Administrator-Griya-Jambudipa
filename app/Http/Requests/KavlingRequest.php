@@ -27,7 +27,7 @@ class KavlingRequest extends FormRequest
     public function rules()
     {
         return [
-            'house_type_id' => 'required|exists:house_types,id',
+            'house_type' => 'required',
             'block' => 'required',
             'number_kavling' => 'required',
             'width_kavling' => 'required',
@@ -41,8 +41,7 @@ class KavlingRequest extends FormRequest
     public function messages()
     {
         return [
-            'house_type_id.required' => "tipe rumah harap diisi!",
-            'house_type_id.exists' => "tipe rumah tidak terdaftar!",
+            'house_type.required' => "tipe rumah harap diisi!",
             'block.required' => "blok harap diisi!",
             'number_kavling.required' => "nomor kavling harap diisi!",
             'width_kavling.required' => "lebar kavling harap diisi!",
