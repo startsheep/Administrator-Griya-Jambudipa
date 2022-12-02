@@ -57,7 +57,7 @@ class HouseTypeRepository implements HouseTypeContract
         if ($result->document) {
             $dataFile = $result->document();
             if (isset($attributes['old_images'])) {
-                $dataFile = $result->uploads()->whereNotIn('id', $attributes['old_images']);
+                $dataFile = $result->document()->whereNotIn('id', $attributes['old_images']);
             }
             $dataCek = $dataFile->get();
             foreach ($dataCek as $file) {
