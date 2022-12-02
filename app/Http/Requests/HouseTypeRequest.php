@@ -27,13 +27,14 @@ class HouseTypeRequest extends FormRequest
     public function rules()
     {
         $request = [
+            'kavling_id' => 'required|exists:kavlings,id',
             'house_type' => 'required',
             'description' => 'required',
             'price' => 'required'
         ];
 
         if (request()->images) {
-            $request['images'] = 'max:5000';
+            $request['images'] = 'required|max:5000';
         }
 
         return $request;

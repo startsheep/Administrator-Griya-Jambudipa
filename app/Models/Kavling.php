@@ -10,7 +10,7 @@ class Kavling extends Model
     use HasFactory;
 
     protected $fillable = [
-        'house_type_id',
+        'house_type',
         'block',
         'number_kavling',
         'width_kavling',
@@ -27,6 +27,6 @@ class Kavling extends Model
 
     public function houseType()
     {
-        return $this->belongsTo(HouseType::class, 'house_type_id', 'id');
+        return $this->belongsTo(HouseType::class, 'id', 'kavling_id');
     }
 }
