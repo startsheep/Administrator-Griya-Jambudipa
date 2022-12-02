@@ -1,182 +1,190 @@
 <template>
-    <section class="section">
-        <div class="section-header">
-            <h1>Tipe Rumah</h1>
-        </div>
-        <div class="row">
-            <div class="col-12 col-lg-5">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>{{ isFormEdit ? "Edit" : "Tambah" }} Tipe Rumah</h4>
-                    </div>
-                    <div class="card-body">
-                        <form>
-                            <div class="form-group">
-                                <label>Tipe</label>
-                                <input
-                                    ref="formHouse"
-                                    v-model="house.type"
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Tipe"
-                                />
-                            </div>
+  <section class="section">
+    <div class="section-header">
+      <h1>Data Rumah</h1>
+    </div>
+    <div class="row">
+      <div class="col-12 col-lg-5">
+        <div class="card">
+          <div class="card-header">
+            <h4>{{ isFormEdit ? "Edit" : "Tambah" }} Tipe Rumah</h4>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="form-group">
+                <label>Kavling</label>
+                <br />
+                <label>Blok - Nomor Kavling - Tipe Rumah</label>
+                <!-- select optiion -->
+                <select class="form-control" v-model="house.kavling_id">
+                  <option
+                    v-for="kavling in kavlings"
+                    :key="kavling.id"
+                    :value="kavling.id"
+                  >
+                    {{ kavling.block }} - {{ kavling.numberKavling }} -
+                    {{ kavling.houseType }}
+                  </option>
+                </select>
+              </div>
 
-                            <div class="form-group">
-                                <label>Harga</label>
-                                <InputCurrency
-                                    :value="house.price"
-                                    v-model="house.price"
-                                />
-                            </div>
-                            <div class="form-group">
-                                <SummerNote
-                                    ref="formHouse"
-                                    v-model="house.description"
-                                />
-                                <!-- <textarea class="form-control" cols="80" rows="1"></textarea> -->
-                            </div>
-                            <div class="form-group custom-file">
-                                <label class="custom-file-label">Gambar</label>
-                                <input
-                                    multiple
-                                    type="file"
-                                    @change="selectImages"
-                                    class="form-control custom-file-input"
-                                    placeholder="Image"
-                                />
-                            </div>
-                        </form>
+              <div class="form-group">
+                <label>Harga</label>
+                <InputCurrency :value="house.price" v-model="house.price" />
+              </div>
+              <div class="form-group">
+                <SummerNote ref="formHouse" v-model="house.description" />
+                <!-- <textarea class="form-control" cols="80" rows="1"></textarea> -->
+              </div>
+              <div class="form-group custom-file">
+                <label class="custom-file-label">Gambar</label>
+                <input
+                  multiple
+                  type="file"
+                  @change="selectImages"
+                  class="form-control custom-file-input"
+                  placeholder="Image"
+                />
+              </div>
+            </form>
 
-                        <div class="row d-flex justify-content-center">
-                            <div
-                                v-for="(image, index) in previewImages"
-                                :key="image"
-                                class="d-flex justify-content-end mr-1 mb-1"
-                                style="width: 100px; height: 100px"
-                            >
-                                <span
-                                    @click="removeItem(index)"
-                                    class="badge badge-primary position-absolute cursor"
-                                    >&times;</span
-                                >
-                                <img
-                                    :src="image"
-                                    alt=""
-                                    class="img-thumbnail"
-                                    style="
-                                        object-fit: cover;
-                                        width: 100px;
-                                        height: 100px;
-                                    "
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <button
-                            :class="{ 'disabled btn-progress': isSubmit }"
-                            @click="isFormEdit ? editHouse() : createHouse()"
-                            class="btn btn-primary btn-block"
-                        >
-                            {{ isFormEdit ? "Simpan" : "Tambah" }}
-                        </button>
-                        <button
-                            @click="reset()"
-                            class="btn btn-danger btn-block"
-                            :disabled="isSubmit"
-                        >
-                            Batal
-                        </button>
-                    </div>
-                </div>
+            <div class="row d-flex justify-content-center">
+              <div
+                v-for="(image, index) in previewNewImages"
+                :key="image"
+                class="d-flex justify-content-end mr-1 mb-1"
+                style="width: 100px; height: 100px"
+              >
+                <span
+                  @click="removeNewImage(index)"
+                  class="badge badge-primary position-absolute cursor"
+                  >&times;</span
+                >
+                <img
+                  :src="image"
+                  alt=""
+                  class="img-thumbnail"
+                  style="object-fit: cover; width: 100px; height: 100px"
+                />
+              </div>
+              <div
+                v-for="(image, index) in previewOldImages"
+                :key="image"
+                class="d-flex justify-content-end mr-1 mb-1"
+                style="width: 100px; height: 100px"
+              >
+                <span
+                  @click="removeOldImage(index)"
+                  class="badge badge-primary position-absolute cursor"
+                  >&times;</span
+                >
+                <img
+                  :src="'storage/'+image.documentPath"
+                  alt=""
+                  class="img-thumbnail"
+                  style="object-fit: cover; width: 100px; height: 100px"
+                />
+              </div>
             </div>
-            <div class="col-12 col-lg-7">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Data Rumah</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-8">
-                            </div>
-                            <div class="col-lg-4 mb-2">
-                                <input
-                                    v-on:keyup="search"
-                                    v-model="name"
-                                    class="form-control"
-                                    placeholder="Search"
-                                />
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th width="5%">#</th>
-                                        <th width="25%">Tipe</th>
-                                        <!-- <th width="35%">Deskripsi</th> -->
-                                        <th width="25%">Harga</th>
-                                        <th width="10% " class="text-center">
-                                            Aksi
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="position-relative" v-auto-animate>
-                                    <LoadingComponent v-if="isLoading" />
-                                    <tr
-                                        v-for="(house, index) in houses"
-                                        :key="house.id"
-                                    >
-                                        <td class="text-center">
-                                            <!-- calculate iteration then page number-->
-                                            {{ iteration(index) }}
-                                        </td>
-                                        <td>
-                                            <span> {{ house.houseType }}</span>
-                                        </td>
-                                        <!-- <td>
+          </div>
+          <div class="card-footer">
+            <button
+              :class="{ 'disabled btn-progress': isSubmit }"
+              @click="isFormEdit ? editHouse() : createHouse()"
+              class="btn btn-primary btn-block"
+            >
+              {{ isFormEdit ? "Simpan" : "Tambah" }}
+            </button>
+            <button
+              @click="reset()"
+              class="btn btn-danger btn-block"
+              :disabled="isSubmit"
+            >
+              Batal
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-7">
+        <div class="card">
+          <div class="card-header">
+            <h4>Data Rumah</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-8"></div>
+              <div class="col-lg-4 mb-2">
+                <input
+                  v-on:keyup="search"
+                  v-model="name"
+                  class="form-control"
+                  placeholder="Search"
+                />
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th width="5%">#</th>
+                    <th width="25%">Tipe</th>
+                    <th width="25%">Blok</th>
+                    <th width="25%">Nomor Kavling</th>
+                    <!-- <th width="35%">Deskripsi</th> -->
+                    <th width="25%">Harga</th>
+                    <th width="10% " class="text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody class="position-relative" v-auto-animate>
+                  <LoadingComponent v-if="isLoading" />
+                  <tr v-for="(house, index) in houses" :key="house.id">
+                    <td class="text-center">
+                      <!-- calculate iteration then page number-->
+                      {{ iteration(index) }}
+                    </td>
+                    <td>
+                      <span> {{ house.kavling.houseType }}</span>
+                    </td>
+                    <td>
+                      <span> {{ house.kavling.block }}</span>
+                    </td>
+                    <td>
+                      <span> {{ house.kavling.numberKavling }}</span>
+                    </td>
+                    <!-- <td>
                       <div v-html="house.description"></div>
                     </td> -->
-                                        <td>
-                                            <span>
-                                                {{
-                                                    formatRupiah(house.price)
-                                                }}</span
-                                            >
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <Actions
-                                                @update="getHouse(house.id)"
-                                                @delete="deleteHouse(house.id)"
-                                                toggleDetail="modal"
-                                                targetDetail="#detailTypeHouse"
-                                                @detail="
-                                                    detailTypeHouse(
-                                                        houses[index]
-                                                    )
-                                                "
-                                            />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <Pagination
-                            :currentPage="pagination.currentPage"
-                            :rowsTotal="pagination.total"
-                            :lastPage="pagination.lastPage"
-                            @onPageChange="onPageChange($event)"
-                        />
-                        <ModalCreate />
-                    </div>
-                </div>
+                    <td>
+                      <span> {{ formatRupiah(house.price) }}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <Actions
+                        @update="getHouse(house.id)"
+                        @delete="deleteHouse(house.id)"
+                        toggleDetail="modal"
+                        targetDetail="#detailTypeHouse"
+                        @detail="detailTypeHouse(houses[index])"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+          </div>
+          <div class="card-footer">
+            <Pagination
+              :currentPage="pagination.currentPage"
+              :rowsTotal="pagination.total"
+              :lastPage="pagination.lastPage"
+              @onPageChange="onPageChange($event)"
+            />
+            <ModalCreate />
+          </div>
         </div>
-    </section>
-    <DetailTypeHouse :detailHouse="detailHouse" />
+      </div>
+    </div>
+  </section>
+  <DetailTypeHouse :detailHouse="detailHouse" />
 </template>
 <script>
 import iziToast from "izitoast";
@@ -192,285 +200,316 @@ import InputCurrency from "../../components/InputCurrency.vue";
 import Actions from "../../components/Actions.vue";
 
 export default {
-    data() {
-        return {
-            detailHouse: {},
-            houses: [],
-            house: {
-                type: "",
-                description: "",
-                price: "",
-                images: [],
-            },
-            isLoading: false,
-            previewImages: [],
-            detailImage: [],
-            name: "",
-            order_direction: "asc",
-            isSubmit: false,
-            isFormEdit: false,
-            //Pagination
-            pagination: {
-                total: 0,
-                perPage: 5,
-                currentPage: 1,
-                lastPage: 0,
-                page: 0,
-            },
-        };
+  data() {
+    return {
+      detailHouse: {},
+      houses: [],
+      kavlings: [],
+      house: {
+        id: "",
+        description: "",
+        price: "",
+        kavling_id: "",
+        images: Array,
+      },
+      isLoading: false,
+      previewNewImages: [],
+      newImages : [],
+      oldImages: [],
+      previewOldImages: [],
+      detailImage: [],
+      name: "",
+      order_direction: "asc",
+      isSubmit: false,
+      isFormEdit: false,
+      //Pagination
+      pagination: {
+        total: 0,
+        perPage: 5,
+        currentPage: 1,
+        lastPage: 0,
+        page: 0,
+      },
+    };
+  },
+  mounted() {
+    this.getHouses();
+    this.getKavlings();
+  },
+  watch: {
+    previewNewImages: function (val) {
+      this.house.images = val;
     },
-    mounted() {
-        this.getHouses();
+  },
+  computed: {
+    formUpdate() {
+      return this.isFormEdit ? "Edit" : "Tambah";
     },
-    computed: {
-        formData() {
-            const fieldData = new FormData();
-            fieldData.append("house_type", this.house.type);
-            fieldData.append("price", Utils.currencyToNumber(this.house.price));
-            fieldData.append("description", this.house.description);
-            if (this.house.images.length > 0) {
-                this.house.images.forEach((image, index) => {
-                    fieldData.append("images[" + index + "]", image);
-                });
-            }
-            if (this.isFormEdit) {
-                fieldData.append("id", this.house.id);
-                fieldData.append("_method", "PUT");
-            }
-
-            // fieldData.append('image' , self.house.image)
-            return fieldData;
-        },
-    },
-    methods: {
-        detailTypeHouse(data) {
-            this.detailHouse = data;
-        },
-        reset() {
-            this.house = {
-                type: "",
-                description: "",
-                price: "",
-                images: [],
-            };
-            this.previewImages = [];
-            this.detailImage = [];
-            this.isFormEdit = false;
-        },
-        getEditorValue(event) {
-            this.house.description = event;
-        },
-        showDetail(img) {
-            this.detailImage = img;
-        },
-        formatRupiah(value) {
-            return Utils.formatRupiah(value, "Rp. ");
-        },
-        parseDescription(html) {
-            return Utils.parseHtmlFromEditor(html);
-        },
-        removeItem(index) {
-            if (this.isFormEdit) {
-                this.house.images.splice(index, 1);
-                this.previewImages.splice(index, 1);
-            } else {
-                this.previewImages.splice(index, 1);
-            }
-        },
-        iteration(index) {
-            return (
-                (this.pagination.currentPage - 1) * this.pagination.perPage +
-                index +
-                1
-            );
-        },
-        checkExtension(file) {
-            const allowedExtensions = [
-                "image/jpg",
-                "image/png",
-                "image/jpeg",
-                "pdf",
-            ];
-            // const fileExtension = file.split(".").pop().toLowerCase();
-            if (allowedExtensions.includes(file.type)) {
-                return true;
-            } else {
-                return false;
-            }
-        },
-
-        selectImages(e) {
-            const files = e.target.files;
-            for (let i = 0; i < files.length; i++) {
-                if (this.checkExtension(files[i])) {
-                    this.house.images.push(files[i]);
-                    this.previewImages.push(URL.createObjectURL(files[i]));
-                    console.log(this.previewImage);
-                } else {
-                    iziToast.warning({
-                        title: "Peringatan",
-                        message: "File harus berupa gambar",
-                        position: "topRight",
-                    });
-                }
-            }
-        },
-        updatePreviewImage(images) {
-            this.previewImages = [];
-            for (let i = 0; i < images.length; i++) {
-                this.previewImages.push("/storage/" + images[i].documentPath);
-            }
-        },
-
-        getHouse(id) {
-            const self = this;
-            this.isFormEdit = true;
-            this.houses.filter(function (house) {
-                if (house.id == id) {
-                    // console.log(house.document.path)
-                    self.house.type = house.houseType;
-                    self.house.description = house.description;
-                    self.house.price = house.price;
-                    self.house.id = house.id;
-                    self.house.images = house.document;
-                    self.updatePreviewImage(house.document);
-                    // this.house = house;
-                }
+    formData() {
+      const fieldData = new FormData();
+      fieldData.append("kavling_id", this.house.kavling_id);
+      fieldData.append("price", Utils.currencyToNumber(this.house.price));
+      fieldData.append("description", this.house.description);
+      if (this.newImages.length > 0 ) {
+        this.newImages.forEach((image, index) => {
+          fieldData.append("images[" + index + "]", image);
+        });
+      }
+        if (this.oldImages.length > 0 &&  this.isFormEdit) {
+            this.oldImages.forEach((image, index) => {
+                console.log('old_images', image)
+            fieldData.append("old_images[" + index + "]", image.id);
             });
-        },
-        getHouses() {
-            const self = this;
-            this.isLoading = true;
-            const params = [
-                `name=${this.name}`,
-                // `position=${this.name}`,
-                `order_by=positions.id`,
-                `order_direction=${this.order_direction}`,
-                `page=${this.pagination.page}`,
-                `per_page=${this.pagination.perPage}`,
-            ].join("&");
-            self.$store
-                .dispatch("getData", ["house-type", params])
-                .then((res) => {
-                    self.houses = res.data;
-                    self.pagination.total = res.meta.total;
-                    self.pagination.currentPage = res.meta.currentPage;
-                    self.pagination.lastPage = res.meta.lastPage;
+        }
+      if (this.isFormEdit) {
+        fieldData.append("id", this.house.id);
+        fieldData.append("_method", "PUT");
+      }
 
-                    this.isLoading = false;
-                });
-        },
-        createHouse() {
-            // console.log(this.$refs.formHouse)
-            const self = this;
-            let type = "postDataUploadHouse";
-            const fieldData = self.formData;
-            this.isSubmit = true;
-            self.$store
-                .dispatch(type, fieldData, "type-house")
-                .then((response) => {
-                    this.isSubmit = false;
-                    iziToast.success({
-                        title: "Berhasil",
-                        message: "Data berhasil ditambahkan",
-                        position: "topRight",
-                    });
-                    self.getHouses();
-                    self.reset();
-                })
-                .catch((error) => {
-                    this.isSubmit = false;
-                    let messages = error.response.data.meta.message;
-                    Object.entries(messages).forEach(([key, value]) => {
-                        iziToast.warning({
-                            title: "Peringatan",
-                            message: value,
-                            position: "topRight",
-                        });
-                    });
-                });
-        },
-        editHouse(id) {
-            this.isFormEdit = true;
-            const self = this;
-            let type = "updateDataUploadHouse";
-            const fieldData = self.formData;
-            this.isSubmit = true;
-            self.$store
-                .dispatch(type, fieldData, "type-house/" + id)
-                .then((response) => {
-                    this.isSubmit = false;
-                    this.getHouses();
-                    iziToast.success({
-                        title: "Berhasil",
-                        message: "Data berhasil diubah",
-                        position: "topRight",
-                    });
-                    self.reset();
-                })
-                .catch((error) => {
-                    this.isSubmit = false;
-                    let messages;
-                    if (messages) {
-                        messages = error.response.data.meta.message;
-                        Object.entries(messages).forEach(([key, value]) => {
-                            iziToast.warning({
-                                title: "Peringatan",
-                                message: value,
-                                position: "topRight",
-                            });
-                        });
-                        self.getHouses();
-                    }
+      // fieldData.append('image' , self.house.image)
+      return fieldData;
+    },
+  },
+  methods: {
+    detailTypeHouse(data) {
+      this.detailHouse = data;
+    },
+    reset() {
+      this.house = {
+        id: "",
+        type: "",
+        description: "",
+        price: "",
+        images: [],
+      };
 
-                    this.reset();
-                });
-        },
+      this.previewNewImages = [];
+      this.previewOldImages = [];
+        this.newImages = [];
+        this.oldImages = [];
+      this.detailImage = [];
+      this.isFormEdit = false;
+    },
+    getEditorValue(event) {
+      this.house.description = event;
+    },
+    showDetail(img) {
+      this.detailImage = img;
+    },
+    formatRupiah(value) {
+      return Utils.formatRupiah(value, "Rp. ");
+    },
+    parseDescription(html) {
+      return Utils.parseHtmlFromEditor(html);
+    },
+    removeNewImage(index) {
+        this.newImages.splice(index, 1);
+        this.previewNewImages.splice(index, 1);
+    },
+    removeOldImage(index) {
+        this.oldImages.splice(index, 1);
+        this.previewOldImages.splice(index, 1);
+    },
+    iteration(index) {
+      return (
+        (this.pagination.currentPage - 1) * this.pagination.perPage + index + 1
+      );
+    },
+    checkExtension(file) {
+      const allowedExtensions = ["image/jpg", "image/png", "image/jpeg", "pdf"];
+      // const fileExtension = file.split(".").pop().toLowerCase();
+      if (allowedExtensions.includes(file.type)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    getKavlings() {
+      this.isLoading = true;
+      this.$store
+        .dispatch("getData", ["kavling"])
+        .then((response) => {
+          this.kavlings = response.data;
+          this.isLoading = false;
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          iziToast.error({
+            title: "Error",
+            message: error.response.data.message,
+          });
+        });
+    },
+    selectImages(e) {
+      const files = e.target.files;
+      for (let i = 0; i < files.length; i++) {
+        if (this.checkExtension(files[i])) {
+            this.newImages.push(files[i])
+          this.previewNewImages.push(URL.createObjectURL(files[i]));
+        } else {
+          iziToast.warning({
+            title: "Peringatan",
+            message: "File harus berupa gambar",
+            position: "topRight",
+          });
+        }
+      }
+    },
+    // updatePreviewImage(images) {
+    //     this.previewNewImages = [];
+    //     for (let i = 0; i < images.length; i++) {
+    //         this.previewNewImages.push("/storage/" + images[i].documentPath);
+    //     }
+    // },
 
-        deleteHouse(id) {
-            const self = this;
-            this.$swal
-                .fire({
-                    title: "Yakin ?",
-                    text: "Data akan dihapus",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Hapus!",
-                    cancelButtonText: "Batal",
-                })
-                .then((result) => {
-                    if (result.isConfirmed) {
-                        self.isLoading = true;
-                        self.$store
-                            .dispatch("deleteData", ["house-type", id])
-                            .then((response) => {
-                                iziToast.success({
-                                    title: "Berhasil",
-                                    message: "Data berhasil dihapus",
-                                    position: "topRight",
-                                });
-                                self.isLoading = false;
-                                this.getHouses();
-                            });
-                    }
-                });
-        },
-        onPageChange(page) {
-            this.pagination.page = page;
-            this.getHouses();
-        },
+    getHouse(id) {
+      this.isFormEdit = true;
+      this.$store
+        .dispatch("showData", ["house-type/" + id, []])
+        .then((response) => {
+          this.house = {
+            id: response.data.id,
+            kavling_id: response.data.kavling.id,
+            description: response.data.description,
+            price: response.data.price,
+            }
+           this.previewOldImages = response.data.document;
+           this.oldImages = response.data.document;
+           console.log(this.oldImages)
+
+        });
+    },
+    getHouses() {
+      const self = this;
+      this.isLoading = true;
+      const params = [
+        `name=${this.name}`,
+        // `position=${this.name}`,
+        `order_by=positions.id`,
+        `order_direction=${this.order_direction}`,
+        `page=${this.pagination.page}`,
+        `per_page=${this.pagination.perPage}`,
+      ].join("&");
+      self.$store.dispatch("getData", ["house-type", params]).then((res) => {
+        self.houses = res.data;
+        self.pagination.total = res.meta.total;
+        self.pagination.currentPage = res.meta.currentPage;
+        self.pagination.lastPage = res.meta.lastPage;
+
+        this.isLoading = false;
+      });
+    },
+    createHouse() {
+      // console.log(this.$refs.formHouse)
+      const self = this;
+      let type = "postDataUploadHouse";
+      const fieldData = self.formData;
+      this.isSubmit = true;
+      self.$store
+        .dispatch(type, fieldData, "type-house")
+        .then((response) => {
+          this.isSubmit = false;
+          iziToast.success({
+            title: "Berhasil",
+            message: "Data berhasil ditambahkan",
+            position: "topRight",
+          });
+          self.getHouses();
+          self.reset();
+        })
+        .catch((error) => {
+          this.isSubmit = false;
+          let messages = error.response.data.meta.message;
+          Object.entries(messages).forEach(([key, value]) => {
+            iziToast.warning({
+              title: "Peringatan",
+              message: value,
+              position: "topRight",
+            });
+          });
+        });
+    },
+    editHouse() {
+      this.isFormEdit = true;
+      const self = this;
+      let type = "updateDataUploadHouse";
+      const fieldData = self.formData;
+      this.isSubmit = true;
+      this.$store
+        .dispatch(type, fieldData, "type-house/" + this.house.id)
+        .then((response) => {
+          this.isSubmit = false;
+          this.getHouses();
+          iziToast.success({
+            title: "Berhasil",
+            message: "Data berhasil diubah",
+            position: "topRight",
+          });
+          self.reset();
+        })
+        .catch((error) => {
+          this.isSubmit = false;
+          let messages;
+          if (messages) {
+            messages = error.response.data.meta.message;
+            Object.entries(messages).forEach(([key, value]) => {
+              iziToast.warning({
+                title: "Peringatan",
+                message: value,
+                position: "topRight",
+              });
+            });
+            self.getHouses();
+          }
+
+          this.reset();
+        });
     },
 
-    components: {
-        LoadingComponent,
-        Pagination,
-        ModalCreate,
-        SummerNote,
-        DetailImage,
-        DetailTypeHouse,
-        ButtonsExport,
-        InputCurrency,
-        Actions,
+    deleteHouse(id) {
+      const self = this;
+      this.$swal
+        .fire({
+          title: "Yakin ?",
+          text: "Data akan dihapus",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Hapus!",
+          cancelButtonText: "Batal",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            self.isLoading = true;
+            self.$store
+              .dispatch("deleteData", ["house-type", id])
+              .then((response) => {
+                iziToast.success({
+                  title: "Berhasil",
+                  message: "Data berhasil dihapus",
+                  position: "topRight",
+                });
+                self.isLoading = false;
+                this.getHouses();
+              });
+          }
+        });
     },
+    onPageChange(page) {
+      this.pagination.page = page;
+      this.getHouses();
+    },
+  },
+
+  components: {
+    LoadingComponent,
+    Pagination,
+    ModalCreate,
+    SummerNote,
+    DetailImage,
+    DetailTypeHouse,
+    ButtonsExport,
+    InputCurrency,
+    Actions,
+  },
 };
 </script>

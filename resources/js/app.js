@@ -21,6 +21,7 @@ import { bindAll } from "lodash";
 // const app = new Vue({
 if(!Cookie.get("user") && !Cookie.get('token')){
 } else {
+    
 }
 createApp(Auth).use(router).use(store).use(izitoast).use(VueSweetalert2).use(VueApexCharts).mount("#auth");
 createApp(App).use(router).use(store).use(VueSweetalert2).use(CKEditor).use(abilitiesPlugin, ability, {

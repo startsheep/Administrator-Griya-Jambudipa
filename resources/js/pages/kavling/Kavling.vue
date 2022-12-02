@@ -89,11 +89,11 @@
                   <tr>
                     <th width="5%">Blok</th>
                     <th width="10%">Nomor Kavling</th>
+                    <th width="10%">Tipe Rumah</th>
                     <th width="20%">Lebar Muka Kavling</th>
                     <th width="10%">Panjang Kavling</th>
                     <th width="15%">Panjang Kavling 2</th>
                     <th width="10%">Luas Kavling</th>
-                    <th width="10%">Tipe Rumah</th>
                     <th width="15%">Luas Bangunan</th>
                     <th width="5%">Aksi</th>
                   </tr>
@@ -103,13 +103,13 @@
                   <tr v-for="kavling in kavlings" :key="kavling">
                     <td>{{ kavling.block }}</td>
                     <td>{{ kavling.numberKavling }}</td>
+                    <td>
+                      {{ kavling.houseType }}
+                    </td>
                     <td>{{ kavling.widthKavling }}</td>
                     <td>{{ kavling.lengthKavling }}</td>
                     <td>{{ kavling.secondLengthKavling }}</td>
                     <td>{{ kavling.areaKavling }}</td>
-                    <td>
-                      {{ checkHouseType(kavling.houseType) }}
-                    </td>
                     <td>{{ kavling.areaBuilding }}</td>
                     <td class="align-middle text-center">
                       <div class="show">
