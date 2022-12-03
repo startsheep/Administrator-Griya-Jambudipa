@@ -163,7 +163,7 @@
                         @delete="deleteHouse(house.id)"
                         toggleDetail="modal"
                         targetDetail="#detailTypeHouse"
-                        @detail="detailTypeHouse(houses[index])"
+                        @detail="sendHouseId(house.id)"
                       />
                     </td>
                   </tr>
@@ -184,7 +184,7 @@
       </div>
     </div>
   </section>
-  <DetailTypeHouse :detailHouse="detailHouse" />
+  <DetailTypeHouse  :id="idHouse"/>
 </template>
 <script>
 import iziToast from "izitoast";
@@ -203,6 +203,7 @@ export default {
   data() {
     return {
       detailHouse: {},
+      idHouse:null,
       houses: [],
       kavlings: [],
       house: {
@@ -271,8 +272,8 @@ export default {
     },
   },
   methods: {
-    detailTypeHouse(data) {
-      this.detailHouse = data;
+    sendHouseId(data) {
+        this.idHouse = data;
     },
     reset() {
       this.house = {
