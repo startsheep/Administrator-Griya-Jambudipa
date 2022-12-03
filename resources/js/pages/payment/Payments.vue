@@ -65,102 +65,106 @@
               </div>
             </div>
             <div class="table-card">
-                <div class="table-responsive">
-              <table class="table table-striped" style="font-size: 12px;">
-                <thead>
-                  <tr>
-                    <th>Nama</th>
-                    <th>Nomor Telepon</th>
-                    <th>Blok / Kavling</th>
-                    <th>Tipe Rumah</th>
-                    <th>Total Angsuran</th>
-                    <th>Sisa Angsuran</th>
-                    <th>Tipe Pembayaran</th>
-                    <th class="text-center">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody class="position-relative" v-auto-animate>
-                  <LoadingComponent v-if="isLoading" />
-                  <tr v-for="payment in payments" :key="payment">
-                    <td>
-                      <div class="media">
-                        <figure class="avatar mr-2 avatar-md">
-                          <img
-                            :src="'storage/' + payment.customer.image"
-                            alt="..."
-                          />
-                          <i
-                            v-if="payment.reminderPayment > 0"
-                            class="avatar-presence busy"
-                          ></i>
-                          <i v-else class="avatar-presence online"></i>
-                        </figure>
+              <div class="table-responsive">
+                <table class="table table-striped" style="font-size: 12px">
+                  <thead>
+                    <tr>
+                      <th>Nama</th>
+                      <th>Nomor Telepon</th>
+                      <th>Blok / Kavling</th>
+                      <th>Tipe Rumah</th>
+                      <th>Total Angsuran</th>
+                      <th>Sisa Angsuran</th>
+                      <th>Tipe Pembayaran</th>
+                      <th class="text-center">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody class="position-relative" v-auto-animate>
+                    <LoadingComponent v-if="isLoading" />
+                    <tr v-for="payment in payments" :key="payment">
+                      <td>
+                        <div class="media">
+                          <figure class="avatar mr-2 avatar-md">
+                            <img
+                              :src="'storage/' + payment.customer.image"
+                              alt="..."
+                            />
+                            <i
+                              v-if="payment.reminderPayment > 0"
+                              class="avatar-presence busy"
+                            ></i>
+                            <i v-else class="avatar-presence online"></i>
+                          </figure>
 
-                        <div class="media-body">
-                          <div class="media-title">
-                            {{ payment.customer.name }}
-                          </div>
-                          <div class="text-job text-muted">
-                            <span>{{ showLogUpdate(payment.updatedAt) }}</span>
+                          <div class="media-body">
+                            <div class="media-title">
+                              {{ payment.customer.name }}
+                            </div>
+                            <div class="text-job text-muted">
+                              <span>{{
+                                showLogUpdate(payment.updatedAt)
+                              }}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      {{ payment.customer.phone }}
-                    </td>
-                    <td>
-                      {{ payment.block.block }}-{{
-                        payment.block.numberKavling
-                      }}
-                    </td>
-                    <td>
-                      {{ payment.block.houseType.houseType }}
-                    </td>
-                    <td>
-                      {{ formatRupiah(payment.totalCost) }}
-                    </td>
-                    <td>
-                      {{ formatRupiah(payment.reminderPayment) }}
-                    </td>
-                    <td>
-                      <span
-                        :class="'badge badge-' + showTypePayment(payment.type)"
-                      >
-                        {{ payment.type }}
-                      </span>
-                    </td>
-                    <td class="align-middle text-center">
-                      <Actions
-                        toggleDetail="modal"
-                        targetDetail="#detailPayment"
-                        @detail="detailPayment(payment.id)"
-                        :showDelete="false"
-                        labelEdit="Bayar"
-                        targetEdit="#formDeposit"
-                        toggleEdit="collapse"
-                        @update="sendId(payment.id)"
+                      </td>
+                      <td>
+                        {{ payment.customer.phone }}
+                      </td>
+                      <td>
+                        {{ payment.block.block }}-{{
+                          payment.block.numberKavling
+                        }}
+                      </td>
+                      <td>
+                        {{ payment.houseType }}
+                      </td>
+                      <td>
+                        {{ formatRupiah(payment.totalCost) }}
+                      </td>
+                      <td>
+                        {{ formatRupiah(payment.reminderPayment) }}
+                      </td>
+                      <td>
+                        <span
+                          :class="
+                            'badge badge-' + showTypePayment(payment.type)
+                          "
+                        >
+                          {{ payment.type }}
+                        </span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <Actions
+                          toggleDetail="modal"
+                          targetDetail="#detailPayment"
+                          @detail="detailPayment(payment.id)"
+                          :showDelete="false"
+                          labelEdit="Bayar"
+                          targetEdit="#formDeposit"
+                          toggleEdit="collapse"
+                          @update="sendId(payment.id)"
+                        />
+                      </td>
+                    </tr>
+                    <td colspan="8">
+                      <EmptyData
+                        v-if="!isLoading && payments.length < 1"
+                        message="Data Pembayaran Tidak Ada"
                       />
                     </td>
-                  </tr>
-                  <td colspan="8">
-                    <EmptyData
-                      v-if="!isLoading && payments.length < 1"
-                      message="Data Pembayaran Tidak Ada"
-                    />
-                  </td>
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer">
+                <Pagination
+                  :currentPage="pagination.currentPage"
+                  :rowsTotal="pagination.total"
+                  :lastPage="pagination.lastPage"
+                  @onPageChange="onPageChange($event)"
+                />
+              </div>
             </div>
-            <div class="card-footer">
-            <Pagination
-              :currentPage="pagination.currentPage"
-              :rowsTotal="pagination.total"
-              :lastPage="pagination.lastPage"
-              @onPageChange="onPageChange($event)"
-            />
-          </div>
-        </div>
           </div>
           <!-- <div class="card-footer">
             <Pagination
@@ -214,16 +218,13 @@ export default {
         price: "",
       },
       idPayment: null,
-      house: null,
+
       search: "",
       //   customer: null,
       payments: [
         //  make same data with deferent value
       ],
-      customers: [],
-      customerKavling: [],
-      selectedCustomer: null,
-      selectedKavling: null,
+
       isLoading: false,
       typePayment: [
         {
@@ -255,18 +256,9 @@ export default {
       },
     };
   },
-  //   watch: {
-  //     selectedCustomer(newVal){
-  //         this.selectedCustomer = newVal
 
-  //     }
-  //   },
   mounted() {
     this.getPayments();
-    this.getCustomers();
-    // if(this.selectedKavling != null){
-    //     this.getHouse()
-    // }
   },
   computed: {
     idEmployee() {
@@ -281,45 +273,14 @@ export default {
     sendId(id) {
       this.idPayment = id;
     },
-    getHouse() {
-      const self = this;
-      this.$store
-        .dispatch("getData", ["house-type/" + this.selectedKavling.houseTypeId])
-        .then((res) => {
-          this.house = res.data;
-        });
-    },
-    selectCustomer() {
-      this.customers.filter((cs) => {
-        if (cs.id == this.$refs["fieldCustomer"].value) {
-          this.selectedCustomer = cs;
-        }
-      });
-    },
-    showNameCustomer(id) {
-      let name = "";
-      this.customers.forEach((customer) => {
-        if (customer.id == id) {
-          name = customer.name;
-        }
-      });
-      return name;
-    },
-    getBlocks(array) {
-      //    getblock name between comma
-      let blocks = [];
-      array.forEach((element) => {
-        blocks.push(element.kavling.block);
-      });
-      return blocks.join(", ");
-    },
+
     formatRupiah(number) {
       return Utils.formatRupiah(number, "Rp. ");
     },
     formatPercent(number) {
-          var percent = number *100 /100 + "%";
-          return percent;
-      },
+      var percent = (number * 100) / 100 + "%";
+      return percent;
+    },
     calcReferral(percent, number) {
       return Utils.calcReferral(percent, number);
     },
@@ -396,11 +357,6 @@ export default {
         self.getPayments();
       });
     },
-    sendEdit(payment) {
-      // this.payment.customerId= payment.customer.id
-
-      this.selectedCustomer = payment.customer;
-    },
     delete(id) {
       const self = this;
       this.$swal
@@ -445,10 +401,10 @@ export default {
 };
 </script>
 <style>
-.card .table-card{
-    padding-left:20px;
-    padding-right:20px;
-    width:100%;
+.card .table-card {
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
 }
 table th {
   padding: 0 15px !important;

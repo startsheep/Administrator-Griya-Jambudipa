@@ -29,6 +29,7 @@ class PaymentCollection extends ResourceCollection
                         "total_cost" => $totalCost,
                         "type" => $item->type,
                         "block" => $item->kavling,
+                        "house_type" => $item->kavling->house_type,
                         "customer" => $item->customer,
                         "documents" => $item->document,
                         "other_develop" => $item->otherDevelop,

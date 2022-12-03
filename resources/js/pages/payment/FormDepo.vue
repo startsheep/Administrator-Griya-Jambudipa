@@ -114,6 +114,7 @@
                         data-toggle="collapse"
                         data-target="#formDeposit"
                         class="btn btn-danger btn-block"
+                        type="button"
                         @click="resetForm()"
                         :disabled="isLoading"
                     >
@@ -143,19 +144,30 @@ export default {
             //   selectedKavling: '',
             budget: "",
             documents: [],
+            idPayment : null,
             isLoading: false,
         };
     },
-    watch: {
-        id(newVal) {
-            this.getPayment(newVal);
-        },
+
+
+watch: {
+    id: function (val) {
+        this.idPayment = val;
     },
-    mounted() {
-        if (this.id) {
-            this.getPayment(this.id);
+    idPayment: function (val) {
+        if(val != null){
+            this.getPayment(val);
         }
     },
+    deep: true,
+
+},
+mounted() {
+    this.idPayment = this.id;
+    if(this.idPayment != null){
+        this.getPayment(this.idPayment);
+    }
+},
     computed: {
         formData() {
             const formData = new FormData();
@@ -201,7 +213,7 @@ export default {
         },
         getPayment(id) {
             const self = this;
-            self.$store.dispatch("showData", ["payment/" + id]).then((res) => {
+            self.$store.dispatch("showData", ["payment/" + id,[]]).then((res) => {
                 this.payment = res.data;
             });
         },
@@ -230,8 +242,10 @@ export default {
                 });
         },
         resetForm() {
+            console.log("reset");
+            this.idPayment = null;
             // this.payment = null;
-            // this.budget = "";
+            this.budget = "";
             this.documents = [];
         },
     },
