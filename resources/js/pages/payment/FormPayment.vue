@@ -58,7 +58,7 @@
                   </div>
                 </div>
               </div>
-  
+
               <div class="row">
                 <div class="col-3">
                   <div class="form-group">
@@ -95,7 +95,7 @@
                 <div class="col-3">
                   <div class="form-group">
                     <label>Biaya Tambahan</label>
-                    <InputCurrency 
+                    <InputCurrency
                       :value="payment.developPrice"
                       v-model="payment.developPrice"/>
                   </div>
@@ -105,8 +105,8 @@
                     <div class="row">
                       <div class="ml-4">
                         <strong> Tipe Rumah : </strong>
-                        <strong v-if="house">
-                          {{ house.houseType }}
+                        <strong v-if="house.kavling ">
+                          {{ house.kavling.houseType }}
                         </strong>
                       </div>
                       <div class="ml-5">
@@ -154,7 +154,7 @@
                 <div class="col-3">
                   <div class="form-group">
                     <label>Biaya Tambahan</label>
-                    <InputCurrency 
+                    <InputCurrency
                       :value="payment.developPrice"
                       v-model="payment.developPrice"/>
                   </div>
@@ -254,7 +254,7 @@
   import iziToast from "izitoast";
   import LoadingComponent from "../../components/LoadingComponent.vue";
   import LoadingComponent1 from "../../components/LoadingComponent.vue";
-  
+
   export default {
     data() {
       return {
@@ -306,7 +306,7 @@
         if (this.selectedKavling) {
           formData.append("kavling_id", this.selectedKavling.id);
         }
-  
+
         formData.append("type", this.payment.type);
         formData.append("price", Utils.currencyToNumber(this.payment.price));
         formData.append("discount", this.payment.discount);
@@ -324,7 +324,7 @@
       this.getCustomers();
       this.getEmployees();
     },
-  
+
     methods: {
       countPayment(){
         let result = Utils.currencyToNumber(this.house.price ?? 'Rp. 0') + Utils.currencyToNumber(this.payment.developPrice ?? 'Rp. 0') - this.house.price * this.payment.discount / 100;
@@ -350,7 +350,7 @@
       checkIsDocument(file) {
         return Utils.checkIsDocument(file);
       },
-  
+
       selectDocuments(e) {
         const files = e.target.files;
         for (let i = 0; i < files.length; i++) {
@@ -365,7 +365,7 @@
           }
         }
       },
-  
+
       createPayment() {
         const self = this;
         let type = "postDataUploadPayment";
@@ -405,7 +405,7 @@
             });
           });
         }
-       
+
       },
       selectCustomer() {
         this.customers.filter((cs) => {
@@ -424,10 +424,10 @@
         });
         return name;
       },
-  
+
       getHouse() {
         this.$store
-          .dispatch("getData", ["house-type/" + this.selectedKavling.houseTypeId])
+          .dispatch("showData", ["house-type/" + this.selectedKavling.houseType.id , []])
           .then((res) => {
             this.house = res.data;
           });
@@ -447,7 +447,7 @@
       },
       getKavling(id) {
         const self = this;
-        self.$store.dispatch("getData", ["kavling/check/" + id]).then((res) => {
+        self.$store.dispatch("showData", ["kavling/check/" + id,[]]).then((res) => {
           this.customerKavling = res.data;
         });
       },
