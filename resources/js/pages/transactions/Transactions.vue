@@ -100,10 +100,10 @@
                         {{ transaction.block.numberKavling }}
                       </td>
                       <td>
-                        {{ transaction.houseType.houseType }}
+                        {{ transaction.houseType }}
                       </td>
                       <td>
-                        {{ formatRupiah(transaction.houseType.price) }}
+                        {{ formatRupiah(transaction.totalCost) }}
                       </td>
                       <!-- <td>{{ formatRupiah(transaction.reminderPayment) }}</td> -->
                       <td>
