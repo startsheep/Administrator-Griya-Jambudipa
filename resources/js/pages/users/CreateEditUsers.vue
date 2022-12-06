@@ -1,5 +1,4 @@
 <template>
-<<<<<<< Updated upstream
   <Modal idModal="formUserModal"
    :loading="isSubmit"
     :tittle=" (id ?'Edit' :'Tambah' ) +  ' Akun Pengguna' "
@@ -28,72 +27,6 @@
               id="email"
             />
           </div>
-=======
-    <div
-        class="modal fade"
-        id="formUserModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="formUserModalLabel"
-        aria-hidden="true"
-    >
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="formUserModalLabel">
-                        {{ id ? "Edit Akun Pengguna" : "Tambah Akun Pengguna" }}
-                    </h5>
-                    <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                        @click="emptyForm()"
-                    >
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form @submit.prevent="handleSubmit">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="name">Nama</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="form.name"
-                                id="name"
-                            />
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="form.email"
-                                id="email"
-                            />
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">No Telp</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="form.phone"
-                                id="phone"
-                            />
-                        </div>
-  
-                        <div class="form-group col-lg-6">
-                                <label>Pilih Role Akun</label>
-                                <select
-                                    class="form-control form-control"
-                                    v-model="form.role_id"
-                                >
-                                    <option value="1">Administrator</option>
-                                    <option value="2">Staff</option>
-                                </select>
-                            </div>
->>>>>>> Stashed changes
 
             <div class="form-group col-lg-6">
             <label for="phone">No Telp</label>
@@ -194,27 +127,11 @@ export default {
         this.previewImage = "storage/" + res.data.document[0].documentPath;
       });
     },
-<<<<<<< Updated upstream
     uploadImage(e) {
       let files = e.target.files[0];
       this.previewImage = URL.createObjectURL(files);
       this.form.image = files;
       $(".custom-file-label").addClass("selected").html(files.name);
-=======
-    data() {
-        return {
-            form: {
-                image: null,
-                name: "",
-                email: "",
-                phone: "",
-                role_id: "",
-            },
-            previewImage: null,
-            isLoading: false,
-            isSubmit: false,
-        };
->>>>>>> Stashed changes
     },
     handleSubmit() {
       let fieldData = this.formData;
@@ -237,7 +154,6 @@ export default {
               message: "Data berhasil diubah",
               position: "topRight",
             });
-<<<<<<< Updated upstream
           })
           .catch((err) => {
             this.isLoading = false;
@@ -284,28 +200,6 @@ export default {
     },
     deleteModal() {
       $("#formUserModal").modal("hide");
-=======
-            this.form.name = user.name;
-            this.form.email = user.email;
-            this.form.role_id = user.role_id;
-        },
-    },
-    computed: {
-        formData() {
-            const fieldData = new FormData();
-            fieldData.append("name", this.form.name);
-            fieldData.append("email", this.form.email);
-            fieldData.append("phone", this.form.phone);
-            fieldData.append("role_id", this.form.role_id);
-
-            if (this.user && this.id) {
-                fieldData.append("_method", "PUT");
-                fieldData.append("id", this.id);
-            }
-
-            return fieldData;
-        },
->>>>>>> Stashed changes
     },
     resetForm() {
     //   this.id = "";
