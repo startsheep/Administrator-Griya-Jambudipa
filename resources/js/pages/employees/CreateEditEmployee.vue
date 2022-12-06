@@ -223,7 +223,7 @@ export default {
             fieldData.append("name", this.employee.name);
             fieldData.append("email", this.employee.email);
             fieldData.append("position_id", this.employee.position_id);
-            fieldData.append("type_emp", this.employee.type_emp);
+            fieldData.append("status", this.employee.type_emp);
             fieldData.append("entry_date", this.employee.entry_date);
             fieldData.append("phone", this.employee.phone);
             fieldData.append("address", this.employee.address);
