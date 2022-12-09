@@ -7,5 +7,5 @@ use LaravelEasyRepository\Repository;
 
 interface UserRepository extends Repository
 {
-    public function findByCriteria(array $criteria): Model;
+    public function findByCriteria(array $criteria): ?Model;
 }

@@ -20,7 +20,7 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
         $this->model = $model;
     }
 
-    public function findByCriteria(array $criteria): User
+    public function findByCriteria(array $criteria): ?User
     {
         return $this->model->where($criteria)->first();
     }
