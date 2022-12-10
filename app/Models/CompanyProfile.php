@@ -9,6 +9,8 @@ class CompanyProfile extends Model
 {
     use HasFactory;
 
+    const STATIC_ID = 1;
+
     protected $fillable = [
         'name',
         'email',
