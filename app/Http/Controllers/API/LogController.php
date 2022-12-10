@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\Contracts\LogContract;
+use App\Http\Repositories\Log\LogRepository;
 use App\Http\Resources\Log\LogCollection;
 use App\Http\Resources\Log\LogDetail;
 use Illuminate\Http\Request;
@@ -12,7 +12,7 @@ class LogController extends Controller
 {
     protected $logRepository;
 
-    public function __construct(LogContract $logRepository)
+    public function __construct(LogRepository $logRepository)
     {
         $this->logRepository = $logRepository;
     }
@@ -26,7 +26,7 @@ class LogController extends Controller
 
     public function show($id)
     {
-        $result = $this->logRepository->find($id);
+        $result = $this->logRepository->findOrFail($id);
 
         return new LogDetail($result);
     }

@@ -57,7 +57,7 @@ class LoginRequest extends FormRequest
                 'message' => $validator->errors(),
                 'status_code' => 400
             ]
-        ]);
+        ], 400);
 
         throw new ValidationException($validator, $response);
     }

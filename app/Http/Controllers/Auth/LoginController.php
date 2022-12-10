@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\UserRepository;
+use App\Http\Repositories\User\UserRepository;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Log;
 use Carbon\Carbon;
