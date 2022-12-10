@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\NewPasswordRequest;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Password;
 
 class NewPasswordController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(NewPasswordRequest $request)
     {
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
