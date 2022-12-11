@@ -16,16 +16,9 @@
                 <br />
                 <label>Blok - Nomor Kavling - Tipe Rumah</label>
                 <!-- select optiion -->
-                <select class="form-control" v-model="house.kavling_id">
-                  <option
-                    v-for="kavling in kavlings"
-                    :key="kavling.id"
-                    :value="kavling.id"
-                  >
-                    {{ kavling.block }} - {{ kavling.numberKavling }} -
-                    {{ kavling.houseType }}
-                  </option>
-                </select>
+                <Multiselect v-auto-animate v-model="house.kavling" :options="kavlings" :custom-label="customLabel"  placeholder="Pilih kavling"  track-by="id">
+
+                </Multiselect>
               </div>
 
               <div class="form-group">
@@ -79,7 +72,7 @@
                   >&times;</span
                 >
                 <img
-                  :src="'storage/'+image.documentPath"
+                  :src="'storage/' + image.documentPath"
                   alt=""
                   class="img-thumbnail"
                   style="object-fit: cover; width: 100px; height: 100px"
@@ -127,7 +120,7 @@
                 <thead>
                   <tr>
                     <th width="5%">#</th>
-                    <th width="25%">Tipe</th>
+                    <th width="25%">Tipe - Luas Kavling</th>
                     <th width="25%">Blok</th>
                     <th width="25%">Nomor Kavling</th>
                     <!-- <th width="35%">Deskripsi</th> -->
@@ -143,7 +136,7 @@
                       {{ iteration(index) }}
                     </td>
                     <td>
-                      <span> {{ house.kavling.houseType }}</span>
+                      <span> {{ house.kavling.houseType }} - {{ house.kavling.areaKavling }}</span>
                     </td>
                     <td>
                       <span> {{ house.kavling.block }}</span>
@@ -184,7 +177,7 @@
       </div>
     </div>
   </section>
-  <DetailTypeHouse  :id="idHouse"/>
+  <DetailTypeHouse  :id="idHouse" />
 </template>
 <script>
 import iziToast from "izitoast";
@@ -198,24 +191,26 @@ import DetailTypeHouse from "./DetailTypeHouse.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import InputCurrency from "../../components/InputCurrency.vue";
 import Actions from "../../components/Actions.vue";
+import  Multiselect  from "vue-multiselect";
+
 
 export default {
   data() {
     return {
       detailHouse: {},
-      idHouse:null,
+      idHouse: null,
       houses: [],
       kavlings: [],
       house: {
         id: "",
         description: "",
         price: "",
-        kavling_id: "",
+        kavling: "",
         images: Array,
       },
       isLoading: false,
       previewNewImages: [],
-      newImages : [],
+      newImages: [],
       oldImages: [],
       previewOldImages: [],
       detailImage: [],
@@ -248,20 +243,20 @@ export default {
     },
     formData() {
       const fieldData = new FormData();
-      fieldData.append("kavling_id", this.house.kavling_id);
+      fieldData.append("kavling_id", this.house.kavling.id);
       fieldData.append("price", Utils.currencyToNumber(this.house.price));
       fieldData.append("description", this.house.description);
-      if (this.newImages.length > 0 ) {
+      if (this.newImages.length > 0) {
         this.newImages.forEach((image, index) => {
           fieldData.append("images[" + index + "]", image);
         });
       }
-        if (this.oldImages.length > 0 &&  this.isFormEdit) {
-            this.oldImages.forEach((image, index) => {
-                console.log('old_images', image)
-            fieldData.append("old_images[" + index + "]", image.id);
-            });
-        }
+      if (this.oldImages.length > 0 && this.isFormEdit) {
+        this.oldImages.forEach((image, index) => {
+          console.log("old_images", image);
+          fieldData.append("old_images[" + index + "]", image.id);
+        });
+      }
       if (this.isFormEdit) {
         fieldData.append("id", this.house.id);
         fieldData.append("_method", "PUT");
@@ -273,21 +268,25 @@ export default {
   },
   methods: {
     sendHouseId(data) {
-        this.idHouse = data;
+      this.idHouse = data;
+    },
+    customLabel(option){
+      return `${option.block} - ${option.numberKavling} - ${option.houseType}`
     },
     reset() {
       this.house = {
         id: "",
         type: "",
         description: "",
+        kavling: "",
         price: "",
         images: [],
       };
 
       this.previewNewImages = [];
       this.previewOldImages = [];
-        this.newImages = [];
-        this.oldImages = [];
+      this.newImages = [];
+      this.oldImages = [];
       this.detailImage = [];
       this.isFormEdit = false;
     },
@@ -304,12 +303,12 @@ export default {
       return Utils.parseHtmlFromEditor(html);
     },
     removeNewImage(index) {
-        this.newImages.splice(index, 1);
-        this.previewNewImages.splice(index, 1);
+      this.newImages.splice(index, 1);
+      this.previewNewImages.splice(index, 1);
     },
     removeOldImage(index) {
-        this.oldImages.splice(index, 1);
-        this.previewOldImages.splice(index, 1);
+      this.oldImages.splice(index, 1);
+      this.previewOldImages.splice(index, 1);
     },
     iteration(index) {
       return (
@@ -327,8 +326,11 @@ export default {
     },
     getKavlings() {
       this.isLoading = true;
+      const params = [
+        `per_page=100`,
+      ]
       this.$store
-        .dispatch("getData", ["kavling"])
+        .dispatch("getData", ["kavling" , params])
         .then((response) => {
           this.kavlings = response.data;
           this.isLoading = false;
@@ -345,7 +347,7 @@ export default {
       const files = e.target.files;
       for (let i = 0; i < files.length; i++) {
         if (this.checkExtension(files[i])) {
-            this.newImages.push(files[i])
+          this.newImages.push(files[i]);
           this.previewNewImages.push(URL.createObjectURL(files[i]));
         } else {
           iziToast.warning({
@@ -370,13 +372,12 @@ export default {
         .then((response) => {
           this.house = {
             id: response.data.id,
-            kavling_id: response.data.kavling.id,
+            kavling: response.data.kavling,
             description: response.data.description,
             price: response.data.price,
-            }
-           this.previewOldImages = response.data.document;
-           this.oldImages = response.data.document;
-           console.log(this.oldImages)
+          };
+          this.previewOldImages = response.data.document;
+          this.oldImages = response.data.document;
 
         });
     },
@@ -511,6 +512,7 @@ export default {
     ButtonsExport,
     InputCurrency,
     Actions,
+    Multiselect,
   },
 };
 </script>
