@@ -333,8 +333,7 @@ export default {
         getKavlings() {
             const self = this;
             const params = [
-                'per_page=5',
-                'search=D 1'
+                'per_page=100'
             ].join("&");
             self.$store.dispatch("getData", ["kavling" , params]).then((response) => {
                 response.data.forEach((elm) => {
