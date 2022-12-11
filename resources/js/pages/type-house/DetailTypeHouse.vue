@@ -9,60 +9,44 @@
   >
     <template v-slot:body>
       <div class="row">
-        <div class="col-12">
+        <div class="col">
+          <!-- make carousel from bootStrap with data  -->
           <div
-            id="carouselExampleIndicators3"
-            class="carousel slide"
+            id="carouselExampleSlidesOnly"
+            class="carousel slide carousel-fade "
             data-ride="carousel"
+            data-interval="3500"
+
           >
-            <ol class="carousel-indicators">
+            <ol class="carousel-indicators ">
               <li
-                data-target="#carouselExampleIndicators3"
                 v-for="(image, index) in house.document"
-                :key="image"
+                :key="index"
+
+                :data-target="`#carouselExampleSlidesOnly`"
                 :data-slide-to="index"
-                :class="{ active: index }"
+                :class="{  active: index }"
+
               ></li>
             </ol>
             <div class="carousel-inner">
               <div
-                class="carousel-item"
-                :class="{ active: index }"
                 v-for="(image, index) in house.document"
-                :key="image"
+                :key="index"
+                :class="{ 'carousel-item': true, active: index === 0 }"
               >
                 <img
-                  class="d-block w-100"
-                  style="height: 250px; object-fit: cover"
                   :src="'/storage/' + image.documentPath"
-                  alt="First slide"
+                  class="d-block w-100"
+                  alt="..."
+                  style="height: 300px; object-fit: cover"
                 />
+                <div class="carousel-caption d-none d-md-block">
+                  <!-- <h5>{{ image.title }}</h5>
+          <p>{{ image.description }}</p> -->
+                </div>
               </div>
             </div>
-            <a
-              class="carousel-control-prev"
-              href="#carouselExampleIndicators3"
-              role="button"
-              data-slide="prev"
-            >
-              <span
-                class="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a
-              class="carousel-control-next"
-              href="#carouselExampleIndicators3"
-              role="button"
-              data-slide="next"
-            >
-              <span
-                class="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="sr-only">Next</span>
-            </a>
           </div>
         </div>
       </div>
@@ -77,9 +61,9 @@
           </div>
         </div>
         <div class="col">
-            <strong class="mb-3">Deskripsi</strong>
-            <div v-html="house.description"></div>
-          </div>
+          <strong class="mb-3">Deskripsi</strong>
+          <div v-html="house.description"></div>
+        </div>
       </div>
     </template>
   </Modal>
@@ -88,14 +72,14 @@
 import CircleLoader from "../../components/CircleLoader.vue";
 import Utils from "../../store/services/utils";
 import Modal from "../../components/Modal.vue";
+// import { Carousel, Slide } from "vue-carousel";
 export default {
   props: {
     id: {
       type: String,
-      default: ()=> null,
+      default: () => null,
     },
   },
-
 
   // },
   computed: {
@@ -103,11 +87,9 @@ export default {
   },
   watch: {
     id(newVal) {
+      this.getHouse(newVal);
 
-            this.getHouse(newVal);
-
-    //
-
+      //
     },
     // watch when modal is closed and reset the data
     $store: {
@@ -120,8 +102,8 @@ export default {
     },
   },
   mounted() {
-    if(this.id) {
-        this.getHouse(this.id);
+    if (this.id) {
+      this.getHouse(this.id);
     }
   },
   data() {
@@ -129,10 +111,9 @@ export default {
       isLoading: false,
       house: {
         document: [],
-        kavling:{},
+        kavling: {},
         price: 0,
         description: "",
-
       },
     };
   },
@@ -143,15 +124,15 @@ export default {
       }
     },
     getHouse(id) {
-        console.log(id);
+      console.log(id);
       this.isLoading = true;
-      this.$store.dispatch("showData", ['house-type/'+id]).then((res) => {
+      this.$store.dispatch("showData", ["house-type/" + id]).then((res) => {
         this.isLoading = false;
         this.house = {
-            ...res.data,
-            kavling: res.data.kavling,
-            price: res.data.price,
-            description: res.data.description,
+          ...res.data,
+          kavling: res.data.kavling,
+          price: res.data.price,
+          description: res.data.description,
         };
         this.house.document = res.data.document;
         console.log(this.house);
