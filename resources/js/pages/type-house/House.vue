@@ -27,9 +27,18 @@
                   track-by="id"
                   :loading="isSearching"
                 >
-
-                <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
-
+                <template #noResult>
+                    <span
+                      > <i class="fa-solid fa-exclamation-circle text-info"></i> kavling ngga ditemukan
+                     </span
+                    >
+                </template>
+                <template #noOptions>
+                    <span
+                      > <i class="fa-solid fa-s text-info"></i> Cari Blok kavling
+                     </span
+                    >
+                </template>
                 </Multiselect>
               </div>
 
@@ -122,7 +131,6 @@
                 <input
                   v-on:keyup="getHouses"
                   v-model="name"
-
                   class="form-control"
                   placeholder="Search"
                 />
@@ -341,8 +349,8 @@ export default {
       }
     },
     getKavlings(query) {
-        this.isSearching = true;
-      const params = [`per_page=100`, `block=${query}`].join("&");
+      this.isSearching = true;
+      const params = [`per_page=100`, `block=${query}`,`isReady=true`].join("&");
       this.$store
         .dispatch("getData", ["kavling", params])
         .then((response) => {
