@@ -312,6 +312,7 @@ export default {
         //   `name=${this.name}`,
         // `position=${this.name}`,
         // `block=${this.filter.block}`,
+        // `isReady=true`,
         `block=${this.filter.block==null ? "" : this.filter.block}`,
         `order_by=positions.id`,
         `order_direction=${this.order_direction}`,
