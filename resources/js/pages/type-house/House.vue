@@ -35,7 +35,7 @@
                 </template>
                 <template #noOptions>
                     <span
-                      > <i class="fa-solid fa-s text-info"></i> Cari Blok kavling
+                      > <i class="fa-solid fa-search text-info"></i> Cari Blok kavling
                      </span
                     >
                 </template>
