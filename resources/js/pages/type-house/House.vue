@@ -16,7 +16,19 @@
                 <br />
                 <label>Blok - Nomor Kavling - Tipe Rumah</label>
                 <!-- select optiion -->
-                <Multiselect v-auto-animate v-model="house.kavling" :options="kavlings" :custom-label="customLabel"  placeholder="Pilih kavling"  track-by="id">
+                <Multiselect
+                  :searchable="true"
+                  :internal-search="false"
+                  @search-change="getKavlings"
+                  v-model="house.kavling"
+                  :options="kavlings"
+                  :custom-label="customLabel"
+                  placeholder="Pilih kavling"
+                  track-by="id"
+                  :loading="isSearching"
+                >
+
+                <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
 
                 </Multiselect>
               </div>
@@ -108,8 +120,9 @@
               <div class="col-lg-8"></div>
               <div class="col-lg-4 mb-2">
                 <input
-                  v-on:keyup="search"
+                  v-on:keyup="getHouses"
                   v-model="name"
+
                   class="form-control"
                   placeholder="Search"
                 />
@@ -136,7 +149,10 @@
                       {{ iteration(index) }}
                     </td>
                     <td>
-                      <span> {{ house.kavling.houseType }} - {{ house.kavling.areaKavling }}</span>
+                      <span>
+                        {{ house.kavling.houseType }} -
+                        {{ house.kavling.areaKavling }}</span
+                      >
                     </td>
                     <td>
                       <span> {{ house.kavling.block }}</span>
@@ -177,7 +193,7 @@
       </div>
     </div>
   </section>
-  <DetailTypeHouse  :id="idHouse" />
+  <DetailTypeHouse :id="idHouse" />
 </template>
 <script>
 import iziToast from "izitoast";
@@ -191,8 +207,7 @@ import DetailTypeHouse from "./DetailTypeHouse.vue";
 import ButtonsExport from "../../components/ButtonsExport.vue";
 import InputCurrency from "../../components/InputCurrency.vue";
 import Actions from "../../components/Actions.vue";
-import  Multiselect  from "vue-multiselect";
-
+import Multiselect from "vue-multiselect";
 
 export default {
   data() {
@@ -200,6 +215,7 @@ export default {
       detailHouse: {},
       idHouse: null,
       houses: [],
+      isSearching: false,
       kavlings: [],
       house: {
         id: "",
@@ -270,8 +286,8 @@ export default {
     sendHouseId(data) {
       this.idHouse = data;
     },
-    customLabel(option){
-      return `${option.block} - ${option.numberKavling} - ${option.houseType}`
+    customLabel(option) {
+      return `${option.block} - ${option.numberKavling} - ${option.houseType}`;
     },
     reset() {
       this.house = {
@@ -324,19 +340,17 @@ export default {
         return false;
       }
     },
-    getKavlings() {
-      this.isLoading = true;
-      const params = [
-        `per_page=100`,
-      ]
+    getKavlings(query) {
+        this.isSearching = true;
+      const params = [`per_page=100`, `block=${query}`].join("&");
       this.$store
-        .dispatch("getData", ["kavling" , params])
+        .dispatch("getData", ["kavling", params])
         .then((response) => {
           this.kavlings = response.data;
-          this.isLoading = false;
+          this.isSearching = false;
         })
         .catch((error) => {
-          this.isLoading = false;
+          this.isSearching = false;
           iziToast.error({
             title: "Error",
             message: error.response.data.message,
@@ -367,6 +381,7 @@ export default {
 
     getHouse(id) {
       this.isFormEdit = true;
+
       this.$store
         .dispatch("showData", ["house-type/" + id, []])
         .then((response) => {
@@ -378,7 +393,6 @@ export default {
           };
           this.previewOldImages = response.data.document;
           this.oldImages = response.data.document;
-
         });
     },
     getHouses() {
@@ -387,7 +401,6 @@ export default {
       const params = [
         `name=${this.name}`,
         // `position=${this.name}`,
-        `order_by=positions.id`,
         `order_direction=${this.order_direction}`,
         `page=${this.pagination.page}`,
         `per_page=${this.pagination.perPage}`,
