@@ -27,7 +27,10 @@ class Name implements FilterContract
 		if (!$this->keyword()) {
 			return $next($query);
 		}
-		$query->where('house_type', 'LIKE', '%' . $this->name . '%');
+		// query in rlationship table search  house_type in kavling table
+        $query->whereHas('kavling', function ($query) {
+            $query->where('house_type', 'like', '%' . $this->name . '%');
+        });
 
 		return $next($query);
 	}
