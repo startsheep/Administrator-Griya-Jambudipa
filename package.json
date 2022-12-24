@@ -31,6 +31,7 @@
         "stisla-theme": "^2.2.1",
         "vue": "^3.2.36",
         "vue-carousel": "^0.18.0",
+        "vue-easy-lightbox": "^1.11.0",
         "vue-loader": "^17.0.0",
         "vue-multiselect": "^3.0.0-alpha.2",
         "vue-router": "^4.1.3",
