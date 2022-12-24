@@ -27,6 +27,7 @@
                   track-by="id"
                   :loading="isSearching"
                 >
+
                   <template #noResult>
                     <span>
                       <i class="fa-solid fa-exclamation-circle text-info"></i>
@@ -39,6 +40,7 @@
                       kavling
                     </span>
                   </template>
+
                 </Multiselect>
               </div>
 
