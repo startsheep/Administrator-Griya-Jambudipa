@@ -200,7 +200,6 @@
       </div>
     </div>
   </section>
-  <DetailTypeHouse :id="idHouse" />
 </template>
 <script>
 import iziToast from "izitoast";
