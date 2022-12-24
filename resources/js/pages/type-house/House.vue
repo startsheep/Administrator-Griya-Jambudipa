@@ -27,18 +27,36 @@
                   track-by="id"
                   :loading="isSearching"
                 >
+                  <<<<<<<<< Temporary merge branch 1
                   <template #noResult>
                     <span>
                       <i class="fa-solid fa-exclamation-circle text-info"></i>
                       kavling ngga ditemukan
                     </span>
-                  </template>
+                  </template></Multiselect
+                >
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+                <template #noOptions>
+  <span> <i class="fa-solid fa-search text-info"></i> Cari Blok kavling </span>
+</template>
+=========
+                  <template #noResult>
+  <span>
+    <i class="fa-solid fa-exclamation-circle text-info"></i>
+    kavling ngga ditemukan
+  </span>
+</template>
                   <template #noOptions>
-                    <span>
-                      <i class="fa-solid fa-search text-info"></i> Cari Blok
-                      kavling
-                    </span>
-                  </template>
+  <span> <i class="fa-solid fa-search text-info"></i> Cari Blok kavling </span>
+</template>
+
                 </Multiselect>
               </div>
 
