@@ -27,18 +27,18 @@
                   track-by="id"
                   :loading="isSearching"
                 >
-                <template #noResult>
-                    <span
-                      > <i class="fa-solid fa-exclamation-circle text-info"></i> kavling ngga ditemukan
-                     </span
-                    >
-                </template>
-                <template #noOptions>
-                    <span
-                      > <i class="fa-solid fa-s text-info"></i> Cari Blok kavling
-                     </span
-                    >
-                </template>
+                  <template #noResult>
+                    <span>
+                      <i class="fa-solid fa-exclamation-circle text-info"></i>
+                      kavling ngga ditemukan
+                    </span>
+                  </template>
+                  <template #noOptions>
+                    <span>
+                      <i class="fa-solid fa-search text-info"></i> Cari Blok
+                      kavling
+                    </span>
+                  </template>
                 </Multiselect>
               </div>
 
@@ -178,9 +178,8 @@
                       <Actions
                         @update="getHouse(house.id)"
                         @delete="deleteHouse(house.id)"
-                        toggleDetail="modal"
                         targetDetail="#detailTypeHouse"
-                        @detail="sendHouseId(house.id)"
+                        @detail="goToDetail(house.id)"
                       />
                     </td>
                   </tr>
@@ -297,6 +296,9 @@ export default {
     customLabel(option) {
       return `${option.block} - ${option.numberKavling} - ${option.houseType}`;
     },
+    goToDetail(id) {
+      this.$router.push({ name: "detail-type-house", params: { id: id } });
+    },
     reset() {
       this.house = {
         id: "",
@@ -350,7 +352,9 @@ export default {
     },
     getKavlings(query) {
       this.isSearching = true;
-      const params = [`per_page=100`, `block=${query}`,`isReady=true`].join("&");
+      const params = [`per_page=100`, `block=${query}`, `isReady=true`].join(
+        "&"
+      );
       this.$store
         .dispatch("getData", ["kavling", params])
         .then((response) => {

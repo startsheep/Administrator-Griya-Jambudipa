@@ -1,114 +1,132 @@
 <template>
-  <Modal
-    idModal="detailTypeHouse"
-    tittle="Detail Rumah"
-    size="modal-md"
-    :dark="true"
-    displayBtn="btn-block"
-    :confirmBtn="false"
-  >
-    <template v-slot:body>
+  <section class="section">
+    <div class="section-body my-2">
       <div class="row">
-        <div class="col">
-          <!-- make carousel from bootStrap with data  -->
-          <div
-            id="carouselExampleSlidesOnly"
-            class="carousel slide carousel-fade "
-            data-ride="carousel"
-            data-interval="3500"
+        <div class="col-12 col-sm-12 col-lg-4">
+          <div class="card">
+            <div class="card-header">
+              <h4>Informasi Rumah</h4>
+            </div>
+            <div class="card-body">
+              <tag-component
+                label="Tipe Rumah"
+                :value="house.kavling.houseType"
+              />
+              <tag-component label="Harga" :value="formatRupiah(house.price)" />
+              <tag-component label="Blok" :value="house.kavling.block" />
+              <tag-component
+                label="Nomor Kavling"
+                :value="house.kavling.numberKavling"
+              />
+              <tag-component
+                label="Luas Kavling"
+                :value="house.kavling.areaKavling + ' meter persegi'"
+              />
+              <tag-component
+                label="Luas Bangunan"
+                :value="house.kavling.areaBuilding + ' meter persegi'"
+              />
+              <tag-component
+                label="Panjang Kavling"
+                :value="house.kavling.lengthKavling + ' meter'"
+              />
+              <tag-component
+                label="Lebar Kavling"
+                :value="house.kavling.widthKavling + ' meter'"
+              />
+            </div>
+            <div class="card-footer"></div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-12 col-lg-8">
+          <div class="card">
+            <div class="card-header">
+              <h4>Deskripsi</h4>
+            </div>
+            <div class="card-body">
+              <!-- makebutton  -->
+              <div v-html="house.description"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h4>Gallery</h4>
+            </div>
+            <div class="card-body">
+              <!-- makebutton  -->
 
-          >
-            <ol class="carousel-indicators ">
-              <li
-                v-for="(image, index) in house.document"
-                :key="index"
-
-                :data-target="`#carouselExampleSlidesOnly`"
-                :data-slide-to="index"
-                :class="{  active: index }"
-
-              ></li>
-            </ol>
-            <div class="carousel-inner">
-              <div
-                v-for="(image, index) in house.document"
-                :key="index"
-                :class="{ 'carousel-item': true, active: index === 0 }"
-              >
-                <img
-                  :src="'/storage/' + image.documentPath"
-                  class="d-block w-100"
-                  alt="..."
-                  style="height: 300px; object-fit: cover"
-                />
-                <div class="carousel-caption d-none d-md-block">
-                  <!-- <h5>{{ image.title }}</h5>
-          <p>{{ image.description }}</p> -->
-                </div>
+              <div class="gallery flex items-center justify-center">
+                <div
+                  v-for="(image, index) in house.document"
+                  :key="image.id"
+                  @click="showImages(house.document, index)"
+                  class="
+                    gallery-item
+                    m-2
+                    bg-gray-100
+                    rounded-lg
+                    shadow-inner
+                    border border-gray-200
+                    overflow-hidden
+                    cursor-pointer
+                  "
+                  :data-image="'/storage/' + image.documentPath"
+                  :data-title="image.documentName"
+                  :href="'/storage/' + image.documentPath"
+                  :title="image.documentName"
+                  :style="{
+                    backgroundImage: 'url(/storage/' + image.documentPath + ')',
+                  }"
+                  style="
+                    width: 200px;
+                    height: 200px;
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    align-items: center;
+                    /* shadow bottom */
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+                  "
+                ></div>
               </div>
+              <button
+                v-if="house.document.length > 4"
+                @click="showImages(house.document, 0)"
+                class="btn btn-primary btn-block mt-2 mx-2"
+              >
+                Selengkapnya
+              </button>
             </div>
           </div>
         </div>
       </div>
-      <div class="row mt-3">
-        <div class="col-6">
-          <strong class="mr-2">Tipe Rumah : </strong>
-          <strong class="">{{ house.kavling.houseType }}</strong>
-
-          <div class="d-block mt-2">
-            <strong class="mr-2">Harga : </strong>
-            <strong class="">{{ formatRupiah(house.price) }}</strong>
-          </div>
-        </div>
-        <div class="col">
-          <strong class="mb-3">Deskripsi</strong>
-          <div v-html="house.description"></div>
-        </div>
-      </div>
-    </template>
-  </Modal>
+    </div>
+  </section>
+  <vue-easy-lightbox
+    :visible="showBox"
+    :imgs="images"
+    :index="indexOfImage"
+    @hide="onHide"
+  ></vue-easy-lightbox>
 </template>
 <script>
 import CircleLoader from "../../components/CircleLoader.vue";
 import Utils from "../../store/services/utils";
 import Modal from "../../components/Modal.vue";
+import TagComponent from "./TagComponent.vue";
+import { ref } from "vue";
 // import { Carousel, Slide } from "vue-carousel";
 export default {
-  props: {
-    id: {
-      type: String,
-      default: () => null,
-    },
-  },
-
-  // },
-  computed: {
-    // ...mapGetters(["typeHouse"])
-  },
-  watch: {
-    id(newVal) {
-      this.getHouse(newVal);
-
-      //
-    },
-    // watch when modal is closed and reset the data
-    $store: {
-      handler() {
-        if (!this.$store.state.modal.detailTypeHouse) {
-          this.house = {};
-        }
-      },
-      deep: true,
-    },
-  },
   mounted() {
-    if (this.id) {
-      this.getHouse(this.id);
-    }
+    this.getHouse();
   },
   data() {
     return {
       isLoading: false,
+      indexOfImage: 0,
+      showBox: false,
+      showingImage: "",
+      images: [],
       house: {
         document: [],
         kavling: {},
@@ -118,14 +136,35 @@ export default {
     };
   },
   methods: {
+    onHide() {
+      this.showBox = false;
+    },
+    showImages(images, index) {
+      this.house.document.forEach((image) => {
+        this.images.push("/storage/" + image.documentPath);
+      });
+      this.indexOfImage = index;
+      this.showBox = true;
+    },
+    showImage(image, index) {
+      console.log(
+        "🚀 ~ file: DetailTypeHouse.vue:139 ~ showImage ~ showImage",
+        image
+      );
+      this.indexOfImage = index;
+      this.showBox = true;
+
+      this.showingImage = image;
+    },
     formatRupiah(number) {
       if (number) {
         return Utils.formatRupiah(number, "Rp. ");
       }
     },
-    getHouse(id) {
-      console.log(id);
+    getHouse() {
       this.isLoading = true;
+      const id = this.$route.params.id;
+
       this.$store.dispatch("showData", ["house-type/" + id]).then((res) => {
         this.isLoading = false;
         this.house = {
@@ -135,11 +174,10 @@ export default {
           description: res.data.description,
         };
         this.house.document = res.data.document;
-        console.log(this.house);
       });
     },
   },
-  components: { CircleLoader, Modal },
+  components: { CircleLoader, Modal, TagComponent },
 };
 </script>
 <style>
