@@ -32,8 +32,15 @@
                       <i class="fa-solid fa-exclamation-circle text-info"></i>
                       kavling ngga ditemukan
                     </span>
-                  </template></Multiselect
-                >
+                  </template>
+                  <template #noOptions>
+                    <span>
+                      <!-- icon search -->
+                      <i class="fa-solid fa-search text-info"></i>
+                      cari blok kavling
+                    </span>
+                  </template>
+                </Multiselect>
 
                 <div class="form-group">
                   <label>Harga</label>
