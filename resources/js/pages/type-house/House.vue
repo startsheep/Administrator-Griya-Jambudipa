@@ -27,7 +27,6 @@
                   track-by="id"
                   :loading="isSearching"
                 >
-                  <<<<<<<<< Temporary merge branch 1
                   <template #noResult>
                     <span>
                       <i class="fa-solid fa-exclamation-circle text-info"></i>
@@ -35,48 +34,25 @@
                     </span>
                   </template></Multiselect
                 >
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</template>
-                <template #noOptions>
-  <span> <i class="fa-solid fa-search text-info"></i> Cari Blok kavling </span>
-</template>
-=========
-                  <template #noResult>
-  <span>
-    <i class="fa-solid fa-exclamation-circle text-info"></i>
-    kavling ngga ditemukan
-  </span>
-</template>
-                  <template #noOptions>
-  <span> <i class="fa-solid fa-search text-info"></i> Cari Blok kavling </span>
-</template>
 
-                </Multiselect>
-              </div>
-
-              <div class="form-group">
-                <label>Harga</label>
-                <InputCurrency :value="house.price" v-model="house.price" />
-              </div>
-              <div class="form-group">
-                <SummerNote ref="formHouse" v-model="house.description" />
-                <!-- <textarea class="form-control" cols="80" rows="1"></textarea> -->
-              </div>
-              <div class="form-group custom-file">
-                <label class="custom-file-label">Gambar</label>
-                <input
-                  multiple
-                  type="file"
-                  @change="selectImages"
-                  class="form-control custom-file-input"
-                  placeholder="Image"
-                />
+                <div class="form-group">
+                  <label>Harga</label>
+                  <InputCurrency :value="house.price" v-model="house.price" />
+                </div>
+                <div class="form-group">
+                  <SummerNote ref="formHouse" v-model="house.description" />
+                  <!-- <textarea class="form-control" cols="80" rows="1"></textarea> -->
+                </div>
+                <div class="form-group custom-file">
+                  <label class="custom-file-label">Gambar</label>
+                  <input
+                    multiple
+                    type="file"
+                    @change="selectImages"
+                    class="form-control custom-file-input"
+                    placeholder="Image"
+                  />
+                </div>
               </div>
             </form>
 
