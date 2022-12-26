@@ -24,7 +24,7 @@
         "chocolat": "^1.1.0",
         "ckeditor5": "^35.0.1",
         "izitoast": "^1.4.0",
-        "jquery": "^3.6.0",
+        "jquery": "^3.6.3",
         "js-cookie": "^3.0.1",
         "moment": "^2.29.4",
         "snakecase-keys": "^5.4.2",
