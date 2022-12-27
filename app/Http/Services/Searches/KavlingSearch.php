@@ -5,6 +5,7 @@ namespace App\Http\Services\Searches;
 use App\Http\Services\Searches\Filters\Kavling\Block;
 use App\Http\Services\Searches\Filters\Kavling\HouseType;
 use App\Http\Services\Searches\Filters\Kavling\IsReady;
+use App\Http\Services\Searches\Filters\Kavling\Sold;
 use App\Http\Services\Searches\HttpSearch;
 use App\Models\Kavling;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +23,8 @@ class KavlingSearch extends HttpSearch
         return [
             Block::class,
             HouseType::class,
-            IsReady::class
+            IsReady::class,
+            Sold::class
         ];
     }
 
