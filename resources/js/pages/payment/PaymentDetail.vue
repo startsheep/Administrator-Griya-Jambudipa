@@ -17,16 +17,31 @@
             </div> -->
       <div class="card" v-if="transaction != null">
         <LoadingComponent v-if="isLoading" />
-        <div class="card-body" >
+        <div class="card-body">
           <div class="summary">
-            <div  class="summary-info bg-white " v-if="transaction.customer != null">
-                <div  class="my-2">
-                    <img :src="'storage/'+transaction.customer.image" alt="" class="avatar avatar-lg">
-                </div>
-                <h5>{{ transaction.customer.name }}</h5>
-              <strong class="d-block">Tipe Pembayaran {{ transaction.type }}</strong>
-              <strong >Kavling Block {{ transaction.kavling.block }}, Nomor {{ transaction.kavling.numberKavling }}</strong>
-              <strong class="d-block">Tipe Rumah {{ transaction.kavling.houseType.houseType }}</strong>
+            <div
+              class="summary-info bg-white"
+              v-if="transaction.customer != null"
+            >
+              <div class="my-2">
+                <img
+                  :src="'storage/' + transaction.customer.image"
+                  alt=""
+                  class="avatar avatar-lg"
+                />
+              </div>
+              <h5>{{ transaction.customer.name }}</h5>
+              <strong class="d-block"
+                >Tipe Pembayaran {{ transaction.type }}</strong
+              >
+              <strong
+                >Kavling Block {{ transaction.kavling.block }}, Nomor
+                {{ transaction.kavling.numberKavling }}</strong
+              >
+              <strong class="d-block"
+                >Tipe Rumah
+                {{ transaction.kavling.houseType.houseType }}</strong
+              >
             </div>
             <div class="summary-item">
               <h6>
@@ -37,7 +52,7 @@
               </h6>
 
               <ul class="list-unstyled list-unstyled-border">
-                    <div class="overflow-auto " style="height: 150px">
+                <div class="overflow-auto" style="height: 150px">
                   <li
                     class="media"
                     v-for="(history, index) in transaction.paymentPrice"
@@ -48,8 +63,16 @@
                       </div>
                     </a>
                     <div class="media-body">
-                      <div class="media-right"><i @click="toDoc(filterDocByDate(history.createdAt)[0].documentPath)" class="fa-solid fa-info-circle fa-lg cursor"></i>
-                    </div>
+                      <div class="media-right">
+                        <i
+                          @click="
+                            toDoc(
+                              filterDocByDate(history.createdAt)[0].documentPath
+                            )
+                          "
+                          class="fa-solid fa-info-circle fa-lg cursor"
+                        ></i>
+                      </div>
                       <div class="media-title">
                         {{ formatRupiah(history.price) }}
                       </div>
@@ -59,7 +82,7 @@
                     </div>
                   </li>
                 </div>
-                </ul>
+              </ul>
             </div>
           </div>
         </div>
@@ -89,16 +112,16 @@ export default {
     this.getTransaction();
   },
   methods: {
-    filterDocByDate(date){
-        return this.transaction.document.filter((item) => {
-            return item.createdAt == date
-        })
+    filterDocByDate(date) {
+      return this.transaction.document.filter((item) => {
+        return item.createdAt == date;
+      });
     },
-    toDoc(path){
-        console.log(path)
-        // this.$router.push('storage/'+path)
-        // to blank page with tag a
-        window.open('storage/'+path, '_blank');
+    toDoc(path) {
+      console.log(path);
+      // this.$router.push('storage/'+path)
+      // to blank page with tag a
+      window.open("storage/" + path, "_blank");
     },
     randomColor() {
       // create and calculate random color
