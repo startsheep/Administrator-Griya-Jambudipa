@@ -94,13 +94,13 @@
                             :key="doc.id"
                           >
                             {{ doc.documentName }}
-                            <button
-                              type="button"
+                            <a
+                              :href="`storage/${doc.documentPath}`"
                               class="btn btn-sm btn-transparent"
-                              click
+                              target="_blank"
                             >
                               <i class="fas fa-download"></i>
-                            </button>
+                            </a>
                           </li>
                         </ul>
                       </div>
